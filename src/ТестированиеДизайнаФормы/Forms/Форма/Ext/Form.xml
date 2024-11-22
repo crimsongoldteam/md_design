@@ -4,33 +4,10 @@
 	<Group>AlwaysHorizontal</Group>
 	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
 		<ChildItems>
-			<Button name="ФормаКомпиляция" id="8">
+			<Button name="ПостроитьФорму" id="31">
 				<Type>CommandBarButton</Type>
-				<CommandName>Form.Command.Компиляция</CommandName>
-				<ExtendedTooltip name="ФормаКомпиляцияРасширеннаяПодсказка" id="9"/>
-			</Button>
-			<Button name="ФормаФорматирование" id="26">
-				<Type>CommandBarButton</Type>
-				<CommandName>Form.Command.Форматирование</CommandName>
-				<ExtendedTooltip name="ФормаФорматированиеРасширеннаяПодсказка" id="27"/>
-			</Button>
-			<ButtonGroup name="ФормаГруппа1" id="66">
-				<ExtendedTooltip name="ФормаГруппа1РасширеннаяПодсказка" id="67"/>
-			</ButtonGroup>
-			<Button name="ФормаПостроитьЭлементы" id="31">
-				<Type>CommandBarButton</Type>
-				<CommandName>Form.Command.ПостроитьЭлементы</CommandName>
-				<ExtendedTooltip name="ФормаПостроитьЭлементыРасширеннаяПодсказка" id="32"/>
-			</Button>
-			<Button name="ФормаКоманда1" id="68">
-				<Type>CommandBarButton</Type>
-				<CommandName>Form.Command.Команда1</CommandName>
-				<ExtendedTooltip name="ФормаКоманда1РасширеннаяПодсказка" id="69"/>
-			</Button>
-			<Button name="ФормаКоманда2" id="75">
-				<Type>CommandBarButton</Type>
-				<CommandName>Form.Command.Команда2</CommandName>
-				<ExtendedTooltip name="ФормаКоманда2РасширеннаяПодсказка" id="76"/>
+				<CommandName>Form.Command.ПостроитьФорму</CommandName>
+				<ExtendedTooltip name="ПостроитьФормуРасширеннаяПодсказка" id="32"/>
 			</Button>
 		</ChildItems>
 	</AutoCommandBar>
@@ -59,10 +36,6 @@
 			<BackColor>style:ToolTipBackColor</BackColor>
 			<ExtendedTooltip name="ГруппаРедакторРасширеннаяПодсказка" id="2"/>
 			<ChildItems>
-				<LabelDecoration name="Декорация1" id="72">
-					<ContextMenu name="Декорация1КонтекстноеМеню" id="73"/>
-					<ExtendedTooltip name="Декорация1РасширеннаяПодсказка" id="74"/>
-				</LabelDecoration>
 				<InputField name="Редактор" id="5">
 					<DataPath>Редактор</DataPath>
 					<TitleLocation>None</TitleLocation>
@@ -92,6 +65,7 @@
 				</InputField>
 				<Table name="ДеревоЭлементов" id="42">
 					<Representation>Tree</Representation>
+					<Visible>false</Visible>
 					<AutoInsertNewRow>true</AutoInsertNewRow>
 					<InitialTreeView>ExpandAllLevels</InitialTreeView>
 					<EnableStartDrag>true</EnableStartDrag>
@@ -631,20 +605,20 @@
 			</ToolTip>
 			<Action>Декомпозировать</Action>
 		</Command>
-		<Command name="ПостроитьЭлементы" id="5">
+		<Command name="ПостроитьФорму" id="5">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Построить элементы</v8:content>
+					<v8:content>Построить форму</v8:content>
 				</v8:item>
 			</Title>
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Построить элементы</v8:content>
+					<v8:content>Построить форму</v8:content>
 				</v8:item>
 			</ToolTip>
-			<Action>ПостроитьЭлементы</Action>
+			<Action>ПостроитьФорму</Action>
 		</Command>
 		<Command name="Команда1" id="6">
 			<Action>Команда1</Action>
