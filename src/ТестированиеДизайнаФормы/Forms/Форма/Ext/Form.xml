@@ -196,6 +196,13 @@
 							<ContextMenu name="__ТаблицаРеквизитовИмяРеквизитаКонтекстноеМеню" id="83"/>
 							<ExtendedTooltip name="__ТаблицаРеквизитовИмяРеквизитаРасширеннаяПодсказка" id="84"/>
 						</InputField>
+						<InputField name="__ТаблицаРеквизитовИмяЭлемента" id="99">
+							<DataPath>__ТаблицаРеквизитов.ИмяЭлемента</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<ContextMenu name="__ТаблицаРеквизитовИмяЭлементаКонтекстноеМеню" id="100"/>
+							<ExtendedTooltip name="__ТаблицаРеквизитовИмяЭлементаРасширеннаяПодсказка" id="101"/>
+						</InputField>
 						<InputField name="__ТаблицаРеквизитовТипРеквизита" id="85">
 							<DataPath>__ТаблицаРеквизитов.ТипРеквизита</DataPath>
 							<EditMode>EnterOnInput</EditMode>
@@ -209,6 +216,13 @@
 							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 							<ContextMenu name="__ТаблицаРеквизитовПредварительноеИмяРеквизитаКонтекстноеМеню" id="92"/>
 							<ExtendedTooltip name="__ТаблицаРеквизитовПредварительноеИмяРеквизитаРасширеннаяПодсказка" id="93"/>
+						</InputField>
+						<InputField name="__ТаблицаРеквизитовРабочееИмяЭлемента" id="96">
+							<DataPath>__ТаблицаРеквизитов.РабочееИмяЭлемента</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<ContextMenu name="__ТаблицаРеквизитовРабочееИмяЭлементаКонтекстноеМеню" id="97"/>
+							<ExtendedTooltip name="__ТаблицаРеквизитовРабочееИмяЭлементаРасширеннаяПодсказка" id="98"/>
 						</InputField>
 					</ChildItems>
 				</Table>
@@ -886,6 +900,36 @@
 						<v8:item>
 							<v8:lang>ru</v8:lang>
 							<v8:content>Рабочее имя реквизита</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="РабочееИмяЭлемента" id="6">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Рабочее имя элемента</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ИмяЭлемента" id="7">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Имя элемента</v8:content>
 						</v8:item>
 					</Title>
 					<Type>
