@@ -21,6 +21,7 @@
 			<AutoInsertNewRow>true</AutoInsertNewRow>
 			<DataPath>СписокКартинок</DataPath>
 			<RowPictureDataPath>СписокКартинок.Picture</RowPictureDataPath>
+			<SearchStringLocation>CommandBar</SearchStringLocation>
 			<ContextMenu name="СписокКартинокКонтекстноеМеню" id="2"/>
 			<AutoCommandBar name="СписокКартинокКоманднаяПанель" id="3"/>
 			<ExtendedTooltip name="СписокКартинокРасширеннаяПодсказка" id="4"/>

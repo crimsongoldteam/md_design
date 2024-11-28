@@ -6,6 +6,7 @@
 		<ChildItems>
 			<Button name="ПостроитьФорму" id="31">
 				<Type>CommandBarButton</Type>
+				<DefaultButton>true</DefaultButton>
 				<CommandName>Form.Command.ПостроитьФорму</CommandName>
 				<ExtendedTooltip name="ПостроитьФормуРасширеннаяПодсказка" id="32"/>
 			</Button>
@@ -14,11 +15,16 @@
 				<CommandName>Form.Command.Форматировать</CommandName>
 				<ExtendedTooltip name="ФормаФорматироватьРасширеннаяПодсказка" id="95"/>
 			</Button>
-			<Button name="Форма__ДобавитьКартинку" id="105">
-				<Type>CommandBarButton</Type>
-				<CommandName>Form.Command.__ДобавитьКартинку</CommandName>
-				<ExtendedTooltip name="Форма__ДобавитьКартинкуРасширеннаяПодсказка" id="106"/>
-			</Button>
+			<ButtonGroup name="__ФормаГруппаВставить" id="107">
+				<ExtendedTooltip name="__ФормаГруппаВставитьРасширеннаяПодсказка" id="108"/>
+				<ChildItems>
+					<Button name="Форма__ДобавитьКартинку" id="105">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.__ДобавитьКартинку</CommandName>
+						<ExtendedTooltip name="Форма__ДобавитьКартинкуРасширеннаяПодсказка" id="106"/>
+					</Button>
+				</ChildItems>
+			</ButtonGroup>
 		</ChildItems>
 	</AutoCommandBar>
 	<Events>
@@ -568,22 +574,31 @@
 					<v8:content>Форматировать</v8:content>
 				</v8:item>
 			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.ExternalDataSourceFunction</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
 			<Action>Форматировать</Action>
 		</Command>
 		<Command name="ПостроитьФорму" id="5">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Построить форму</v8:content>
+					<v8:content>Сформировать</v8:content>
 				</v8:item>
 			</Title>
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Построить форму</v8:content>
+					<v8:content>Сформировать</v8:content>
 				</v8:item>
 			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.GenerateReport</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
 			<Action>ПостроитьФорму</Action>
+			<Representation>TextPicture</Representation>
 		</Command>
 		<Command name="__ДобавитьКартинку" id="1">
 			<Title>
