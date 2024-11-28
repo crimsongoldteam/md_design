@@ -196,6 +196,13 @@
 							<ContextMenu name="__ТаблицаРеквизитовИмяРеквизитаКонтекстноеМеню" id="83"/>
 							<ExtendedTooltip name="__ТаблицаРеквизитовИмяРеквизитаРасширеннаяПодсказка" id="84"/>
 						</InputField>
+						<InputField name="__ТаблицаРеквизитовНомер" id="102">
+							<DataPath>__ТаблицаРеквизитов.Номер</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<ContextMenu name="__ТаблицаРеквизитовНомерКонтекстноеМеню" id="103"/>
+							<ExtendedTooltip name="__ТаблицаРеквизитовНомерРасширеннаяПодсказка" id="104"/>
+						</InputField>
 						<InputField name="__ТаблицаРеквизитовИмяЭлемента" id="99">
 							<DataPath>__ТаблицаРеквизитов.ИмяЭлемента</DataPath>
 							<EditMode>EnterOnInput</EditMode>
