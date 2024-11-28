@@ -14,6 +14,11 @@
 				<CommandName>Form.Command.Форматировать</CommandName>
 				<ExtendedTooltip name="ФормаФорматироватьРасширеннаяПодсказка" id="95"/>
 			</Button>
+			<Button name="Форма__ДобавитьКартинку" id="105">
+				<Type>CommandBarButton</Type>
+				<CommandName>Form.Command.__ДобавитьКартинку</CommandName>
+				<ExtendedTooltip name="Форма__ДобавитьКартинкуРасширеннаяПодсказка" id="106"/>
+			</Button>
 		</ChildItems>
 	</AutoCommandBar>
 	<Events>
@@ -579,6 +584,25 @@
 				</v8:item>
 			</ToolTip>
 			<Action>ПостроитьФорму</Action>
+		</Command>
+		<Command name="__ДобавитьКартинку" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить картинку</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить картинку</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.Picture</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>__ДобавитьКартинку</Action>
 		</Command>
 	</Commands>
 </Form>
