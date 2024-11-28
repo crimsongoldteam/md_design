@@ -142,6 +142,7 @@
 				</Table>
 				<Table name="__ТаблицаРеквизитов" id="66">
 					<Representation>List</Representation>
+					<Visible>false</Visible>
 					<ChangeRowSet>false</ChangeRowSet>
 					<ChangeRowOrder>false</ChangeRowOrder>
 					<AutoInsertNewRow>true</AutoInsertNewRow>
