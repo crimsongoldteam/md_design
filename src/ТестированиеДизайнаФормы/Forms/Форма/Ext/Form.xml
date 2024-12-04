@@ -64,7 +64,6 @@
 				</TextDocumentField>
 				<InputField name="ПредставлениеJSON" id="36">
 					<DataPath>__ПредставлениеJSON</DataPath>
-					<Visible>false</Visible>
 					<AutoMaxWidth>false</AutoMaxWidth>
 					<AutoMaxHeight>false</AutoMaxHeight>
 					<HorizontalStretch>true</HorizontalStretch>
