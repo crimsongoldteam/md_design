@@ -64,6 +64,7 @@
 				</TextDocumentField>
 				<InputField name="ПредставлениеJSON" id="36">
 					<DataPath>__ПредставлениеJSON</DataPath>
+					<Visible>false</Visible>
 					<AutoMaxWidth>false</AutoMaxWidth>
 					<AutoMaxHeight>false</AutoMaxHeight>
 					<HorizontalStretch>true</HorizontalStretch>
@@ -152,6 +153,7 @@
 				</Table>
 				<Table name="__ТаблицаРеквизитов" id="66">
 					<Representation>List</Representation>
+					<Visible>false</Visible>
 					<ChangeRowSet>false</ChangeRowSet>
 					<ChangeRowOrder>false</ChangeRowOrder>
 					<AutoInsertNewRow>true</AutoInsertNewRow>
