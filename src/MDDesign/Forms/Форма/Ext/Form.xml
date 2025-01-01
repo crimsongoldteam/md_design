@@ -77,6 +77,8 @@
 				<Table name="ДеревоЭлементов" id="42">
 					<Representation>Tree</Representation>
 					<Visible>false</Visible>
+					<HorizontalLines>false</HorizontalLines>
+					<VerticalLines>false</VerticalLines>
 					<AutoInsertNewRow>true</AutoInsertNewRow>
 					<InitialTreeView>ExpandAllLevels</InitialTreeView>
 					<EnableStartDrag>true</EnableStartDrag>
@@ -125,10 +127,6 @@
 									<EditMode>EnterOnInput</EditMode>
 									<ShowInHeader>false</ShowInHeader>
 									<ShowInFooter>false</ShowInFooter>
-									<ValuesPicture>
-										<xr:Ref>CommonPicture.ПиктограммыНастроекОтчета</xr:Ref>
-										<xr:LoadTransparent>true</xr:LoadTransparent>
-									</ValuesPicture>
 									<ContextMenu name="ДеревоЭлементовИндексКартинкиКонтекстноеМеню" id="62"/>
 									<ExtendedTooltip name="ДеревоЭлементовИндексКартинкиРасширеннаяПодсказка" id="63"/>
 								</PictureField>
@@ -153,9 +151,10 @@
 				</Table>
 				<Table name="__ТаблицаРеквизитов" id="66">
 					<Representation>List</Representation>
-					<Visible>false</Visible>
 					<ChangeRowSet>false</ChangeRowSet>
 					<ChangeRowOrder>false</ChangeRowOrder>
+					<HorizontalLines>false</HorizontalLines>
+					<VerticalLines>false</VerticalLines>
 					<AutoInsertNewRow>true</AutoInsertNewRow>
 					<EnableStartDrag>true</EnableStartDrag>
 					<EnableDrag>true</EnableDrag>
@@ -270,7 +269,7 @@
 	<Attributes>
 		<Attribute name="Объект" id="1">
 			<Type>
-				<v8:Type>cfg:ExternalDataProcessorObject.ТестированиеДизайнаФормы</v8:Type>
+				<v8:Type>cfg:ExternalDataProcessorObject.MDDesign</v8:Type>
 			</Type>
 			<MainAttribute>true</MainAttribute>
 		</Attribute>

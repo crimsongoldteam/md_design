@@ -6,21 +6,21 @@
 				<xr:ClassId>c3831ec8-d8d5-4f93-8a22-f9bfae07327f</xr:ClassId>
 				<xr:ObjectId>8c3f85fa-a60f-4674-87dd-0d107f86eeed</xr:ObjectId>
 			</xr:ContainedObject>
-			<xr:GeneratedType name="ExternalDataProcessorObject.ТестированиеДизайнаФормы" category="Object">
+			<xr:GeneratedType name="ExternalDataProcessorObject.MDDesign" category="Object">
 				<xr:TypeId>6ce28cc5-0abb-419e-8f39-629adb0a3058</xr:TypeId>
 				<xr:ValueId>e8653a25-66d1-453a-92d7-e8b82a08f603</xr:ValueId>
 			</xr:GeneratedType>
 		</InternalInfo>
 		<Properties>
-			<Name>ТестированиеДизайнаФормы</Name>
+			<Name>MDDesign</Name>
 			<Synonym>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Тестирование дизайна формы</v8:content>
+					<v8:content>MDDesign</v8:content>
 				</v8:item>
 			</Synonym>
 			<Comment/>
-			<DefaultForm>ExternalDataProcessor.ТестированиеДизайнаФормы.Form.Форма</DefaultForm>
+			<DefaultForm>ExternalDataProcessor.MDDesign.Form.Форма</DefaultForm>
 			<AuxiliaryForm/>
 		</Properties>
 		<ChildObjects>

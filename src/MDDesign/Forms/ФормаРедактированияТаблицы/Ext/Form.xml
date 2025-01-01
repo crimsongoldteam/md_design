@@ -4,6 +4,8 @@
 	<ChildItems>
 		<Table name="Колонки" id="1">
 			<Representation>List</Representation>
+			<HorizontalLines>false</HorizontalLines>
+			<VerticalLines>false</VerticalLines>
 			<AutoInsertNewRow>true</AutoInsertNewRow>
 			<EnableStartDrag>true</EnableStartDrag>
 			<EnableDrag>true</EnableDrag>
@@ -107,7 +109,7 @@
 	<Attributes>
 		<Attribute name="Объект" id="1">
 			<Type>
-				<v8:Type>cfg:ExternalDataProcessorObject.ТестированиеДизайнаФормы</v8:Type>
+				<v8:Type>cfg:ExternalDataProcessorObject.MDDesign</v8:Type>
 			</Type>
 			<MainAttribute>true</MainAttribute>
 		</Attribute>
