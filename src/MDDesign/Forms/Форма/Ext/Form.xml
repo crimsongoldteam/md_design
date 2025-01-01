@@ -10,10 +10,10 @@
 				<CommandName>Form.Command.ПостроитьФорму</CommandName>
 				<ExtendedTooltip name="ПостроитьФормуРасширеннаяПодсказка" id="32"/>
 			</Button>
-			<Button name="ФормаФорматировать" id="94">
+			<Button name="Форматировать" id="94">
 				<Type>CommandBarButton</Type>
 				<CommandName>Form.Command.Форматировать</CommandName>
-				<ExtendedTooltip name="ФормаФорматироватьРасширеннаяПодсказка" id="95"/>
+				<ExtendedTooltip name="ФорматироватьРасширеннаяПодсказка" id="95"/>
 			</Button>
 			<ButtonGroup name="__ФормаГруппаВставить" id="107">
 				<ExtendedTooltip name="__ФормаГруппаВставитьРасширеннаяПодсказка" id="108"/>
