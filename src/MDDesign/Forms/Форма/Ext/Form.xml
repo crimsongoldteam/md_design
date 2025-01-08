@@ -7,7 +7,6 @@
 		<ChildItems>
 			<Button name="__ПостроитьФорму" id="31">
 				<Type>CommandBarButton</Type>
-				<DefaultButton>true</DefaultButton>
 				<CommandName>Form.Command.__ПостроитьФорму</CommandName>
 				<ExtendedTooltip name="__ПостроитьФормуРасширеннаяПодсказка" id="32"/>
 			</Button>
