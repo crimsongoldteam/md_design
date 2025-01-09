@@ -1,16 +1,25 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcssch="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.18">
-	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
+	<Title>
+		<v8:item>
+			<v8:lang>ru</v8:lang>
+			<v8:content>Редактирование таблицы</v8:content>
+		</v8:item>
+	</Title>
+	<WindowOpeningMode>LockOwnerWindow</WindowOpeningMode>
+	<AutoTitle>false</AutoTitle>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
+		<Autofill>false</Autofill>
+	</AutoCommandBar>
 	<ChildItems>
 		<Table name="Колонки" id="1">
-			<Representation>List</Representation>
+			<Representation>Tree</Representation>
 			<HorizontalLines>false</HorizontalLines>
 			<VerticalLines>false</VerticalLines>
 			<AutoInsertNewRow>true</AutoInsertNewRow>
 			<EnableStartDrag>true</EnableStartDrag>
 			<EnableDrag>true</EnableDrag>
 			<DataPath>Колонки</DataPath>
-			<RowFilter xsi:nil="true"/>
 			<ContextMenu name="КолонкиКонтекстноеМеню" id="2"/>
 			<AutoCommandBar name="КолонкиКоманднаяПанель" id="3"/>
 			<ExtendedTooltip name="КолонкиРасширеннаяПодсказка" id="4"/>
@@ -47,6 +56,18 @@
 					<ContextMenu name="КолонкиИмяКонтекстноеМеню" id="15"/>
 					<ExtendedTooltip name="КолонкиИмяРасширеннаяПодсказка" id="16"/>
 				</InputField>
+				<CheckBoxField name="КолонкиВидимость" id="23">
+					<DataPath>Колонки.ВидимостьКолонки</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ShowInHeader>false</ShowInHeader>
+					<HeaderPicture>
+						<xr:Ref>StdPicture.ShowPassword</xr:Ref>
+						<xr:LoadTransparent>true</xr:LoadTransparent>
+					</HeaderPicture>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="КолонкиВидимостьКонтекстноеМеню" id="24"/>
+					<ExtendedTooltip name="КолонкиВидимостьРасширеннаяПодсказка" id="25"/>
+				</CheckBoxField>
 				<InputField name="КолонкиЗаголовок" id="17">
 					<DataPath>Колонки.Заголовок</DataPath>
 					<EditMode>EnterOnInput</EditMode>
@@ -54,8 +75,26 @@
 					<ContextMenu name="КолонкиЗаголовокКонтекстноеМеню" id="18"/>
 					<ExtendedTooltip name="КолонкиЗаголовокРасширеннаяПодсказка" id="19"/>
 				</InputField>
+				<CheckBoxField name="КолонкиВидимостьЗначений" id="32">
+					<DataPath>Колонки.ВидимостьЗначений</DataPath>
+					<EditMode>EnterOnInput</EditMode>
+					<ShowInHeader>false</ShowInHeader>
+					<HeaderPicture>
+						<xr:Ref>StdPicture.ShowInList</xr:Ref>
+						<xr:LoadTransparent>true</xr:LoadTransparent>
+					</HeaderPicture>
+					<CheckBoxType>Auto</CheckBoxType>
+					<ContextMenu name="КолонкиВидимостьЗначенийКонтекстноеМеню" id="33"/>
+					<ExtendedTooltip name="КолонкиВидимостьЗначенийРасширеннаяПодсказка" id="34"/>
+				</CheckBoxField>
 				<InputField name="КолонкиГоризонтальноеПоложение" id="20">
 					<DataPath>Колонки.ГоризонтальноеПоложение</DataPath>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Положение</v8:content>
+						</v8:item>
+					</Title>
 					<EditMode>EnterOnInput</EditMode>
 					<ListChoiceMode>true</ListChoiceMode>
 					<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
@@ -105,6 +144,41 @@
 				</InputField>
 			</ChildItems>
 		</Table>
+		<CommandBar name="КоманднаяПанельПодвал" id="26">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Командная панель подвал</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Командная панель подвал</v8:content>
+				</v8:item>
+			</ToolTip>
+			<HorizontalLocation>Right</HorizontalLocation>
+			<ExtendedTooltip name="КоманднаяПанельПодвалРасширеннаяПодсказка" id="27"/>
+			<ChildItems>
+				<Button name="ОК" id="28">
+					<Type>CommandBarButton</Type>
+					<DefaultButton>true</DefaultButton>
+					<CommandName>Form.Command.ОК</CommandName>
+					<ExtendedTooltip name="ОКРасширеннаяПодсказка" id="29"/>
+				</Button>
+				<Button name="Отмена" id="30">
+					<Type>CommandBarButton</Type>
+					<CommandName>Form.StandardCommand.Close</CommandName>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Отмена</v8:content>
+						</v8:item>
+					</Title>
+					<ExtendedTooltip name="ОтменаРасширеннаяПодсказка" id="31"/>
+				</Button>
+			</ChildItems>
+		</CommandBar>
 	</ChildItems>
 	<Attributes>
 		<Attribute name="Объект" id="1">
@@ -121,7 +195,7 @@
 				</v8:item>
 			</Title>
 			<Type>
-				<v8:Type>v8:ValueTable</v8:Type>
+				<v8:Type>v8:ValueTree</v8:Type>
 			</Type>
 			<Columns>
 				<Column name="Имя" id="1">
@@ -169,7 +243,45 @@
 						</v8:StringQualifiers>
 					</Type>
 				</Column>
+				<Column name="ВидимостьКолонки" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Видимость колонки</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="ВидимостьЗначений" id="5">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Видимость значений</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
 			</Columns>
 		</Attribute>
 	</Attributes>
+	<Commands>
+		<Command name="ОК" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>ОК</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>ОК</v8:content>
+				</v8:item>
+			</ToolTip>
+		</Command>
+	</Commands>
 </Form>

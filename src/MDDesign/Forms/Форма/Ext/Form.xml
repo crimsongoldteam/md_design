@@ -35,6 +35,38 @@
 						<CommandName>Form.Command.__ДобавитьКартинку</CommandName>
 						<ExtendedTooltip name="__ДобавитьКартинкуРасширеннаяПодсказка" id="106"/>
 					</Button>
+					<Button name="Форма__РедакторТаблицы" id="117">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.__РедакторТаблицы</CommandName>
+						<ExtendedTooltip name="Форма__РедакторТаблицыРасширеннаяПодсказка" id="118"/>
+					</Button>
+				</ChildItems>
+			</ButtonGroup>
+			<ButtonGroup name="__ГруппаДобавитьСкобки" id="115">
+				<Title>
+					<v8:item>
+						<v8:lang>ru</v8:lang>
+						<v8:content>Группа добавить скобки</v8:content>
+					</v8:item>
+				</Title>
+				<Representation>Compact</Representation>
+				<ExtendedTooltip name="__ГруппаДобавитьСкобкиРасширеннаяПодсказка" id="116"/>
+				<ChildItems>
+					<Button name="__ДобавитьУгловыеСкобки" id="113">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.__ДобавитьУгловыеСкобки</CommandName>
+						<ExtendedTooltip name="__ДобавитьУгловыеСкобкиРасширеннаяПодсказка" id="114"/>
+					</Button>
+					<Button name="__ДобавитьПрямыеСкобки" id="109">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.__ДобавитьПрямыеСкобки</CommandName>
+						<ExtendedTooltip name="__ДобавитьПрямыеСкобкиРасширеннаяПодсказка" id="110"/>
+					</Button>
+					<Button name="__ДобавитьФигурныеСкобки" id="111">
+						<Type>CommandBarButton</Type>
+						<CommandName>Form.Command.__ДобавитьФигурныеСкобки</CommandName>
+						<ExtendedTooltip name="__ДобавитьФигурныеСкобкиРасширеннаяПодсказка" id="112"/>
+					</Button>
 				</ChildItems>
 			</ButtonGroup>
 		</ChildItems>
@@ -645,6 +677,73 @@
 				<xr:LoadTransparent>true</xr:LoadTransparent>
 			</Picture>
 			<Action>__ДобавитьКартинку</Action>
+		</Command>
+		<Command name="__ДобавитьПрямыеСкобки" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>[ ]</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить прямые скобки</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Shortcut>Ctrl+Shift+9</Shortcut>
+			<Action>__ДобавитьПрямыеСкобки</Action>
+		</Command>
+		<Command name="__ДобавитьФигурныеСкобки" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>{ }</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить фигурные скобки</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Shortcut>Ctrl+9</Shortcut>
+			<Action>__ДобавитьФигурныеСкобки</Action>
+		</Command>
+		<Command name="__ДобавитьУгловыеСкобки" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>&lt;&gt;</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить угловые скобки</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Shortcut>Ctrl+Alt+9</Shortcut>
+			<Action>__ДобавитьУгловыеСкобки</Action>
+		</Command>
+		<Command name="__РедакторТаблицы" id="8">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Редактор таблицы</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Редактор таблицы</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.NestedTable</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>__РедакторТаблицы</Action>
 		</Command>
 	</Commands>
 </Form>
