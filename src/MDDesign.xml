@@ -27,6 +27,10 @@
 			<Form>Форма</Form>
 			<Form>ФормаРедактированияТаблицы</Form>
 			<Form>ФормаВыбораКартинки</Form>
+			<Form>Парсер</Form>
+			<Form>ОпределительРеквизитов</Form>
+			<Form>Форматтер</Form>
+			<Form>Синтаксис</Form>
 		</ChildObjects>
 	</ExternalDataProcessor>
 </MetaDataObject>
