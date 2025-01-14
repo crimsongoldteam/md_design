@@ -35,10 +35,11 @@
 						<CommandName>Form.Command.__ДобавитьКартинку</CommandName>
 						<ExtendedTooltip name="__ДобавитьКартинкуРасширеннаяПодсказка" id="106"/>
 					</Button>
-					<Button name="Форма__РедакторТаблицы" id="117">
+					<Button name="__РедакторТаблицы" id="117">
 						<Type>CommandBarButton</Type>
+						<Visible>false</Visible>
 						<CommandName>Form.Command.__РедакторТаблицы</CommandName>
-						<ExtendedTooltip name="Форма__РедакторТаблицыРасширеннаяПодсказка" id="118"/>
+						<ExtendedTooltip name="__РедакторТаблицыРасширеннаяПодсказка" id="118"/>
 					</Button>
 				</ChildItems>
 			</ButtonGroup>
