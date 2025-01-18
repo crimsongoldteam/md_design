@@ -197,7 +197,7 @@
 				</Table>
 			</ChildItems>
 		</UsualGroup>
-		<UsualGroup name="ГруппаПросмотр" id="3">
+		<UsualGroup name="__ГруппаПросмотр" id="3">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
@@ -214,7 +214,7 @@
 			<Group>AlwaysHorizontal</Group>
 			<Representation>None</Representation>
 			<ShowTitle>false</ShowTitle>
-			<ExtendedTooltip name="ГруппаПросмотрРасширеннаяПодсказка" id="4"/>
+			<ExtendedTooltip name="__ГруппаПросмотрРасширеннаяПодсказка" id="4"/>
 		</UsualGroup>
 	</ChildItems>
 	<Attributes>
