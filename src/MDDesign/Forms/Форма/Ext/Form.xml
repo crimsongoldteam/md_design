@@ -4,73 +4,7 @@
 	<AutoTitle>false</AutoTitle>
 	<Group>AlwaysHorizontal</Group>
 	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
-		<ChildItems>
-			<Button name="__ПостроитьФорму" id="31">
-				<Type>CommandBarButton</Type>
-				<CommandName>Form.Command.__ПостроитьФорму</CommandName>
-				<ExtendedTooltip name="__ПостроитьФормуРасширеннаяПодсказка" id="32"/>
-			</Button>
-			<Button name="__Форматировать" id="94">
-				<Type>CommandBarButton</Type>
-				<CommandName>Form.Command.__Форматировать</CommandName>
-				<ExtendedTooltip name="__ФорматироватьРасширеннаяПодсказка" id="95"/>
-			</Button>
-			<ButtonGroup name="__ГруппаВставить" id="107">
-				<Title>
-					<v8:item>
-						<v8:lang>ru</v8:lang>
-						<v8:content>Группа вставить</v8:content>
-					</v8:item>
-				</Title>
-				<ToolTip>
-					<v8:item>
-						<v8:lang>ru</v8:lang>
-						<v8:content>Группа вставить</v8:content>
-					</v8:item>
-				</ToolTip>
-				<ExtendedTooltip name="__ГруппаВставитьРасширеннаяПодсказка" id="108"/>
-				<ChildItems>
-					<Button name="__ДобавитьКартинку" id="105">
-						<Type>CommandBarButton</Type>
-						<CommandName>Form.Command.__ДобавитьКартинку</CommandName>
-						<ExtendedTooltip name="__ДобавитьКартинкуРасширеннаяПодсказка" id="106"/>
-					</Button>
-					<Button name="__РедакторТаблицы" id="117">
-						<Type>CommandBarButton</Type>
-						<Visible>false</Visible>
-						<CommandName>Form.Command.__РедакторТаблицы</CommandName>
-						<ExtendedTooltip name="__РедакторТаблицыРасширеннаяПодсказка" id="118"/>
-					</Button>
-				</ChildItems>
-			</ButtonGroup>
-			<ButtonGroup name="__ГруппаДобавитьСкобки" id="115">
-				<Title>
-					<v8:item>
-						<v8:lang>ru</v8:lang>
-						<v8:content>Группа добавить скобки</v8:content>
-					</v8:item>
-				</Title>
-				<Representation>Compact</Representation>
-				<ExtendedTooltip name="__ГруппаДобавитьСкобкиРасширеннаяПодсказка" id="116"/>
-				<ChildItems>
-					<Button name="__ДобавитьУгловыеСкобки" id="113">
-						<Type>CommandBarButton</Type>
-						<CommandName>Form.Command.__ДобавитьУгловыеСкобки</CommandName>
-						<ExtendedTooltip name="__ДобавитьУгловыеСкобкиРасширеннаяПодсказка" id="114"/>
-					</Button>
-					<Button name="__ДобавитьПрямыеСкобки" id="109">
-						<Type>CommandBarButton</Type>
-						<CommandName>Form.Command.__ДобавитьПрямыеСкобки</CommandName>
-						<ExtendedTooltip name="__ДобавитьПрямыеСкобкиРасширеннаяПодсказка" id="110"/>
-					</Button>
-					<Button name="__ДобавитьФигурныеСкобки" id="111">
-						<Type>CommandBarButton</Type>
-						<CommandName>Form.Command.__ДобавитьФигурныеСкобки</CommandName>
-						<ExtendedTooltip name="__ДобавитьФигурныеСкобкиРасширеннаяПодсказка" id="112"/>
-					</Button>
-				</ChildItems>
-			</ButtonGroup>
-		</ChildItems>
+		<Autofill>false</Autofill>
 	</AutoCommandBar>
 	<Events>
 		<Event name="OnOpen">ПриОткрытии</Event>
@@ -93,11 +27,100 @@
 			<HorizontalStretch>true</HorizontalStretch>
 			<VerticalStretch>true</VerticalStretch>
 			<Group>Vertical</Group>
+			<VerticalSpacing>None</VerticalSpacing>
 			<Representation>None</Representation>
 			<ShowTitle>false</ShowTitle>
 			<BackColor>style:ToolTipBackColor</BackColor>
 			<ExtendedTooltip name="__ГруппаРедакторРасширеннаяПодсказка" id="2"/>
 			<ChildItems>
+				<UsualGroup name="__КоманднаяПанель" id="123">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Командная панель</v8:content>
+						</v8:item>
+					</Title>
+					<Group>AlwaysHorizontal</Group>
+					<Representation>None</Representation>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="__КоманднаяПанельРасширеннаяПодсказка" id="124"/>
+					<ChildItems>
+						<Button name="__ПостроитьФорму" id="31">
+							<Type>UsualButton</Type>
+							<CommandName>Form.Command.__ПостроитьФорму</CommandName>
+							<ExtendedTooltip name="__ПостроитьФормуРасширеннаяПодсказка" id="32"/>
+						</Button>
+						<Button name="__Форматировать" id="94">
+							<Type>UsualButton</Type>
+							<Representation>Picture</Representation>
+							<Width>3</Width>
+							<CommandName>Form.Command.__Форматировать</CommandName>
+							<ExtendedTooltip name="__ФорматироватьРасширеннаяПодсказка" id="95"/>
+						</Button>
+						<UsualGroup name="__ГруппаВставить" id="125">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа вставить</v8:content>
+								</v8:item>
+							</Title>
+							<Group>AlwaysHorizontal</Group>
+							<Representation>NormalSeparation</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="__ГруппаВставитьРасширеннаяПодсказка" id="126"/>
+							<ChildItems>
+								<Button name="__РедакторТаблицы" id="117">
+									<Type>UsualButton</Type>
+									<Visible>false</Visible>
+									<Representation>Picture</Representation>
+									<Width>3</Width>
+									<CommandName>Form.Command.__РедакторТаблицы</CommandName>
+									<ExtendedTooltip name="__РедакторТаблицыРасширеннаяПодсказка" id="118"/>
+								</Button>
+								<Button name="__ДобавитьКартинку" id="105">
+									<Type>UsualButton</Type>
+									<Representation>Picture</Representation>
+									<Width>3</Width>
+									<CommandName>Form.Command.__ДобавитьКартинку</CommandName>
+									<ExtendedTooltip name="__ДобавитьКартинкуРасширеннаяПодсказка" id="106"/>
+								</Button>
+								<Button name="__ДобавитьУгловыеСкобки" id="113">
+									<Type>UsualButton</Type>
+									<Representation>Text</Representation>
+									<Width>3</Width>
+									<CommandName>Form.Command.__ДобавитьУгловыеСкобки</CommandName>
+									<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
+									<ExtendedTooltip name="__ДобавитьУгловыеСкобкиРасширеннаяПодсказка" id="114"/>
+								</Button>
+								<Button name="__ДобавитьПрямыеСкобки" id="109">
+									<Type>UsualButton</Type>
+									<Representation>Text</Representation>
+									<Width>3</Width>
+									<CommandName>Form.Command.__ДобавитьПрямыеСкобки</CommandName>
+									<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
+									<ExtendedTooltip name="__ДобавитьПрямыеСкобкиРасширеннаяПодсказка" id="110"/>
+								</Button>
+								<Button name="__ДобавитьФигурныеСкобки" id="111">
+									<Type>UsualButton</Type>
+									<Representation>Text</Representation>
+									<Width>3</Width>
+									<CommandName>Form.Command.__ДобавитьФигурныеСкобки</CommandName>
+									<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
+									<ExtendedTooltip name="__ДобавитьФигурныеСкобкиРасширеннаяПодсказка" id="112"/>
+								</Button>
+							</ChildItems>
+						</UsualGroup>
+						<Button name="__Заполнить" id="119">
+							<Type>UsualButton</Type>
+							<Visible>false</Visible>
+							<Representation>Picture</Representation>
+							<Width>3</Width>
+							<GroupHorizontalAlign>Right</GroupHorizontalAlign>
+							<CommandName>Form.Command.__Заполнить</CommandName>
+							<ExtendedTooltip name="__ЗаполнитьРасширеннаяПодсказка" id="120"/>
+						</Button>
+					</ChildItems>
+				</UsualGroup>
 				<TextDocumentField name="__Редактор" id="5">
 					<DataPath>__Редактор</DataPath>
 					<TitleLocation>None</TitleLocation>
@@ -524,6 +547,24 @@
 				<xr:LoadTransparent>true</xr:LoadTransparent>
 			</Picture>
 			<Action>__РедакторТаблицы</Action>
+		</Command>
+		<Command name="__Заполнить" id="9">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить из формы</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.GoBack</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
 		</Command>
 	</Commands>
 </Form>
