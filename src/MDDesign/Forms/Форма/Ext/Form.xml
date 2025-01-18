@@ -45,11 +45,40 @@
 					<ShowTitle>false</ShowTitle>
 					<ExtendedTooltip name="__КоманднаяПанельРасширеннаяПодсказка" id="124"/>
 					<ChildItems>
-						<Button name="__ПостроитьФорму" id="31">
-							<Type>UsualButton</Type>
-							<CommandName>Form.Command.__ПостроитьФорму</CommandName>
-							<ExtendedTooltip name="__ПостроитьФормуРасширеннаяПодсказка" id="32"/>
-						</Button>
+						<CommandBar name="__ГруппаСформировать" id="129">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа сформировать</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа сформировать</v8:content>
+								</v8:item>
+							</ToolTip>
+							<HorizontalStretch>false</HorizontalStretch>
+							<ExtendedTooltip name="__ГруппаСформироватьРасширеннаяПодсказка" id="130"/>
+							<ChildItems>
+								<ButtonGroup name="__ГруппаКнопокСформировать" id="131">
+									<Representation>Compact</Representation>
+									<ExtendedTooltip name="__ГруппаКнопокСформироватьРасширеннаяПодсказка" id="132"/>
+									<ChildItems>
+										<Button name="__ПостроитьФорму" id="31">
+											<Type>CommandBarButton</Type>
+											<CommandName>Form.Command.__ПостроитьФорму</CommandName>
+											<ExtendedTooltip name="__ПостроитьФормуРасширеннаяПодсказка" id="32"/>
+										</Button>
+										<Button name="_ПостроитьФормуВОтдельномОкне" id="127">
+											<Type>CommandBarButton</Type>
+											<CommandName>Form.Command._ПостроитьФормуВОтдельномОкне</CommandName>
+											<ExtendedTooltip name="_ПостроитьФормуВОтдельномОкнеРасширеннаяПодсказка" id="128"/>
+										</Button>
+									</ChildItems>
+								</ButtonGroup>
+							</ChildItems>
+						</CommandBar>
 						<Button name="__Форматировать" id="94">
 							<Type>UsualButton</Type>
 							<Representation>Picture</Representation>
@@ -565,6 +594,26 @@
 				<xr:Ref>StdPicture.GoBack</xr:Ref>
 				<xr:LoadTransparent>true</xr:LoadTransparent>
 			</Picture>
+		</Command>
+		<Command name="_ПостроитьФормуВОтдельномОкне" id="10">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>В отдельном окне</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сформировать форму в отдельном окне</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.NewWindow</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>_ПостроитьФормуВОтдельномОкне</Action>
+			<Representation>Picture</Representation>
 		</Command>
 	</Commands>
 </Form>

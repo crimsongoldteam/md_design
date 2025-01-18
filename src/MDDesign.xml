@@ -31,7 +31,6 @@
 			<Form>ОпределительРеквизитов</Form>
 			<Form>Форматтер</Form>
 			<Form>Синтаксис</Form>
-			<Form>ПостроительФормы</Form>
 			<Form>ФормаПросмотр</Form>
 		</ChildObjects>
 	</ExternalDataProcessor>
