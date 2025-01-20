@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MetaDataObject xmlns="http://v8.1c.ru/8.3/MDClasses" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:cmi="http://v8.1c.ru/8.2/managed-application/cmi" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xpr="http://v8.1c.ru/8.3/xcf/predef" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.18">
-	<ExternalDataProcessor uuid="088d9def-f3a1-4876-8d7e-e80a3da1ae78">
+	<ExternalDataProcessor uuid="2121f039-d80c-417c-a2a4-71f608447b0f">
 		<InternalInfo>
 			<xr:ContainedObject>
 				<xr:ClassId>c3831ec8-d8d5-4f93-8a22-f9bfae07327f</xr:ClassId>
-				<xr:ObjectId>30916252-91da-4c13-8470-bec6db08182f</xr:ObjectId>
+				<xr:ObjectId>2d47af6a-088e-47b8-ad16-c1fddf0f650c</xr:ObjectId>
 			</xr:ContainedObject>
 			<xr:GeneratedType name="ExternalDataProcessorObject.MDDesign" category="Object">
-				<xr:TypeId>2fb0965c-45f9-469c-9266-23de600c5e1c</xr:TypeId>
-				<xr:ValueId>f1cfcd1c-2636-48a4-9447-bc6d6d6f3b52</xr:ValueId>
+				<xr:TypeId>f530f96b-ce12-4b32-b456-53880564fe1b</xr:TypeId>
+				<xr:ValueId>fb2fed46-5190-4950-ab59-b63eabfc7a33</xr:ValueId>
 			</xr:GeneratedType>
 		</InternalInfo>
 		<Properties>
@@ -25,13 +25,13 @@
 		</Properties>
 		<ChildObjects>
 			<Form>Форма</Form>
-			<Form>ФормаРедактированияТаблицы</Form>
-			<Form>ФормаВыбораКартинки</Form>
-			<Form>Парсер</Form>
 			<Form>ОпределительРеквизитов</Form>
-			<Form>Форматтер</Form>
+			<Form>Парсер</Form>
 			<Form>Синтаксис</Form>
+			<Form>ФормаВыбораКартинки</Form>
 			<Form>ФормаПросмотр</Form>
+			<Form>ФормаРедактированияТаблицы</Form>
+			<Form>Форматтер</Form>
 		</ChildObjects>
 	</ExternalDataProcessor>
 </MetaDataObject>

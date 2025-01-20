@@ -72,7 +72,7 @@
 										</Button>
 										<Button name="_ПостроитьФормуВОтдельномОкне" id="127">
 											<Type>CommandBarButton</Type>
-											<CommandName>Form.Command._ПостроитьФормуВОтдельномОкне</CommandName>
+											<CommandName>Form.Command.__ПостроитьФормуВОтдельномОкне</CommandName>
 											<ExtendedTooltip name="_ПостроитьФормуВОтдельномОкнеРасширеннаяПодсказка" id="128"/>
 										</Button>
 									</ChildItems>
@@ -93,6 +93,7 @@
 									<v8:content>Группа вставить</v8:content>
 								</v8:item>
 							</Title>
+							<HorizontalStretch>true</HorizontalStretch>
 							<Group>AlwaysHorizontal</Group>
 							<Representation>NormalSeparation</Representation>
 							<ShowTitle>false</ShowTitle>
@@ -113,30 +114,56 @@
 									<CommandName>Form.Command.__ДобавитьКартинку</CommandName>
 									<ExtendedTooltip name="__ДобавитьКартинкуРасширеннаяПодсказка" id="106"/>
 								</Button>
-								<Button name="__ДобавитьУгловыеСкобки" id="113">
-									<Type>UsualButton</Type>
-									<Representation>Text</Representation>
-									<Width>3</Width>
-									<CommandName>Form.Command.__ДобавитьУгловыеСкобки</CommandName>
-									<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
-									<ExtendedTooltip name="__ДобавитьУгловыеСкобкиРасширеннаяПодсказка" id="114"/>
-								</Button>
-								<Button name="__ДобавитьПрямыеСкобки" id="109">
-									<Type>UsualButton</Type>
-									<Representation>Text</Representation>
-									<Width>3</Width>
-									<CommandName>Form.Command.__ДобавитьПрямыеСкобки</CommandName>
-									<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
-									<ExtendedTooltip name="__ДобавитьПрямыеСкобкиРасширеннаяПодсказка" id="110"/>
-								</Button>
-								<Button name="__ДобавитьФигурныеСкобки" id="111">
-									<Type>UsualButton</Type>
-									<Representation>Text</Representation>
-									<Width>3</Width>
-									<CommandName>Form.Command.__ДобавитьФигурныеСкобки</CommandName>
-									<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
-									<ExtendedTooltip name="__ДобавитьФигурныеСкобкиРасширеннаяПодсказка" id="112"/>
-								</Button>
+								<CommandBar name="__ГруппаВставитьСкобки" id="133">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Группа вставить скобки</v8:content>
+										</v8:item>
+									</Title>
+									<ExtendedTooltip name="__ГруппаВставитьСкобкиРасширеннаяПодсказка" id="134"/>
+									<ChildItems>
+										<ButtonGroup name="__ГруппаКнопокВставитьСкобки" id="135">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Группа кнопок вставить скобки</v8:content>
+												</v8:item>
+											</Title>
+											<Representation>Compact</Representation>
+											<ExtendedTooltip name="__ГруппаКнопокВставитьСкобкиРасширеннаяПодсказка" id="136"/>
+											<ChildItems>
+												<Button name="__ДобавитьУгловыеСкобки" id="113">
+													<Type>CommandBarButton</Type>
+													<Representation>Text</Representation>
+													<SkipOnInput>true</SkipOnInput>
+													<Width>3</Width>
+													<CommandName>Form.Command.__ДобавитьУгловыеСкобки</CommandName>
+													<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
+													<ExtendedTooltip name="__ДобавитьУгловыеСкобкиРасширеннаяПодсказка" id="114"/>
+												</Button>
+												<Button name="__ДобавитьПрямыеСкобки" id="109">
+													<Type>CommandBarButton</Type>
+													<Representation>Text</Representation>
+													<SkipOnInput>true</SkipOnInput>
+													<Width>3</Width>
+													<CommandName>Form.Command.__ДобавитьПрямыеСкобки</CommandName>
+													<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
+													<ExtendedTooltip name="__ДобавитьПрямыеСкобкиРасширеннаяПодсказка" id="110"/>
+												</Button>
+												<Button name="__ДобавитьФигурныеСкобки" id="111">
+													<Type>CommandBarButton</Type>
+													<Representation>Text</Representation>
+													<SkipOnInput>true</SkipOnInput>
+													<Width>3</Width>
+													<CommandName>Form.Command.__ДобавитьФигурныеСкобки</CommandName>
+													<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
+													<ExtendedTooltip name="__ДобавитьФигурныеСкобкиРасширеннаяПодсказка" id="112"/>
+												</Button>
+											</ChildItems>
+										</ButtonGroup>
+									</ChildItems>
+								</CommandBar>
 							</ChildItems>
 						</UsualGroup>
 						<Button name="__Заполнить" id="119">
@@ -465,6 +492,7 @@
 					<v8:content>Форматировать</v8:content>
 				</v8:item>
 			</ToolTip>
+			<Shortcut>Shift+F</Shortcut>
 			<Picture>
 				<xr:Ref>StdPicture.ExternalDataSourceFunction</xr:Ref>
 				<xr:LoadTransparent>true</xr:LoadTransparent>
@@ -481,7 +509,7 @@
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Сформировать</v8:content>
+					<v8:content>Сформировать форму</v8:content>
 				</v8:item>
 			</ToolTip>
 			<Picture>
@@ -520,7 +548,7 @@
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Добавить прямые скобки</v8:content>
+					<v8:content>Добавить прямые скобки - флажок</v8:content>
 				</v8:item>
 			</ToolTip>
 			<Shortcut>Ctrl+Shift+9</Shortcut>
@@ -536,7 +564,7 @@
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Добавить фигурные скобки</v8:content>
+					<v8:content>Добавить фигурные скобки - свойства</v8:content>
 				</v8:item>
 			</ToolTip>
 			<Shortcut>Ctrl+9</Shortcut>
@@ -552,7 +580,7 @@
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Добавить угловые скобки</v8:content>
+					<v8:content>Добавить угловые скобки - кнопки</v8:content>
 				</v8:item>
 			</ToolTip>
 			<Shortcut>Ctrl+Alt+9</Shortcut>
@@ -587,15 +615,16 @@
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Заполнить</v8:content>
+					<v8:content>Заполнить из формы</v8:content>
 				</v8:item>
 			</ToolTip>
 			<Picture>
 				<xr:Ref>StdPicture.GoBack</xr:Ref>
 				<xr:LoadTransparent>true</xr:LoadTransparent>
 			</Picture>
+			<Action>__Заполнить</Action>
 		</Command>
-		<Command name="_ПостроитьФормуВОтдельномОкне" id="10">
+		<Command name="__ПостроитьФормуВОтдельномОкне" id="10">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
@@ -612,7 +641,7 @@
 				<xr:Ref>StdPicture.NewWindow</xr:Ref>
 				<xr:LoadTransparent>true</xr:LoadTransparent>
 			</Picture>
-			<Action>_ПостроитьФормуВОтдельномОкне</Action>
+			<Action>__ПостроитьФормуВОтдельномОкне</Action>
 			<Representation>Picture</Representation>
 		</Command>
 	</Commands>
