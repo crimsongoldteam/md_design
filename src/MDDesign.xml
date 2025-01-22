@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MetaDataObject xmlns="http://v8.1c.ru/8.3/MDClasses" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:cmi="http://v8.1c.ru/8.2/managed-application/cmi" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xpr="http://v8.1c.ru/8.3/xcf/predef" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.18">
-	<ExternalDataProcessor uuid="0b5ca493-f835-47fe-8cf2-5e5eaea47876">
+	<ExternalDataProcessor uuid="f3e1b68e-2ab5-43d2-89dd-82ed2b9741cf">
 		<InternalInfo>
 			<xr:ContainedObject>
 				<xr:ClassId>c3831ec8-d8d5-4f93-8a22-f9bfae07327f</xr:ClassId>
-				<xr:ObjectId>8c3f85fa-a60f-4674-87dd-0d107f86eeed</xr:ObjectId>
+				<xr:ObjectId>a40fa3c3-f95b-4fd3-8b6e-5007f4b871cd</xr:ObjectId>
 			</xr:ContainedObject>
 			<xr:GeneratedType name="ExternalDataProcessorObject.MDDesign" category="Object">
-				<xr:TypeId>6ce28cc5-0abb-419e-8f39-629adb0a3058</xr:TypeId>
-				<xr:ValueId>e8653a25-66d1-453a-92d7-e8b82a08f603</xr:ValueId>
+				<xr:TypeId>04bc83e7-530d-48ad-a693-71d576216f0f</xr:TypeId>
+				<xr:ValueId>23f429eb-3850-4d3b-9f6a-471bf6a8cfe5</xr:ValueId>
 			</xr:GeneratedType>
 		</InternalInfo>
 		<Properties>
@@ -25,8 +25,13 @@
 		</Properties>
 		<ChildObjects>
 			<Form>Форма</Form>
-			<Form>ФормаРедактированияТаблицы</Form>
+			<Form>ОпределительРеквизитов</Form>
+			<Form>Парсер</Form>
+			<Form>Синтаксис</Form>
 			<Form>ФормаВыбораКартинки</Form>
+			<Form>ФормаПросмотр</Form>
+			<Form>ФормаРедактированияТаблицы</Form>
+			<Form>Форматтер</Form>
 		</ChildObjects>
 	</ExternalDataProcessor>
 </MetaDataObject>

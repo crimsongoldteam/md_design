@@ -4,42 +4,10 @@
 	<AutoTitle>false</AutoTitle>
 	<Group>AlwaysHorizontal</Group>
 	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
-		<ChildItems>
-			<Button name="__ПостроитьФорму" id="31">
-				<Type>CommandBarButton</Type>
-				<CommandName>Form.Command.__ПостроитьФорму</CommandName>
-				<ExtendedTooltip name="__ПостроитьФормуРасширеннаяПодсказка" id="32"/>
-			</Button>
-			<Button name="__Форматировать" id="94">
-				<Type>CommandBarButton</Type>
-				<CommandName>Form.Command.__Форматировать</CommandName>
-				<ExtendedTooltip name="__ФорматироватьРасширеннаяПодсказка" id="95"/>
-			</Button>
-			<ButtonGroup name="__ГруппаВставить" id="107">
-				<Title>
-					<v8:item>
-						<v8:lang>ru</v8:lang>
-						<v8:content>Группа вставить</v8:content>
-					</v8:item>
-				</Title>
-				<ToolTip>
-					<v8:item>
-						<v8:lang>ru</v8:lang>
-						<v8:content>Группа вставить</v8:content>
-					</v8:item>
-				</ToolTip>
-				<ExtendedTooltip name="__ГруппаВставитьРасширеннаяПодсказка" id="108"/>
-				<ChildItems>
-					<Button name="__ДобавитьКартинку" id="105">
-						<Type>CommandBarButton</Type>
-						<CommandName>Form.Command.__ДобавитьКартинку</CommandName>
-						<ExtendedTooltip name="__ДобавитьКартинкуРасширеннаяПодсказка" id="106"/>
-					</Button>
-				</ChildItems>
-			</ButtonGroup>
-		</ChildItems>
+		<Autofill>false</Autofill>
 	</AutoCommandBar>
 	<Events>
+		<Event name="OnOpen">ПриОткрытии</Event>
 		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
 	</Events>
 	<ChildItems>
@@ -59,11 +27,156 @@
 			<HorizontalStretch>true</HorizontalStretch>
 			<VerticalStretch>true</VerticalStretch>
 			<Group>Vertical</Group>
+			<VerticalSpacing>None</VerticalSpacing>
 			<Representation>None</Representation>
 			<ShowTitle>false</ShowTitle>
 			<BackColor>style:ToolTipBackColor</BackColor>
 			<ExtendedTooltip name="__ГруппаРедакторРасширеннаяПодсказка" id="2"/>
 			<ChildItems>
+				<UsualGroup name="__КоманднаяПанель" id="123">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Командная панель</v8:content>
+						</v8:item>
+					</Title>
+					<Group>AlwaysHorizontal</Group>
+					<Representation>None</Representation>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="__КоманднаяПанельРасширеннаяПодсказка" id="124"/>
+					<ChildItems>
+						<CommandBar name="__ГруппаСформировать" id="129">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа сформировать</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа сформировать</v8:content>
+								</v8:item>
+							</ToolTip>
+							<HorizontalStretch>false</HorizontalStretch>
+							<ExtendedTooltip name="__ГруппаСформироватьРасширеннаяПодсказка" id="130"/>
+							<ChildItems>
+								<ButtonGroup name="__ГруппаКнопокСформировать" id="131">
+									<Representation>Compact</Representation>
+									<ExtendedTooltip name="__ГруппаКнопокСформироватьРасширеннаяПодсказка" id="132"/>
+									<ChildItems>
+										<Button name="__ПостроитьФорму" id="31">
+											<Type>CommandBarButton</Type>
+											<CommandName>Form.Command.__ПостроитьФорму</CommandName>
+											<ExtendedTooltip name="__ПостроитьФормуРасширеннаяПодсказка" id="32"/>
+										</Button>
+										<Button name="_ПостроитьФормуВОтдельномОкне" id="127">
+											<Type>CommandBarButton</Type>
+											<CommandName>Form.Command.__ПостроитьФормуВОтдельномОкне</CommandName>
+											<ExtendedTooltip name="_ПостроитьФормуВОтдельномОкнеРасширеннаяПодсказка" id="128"/>
+										</Button>
+									</ChildItems>
+								</ButtonGroup>
+							</ChildItems>
+						</CommandBar>
+						<Button name="__Форматировать" id="94">
+							<Type>UsualButton</Type>
+							<Representation>Picture</Representation>
+							<Width>3</Width>
+							<CommandName>Form.Command.__Форматировать</CommandName>
+							<ExtendedTooltip name="__ФорматироватьРасширеннаяПодсказка" id="95"/>
+						</Button>
+						<UsualGroup name="__ГруппаВставить" id="125">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа вставить</v8:content>
+								</v8:item>
+							</Title>
+							<HorizontalStretch>true</HorizontalStretch>
+							<Group>AlwaysHorizontal</Group>
+							<Representation>NormalSeparation</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="__ГруппаВставитьРасширеннаяПодсказка" id="126"/>
+							<ChildItems>
+								<Button name="__РедакторТаблицы" id="117">
+									<Type>UsualButton</Type>
+									<Visible>false</Visible>
+									<Representation>Picture</Representation>
+									<Width>3</Width>
+									<CommandName>Form.Command.__РедакторТаблицы</CommandName>
+									<ExtendedTooltip name="__РедакторТаблицыРасширеннаяПодсказка" id="118"/>
+								</Button>
+								<Button name="__ДобавитьКартинку" id="105">
+									<Type>UsualButton</Type>
+									<Representation>Picture</Representation>
+									<Width>3</Width>
+									<CommandName>Form.Command.__ДобавитьКартинку</CommandName>
+									<ExtendedTooltip name="__ДобавитьКартинкуРасширеннаяПодсказка" id="106"/>
+								</Button>
+								<CommandBar name="__ГруппаВставитьСкобки" id="133">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Группа вставить скобки</v8:content>
+										</v8:item>
+									</Title>
+									<ExtendedTooltip name="__ГруппаВставитьСкобкиРасширеннаяПодсказка" id="134"/>
+									<ChildItems>
+										<ButtonGroup name="__ГруппаКнопокВставитьСкобки" id="135">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Группа кнопок вставить скобки</v8:content>
+												</v8:item>
+											</Title>
+											<Representation>Compact</Representation>
+											<ExtendedTooltip name="__ГруппаКнопокВставитьСкобкиРасширеннаяПодсказка" id="136"/>
+											<ChildItems>
+												<Button name="__ДобавитьУгловыеСкобки" id="113">
+													<Type>CommandBarButton</Type>
+													<Representation>Text</Representation>
+													<SkipOnInput>true</SkipOnInput>
+													<Width>3</Width>
+													<CommandName>Form.Command.__ДобавитьУгловыеСкобки</CommandName>
+													<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
+													<ExtendedTooltip name="__ДобавитьУгловыеСкобкиРасширеннаяПодсказка" id="114"/>
+												</Button>
+												<Button name="__ДобавитьПрямыеСкобки" id="109">
+													<Type>CommandBarButton</Type>
+													<Representation>Text</Representation>
+													<SkipOnInput>true</SkipOnInput>
+													<Width>3</Width>
+													<CommandName>Form.Command.__ДобавитьПрямыеСкобки</CommandName>
+													<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
+													<ExtendedTooltip name="__ДобавитьПрямыеСкобкиРасширеннаяПодсказка" id="110"/>
+												</Button>
+												<Button name="__ДобавитьФигурныеСкобки" id="111">
+													<Type>CommandBarButton</Type>
+													<Representation>Text</Representation>
+													<SkipOnInput>true</SkipOnInput>
+													<Width>3</Width>
+													<CommandName>Form.Command.__ДобавитьФигурныеСкобки</CommandName>
+													<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
+													<ExtendedTooltip name="__ДобавитьФигурныеСкобкиРасширеннаяПодсказка" id="112"/>
+												</Button>
+											</ChildItems>
+										</ButtonGroup>
+									</ChildItems>
+								</CommandBar>
+							</ChildItems>
+						</UsualGroup>
+						<Button name="__Заполнить" id="119">
+							<Type>UsualButton</Type>
+							<Visible>false</Visible>
+							<Representation>Picture</Representation>
+							<Width>3</Width>
+							<GroupHorizontalAlign>Right</GroupHorizontalAlign>
+							<CommandName>Form.Command.__Заполнить</CommandName>
+							<ExtendedTooltip name="__ЗаполнитьРасширеннаяПодсказка" id="120"/>
+						</Button>
+					</ChildItems>
+				</UsualGroup>
 				<TextDocumentField name="__Редактор" id="5">
 					<DataPath>__Редактор</DataPath>
 					<TitleLocation>None</TitleLocation>
@@ -161,105 +274,9 @@
 						</InputField>
 					</ChildItems>
 				</Table>
-				<Table name="__ТаблицаРеквизитов" id="66">
-					<Representation>List</Representation>
-					<Visible>false</Visible>
-					<ChangeRowSet>false</ChangeRowSet>
-					<ChangeRowOrder>false</ChangeRowOrder>
-					<HorizontalLines>false</HorizontalLines>
-					<VerticalLines>false</VerticalLines>
-					<AutoInsertNewRow>true</AutoInsertNewRow>
-					<EnableStartDrag>true</EnableStartDrag>
-					<EnableDrag>true</EnableDrag>
-					<DataPath>__ТаблицаРеквизитов</DataPath>
-					<RowFilter xsi:nil="true"/>
-					<ContextMenu name="__ТаблицаРеквизитовКонтекстноеМеню" id="67"/>
-					<AutoCommandBar name="__ТаблицаРеквизитовКоманднаяПанель" id="68"/>
-					<ExtendedTooltip name="__ТаблицаРеквизитовРасширеннаяПодсказка" id="69"/>
-					<SearchStringAddition name="__ТаблицаРеквизитовСтрокаПоиска" id="70">
-						<AdditionSource>
-							<Item>__ТаблицаРеквизитов</Item>
-							<Type>SearchStringRepresentation</Type>
-						</AdditionSource>
-						<ContextMenu name="__ТаблицаРеквизитовСтрокаПоискаКонтекстноеМеню" id="71"/>
-						<ExtendedTooltip name="__ТаблицаРеквизитовСтрокаПоискаРасширеннаяПодсказка" id="72"/>
-					</SearchStringAddition>
-					<ViewStatusAddition name="__ТаблицаРеквизитовСостояниеПросмотра" id="73">
-						<AdditionSource>
-							<Item>__ТаблицаРеквизитов</Item>
-							<Type>ViewStatusRepresentation</Type>
-						</AdditionSource>
-						<ContextMenu name="__ТаблицаРеквизитовСостояниеПросмотраКонтекстноеМеню" id="74"/>
-						<ExtendedTooltip name="__ТаблицаРеквизитовСостояниеПросмотраРасширеннаяПодсказка" id="75"/>
-					</ViewStatusAddition>
-					<SearchControlAddition name="__ТаблицаРеквизитовУправлениеПоиском" id="76">
-						<AdditionSource>
-							<Item>__ТаблицаРеквизитов</Item>
-							<Type>SearchControl</Type>
-						</AdditionSource>
-						<ContextMenu name="__ТаблицаРеквизитовУправлениеПоискомКонтекстноеМеню" id="77"/>
-						<ExtendedTooltip name="__ТаблицаРеквизитовУправлениеПоискомРасширеннаяПодсказка" id="78"/>
-					</SearchControlAddition>
-					<ChildItems>
-						<LabelField name="__ТаблицаРеквизитовУИД" id="79">
-							<DataPath>__ТаблицаРеквизитов.УИД</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ContextMenu name="__ТаблицаРеквизитовУИДКонтекстноеМеню" id="80"/>
-							<ExtendedTooltip name="__ТаблицаРеквизитовУИДРасширеннаяПодсказка" id="81"/>
-						</LabelField>
-						<LabelField name="__ТаблицаРеквизитовУИДВладельца" id="88">
-							<DataPath>__ТаблицаРеквизитов.УИДВладельца</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ContextMenu name="__ТаблицаРеквизитовУИДВладельцаКонтекстноеМеню" id="89"/>
-							<ExtendedTooltip name="__ТаблицаРеквизитовУИДВладельцаРасширеннаяПодсказка" id="90"/>
-						</LabelField>
-						<InputField name="__ТаблицаРеквизитовИмяРеквизита" id="82">
-							<DataPath>__ТаблицаРеквизитов.ИмяРеквизита</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-							<ContextMenu name="__ТаблицаРеквизитовИмяРеквизитаКонтекстноеМеню" id="83"/>
-							<ExtendedTooltip name="__ТаблицаРеквизитовИмяРеквизитаРасширеннаяПодсказка" id="84"/>
-						</InputField>
-						<InputField name="__ТаблицаРеквизитовНомер" id="102">
-							<DataPath>__ТаблицаРеквизитов.Номер</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-							<ContextMenu name="__ТаблицаРеквизитовНомерКонтекстноеМеню" id="103"/>
-							<ExtendedTooltip name="__ТаблицаРеквизитовНомерРасширеннаяПодсказка" id="104"/>
-						</InputField>
-						<InputField name="__ТаблицаРеквизитовИмяЭлемента" id="99">
-							<DataPath>__ТаблицаРеквизитов.ИмяЭлемента</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-							<ContextMenu name="__ТаблицаРеквизитовИмяЭлементаКонтекстноеМеню" id="100"/>
-							<ExtendedTooltip name="__ТаблицаРеквизитовИмяЭлементаРасширеннаяПодсказка" id="101"/>
-						</InputField>
-						<InputField name="__ТаблицаРеквизитовТипРеквизита" id="85">
-							<DataPath>__ТаблицаРеквизитов.ТипРеквизита</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-							<ContextMenu name="__ТаблицаРеквизитовТипРеквизитаКонтекстноеМеню" id="86"/>
-							<ExtendedTooltip name="__ТаблицаРеквизитовТипРеквизитаРасширеннаяПодсказка" id="87"/>
-						</InputField>
-						<InputField name="__ТаблицаРеквизитовПредварительноеИмяРеквизита" id="91">
-							<DataPath>__ТаблицаРеквизитов.РабочееИмяРеквизита</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-							<ContextMenu name="__ТаблицаРеквизитовПредварительноеИмяРеквизитаКонтекстноеМеню" id="92"/>
-							<ExtendedTooltip name="__ТаблицаРеквизитовПредварительноеИмяРеквизитаРасширеннаяПодсказка" id="93"/>
-						</InputField>
-						<InputField name="__ТаблицаРеквизитовРабочееИмяЭлемента" id="96">
-							<DataPath>__ТаблицаРеквизитов.РабочееИмяЭлемента</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-							<ContextMenu name="__ТаблицаРеквизитовРабочееИмяЭлементаКонтекстноеМеню" id="97"/>
-							<ExtendedTooltip name="__ТаблицаРеквизитовРабочееИмяЭлементаРасширеннаяПодсказка" id="98"/>
-						</InputField>
-					</ChildItems>
-				</Table>
 			</ChildItems>
 		</UsualGroup>
-		<UsualGroup name="ГруппаПросмотр" id="3">
+		<UsualGroup name="__ГруппаПросмотр" id="3">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
@@ -276,7 +293,7 @@
 			<Group>AlwaysHorizontal</Group>
 			<Representation>None</Representation>
 			<ShowTitle>false</ShowTitle>
-			<ExtendedTooltip name="ГруппаПросмотрРасширеннаяПодсказка" id="4"/>
+			<ExtendedTooltip name="__ГруппаПросмотрРасширеннаяПодсказка" id="4"/>
 		</UsualGroup>
 	</ChildItems>
 	<Attributes>
@@ -387,132 +404,6 @@
 				</v8:StringQualifiers>
 			</Type>
 		</Attribute>
-		<Attribute name="__ТаблицаРеквизитов" id="14">
-			<Title>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Таблица реквизитов</v8:content>
-				</v8:item>
-			</Title>
-			<Type>
-				<v8:Type>v8:ValueTable</v8:Type>
-			</Type>
-			<Columns>
-				<Column name="УИД" id="1">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>УИД</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>v8:UUID</v8:Type>
-					</Type>
-				</Column>
-				<Column name="ИмяРеквизита" id="2">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Имя реквизита</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>0</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
-				</Column>
-				<Column name="ТипРеквизита" id="3">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Тип реквизита</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>0</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
-				</Column>
-				<Column name="УИДВладельца" id="4">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>УИДВладельца</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>v8:UUID</v8:Type>
-					</Type>
-				</Column>
-				<Column name="РабочееИмяРеквизита" id="5">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Рабочее имя реквизита</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>0</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
-				</Column>
-				<Column name="РабочееИмяЭлемента" id="6">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Рабочее имя элемента</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>0</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
-				</Column>
-				<Column name="ИмяЭлемента" id="7">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Имя элемента</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>0</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
-				</Column>
-				<Column name="Номер" id="8">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Номер</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:decimal</v8:Type>
-						<v8:NumberQualifiers>
-							<v8:Digits>5</v8:Digits>
-							<v8:FractionDigits>0</v8:FractionDigits>
-							<v8:AllowedSign>Nonnegative</v8:AllowedSign>
-						</v8:NumberQualifiers>
-					</Type>
-				</Column>
-			</Columns>
-		</Attribute>
 		<Attribute name="__ТаблицаСуществующихРеквизитов" id="4">
 			<Title>
 				<v8:item>
@@ -601,6 +492,7 @@
 					<v8:content>Форматировать</v8:content>
 				</v8:item>
 			</ToolTip>
+			<Shortcut>Ctrl+Alt+F</Shortcut>
 			<Picture>
 				<xr:Ref>StdPicture.ExternalDataSourceFunction</xr:Ref>
 				<xr:LoadTransparent>true</xr:LoadTransparent>
@@ -617,7 +509,7 @@
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Сформировать</v8:content>
+					<v8:content>Сформировать форму</v8:content>
 				</v8:item>
 			</ToolTip>
 			<Picture>
@@ -645,6 +537,112 @@
 				<xr:LoadTransparent>true</xr:LoadTransparent>
 			</Picture>
 			<Action>__ДобавитьКартинку</Action>
+		</Command>
+		<Command name="__ДобавитьПрямыеСкобки" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>[ ]</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить прямые скобки - флажок</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Shortcut>Ctrl+Shift+9</Shortcut>
+			<Action>__ДобавитьПрямыеСкобки</Action>
+		</Command>
+		<Command name="__ДобавитьФигурныеСкобки" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>{ }</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить фигурные скобки - свойства</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Shortcut>Ctrl+9</Shortcut>
+			<Action>__ДобавитьФигурныеСкобки</Action>
+		</Command>
+		<Command name="__ДобавитьУгловыеСкобки" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>&lt;&gt;</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить угловые скобки - кнопки</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Shortcut>Ctrl+Alt+9</Shortcut>
+			<Action>__ДобавитьУгловыеСкобки</Action>
+		</Command>
+		<Command name="__РедакторТаблицы" id="8">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Редактор таблицы</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Редактор таблицы</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.NestedTable</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>__РедакторТаблицы</Action>
+		</Command>
+		<Command name="__Заполнить" id="9">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить из формы</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить из формы</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.GoBack</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>__Заполнить</Action>
+		</Command>
+		<Command name="__ПостроитьФормуВОтдельномОкне" id="10">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>В отдельном окне</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сформировать форму в отдельном окне</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.NewWindow</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>__ПостроитьФормуВОтдельномОкне</Action>
+			<Representation>Picture</Representation>
 		</Command>
 	</Commands>
 </Form>
