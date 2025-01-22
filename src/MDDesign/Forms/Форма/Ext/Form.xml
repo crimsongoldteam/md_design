@@ -492,7 +492,7 @@
 					<v8:content>Форматировать</v8:content>
 				</v8:item>
 			</ToolTip>
-			<Shortcut>Shift+F</Shortcut>
+			<Shortcut>Ctrl+Alt+F</Shortcut>
 			<Picture>
 				<xr:Ref>StdPicture.ExternalDataSourceFunction</xr:Ref>
 				<xr:LoadTransparent>true</xr:LoadTransparent>
