@@ -276,24 +276,39 @@
 				</Table>
 			</ChildItems>
 		</UsualGroup>
-		<UsualGroup name="__ГруппаПросмотр" id="3">
-			<Title>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Группа просмотр</v8:content>
-				</v8:item>
-			</Title>
-			<ToolTip>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Группа просмотр</v8:content>
-				</v8:item>
-			</ToolTip>
-			<HorizontalStretch>true</HorizontalStretch>
-			<Group>AlwaysHorizontal</Group>
+		<UsualGroup name="__ГруппаФормаПросмотр" id="140">
+			<Group>Vertical</Group>
 			<Representation>None</Representation>
 			<ShowTitle>false</ShowTitle>
-			<ExtendedTooltip name="__ГруппаПросмотрРасширеннаяПодсказка" id="4"/>
+			<ExtendedTooltip name="__ГруппаФормаПросмотрРасширеннаяПодсказка" id="141"/>
+			<ChildItems>
+				<LabelField name="__ЗаголовокФормы" id="137">
+					<DataPath>__ЗаголовокФормы</DataPath>
+					<TitleLocation>None</TitleLocation>
+					<Font ref="style:LargeTextFont" kind="StyleItem"/>
+					<ContextMenu name="__ЗаголовокФормыКонтекстноеМеню" id="138"/>
+					<ExtendedTooltip name="__ЗаголовокФормыРасширеннаяПодсказка" id="139"/>
+				</LabelField>
+				<UsualGroup name="__ГруппаПросмотр" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа просмотр</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа просмотр</v8:content>
+						</v8:item>
+					</ToolTip>
+					<HorizontalStretch>true</HorizontalStretch>
+					<Group>AlwaysHorizontal</Group>
+					<Representation>None</Representation>
+					<ShowTitle>false</ShowTitle>
+					<ExtendedTooltip name="__ГруппаПросмотрРасширеннаяПодсказка" id="4"/>
+				</UsualGroup>
+			</ChildItems>
 		</UsualGroup>
 	</ChildItems>
 	<Attributes>
@@ -452,6 +467,21 @@
 				<v8:item>
 					<v8:lang>ru</v8:lang>
 					<v8:content>Идентификатор обработки</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="__ЗаголовокФормы" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заголовок формы</v8:content>
 				</v8:item>
 			</Title>
 			<Type>
