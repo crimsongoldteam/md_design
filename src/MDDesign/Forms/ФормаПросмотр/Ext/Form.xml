@@ -74,4 +74,21 @@
 			</Columns>
 		</Attribute>
 	</Attributes>
+	<Commands>
+		<Command name="__КомандаЗаглушка" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Команда заглушка</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Команда заглушка</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>__КомандаЗаглушка</Action>
+		</Command>
+	</Commands>
 </Form>
