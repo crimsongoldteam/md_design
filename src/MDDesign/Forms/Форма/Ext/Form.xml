@@ -101,7 +101,6 @@
 							<ChildItems>
 								<Button name="__РедакторТаблицы" id="117">
 									<Type>UsualButton</Type>
-									<Visible>false</Visible>
 									<Representation>Picture</Representation>
 									<Width>3</Width>
 									<CommandName>Form.Command.__РедакторТаблицы</CommandName>
@@ -181,7 +180,26 @@
 					<DataPath>__Редактор</DataPath>
 					<TitleLocation>None</TitleLocation>
 					<Font ref="sys:ANSIFixedFont" kind="WindowsFont"/>
-					<ContextMenu name="__РедакторКонтекстноеМеню" id="6"/>
+					<ContextMenu name="__РедакторКонтекстноеМеню" id="6">
+						<ChildItems>
+							<ButtonGroup name="__РедакторКонтекстноеМенюГруппа" id="144">
+								<Title>
+									<v8:item>
+										<v8:lang>ru</v8:lang>
+										<v8:content>Редактор контекстное меню группа</v8:content>
+									</v8:item>
+								</Title>
+								<ExtendedTooltip name="__РедакторКонтекстноеМенюГруппаРасширеннаяПодсказка" id="145"/>
+								<ChildItems>
+									<Button name="__РедакторКонтекстноеМенюРедакторТаблицы" id="142">
+										<Type>CommandBarButton</Type>
+										<CommandName>Form.Command.__РедакторТаблицы</CommandName>
+										<ExtendedTooltip name="__РедакторКонтекстноеМенюРедакторТаблицыРасширеннаяПодсказка" id="143"/>
+									</Button>
+								</ChildItems>
+							</ButtonGroup>
+						</ChildItems>
+					</ContextMenu>
 					<ExtendedTooltip name="__РедакторРасширеннаяПодсказка" id="7"/>
 					<Events>
 						<Event name="OnChange">РедакторПриИзменении</Event>
