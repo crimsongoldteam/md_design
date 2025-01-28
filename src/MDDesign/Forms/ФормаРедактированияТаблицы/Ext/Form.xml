@@ -44,6 +44,13 @@
 						<CommandName>Form.Command.ДобавитьПодколонку</CommandName>
 						<ExtendedTooltip name="ТаблицаКолонкиДобавитьПодколонкуРасширеннаяПодсказка" id="48"/>
 					</Button>
+					<Button name="ТаблицаКолонкиУдалить" id="49">
+						<Type>CommandBarButton</Type>
+						<Representation>PictureAndText</Representation>
+						<CommandName>Form.Item.ТаблицаКолонки.StandardCommand.Delete</CommandName>
+						<LocationInCommandBar>InCommandBarAndInAdditionalSubmenu</LocationInCommandBar>
+						<ExtendedTooltip name="ТаблицаКолонкиУдалитьРасширеннаяПодсказка" id="50"/>
+					</Button>
 					<ButtonGroup name="ТаблицаКолонкиГруппаПереместить" id="43">
 						<Representation>Usual</Representation>
 						<ExtendedTooltip name="ТаблицаКолонкиГруппаПереместитьРасширеннаяПодсказка" id="44"/>
@@ -134,6 +141,7 @@
 					<EditMode>EnterOnInput</EditMode>
 					<ListChoiceMode>true</ListChoiceMode>
 					<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+					<QuickChoice>true</QuickChoice>
 					<AutoMarkIncomplete>true</AutoMarkIncomplete>
 					<ChooseType>false</ChooseType>
 					<ChoiceList>
