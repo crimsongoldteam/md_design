@@ -331,7 +331,7 @@
 	<Attributes>
 		<Attribute name="Объект" id="1">
 			<Type>
-				<v8:Type>cfg:ExternalDataProcessorObject.MDDesign</v8:Type>
+				<v8:Type>cfg:ExternalDataProcessorObject.Накидка</v8:Type>
 			</Type>
 			<MainAttribute>true</MainAttribute>
 		</Attribute>
