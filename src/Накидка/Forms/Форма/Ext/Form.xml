@@ -168,11 +168,6 @@
 												</Button>
 											</ChildItems>
 										</ButtonGroup>
-										<Button name="ИзменитьФорму" id="146">
-											<Type>CommandBarButton</Type>
-											<CommandName>Form.StandardCommand.CustomizeForm</CommandName>
-											<ExtendedTooltip name="ИзменитьФормуРасширеннаяПодсказка" id="147"/>
-										</Button>
 									</ChildItems>
 								</CommandBar>
 							</ChildItems>
