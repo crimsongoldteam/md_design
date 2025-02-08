@@ -106,6 +106,13 @@
 									<CommandName>Form.Command.__РедакторТаблицы</CommandName>
 									<ExtendedTooltip name="__РедакторТаблицыРасширеннаяПодсказка" id="118"/>
 								</Button>
+								<Button name="__ДобавитьЦвет" id="148">
+									<Type>UsualButton</Type>
+									<Visible>false</Visible>
+									<Representation>Picture</Representation>
+									<CommandName>Form.Command.__ДобавитьЦвет</CommandName>
+									<ExtendedTooltip name="__ДобавитьЦветРасширеннаяПодсказка" id="149"/>
+								</Button>
 								<Button name="__ДобавитьКартинку" id="105">
 									<Type>UsualButton</Type>
 									<Representation>Picture</Representation>
@@ -709,6 +716,21 @@
 			</Picture>
 			<Action>__ПостроитьФормуВОтдельномОкне</Action>
 			<Representation>Picture</Representation>
+		</Command>
+		<Command name="__ДобавитьЦвет" id="11">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить цвет</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Добавить цвет</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>__ДобавитьЦвет</Action>
 		</Command>
 	</Commands>
 </Form>
