@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://crimsongoldteam.github.io/md_design">
-    <img alt="docsify" src="./docs/_images/logo-nakidka.png">
+    <img alt="docsify" src="./docs/_images/logo-nakidka.png" width=50%>
   </a>
 </p>
 
