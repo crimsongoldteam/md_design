@@ -1,7 +1,21 @@
-# Накидка
-[![OpenYellow](https://img.shields.io/endpoint?url=https://openyellow.org/data/badges/6/892746188.json)](https://openyellow.org/grid?data=top&repo=892746188)
-[![GitHub Release](https://img.shields.io/github/v/release/crimsongoldteam/md_design)](https://github.com/crimsongoldteam/md_design/releases/latest)
-[![GitHub License](https://img.shields.io/github/license/crimsongoldteam/md_design)](https://github.com/crimsongoldteam/md_design/blob/main/LICENSE.md)
+<p align="center">
+  <a href="https://crimsongoldteam.github.io/md_design">
+    <img alt="docsify" src="./docs/_images/logo-nakidka.png">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://openyellow.org/grid?data=top&repo=892746188">
+    <img src="https://img.shields.io/endpoint?url=https://openyellow.org/data/badges/6/892746188.json">
+  </a>
+  <a href="https://github.com/crimsongoldteam/md_design/releases/latest">
+    <img src="https://img.shields.io/github/v/release/crimsongoldteam/md_design">
+  </a>
+  <a href="https://github.com/crimsongoldteam/md_design/blob/main/LICENSE.md">
+    <img src="https://img.shields.io/github/license/crimsongoldteam/md_design">
+  </a>
+</p>
+
 
 *Накидка* — это обработка, позволяющая создавать формы в 1С:Предприятие 8 на основе текстового описания. Используется знакомый синтаксис, похожий на Markdown. Инструмент также предоставляет возможности для визуального проектирования сложных элементов. 
 
