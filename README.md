@@ -49,7 +49,11 @@
 
 ## Быстрый старт
 
-Ознакомьтесь с кратким [руководством по началу работы](https://crimsongoldteam.github.io/md_design/#/БыстрыйСтарт).
+- Ознакомьтесь с кратким [руководством по началу работы](https://crimsongoldteam.github.io/md_design/#/БыстрыйСтарт).
+
+- Посмотрите публикацию на [Инфостарт](https://infostart.ru/1c/tools/2304023/).
+
+[![Инфостарт](https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg)](https://infostart.ru/1c/tools/2304023/)
 
 ## Документация
 Документация расположена по адресу https://crimsongoldteam.github.io/md_design.
