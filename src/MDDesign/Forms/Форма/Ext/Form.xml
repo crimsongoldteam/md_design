@@ -27,6 +27,7 @@
 			<HorizontalStretch>true</HorizontalStretch>
 			<VerticalStretch>true</VerticalStretch>
 			<Group>Vertical</Group>
+			<VerticalSpacing>Half</VerticalSpacing>
 			<Representation>None</Representation>
 			<ShowTitle>false</ShowTitle>
 			<BackColor>style:ToolTipBackColor</BackColor>
@@ -169,6 +170,18 @@
 								</CommandBar>
 							</ChildItems>
 						</UsualGroup>
+						<Button name="__ОткрытьДокументацию" id="193">
+							<Type>UsualButton</Type>
+							<GroupHorizontalAlign>Left</GroupHorizontalAlign>
+							<CommandName>Form.Command.__ОткрытьДокументацию</CommandName>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Документация</v8:content>
+								</v8:item>
+							</Title>
+							<ExtendedTooltip name="__ОткрытьДокументациюРасширеннаяПодсказка" id="194"/>
+						</Button>
 						<Button name="__Заполнить" id="119">
 							<Type>UsualButton</Type>
 							<Representation>Picture</Representation>
@@ -325,6 +338,21 @@
 						</Table>
 					</ChildItems>
 				</UsualGroup>
+				<LabelField name="__НоваяВерсия" id="195">
+					<DataPath>__НоваяВерсия</DataPath>
+					<Visible>false</Visible>
+					<TitleLocation>None</TitleLocation>
+					<GroupHorizontalAlign>Left</GroupHorizontalAlign>
+					<AutoMaxWidth>false</AutoMaxWidth>
+					<HorizontalStretch>true</HorizontalStretch>
+					<Hiperlink>true</Hiperlink>
+					<TextColor>web:Red</TextColor>
+					<ContextMenu name="__НоваяВерсияКонтекстноеМеню" id="196"/>
+					<ExtendedTooltip name="__НоваяВерсияРасширеннаяПодсказка" id="197"/>
+					<Events>
+						<Event name="Click">НоваяВерсияНажатие</Event>
+					</Events>
+				</LabelField>
 			</ChildItems>
 		</UsualGroup>
 		<UsualGroup name="__ГруппаФормаПросмотр" id="140">
@@ -362,17 +390,6 @@
 					<ExtendedTooltip name="__ГруппаПросмотрРасширеннаяПодсказка" id="4"/>
 				</UsualGroup>
 			</ChildItems>
-		</UsualGroup>
-		<UsualGroup name="__ГруппаСсылки" id="150">
-			<Title>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Ссылки</v8:content>
-				</v8:item>
-			</Title>
-			<Representation>None</Representation>
-			<ShowTitle>false</ShowTitle>
-			<ExtendedTooltip name="__ГруппаСсылкиРасширеннаяПодсказка" id="151"/>
 		</UsualGroup>
 	</ChildItems>
 	<Attributes>
@@ -635,6 +652,36 @@
 			</Title>
 			<Type>
 				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
+		<Attribute name="__НоваяВерсия" id="11">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Новая версия</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="__ТекущаяВерсия" id="10">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Текущая версия</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
 			</Type>
 		</Attribute>
 		<ConditionalAppearance>
@@ -928,6 +975,26 @@
 				<xr:LoadTransparent>true</xr:LoadTransparent>
 			</Picture>
 			<Action>__ВРедактор</Action>
+			<Representation>TextPicture</Representation>
+		</Command>
+		<Command name="__ОткрытьДокументацию" id="14">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Открыть документацию</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Открыть документацию по ссылке https://crimsongoldteam.github.io/md_design</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.GotoExternalURL</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>__ОткрытьДокументацию</Action>
 			<Representation>TextPicture</Representation>
 		</Command>
 	</Commands>
