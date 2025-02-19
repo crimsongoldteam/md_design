@@ -260,12 +260,6 @@
 										<CommandName>Form.Item.__ТаблицаГруппы.StandardCommand.Add</CommandName>
 										<ExtendedTooltip name="__ТаблицаГруппыДобавитьРасширеннаяПодсказка" id="175"/>
 									</Button>
-									<Button name="__ТаблицаГруппыУдалить" id="176">
-										<Type>CommandBarButton</Type>
-										<CommandName>Form.Item.__ТаблицаГруппы.StandardCommand.Delete</CommandName>
-										<LocationInCommandBar>InCommandBar</LocationInCommandBar>
-										<ExtendedTooltip name="__ТаблицаГруппыУдалитьРасширеннаяПодсказка" id="177"/>
-									</Button>
 									<ButtonGroup name="__ТаблицаГруппыПорядок" id="182">
 										<Title>
 											<v8:item>
