@@ -25,14 +25,17 @@
 		</Properties>
 		<ChildObjects>
 			<Form>Форма</Form>
-			<Form>ОпределительРеквизитов</Form>
+			<Form>ОпределениеРеквизитов</Form>
 			<Form>Парсер</Form>
 			<Form>Синтаксис</Form>
 			<Form>УправлениеСвойствами</Form>
+			<Form>СозданиеРеквизитов</Form>
+			<Form>ГенераторКода</Form>
 			<Form>Форматтер</Form>
 			<Form>ФормаВыбораКартинки</Form>
 			<Form>ФормаПросмотр</Form>
 			<Form>ФормаРедактированияТаблицы</Form>
+			<Form>ФормаКода</Form>
 			<Template>Свойства</Template>
 		</ChildObjects>
 	</ExternalDataProcessor>

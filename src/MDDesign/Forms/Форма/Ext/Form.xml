@@ -71,11 +71,29 @@
 											<CommandName>Form.Command.__ПостроитьФорму</CommandName>
 											<ExtendedTooltip name="__ПостроитьФормуРасширеннаяПодсказка" id="32"/>
 										</Button>
-										<Button name="_ПостроитьФормуВОтдельномОкне" id="127">
-											<Type>CommandBarButton</Type>
-											<CommandName>Form.Command.__ПостроитьФормуВОтдельномОкне</CommandName>
-											<ExtendedTooltip name="_ПостроитьФормуВОтдельномОкнеРасширеннаяПодсказка" id="128"/>
-										</Button>
+										<Popup name="__ГруппаСформироватьЕще" id="200">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content> </v8:content>
+												</v8:item>
+											</Title>
+											<HorizontalStretch>false</HorizontalStretch>
+											<Representation>Text</Representation>
+											<ExtendedTooltip name="__ГруппаСформироватьЕщеРасширеннаяПодсказка" id="201"/>
+											<ChildItems>
+												<Button name="_ПостроитьФормуВОтдельномОкне" id="127">
+													<Type>CommandBarButton</Type>
+													<CommandName>Form.Command.__ПостроитьФормуВОтдельномОкне</CommandName>
+													<ExtendedTooltip name="_ПостроитьФормуВОтдельномОкнеРасширеннаяПодсказка" id="128"/>
+												</Button>
+												<Button name="__ГенераторКода" id="198">
+													<Type>CommandBarButton</Type>
+													<CommandName>Form.Command.__ГенераторКода</CommandName>
+													<ExtendedTooltip name="__ГенераторКодаРасширеннаяПодсказка" id="199"/>
+												</Button>
+											</ChildItems>
+										</Popup>
 									</ChildItems>
 								</ButtonGroup>
 							</ChildItems>
@@ -901,7 +919,7 @@
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>В отдельном окне</v8:content>
+					<v8:content>Сформировать в отдельном окне</v8:content>
 				</v8:item>
 			</Title>
 			<ToolTip>
@@ -991,6 +1009,21 @@
 			</Picture>
 			<Action>__ОткрытьДокументацию</Action>
 			<Representation>TextPicture</Representation>
+		</Command>
+		<Command name="__ГенераторКода" id="15">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Подготовить код</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сгенерировать код программного создания элементов</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>__ГенераторКода</Action>
 		</Command>
 	</Commands>
 </Form>
