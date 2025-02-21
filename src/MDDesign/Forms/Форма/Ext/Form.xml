@@ -82,10 +82,10 @@
 											<Representation>Text</Representation>
 											<ExtendedTooltip name="__ГруппаСформироватьЕщеРасширеннаяПодсказка" id="201"/>
 											<ChildItems>
-												<Button name="_ПостроитьФормуВОтдельномОкне" id="127">
+												<Button name="__ПостроитьФормуВОтдельномОкне" id="127">
 													<Type>CommandBarButton</Type>
 													<CommandName>Form.Command.__ПостроитьФормуВОтдельномОкне</CommandName>
-													<ExtendedTooltip name="_ПостроитьФормуВОтдельномОкнеРасширеннаяПодсказка" id="128"/>
+													<ExtendedTooltip name="__ПостроитьФормуВОтдельномОкнеРасширеннаяПодсказка" id="128"/>
 												</Button>
 												<Button name="__ГенераторКода" id="198">
 													<Type>CommandBarButton</Type>
