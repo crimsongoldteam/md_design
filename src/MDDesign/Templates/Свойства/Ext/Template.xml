@@ -4319,7 +4319,7 @@
 					<tl>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>ГоризонтальноеПоложениеЭлемента </v8:content>
+							<v8:content>ГоризонтальноеПоложениеЭлемента</v8:content>
 						</v8:item>
 					</tl>
 				</c>
@@ -5167,7 +5167,7 @@
 					<tl>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>ГоризонтальноеПоложениеЭлемента </v8:content>
+							<v8:content>ГоризонтальноеПоложениеЭлемента</v8:content>
 						</v8:item>
 					</tl>
 				</c>
@@ -6596,7 +6596,7 @@
 					<tl>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>ГоризонтальноеПоложениеЭлемента </v8:content>
+							<v8:content>ГоризонтальноеПоложениеЭлемента</v8:content>
 						</v8:item>
 					</tl>
 				</c>
@@ -7214,7 +7214,7 @@
 					<tl>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>ГоризонтальноеПоложениеЭлемента </v8:content>
+							<v8:content>ГоризонтальноеПоложениеЭлемента</v8:content>
 						</v8:item>
 					</tl>
 				</c>
@@ -7490,7 +7490,7 @@
 					<tl>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>ГоризонтальноеПоложениеЭлемента </v8:content>
+							<v8:content>ГоризонтальноеПоложениеЭлемента</v8:content>
 						</v8:item>
 					</tl>
 				</c>
@@ -7652,7 +7652,7 @@
 					<tl>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>ГоризонтальноеПоложениеЭлемента </v8:content>
+							<v8:content>ГоризонтальноеПоложениеЭлемента</v8:content>
 						</v8:item>
 					</tl>
 				</c>
@@ -8208,10 +8208,250 @@
 			</c>
 		</row>
 	</rowsItem>
+	<rowsItem>
+		<index>63</index>
+		<row>
+			<c>
+				<c>
+					<f>12</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ВертикальнаяГруппа</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>13</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Заголовок</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>12</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Заголовок</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>14</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Заголовок группы</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>14</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Строка</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>15</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>16</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>16</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>17</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>17</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>18</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>18</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>18</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>20</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>18</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>20</f>
+				</c>
+			</c>
+		</row>
+	</rowsItem>
+	<rowsItem>
+		<index>64</index>
+		<row>
+			<c>
+				<c>
+					<f>12</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Страница</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>13</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Заголовок</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>12</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Заголовок</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>14</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Заголовок группы</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>14</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Строка</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>15</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>16</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>16</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>17</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>17</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>18</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>18</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>18</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>20</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>18</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>20</f>
+				</c>
+			</c>
+		</row>
+	</rowsItem>
 	<templateMode>true</templateMode>
 	<defaultFormatIndex>26</defaultFormatIndex>
-	<height>63</height>
-	<vgRows>63</vgRows>
+	<height>65</height>
+	<vgRows>65</vgRows>
 	<line width="1" gap="false">
 		<v8ui:style xsi:type="v8ui:SpreadsheetDocumentCellLineType">Solid</v8ui:style>
 	</line>
