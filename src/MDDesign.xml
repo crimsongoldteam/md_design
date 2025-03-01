@@ -25,19 +25,22 @@
 		</Properties>
 		<ChildObjects>
 			<Form>Форма</Form>
+			<Form>ГенераторКода</Form>
 			<Form>ОпределениеРеквизитов</Form>
 			<Form>Парсер</Form>
+			<Form>РаботаСИИ</Form>
 			<Form>Синтаксис</Form>
-			<Form>УправлениеСвойствами</Form>
-			<Form>СозданиеРеквизитов</Form>
-			<Form>ГенераторКода</Form>
 			<Form>СлужебныеФункции</Form>
-			<Form>Форматтер</Form>
+			<Form>СозданиеРеквизитов</Form>
+			<Form>УправлениеСвойствами</Form>
 			<Form>ФормаВыбораКартинки</Form>
+			<Form>ФормаКода</Form>
+			<Form>ФормаНастройка</Form>
 			<Form>ФормаПросмотр</Form>
 			<Form>ФормаРедактированияТаблицы</Form>
-			<Form>ФормаКода</Form>
+			<Form>Форматтер</Form>
 			<Template>Свойства</Template>
+			<Template>Промпт</Template>
 		</ChildObjects>
 	</ExternalDataProcessor>
 </MetaDataObject>
