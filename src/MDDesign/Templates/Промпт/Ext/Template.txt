@@ -1,0 +1,214 @@
+﻿# Steps  
+1. Define the input fields, check boxes, or other elements required for the form.  
+2. Specify the syntax for each element according to the Syntax section.  
+3. Generate the text in format
+
+# Syntax  
+
+## Heading
+```
+--- Поступление товаров и услуг ---
+```
+At the beginning of the prototype description, add a form header. This header will be displayed when the form is opened in a separate window.
+
+## Buttons
+
+### Command bar
+```
+< Кнопка 1 | Кнопка 2>
+```
+Adds buttons (command bar) to the form.
+
+### Menu
+Add menus to the command bar. Separate buttons visually with `-`. Use the same symbol to separate menu items.
+```
+<Записать |-| Печать 
+Печать 
+. Акт
+. Счет
+.. Счет на оплату
+.. -
+.. Счет на оплату (с факсимиле)>
+```
+
+## Input  
+**Description:**  
+Adds an input field to the form.  
+```  
+Фамилия: Иванов  
+```  
+
+**Multiline Input Field:**  
+To add a multiline input field, use `___` on the following lines. The number of lines determines the height of the field.  
+```  
+Описание: Lorem ipsum  
+          _________  
+          _________  
+```  
+
+**Input Field Buttons:**  
+To add buttons to the input field, use the following modifiers:  
+
+| Modifier | Description             |  
+| -------- | ----------------------- |  
+| В        | Selection button        |  
+| С        | List button             |  
+| Х        | Clear button            |  
+| О        | Open button             |  
+| Д        | Adjustment button       |  
+
+```  
+Контрагент: ООО Типы__СО  
+Количество ставок: 1__Д
+Поле которое можно оставить пустым: Значение__Х
+```  
+
+## 2.2 Checkbox  
+**Description:**  
+Adds a checkbox or toggle switch to the form.  
+
+```  
+[X] Показать все  
+Показать все [ ] 
+```  
+
+**Toggle Switch:**  
+Instead of a checkbox, you can use a toggle switch. Use any symbols separated by `|` to represent the states. The left symbol corresponds to *off*, and the right symbol corresponds to *on*.  
+
+```  
+[0| ] Выключено  
+[ |1] Включено  
+```  
+
+## Groups
+
+```
+#Заголовок группы 1   #Заголовок группы 2
+Элемент группы 1      +   Элемент группы 2
+```
+
+Groups allow you to line up elements on the form one below the other and separate them by columns.
+
+```
+#Флажки        #Поля ввода
+[ ] Флажок 1   +   Поле ввода 1:
+[ ] Флажок 2   +   Поле ввода 2:
+[ ] Флажок 3   +   Поле ввода 3:
+```
+
+You can add nested groups.
+
+```
+#                  #
+Дата: 01.01.2025   +   Контрагент: Иванов__С
+Номер: 1           +   Договор: №1__С
+                   +   #Остаток на 01.01   #Остаток на 01.02
+                   +   Сумма: 100          +   Сумма: 200
+```
+
+
+### Display and behavior
+You can change the appearance of the group and its title by adding additional `#` characters. For example:
+```
+######Всплывающая
+[ ] Флажок
+```
+
+| Syntax | Display | Behavior |
+| ------ | ------- | -------- |
+| #      | No      | No       |
+| ##     | Weak    | No       |
+| ###    | Normal  | No       |
+| ####   | Strong  | No       |
+| #####  | Normal  | Clotting |
+| ###### | Normal  | Pop-up   |
+
+## Inline group
+```
+Элемент 1 & Элемент 2
+```
+If you need to arrange multiple items on a single line, use a single-line group.
+
+```
+Номер: 000001 & от: 01.01.2025
+```
+
+## Pages
+```text
+/Страница 1
+    Элемент 1
+/Страница 2
+    Элемент 2
+```
+Adds pages to the form. Items within pages are separated by a tab character.
+Nested pages are permitted.
+
+## Tables and trees
+### Table
+Adds a table to a form. Table cells are separated from each other by the `|` symbol.  The number of `|` characters in each row is the same. Columns are separated from rows by the separator `---|----`
+
+```
+| Колонка 1   | Колонка 2   |
+| ----------- | ----------- |
+| Ячейка 1.1. | Ячейка 1.2. |
+| Ячейка 2.1. | Ячейка 2.2. |
+```
+
+
+## Tree
+You can also represent the data as a tree. The depth of the tree levels will be determined by the number of `.` points at the beginning of each row.
+
+```
+| Колонка          |
+| ---------------- |
+| Строка 1         |
+| . Подстрока 11   |
+| .. Подстрока 111 |
+| Строка 2         |
+```
+
+## Checkboxes in table and tree
+
+You can add a checkbox column using the `[ ]` symbols. 
+```
+| Список          |
+| --------------- |
+| [ ] Без пометки |
+| [X] Пометка     |
+```
+
+## Multi-line headings
+Add multi-line headings.
+```
+| -Колонка-                  ||
+| Подколонка А | Подколонка Б |
+| ------------ | ------------ |
+| Строка А-1   | Строка Б-1   |
+| Строка А-2   | Строка Б-2   |
+```
+
+## Multi-tiered strings
+This can also be used for rows in a table.
+```
+| Колонка                    ||
+| Подколонка А | Подколонка Б |
+| ------------ | ------------ |
+| Строка 1                   ||
+| Строка А-1   | Строка Б-1   |
+| Строка 2                   ||
+| Строка А-2   | Строка Б-2   |
+```
+
+# Example
+## Example incoming request:
+Сделай форму ввода ФИО
+## Example Output:
+<Записать и закрыть | Записать | Закрыть>
+Фамилия: Иванов
+Имя: Иван
+Отчество: Иванович
+
+# 3. Notes  
+- Ensure all examples are clear and follow the specified syntax.  
+- Descriptions are in Russian.
+- No clarification is required in the response.
