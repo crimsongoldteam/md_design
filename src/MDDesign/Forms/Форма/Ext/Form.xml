@@ -58,7 +58,7 @@
 							<EnableStartDrag>true</EnableStartDrag>
 							<EnableDrag>true</EnableDrag>
 							<DataPath>__ЧатИИ</DataPath>
-							<Font ref="sys:ANSIFixedFont" faceName="Cascadia Code" kind="WindowsFont"/>
+							<Font ref="sys:ANSIFixedFont" kind="WindowsFont"/>
 							<CommandSet>
 								<ExcludedCommand>MoveDown</ExcludedCommand>
 								<ExcludedCommand>MoveUp</ExcludedCommand>
@@ -385,7 +385,7 @@
 						<TextDocumentField name="__Редактор" id="5">
 							<DataPath>__Редактор</DataPath>
 							<TitleLocation>None</TitleLocation>
-							<Font ref="sys:ANSIFixedFont" faceName="Cascadia Code" height="9" kind="WindowsFont"/>
+							<Font ref="sys:ANSIFixedFont" height="8" kind="WindowsFont"/>
 							<ContextMenu name="__РедакторКонтекстноеМеню" id="6">
 								<ChildItems>
 									<ButtonGroup name="__РедакторКонтекстноеМенюГруппа" id="144">
