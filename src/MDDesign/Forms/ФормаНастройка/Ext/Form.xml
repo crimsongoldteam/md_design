@@ -31,6 +31,13 @@
 			<Group>Vertical</Group>
 			<ExtendedTooltip name="ГруппаИИРасширеннаяПодсказка" id="14"/>
 			<ChildItems>
+				<InputField name="ПровайдерИИ" id="20">
+					<DataPath>__ПровайдерИИ</DataPath>
+					<AutoMaxWidth>false</AutoMaxWidth>
+					<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+					<ContextMenu name="ПровайдерИИКонтекстноеМеню" id="21"/>
+					<ExtendedTooltip name="ПровайдерИИРасширеннаяПодсказка" id="22"/>
+				</InputField>
 				<InputField name="ТокенИИ" id="1">
 					<DataPath>__ТокенИИ</DataPath>
 					<AutoMaxWidth>false</AutoMaxWidth>
@@ -143,6 +150,21 @@
 				<v8:item>
 					<v8:lang>ru</v8:lang>
 					<v8:content>Модель</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="__ПровайдерИИ" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Провайдер</v8:content>
 				</v8:item>
 			</Title>
 			<Type>

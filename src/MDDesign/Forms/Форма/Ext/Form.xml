@@ -385,7 +385,7 @@
 						<TextDocumentField name="__Редактор" id="5">
 							<DataPath>__Редактор</DataPath>
 							<TitleLocation>None</TitleLocation>
-							<Font ref="sys:ANSIFixedFont" faceName="Cascadia Code" kind="WindowsFont"/>
+							<Font ref="sys:ANSIFixedFont" faceName="Cascadia Code" height="9" kind="WindowsFont"/>
 							<ContextMenu name="__РедакторКонтекстноеМеню" id="6">
 								<ChildItems>
 									<ButtonGroup name="__РедакторКонтекстноеМенюГруппа" id="144">
@@ -480,11 +480,13 @@
 											<Button name="__ТаблицаГруппы__ВРедактор" id="172">
 												<Type>CommandBarButton</Type>
 												<CommandName>Form.Command.__ВРедактор</CommandName>
+												<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 												<ExtendedTooltip name="__ТаблицаГруппы__ВРедакторРасширеннаяПодсказка" id="173"/>
 											</Button>
 											<Button name="__ТаблицаГруппыДобавить" id="174">
 												<Type>CommandBarButton</Type>
 												<CommandName>Form.Item.__ТаблицаГруппы.StandardCommand.Add</CommandName>
+												<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 												<ExtendedTooltip name="__ТаблицаГруппыДобавитьРасширеннаяПодсказка" id="175"/>
 											</Button>
 											<ButtonGroup name="__ТаблицаГруппыПорядок" id="182">
@@ -1426,6 +1428,24 @@
 			</Type>
 			<Save>
 				<Field>__НеПроверятьОбновления</Field>
+			</Save>
+		</Attribute>
+		<Attribute name="__ПровайдерИИ" id="20">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Провайдер ИИ</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<Save>
+				<Field>__ПровайдерИИ</Field>
 			</Save>
 		</Attribute>
 		<ConditionalAppearance>
