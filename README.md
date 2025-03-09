@@ -49,14 +49,18 @@
 
 ## Быстрый старт
 
-- Ознакомьтесь с кратким [руководством по началу работы](https://crimsongoldteam.github.io/md_design/#/БыстрыйСтарт).
-
-- Посмотрите публикацию на [Инфостарт](https://infostart.ru/1c/tools/2304023/).
-
-[![Инфостарт](https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg)](https://infostart.ru/1c/tools/2304023/)
+Ознакомьтесь с кратким [руководством по началу работы](https://crimsongoldteam.github.io/md_design/#/БыстрыйСтарт).
 
 ## Документация
 Документация расположена по адресу https://crimsongoldteam.github.io/md_design.
+
+## Статьи Инфостарт
+
+[![Инфостарт](https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg)](https://infostart.ru/1c/tools/2304023/)
+
+- Обзорная статья: [От слов к формам: разработка интерфейса по текстовому описанию](https://infostart.ru/1c/tools/2304023/).
+
+- Сквозной пример и работа с ИИ: [Накидываем формы с ИИ](https://infostart.ru/1c/articles/2331345/).
 
 ## Поучаствовать в развитии проекта
 Если у вас есть идея, которая может улучшить проект, или вы заметили что-то, что можно сделать лучше, поделитесь этим в разделе [issues](https://github.com/crimsongoldteam/md_design/issues). 
