@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MetaDataObject xmlns="http://v8.1c.ru/8.3/MDClasses" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:cmi="http://v8.1c.ru/8.2/managed-application/cmi" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xpr="http://v8.1c.ru/8.3/xcf/predef" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.18">
+<<<<<<< HEAD
 	<ExternalDataProcessor uuid="0808fc7d-ad92-4ecb-8ee7-346dbd82ce4c">
 		<InternalInfo>
 			<xr:ContainedObject>
@@ -9,6 +10,17 @@
 			<xr:GeneratedType name="ExternalDataProcessorObject.Накидка" category="Object">
 				<xr:TypeId>2fb1e0d5-d8cd-4c18-ace7-6a5f10c36d6b</xr:TypeId>
 				<xr:ValueId>47a1a256-51a7-4c57-b2f5-345c2fa4d59e</xr:ValueId>
+=======
+	<ExternalDataProcessor uuid="012598c4-ae06-4aba-a247-c3850544a695">
+		<InternalInfo>
+			<xr:ContainedObject>
+				<xr:ClassId>c3831ec8-d8d5-4f93-8a22-f9bfae07327f</xr:ClassId>
+				<xr:ObjectId>21bb2017-b1b3-45db-8dc3-b134911fdddf</xr:ObjectId>
+			</xr:ContainedObject>
+			<xr:GeneratedType name="ExternalDataProcessorObject.Накидка" category="Object">
+				<xr:TypeId>74ff7740-d570-45ae-bda6-139db56ec6f3</xr:TypeId>
+				<xr:ValueId>d3524273-bed1-4c3d-9383-1a8d5c00188f</xr:ValueId>
+>>>>>>> upstream/develop
 			</xr:GeneratedType>
 		</InternalInfo>
 		<Properties>
@@ -25,7 +37,10 @@
 		</Properties>
 		<ChildObjects>
 			<Form>Форма</Form>
+<<<<<<< HEAD
 			<Form>ГенераторКода</Form>
+=======
+>>>>>>> upstream/develop
 			<Form>ОпределениеРеквизитов</Form>
 			<Form>Парсер</Form>
 			<Form>РаботаСИИ</Form>
@@ -33,12 +48,23 @@
 			<Form>СлужебныеФункции</Form>
 			<Form>СозданиеРеквизитов</Form>
 			<Form>УправлениеСвойствами</Form>
+<<<<<<< HEAD
+=======
+			<Form>СозданиеРеквизитов</Form>
+			<Form>ГенераторКода</Form>
+			<Form>СлужебныеФункции</Form>
+			<Form>Форматтер</Form>
+>>>>>>> upstream/develop
 			<Form>ФормаВыбораКартинки</Form>
 			<Form>ФормаКода</Form>
 			<Form>ФормаНастройка</Form>
 			<Form>ФормаПросмотр</Form>
 			<Form>ФормаРедактированияТаблицы</Form>
+<<<<<<< HEAD
 			<Form>Форматтер</Form>
+=======
+			<Form>ФормаКода</Form>
+>>>>>>> upstream/develop
 			<Template>Свойства</Template>
 			<Template>Промпт</Template>
 		</ChildObjects>

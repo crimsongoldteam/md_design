@@ -139,8 +139,67 @@
 									<v8:content>Группа запрос ИИ</v8:content>
 								</v8:item>
 							</ToolTip>
+<<<<<<< HEAD
 							<Group>Vertical</Group>
 							<Representation>None</Representation>
+=======
+							<HorizontalStretch>false</HorizontalStretch>
+							<ExtendedTooltip name="__ГруппаСформироватьРасширеннаяПодсказка" id="130"/>
+							<ChildItems>
+								<ButtonGroup name="__ГруппаКнопокСформировать" id="131">
+									<Representation>Compact</Representation>
+									<ExtendedTooltip name="__ГруппаКнопокСформироватьРасширеннаяПодсказка" id="132"/>
+									<ChildItems>
+										<Button name="__ПостроитьФорму" id="31">
+											<Type>CommandBarButton</Type>
+											<CommandName>Form.Command.__ПостроитьФорму</CommandName>
+											<ExtendedTooltip name="__ПостроитьФормуРасширеннаяПодсказка" id="32"/>
+										</Button>
+										<Popup name="__ГруппаСформироватьЕще" id="200">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content> </v8:content>
+												</v8:item>
+											</Title>
+											<HorizontalStretch>false</HorizontalStretch>
+											<Representation>Text</Representation>
+											<ExtendedTooltip name="__ГруппаСформироватьЕщеРасширеннаяПодсказка" id="201"/>
+											<ChildItems>
+												<Button name="__ПостроитьФормуВОтдельномОкне" id="127">
+													<Type>CommandBarButton</Type>
+													<CommandName>Form.Command.__ПостроитьФормуВОтдельномОкне</CommandName>
+													<ExtendedTooltip name="__ПостроитьФормуВОтдельномОкнеРасширеннаяПодсказка" id="128"/>
+												</Button>
+												<Button name="__ГенераторКода" id="198">
+													<Type>CommandBarButton</Type>
+													<CommandName>Form.Command.__ГенераторКода</CommandName>
+													<ExtendedTooltip name="__ГенераторКодаРасширеннаяПодсказка" id="199"/>
+												</Button>
+											</ChildItems>
+										</Popup>
+									</ChildItems>
+								</ButtonGroup>
+							</ChildItems>
+						</CommandBar>
+						<Button name="__Форматировать" id="94">
+							<Type>UsualButton</Type>
+							<Representation>Picture</Representation>
+							<Width>3</Width>
+							<CommandName>Form.Command.__Форматировать</CommandName>
+							<ExtendedTooltip name="__ФорматироватьРасширеннаяПодсказка" id="95"/>
+						</Button>
+						<UsualGroup name="__ГруппаВставить" id="125">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа вставить</v8:content>
+								</v8:item>
+							</Title>
+							<HorizontalStretch>true</HorizontalStretch>
+							<Group>AlwaysHorizontal</Group>
+							<Representation>NormalSeparation</Representation>
+>>>>>>> upstream/develop
 							<ShowTitle>false</ShowTitle>
 							<ExtendedTooltip name="__ГруппаЗапросИИРасширеннаяПодсказка" id="233"/>
 							<ChildItems>
@@ -1809,6 +1868,7 @@
 			</ToolTip>
 			<Action>__ГенераторКода</Action>
 		</Command>
+<<<<<<< HEAD
 		<Command name="__РедакторИИ" id="16">
 			<Title>
 				<v8:item>
@@ -1917,5 +1977,7 @@
 			</Title>
 			<Action>__ЗаменитьИИ</Action>
 		</Command>
+=======
+>>>>>>> upstream/develop
 	</Commands>
 </Form>

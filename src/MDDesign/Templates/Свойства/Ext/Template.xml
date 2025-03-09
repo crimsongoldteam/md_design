@@ -8448,6 +8448,7 @@
 			</c>
 		</row>
 	</rowsItem>
+<<<<<<< HEAD
 	<rowsItem>
 		<index>65</index>
 		<row>
@@ -8759,6 +8760,12 @@
 	<defaultFormatIndex>26</defaultFormatIndex>
 	<height>67</height>
 	<vgRows>67</vgRows>
+=======
+	<templateMode>true</templateMode>
+	<defaultFormatIndex>26</defaultFormatIndex>
+	<height>65</height>
+	<vgRows>65</vgRows>
+>>>>>>> upstream/develop
 	<line width="1" gap="false">
 		<v8ui:style xsi:type="v8ui:SpreadsheetDocumentCellLineType">Solid</v8ui:style>
 	</line>
