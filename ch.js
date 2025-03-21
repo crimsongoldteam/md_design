@@ -222,27 +222,28 @@
       let curIndent = this.getIndent(parent);
 
       // // Если это страница
-      // if (item.name == "PageHeader") {
-      //   // Если это первая страница - создаем группу
-      //   if (parent.name != "Pages") {
-      //     const pages = this.getNewPages();
-      //     // parent.children.Items.push(pages);
-      //     this.setParent(pages, parent);
-      //     this.setIndent(pages, curIndent);
-      //     parent = pages;
-      //   };
+      if (item.name == "PageHeader") {
+        // Если это первая страница - создаем группу
+        if (parent.name != "Pages") {
+          const pages = this.getNewPages();
+          // parent.children.Items.push(pages);
+          this.setParent(pages, parent);
+          this.setIndent(pages, curIndent);
+          parent = pages;
+        };
 
-      //   const page = this.getNewPage(item);
+        const page = this.getNewPage(item);
 
-      //   this.setParent(page, parent);
-      //   this.setIndent(page, curIndent + 1);
-      //   return page;
-      // }
+        this.setParent(page, parent);
+        this.setIndent(page, curIndent + 1);
+        this.currentGroups.push(page);
+        return;
+      }
 
-      // //Если текущий элемент на этом уровне - страницы, значит они закончились и обращаемся к их родителю
-      // if (parent.name == "Pages") {
-      //   parent = this.getParent(parent);      
-      // }
+      //Если текущий элемент на этом уровне - страницы, значит они закончились и обращаемся к их родителю
+      if (parent.name == "Pages") {
+        parent = this.getParent(parent);      
+      }
 
       if (item.name == "VGroupHeader") {
         // debugger; 
@@ -264,8 +265,6 @@
       this.setParent(item, parent);
 
       this.currentGroups.push(parent);
-
-      return item;
     }
 
     setIndent(item, indent) {
@@ -394,6 +393,18 @@
         return result;
       });
 
+      // /Заголовок страницы
+      $.RULE('PageHeader', () => {
+        let result = {
+          name: 'PageHeader',
+          children: { Slash: [], Text: [] },
+        };
+
+        result.children.Slash.push($.CONSUME(Slash).image);
+        result.children.Text.push($.CONSUME(Text).image);
+
+        return result;
+      });
       $.RULE('Line', (group_stock) => {
 
         $.MANY_SEP({
@@ -425,18 +436,15 @@
                 }
               },
               // /Страница
-              // {
-              //   ALT: () => {
-              //     this.CONSUME(Slash);
+              {
+                ALT: () => {
+                  let header = $.SUBRULE($.PageHeader);
 
-              //     let header = $.CONSUME1(Text);
-
-              //     if (!$.RECORDING_PHASE) {
-              //       group_stock.addPage(header, indent);
-              //       group_stock.next();
-              //     };
-              //   }
-              // },
+                  if (!$.RECORDING_PHASE) {
+                    group_stock.add(header, indent);
+                  };
+                }
+              },
               // Строчный элемент  
               {
                 ALT: () => {
