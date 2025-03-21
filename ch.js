@@ -18,7 +18,7 @@
   const Tab = createToken({ name: "Tab", pattern: /\t/ });
   const Text = createToken({ name: "Text", pattern: /[^#+\n\r\t\/]+/ });
   const NewLine = createToken({
-    name: "Newline",
+    name: "NewLine",
     pattern: /\n/,
     line_breaks: true,
     group_stock: chevrotain.Lexer.SKIPPED,
