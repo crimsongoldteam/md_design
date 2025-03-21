@@ -59,7 +59,6 @@
     }
 
     add(item, indent) {
-      debugger;
       let parent = null;
       if (indent > this.indents.length - 1) {
         parent = this.indents[this.indents.length - 1];
@@ -177,8 +176,9 @@
       group.add(item, indent);
       this.currentGroups.push(group);
     }
-
-    addSubGroup(header, indent) { 
+ 
+    addSubGroup(header, indent) {
+      debugger; 
       const parent = this.getOrNewAtIndex();
       parent.add(header, indent);
       this.currentGroups.push(parent);
@@ -194,16 +194,12 @@
       const groupStockItem = new GroupStockItem(this.form);
       const group = groupStockItem.add(header, 0);
       this.prevGroups.push(groupStockItem);
-//      this.groups.push(group);
     }
 
     getOrNewAtIndex() {
-      // if (this.index > this.prevGroups.length - 1) {
-      //   const newGroup = new GroupStockItem(this.form);
-      //   this.prevGroups.push(newGroup);
-      //   //this.groups.push(newGroup);
-      //   return newGroup;
-      // }
+      if (this.index > this.prevGroups.length - 1) {
+        return new GroupStockItem(this.form);
+      }
       return this.prevGroups[this.index];
     }
   }
@@ -283,50 +279,51 @@
               };  
             });
  
-            // $.OR([
-            //   {
-            //     // #Подзаголовок 1 #Подзаголовок 2
-            //     ALT: () => {
-            //       $.AT_LEAST_ONE(() => {
-            //         // debugger;
-            //         let header = $.SUBRULE($.VGroupHeader);
+            $.OR([
+              {
+                // #Подзаголовок 1 #Подзаголовок 2
+                ALT: () => {
+                  $.AT_LEAST_ONE(() => {
+                    // debugger;
+                    let header = $.SUBRULE($.VGroupHeader);
 
-            //         if (!$.RECORDING_PHASE) {
-            //           group_stock.addSubGroup(header, indent);
-            //         };
-            //       });
-            //     }
-            //   },
-            //   // /Страница
-            //   {
-            //     ALT: () => {
-            //       this.CONSUME(Slash);
+                    if (!$.RECORDING_PHASE) {
+                      group_stock.addSubGroup(header, indent);
+                    };
+                  });
 
-            //       let header = $.CONSUME1(Text);
+                }
+              },
+              // /Страница
+              // {
+              //   ALT: () => {
+              //     this.CONSUME(Slash);
 
-            //       if (!$.RECORDING_PHASE) {
-            //         group_stock.addPage(header, indent);
-            //       };
-            //     }
-            //   },
-            //   // Строчный элемент  
-            //   {
-            //     ALT: () => {
-            debugger;
+              //     let header = $.CONSUME1(Text);
+
+              //     if (!$.RECORDING_PHASE) {
+              //       group_stock.addPage(header, indent);
+              //       group_stock.next();
+              //     };
+              //   }
+              // },
+              // Строчный элемент  
+              {
+                ALT: () => {
                   let item = this.CONSUME2(Text);
                   if (!$.RECORDING_PHASE) {
                     group_stock.addToCurrentGroup(item, indent);
                   };
-            //     }
-            //   },
-            // ])
+                }
+              },
+            ])
 
             if (!$.RECORDING_PHASE) {
               group_stock.next();
-            };
+            };            
           },
         })
-
+      
         $.CONSUME(NewLine);
 
         if (!$.RECORDING_PHASE) {
@@ -356,7 +353,7 @@
 
   // class GroupVisitor extends BaseGroupVisitor {
   //   constructor() {
-  //     super();
+  //     super(); 
   //     // This helper will detect any missing or redundant methods on this visitor
   //     this.validateVisitor();
   //   }
@@ -365,7 +362,7 @@
   // class LineVisitor extends BaseLineVisitor {
   //   constructor() {
   //     super();
-  //     this.validateVisitor();
+  //     this.validateVisitor();  
   //   }
   // }
 
