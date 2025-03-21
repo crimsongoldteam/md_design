@@ -4,16 +4,24 @@
   const CstParser = chevrotain.CstParser;
   const EmbeddedActionsParser = chevrotain.EmbeddedActionsParser;
 
+  const EmptyLine = createToken({
+    name: "EmptyLine",
+    pattern: /\n[ \t]*\n/,
+    label: "Empty line",
+    line_breaks: true,
+  });
+
   const Hash = createToken({ name: "Hash", pattern: /#/, label: "#" });
   const Plus = createToken({ name: "Plus", pattern: /\+/, label: "+" });
 
-  const Slash = createToken({ name: "Slash", pattern: /\// });
+  const Slash = createToken({ name: "Slash", pattern: /\//, label: "/" });
   const Tab = createToken({ name: "Tab", pattern: /\t/ });
   const Text = createToken({ name: "Text", pattern: /[^#+\n\r\t\/]+/ });
   const NewLine = createToken({
     name: "Newline",
-    pattern: /\n\r|\r|\n/,
+    pattern: /\n/,
     line_breaks: true,
+    group_stock: chevrotain.Lexer.SKIPPED,
   });
   const Whitespace = createToken({
     name: "Whitespace",
@@ -21,7 +29,16 @@
     group_stock: chevrotain.Lexer.SKIPPED,
   });
 
-  const allTokens = [Whitespace, Hash, NewLine, Plus, Slash, Tab, Text];
+  const allTokens = [
+    EmptyLine,
+    Whitespace,
+    Hash,
+    NewLine,
+    Plus,
+    Slash,
+    Tab,
+    Text,
+  ];
 
   const lexer = new Lexer(allTokens);
 
@@ -51,15 +68,7 @@
   class GroupStock {
     constructor(form) {
       this.form = form;
-      this.prevGroups = [];
-      this.currentGroups = [];
-      this.index = 0;
-
-      this.parents = new WeakMap();
-      this.indents = new WeakMap();
-      this.setIndent(form, 0);
-
-      this.currentParent = this.form;
+      this.reset();
     }
 
     next() {
@@ -124,8 +133,7 @@
       let parent = this.getItemAtIndent(prevGroup, indent);
       let curIndent = this.getIndent(parent);
 
-      debugger; 
-      // // Если это страница
+      // Если это страница
       if (item.name == "PageHeader") {
         // Если это первая страница - создаем группу
         if (parent.name != "Pages") {
@@ -169,6 +177,26 @@
       // Обычный элемент
       this.setParent(item, parent);
       this.currentGroups.push(parent);
+    }
+
+    processEmptyLine() {
+      let prevGroup = this.getCurrentParent();
+
+      if (prevGroup.name == "VGroup") {
+        this.reset();
+      }
+    }
+
+    reset() {
+      this.prevGroups = [];
+      this.currentGroups = [];
+      this.index = 0;
+
+      this.parents = new WeakMap();
+      this.indents = new WeakMap();
+      this.setIndent(this.form, 0);
+
+      this.currentParent = this.form;
     }
 
     setIndent(item, indent) {
@@ -230,44 +258,25 @@
           children: { Items: [] },
         };
 
+        let group_stock = new GroupStock(result);
+
         $.MANY(() => {
-          let group_stock = new GroupStock(result, result);          
-          $.SUBRULE($.Lines, { ARGS: [group_stock] });
+          $.OR([
+            {
+              ALT: () => {
+                $.CONSUME(EmptyLine);
+                if (!$.RECORDING_PHASE) {
+                  // group_stock.processEmptyLine();
+                }
+              },
+            },
+            {
+              ALT: () => {
+                $.SUBRULE($.Line, { ARGS: [group_stock] });
+              },
+            },
+          ]);
         });
-        return result;
-      });
-
-         
-      $.RULE("HGroup", () => {
-        let result = {
-          name: "HGroup",
-          children: { Items: [] },
-        };
-
-        let group_stock = new GroupStock(result, result.children.Items);
-
-        // #Заголовок 1 #Заголовок 2
-        $.AT_LEAST_ONE(() => {
-          let header = $.SUBRULE($.VGroupHeader);
-
-          if (!$.RECORDING_PHASE) {
-            group_stock.add(header, 0);
-          }
-        });
-        if (!$.RECORDING_PHASE) {
-          group_stock.doneLine();
-        }
-
-        $.CONSUME(NewLine);
-
-        // Элемент 1 + Элемент 2
-        $.MANY(() => {
-          $.SUBRULE($.Line, { ARGS: [group_stock] });
-        });
-
-        //lineParser.input = result;
-        //let res = lineParser.InlineStatement();
-
         return result;
       });
 
@@ -297,23 +306,22 @@
         return result;
       });
 
-      $.RULE("Lines", (group_stock) => {
+      $.RULE("Indents", () => {
+        let indent = 0;
         $.MANY(() => {
-          $.SUBRULE($.Line, { ARGS: [group_stock] });
-        });   
+          $.CONSUME(Tab);
+          if (!$.RECORDING_PHASE) {
+            indent++;
+          }
+        });
+        return indent;
       });
 
       $.RULE("Line", (group_stock) => {
         $.MANY_SEP({
           SEP: Plus,
           DEF: () => {
-            let indent = 0;
-            $.MANY(() => {
-              $.CONSUME(Tab);
-              if (!$.RECORDING_PHASE) {
-                indent++;
-              }
-            });
+            let indent = $.SUBRULE($.Indents);
 
             $.OR([
               {
@@ -323,7 +331,7 @@
                     let header = $.SUBRULE($.VGroupHeader);
 
                     if (!$.RECORDING_PHASE) {
-                      group_stock.add(header, 0);
+                      group_stock.add(header, indent);
                     }
                   });
                 },
@@ -341,7 +349,7 @@
               // Строчный элемент
               {
                 ALT: () => {
-                  let item = this.CONSUME2(Text);
+                  let item = this.CONSUME(Text);
                   if (!$.RECORDING_PHASE) {
                     group_stock.add(item, indent);
                   }
@@ -354,18 +362,14 @@
             }
           },
         });
-
-        $.CONSUME(NewLine);
+        $.OPTION(() => {
+          $.CONSUME(NewLine);
+        });
 
         if (!$.RECORDING_PHASE) {
           group_stock.doneLine();
         }
       });
-
-      $.RULE("Pages", () => {});
-      $.RULE("Page", () => {});
-
-      $.RULE("OneLineGroup", () => {});
 
       this.performSelfAnalysis();
     }
