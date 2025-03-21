@@ -51,78 +51,247 @@
 
   const lineParser = new LineParser();
 
-  class GroupStockItem {
-    constructor(form) {
+  // class GroupStockItem {
+  //   constructor(form) {
+  //     this.form = form;
+  //     this.parents = {};
+  //     this.indents = [this.form];
+  //   }
+
+  //   #add(item, indent) {
+  //     let parent = null;
+  //     if (indent > this.indents.length - 1) {
+  //       parent = this.indents[this.indents.length - 1];
+  //     }
+  //     else {
+  //       parent = this.indents[indent];
+  //     }
+
+  //     // Если это страница
+  //     if (item.name == "PageHeader") {
+  //       // Если это первая страница - создаем группу
+  //       if (parent.name != "Pages") {
+  //         const pages = this.getNewPages();
+  //         parent.children.Items.push(pages);
+  //         this.setAtIndent(pages, indent, true);
+  //         parent = pages;
+  //       };
+
+  //       const page = this.getNewPage(item);
+  //       this.setAtIndent(page, indent + 1, true);
+  //       return page;
+  //     }
+
+  //     //Если текущий элемент на этом уровне - страницы, значит они закончились и обращаемся к их родителю
+  //     if (parent.name == "Pages") {
+  //       parent = this.getParent(parent);
+  //       this.setAtIndent(parent, indent, true);
+  //     }
+
+  //     if (item.name == "VGroupHeader") {
+  //       const group = this.getNewGroup(item);
+  //       this.setAtIndent(group, indent, true);
+  //       return group;
+  //     };
+
+  //     this.setAtIndent(item, indent, false);
+
+  //     return item;
+  //   }
+
+  //   #getParent(item) {
+  //     const parent = this.parents[item];
+  //     if (parent === undefined) {
+  //       return this.form;
+  //     }
+  //     return parent;
+  //   }
+
+  //   #setAtIndent(item, indent, add) {
+  //     let parent = this.indents[indent];
+  //     if (add) {
+  //       if (indent > this.indents.length - 1) {
+  //         this.indents.push(item);
+  //       }
+  //       else {
+  //         this.indents[indent] = item;
+  //       }
+  //     }
+  //     this.indents.length = indent + 1; // Обрезаем нижестоящие
+  //     this.parents[item] = parent;
+  //     parent.children.Items.push(item);
+  //   }
+
+  // }
+
+
+  class GroupStock {
+    constructor(form, groups) {
       this.form = form;
+      this.groups = groups;
+      this.prevGroups = [];
+      this.currentGroups = [];
+      this.index = 0;
+
       this.parents = {};
-      this.indents = [this.form];
+      this.indents = {};
+      this.setIndent(form, 0);
+
+      this.currentParent = this.form;
+
     }
 
-    add(item, indent) {
-      let parent = null;
-      if (indent > this.indents.length - 1) {
-        parent = this.indents[this.indents.length - 1];
+    next() {
+      this.index++;
+      this.setCurrentParent(this.getPrevAtIndex());
+    }
+
+    getCurrentParent() {
+      return this.currentParent;
+    }
+
+    setCurrentParent(parent) {
+      this.currentParent = parent;
+    }
+    doneLine() {
+      this.prevGroups = this.currentGroups.slice();;
+      this.currentGroups = [];
+      this.index = 0;
+      this.setCurrentParent(this.getPrevAtIndex());
+    }
+
+    // addToCurrentGroup(item, indent) {
+    //   const group = this.getOrNewAtIndex();
+    //   group.add(item, indent);
+    //   this.currentGroups.push(group);
+    // }
+
+    // addSubGroup(header, indent) {
+    //   const parent = this.getOrNewAtIndex();
+    //   parent.add(header, indent);
+    //   this.currentGroups.push(parent);
+    // }
+
+    // addPage(header, indent) {
+    //   const parent = this.getOrNewAtIndex();
+    //   parent.add(header, indent);
+    //   this.currentGroups.push(parent);
+    // }
+
+    // addGroup(header) {
+    //   // const groupStockItem = new GroupStockItem(this.form);
+    //   const group = this.add(header, 0);
+    //   // this.prevGroups.push(group);
+    // }
+
+    getPrevAtIndex() {
+      if (this.index >= this.prevGroups.length) { 
+        if (this.prevGroups.length > 0) {return this.prevGroups[this.prevGroups.length - 1]};
+        return this.form;
       }
-      else {
-        parent = this.indents[indent];
+      return this.prevGroups[this.index];
+    }
+
+    getItemAtIndent(current, indent) {
+      let resultIndent = this.getIndent(current);
+
+      if (indent >= resultIndent) { return current };
+
+      let result = current;
+      while (resultIndent < indent) {
+        result = getParent(result);
+        resultIndent = this.getIndent(parent);
       }
 
-      // Если это страница
-      if (item.name == "PageHeader") {
-        // Если это первая страница - создаем группу
-        if (parent.name != "Pages") {
-          const pages = this.getNewPages();
-          parent.children.Items.push(pages);
-          this.setAtIndent(pages, indent, true);
-          parent = pages;
-        };
+      return result;
+    }
 
-        const page = this.getNewPage(item);
-        this.setAtIndent(page, indent + 1, true);
-        return page;
-      }
-
-      //Если текущий элемент на этом уровне - страницы, значит они закончились и обращаемся к их родителю
-      if (parent.name == "Pages") {
-        parent = this.getParent(parent);
-        this.setAtIndent(parent, indent, true);
-      }
-
-      if (item.name == "VGroupHeader") {
-        const group = this.getNewGroup(item);
-        this.setAtIndent(group, indent, true);
-        return group;
-      };
-
-      this.setAtIndent(item, indent, false);
-
-      return item;
+    getIndent(item) {
+      return this.indents[item];
     }
 
     getParent(item) {
       const parent = this.parents[item];
-      if (parent === undefined) {
-        return this.form;
-      }
+      if (parent === undefined) { return this.form };
       return parent;
     }
 
-    setAtIndent(item, indent, add) {
-      let parent = this.indents[indent];
-      if (add) {
-        if (indent > this.indents.length - 1) {
-          this.indents.push(item);
+    add(item, indent) {
+      let prevGroup = this.getCurrentParent();
+      let parent = this.getItemAtIndent(prevGroup, indent);
+      let curIndent = this.getIndent(parent);
+
+      // // Если это страница
+      // if (item.name == "PageHeader") {
+      //   // Если это первая страница - создаем группу
+      //   if (parent.name != "Pages") {
+      //     const pages = this.getNewPages();
+      //     // parent.children.Items.push(pages);
+      //     this.setParent(pages, parent);
+      //     this.setIndent(pages, curIndent);
+      //     parent = pages;
+      //   };
+
+      //   const page = this.getNewPage(item);
+
+      //   this.setParent(page, parent);
+      //   this.setIndent(page, curIndent + 1);
+      //   return page;
+      // }
+
+      // //Если текущий элемент на этом уровне - страницы, значит они закончились и обращаемся к их родителю
+      // if (parent.name == "Pages") {
+      //   parent = this.getParent(parent);      
+      // }
+
+      if (item.name == "VGroupHeader") {
+        // debugger; 
+        if (parent.name != "HGroup") {
+          const hGroup = this.getNewHGroup();
+          this.setParent(hGroup, parent);
+          this.setIndent(hGroup, curIndent);
+          this.setCurrentParent(hGroup);
+          parent = hGroup;  
         }
-        else {
-          this.indents[indent] = item;
-        }
-      }
-      this.indents.length = indent + 1; // Обрезаем нижестоящие
+
+        const group = this.getNewVGroup(item);
+        this.setParent(group, parent);
+        this.setIndent(group, curIndent);
+        this.currentGroups.push(group);
+        return;
+      };
+
+      this.setParent(item, parent);
+
+      this.currentGroups.push(parent);
+
+      return item;
+    }
+
+    setIndent(item, indent) {
+      this.indents[item] = indent;
+    }
+
+    setParent(item, parent) {
       this.parents[item] = parent;
       parent.children.Items.push(item);
     }
+    // setAtIndent(item, indent, add) {
+    //   let parent = this.indents[indent];
+    //   if (add) {
+    //     if (indent > this.indents.length - 1) {
+    //       this.indents.push(item);
+    //     }
+    //     else {
+    //       this.indents[indent] = item;
+    //     }
+    //   }
+    //   this.indents.length = indent + 1; // Обрезаем нижестоящие
+    //   this.parents[item] = parent;
+    //   parent.children.Items.push(item);
+    // }
 
-    getNewGroup(header) { 
+    getNewVGroup(header) {
       const group = {
         name: 'VGroup',
         children: { VGroupHeader: [], Items: [] },
@@ -130,6 +299,15 @@
 
       if (header !== undefined) {
         group.children.VGroupHeader.push(header);
+      };
+
+      return group;
+    }
+
+    getNewHGroup() {
+      const group = {
+        name: 'HGroup',
+        children: { Items: [] },
       };
 
       return group;
@@ -152,58 +330,6 @@
     }
   }
 
-
-  class GroupStock {
-    constructor(form, groups) {
-      this.form = form;
-      this.groups = groups;
-      this.prevGroups = [];
-      this.currentGroups = [];
-      this.index = 0;
-    }
-
-    next() {
-      this.index++;
-    }
-
-    doneLine() {
-      this.prevGroups = this.currentGroups;
-      this.index = 0;
-    }
-
-    addToCurrentGroup(item, indent) { 
-      const group = this.getOrNewAtIndex();
-      group.add(item, indent);
-      this.currentGroups.push(group);
-    }
- 
-    addSubGroup(header, indent) {
-      debugger; 
-      const parent = this.getOrNewAtIndex();
-      parent.add(header, indent);
-      this.currentGroups.push(parent);
-    }
-
-    addPage(header, indent) {
-      const parent = this.getOrNewAtIndex();
-      parent.add(header, indent);
-      this.currentGroups.push(parent);      
-    }
-
-    addGroup(header) {
-      const groupStockItem = new GroupStockItem(this.form);
-      const group = groupStockItem.add(header, 0);
-      this.prevGroups.push(groupStockItem);
-    }
-
-    getOrNewAtIndex() {
-      if (this.index > this.prevGroups.length - 1) {
-        return new GroupStockItem(this.form);
-      }
-      return this.prevGroups[this.index];
-    }
-  }
-
   class GroupParser extends EmbeddedActionsParser {
     constructor() {
       super(allTokens);
@@ -212,7 +338,7 @@
       $.RULE('Form', () => {
         let result = {
           name: 'Form',
-          children: { Items: [] }, 
+          children: { Items: [] },
         };
 
         $.MANY(() => {
@@ -224,7 +350,7 @@
       $.RULE('HGroup', () => {
         let result = {
           name: 'HGroup',
-          children: { Items: [] }, 
+          children: { Items: [] },
         };
 
         let group_stock = new GroupStock(result, result.children.Items);
@@ -235,9 +361,12 @@
           let header = $.SUBRULE($.VGroupHeader);
 
           if (!$.RECORDING_PHASE) {
-            group_stock.addGroup(header);
+            group_stock.add(header, 0);
           };
         });
+        if (!$.RECORDING_PHASE) {
+          group_stock.doneLine();
+        };
 
         $.CONSUME(NewLine);
 
@@ -246,8 +375,8 @@
           $.SUBRULE($.Line, { ARGS: [group_stock] });
         });
 
-            //lineParser.input = result;
-             //let res = lineParser.InlineStatement();
+        //lineParser.input = result;
+        //let res = lineParser.InlineStatement();
 
         return result;
       });
@@ -271,14 +400,14 @@
           SEP: Plus,
           DEF: () => {
             let indent = 0;
-            $.MANY(() => {  
-              
+            $.MANY(() => {
+
               let resTab = $.CONSUME(Tab);
-              if (!$.RECORDING_PHASE) { 
-              	indent++;
-              };  
+              if (!$.RECORDING_PHASE) {
+                indent++;
+              };
             });
- 
+
             $.OR([
               {
                 // #Подзаголовок 1 #Подзаголовок 2
@@ -288,7 +417,8 @@
                     let header = $.SUBRULE($.VGroupHeader);
 
                     if (!$.RECORDING_PHASE) {
-                      group_stock.addSubGroup(header, indent);
+                      group_stock.add(header, 0);
+                      // group_stock.addSubGroup(header, indent);
                     };
                   });
 
@@ -312,7 +442,7 @@
                 ALT: () => {
                   let item = this.CONSUME2(Text);
                   if (!$.RECORDING_PHASE) {
-                    group_stock.addToCurrentGroup(item, indent);
+                    group_stock.add(item, indent);
                   };
                 }
               },
@@ -320,10 +450,10 @@
 
             if (!$.RECORDING_PHASE) {
               group_stock.next();
-            };            
+            };
           },
         })
-      
+
         $.CONSUME(NewLine);
 
         if (!$.RECORDING_PHASE) {
@@ -344,7 +474,7 @@
       this.performSelfAnalysis();
     }
   }
- 
+
   // const groupParser = new GroupParser();
 
   // const BaseLineVisitor = lineParser.getBaseCstVisitorConstructor();
@@ -356,7 +486,7 @@
   //     super(); 
   //     // This helper will detect any missing or redundant methods on this visitor
   //     this.validateVisitor();
-  //   }
+  //   } 
   // }
 
   // class LineVisitor extends BaseLineVisitor {
