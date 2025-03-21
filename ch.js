@@ -1,27 +1,25 @@
 (function MDDesignParsing() {
-
   const createToken = chevrotain.createToken;
   const Lexer = chevrotain.Lexer;
   const CstParser = chevrotain.CstParser;
   const EmbeddedActionsParser = chevrotain.EmbeddedActionsParser;
 
-  const Hash = createToken({ name: 'Hash', pattern: /#/, label: '#' });
-  const Plus = createToken({ name: 'Plus', pattern: /\+/, label: '+' });
+  const Hash = createToken({ name: "Hash", pattern: /#/, label: "#" });
+  const Plus = createToken({ name: "Plus", pattern: /\+/, label: "+" });
 
-  const Slash = createToken({ name: 'Slash', pattern: /\// });
-  const Tab = createToken({ name: 'Tab', pattern: /\t/ });
-  const Text = createToken({ name: 'Text', pattern: /[^#+\n\r\t\/]+/ });
+  const Slash = createToken({ name: "Slash", pattern: /\// });
+  const Tab = createToken({ name: "Tab", pattern: /\t/ });
+  const Text = createToken({ name: "Text", pattern: /[^#+\n\r\t\/]+/ });
   const NewLine = createToken({
-    name: 'Newline',
+    name: "Newline",
     pattern: /\n\r|\r|\n/,
     line_breaks: true,
   });
   const Whitespace = createToken({
-    name: 'Whitespace',
+    name: "Whitespace",
     pattern: /s+/,
     group_stock: chevrotain.Lexer.SKIPPED,
   });
-
 
   const allTokens = [Whitespace, Hash, NewLine, Plus, Slash, Tab, Text];
 
@@ -32,13 +30,13 @@
       super(allTokens);
       const $ = this;
 
-      $.RULE('InlineStatement', () => {
+      $.RULE("InlineStatement", () => {
         $.MANY(() => {
           $.SUBRULE($.Input);
         });
       });
 
-      $.RULE('Input', () => {
+      $.RULE("Input", () => {
         $.MANY(() => {
           $.CONSUME(Text);
         });
@@ -46,99 +44,22 @@
 
       this.performSelfAnalysis();
     }
-  };
-
+  }
 
   const lineParser = new LineParser();
 
-  // class GroupStockItem {
-  //   constructor(form) {
-  //     this.form = form;
-  //     this.parents = {};
-  //     this.indents = [this.form];
-  //   }
-
-  //   #add(item, indent) {
-  //     let parent = null;
-  //     if (indent > this.indents.length - 1) {
-  //       parent = this.indents[this.indents.length - 1];
-  //     }
-  //     else {
-  //       parent = this.indents[indent];
-  //     }
-
-  //     // Если это страница
-  //     if (item.name == "PageHeader") {
-  //       // Если это первая страница - создаем группу
-  //       if (parent.name != "Pages") {
-  //         const pages = this.getNewPages();
-  //         parent.children.Items.push(pages);
-  //         this.setAtIndent(pages, indent, true);
-  //         parent = pages;
-  //       };
-
-  //       const page = this.getNewPage(item);
-  //       this.setAtIndent(page, indent + 1, true);
-  //       return page;
-  //     }
-
-  //     //Если текущий элемент на этом уровне - страницы, значит они закончились и обращаемся к их родителю
-  //     if (parent.name == "Pages") {
-  //       parent = this.getParent(parent);
-  //       this.setAtIndent(parent, indent, true);
-  //     }
-
-  //     if (item.name == "VGroupHeader") {
-  //       const group = this.getNewGroup(item);
-  //       this.setAtIndent(group, indent, true);
-  //       return group;
-  //     };
-
-  //     this.setAtIndent(item, indent, false);
-
-  //     return item;
-  //   }
-
-  //   #getParent(item) {
-  //     const parent = this.parents[item];
-  //     if (parent === undefined) {
-  //       return this.form;
-  //     }
-  //     return parent;
-  //   }
-
-  //   #setAtIndent(item, indent, add) {
-  //     let parent = this.indents[indent];
-  //     if (add) {
-  //       if (indent > this.indents.length - 1) {
-  //         this.indents.push(item);
-  //       }
-  //       else {
-  //         this.indents[indent] = item;
-  //       }
-  //     }
-  //     this.indents.length = indent + 1; // Обрезаем нижестоящие
-  //     this.parents[item] = parent;
-  //     parent.children.Items.push(item);
-  //   }
-
-  // }
-
-
   class GroupStock {
-    constructor(form, groups) {
+    constructor(form) {
       this.form = form;
-      this.groups = groups;
       this.prevGroups = [];
       this.currentGroups = [];
       this.index = 0;
 
-      this.parents = {};
-      this.indents = {};
+      this.parents = new WeakMap();
+      this.indents = new WeakMap();
       this.setIndent(form, 0);
 
       this.currentParent = this.form;
-
     }
 
     next() {
@@ -154,39 +75,17 @@
       this.currentParent = parent;
     }
     doneLine() {
-      this.prevGroups = this.currentGroups.slice();;
+      this.prevGroups = this.currentGroups.slice();
       this.currentGroups = [];
       this.index = 0;
       this.setCurrentParent(this.getPrevAtIndex());
     }
 
-    // addToCurrentGroup(item, indent) {
-    //   const group = this.getOrNewAtIndex();
-    //   group.add(item, indent);
-    //   this.currentGroups.push(group);
-    // }
-
-    // addSubGroup(header, indent) {
-    //   const parent = this.getOrNewAtIndex();
-    //   parent.add(header, indent);
-    //   this.currentGroups.push(parent);
-    // }
-
-    // addPage(header, indent) {
-    //   const parent = this.getOrNewAtIndex();
-    //   parent.add(header, indent);
-    //   this.currentGroups.push(parent);
-    // }
-
-    // addGroup(header) {
-    //   // const groupStockItem = new GroupStockItem(this.form);
-    //   const group = this.add(header, 0);
-    //   // this.prevGroups.push(group);
-    // }
-
     getPrevAtIndex() {
-      if (this.index >= this.prevGroups.length) { 
-        if (this.prevGroups.length > 0) {return this.prevGroups[this.prevGroups.length - 1]};
+      if (this.index >= this.prevGroups.length) {
+        if (this.prevGroups.length > 0) {
+          return this.prevGroups[this.prevGroups.length - 1];
+        }
         return this.form;
       }
       return this.prevGroups[this.index];
@@ -195,11 +94,13 @@
     getItemAtIndent(current, indent) {
       let resultIndent = this.getIndent(current);
 
-      if (indent >= resultIndent) { return current };
+      if (indent >= resultIndent) {
+        return current;
+      }
 
       let result = current;
-      while (resultIndent < indent) {
-        result = getParent(result);
+      while (resultIndent > indent) {
+        result = this.getParent(result);
         resultIndent = this.getIndent(parent);
       }
 
@@ -207,12 +108,14 @@
     }
 
     getIndent(item) {
-      return this.indents[item];
+      return this.indents.get(item);
     }
 
     getParent(item) {
-      const parent = this.parents[item];
-      if (parent === undefined) { return this.form };
+      const parent = this.parents.get(item);
+      if (parent === undefined) {
+        return this.form;
+      }
       return parent;
     }
 
@@ -221,6 +124,7 @@
       let parent = this.getItemAtIndent(prevGroup, indent);
       let curIndent = this.getIndent(parent);
 
+      debugger; 
       // // Если это страница
       if (item.name == "PageHeader") {
         // Если это первая страница - создаем группу
@@ -230,7 +134,7 @@
           this.setParent(pages, parent);
           this.setIndent(pages, curIndent);
           parent = pages;
-        };
+        }
 
         const page = this.getNewPage(item);
 
@@ -242,17 +146,17 @@
 
       //Если текущий элемент на этом уровне - страницы, значит они закончились и обращаемся к их родителю
       if (parent.name == "Pages") {
-        parent = this.getParent(parent);      
+        parent = this.getParent(parent);
       }
 
       if (item.name == "VGroupHeader") {
-        // debugger; 
+        // debugger;
         if (parent.name != "HGroup") {
           const hGroup = this.getNewHGroup();
           this.setParent(hGroup, parent);
           this.setIndent(hGroup, curIndent);
           this.setCurrentParent(hGroup);
-          parent = hGroup;  
+          parent = hGroup;
         }
 
         const group = this.getNewVGroup(item);
@@ -260,52 +164,38 @@
         this.setIndent(group, curIndent);
         this.currentGroups.push(group);
         return;
-      };
+      }
 
+      // Обычный элемент
       this.setParent(item, parent);
-
       this.currentGroups.push(parent);
     }
 
     setIndent(item, indent) {
-      this.indents[item] = indent;
+      this.indents.set(item, indent);
     }
 
     setParent(item, parent) {
-      this.parents[item] = parent;
+      this.parents.set(item, parent);
       parent.children.Items.push(item);
     }
-    // setAtIndent(item, indent, add) {
-    //   let parent = this.indents[indent];
-    //   if (add) {
-    //     if (indent > this.indents.length - 1) {
-    //       this.indents.push(item);
-    //     }
-    //     else {
-    //       this.indents[indent] = item;
-    //     }
-    //   }
-    //   this.indents.length = indent + 1; // Обрезаем нижестоящие
-    //   this.parents[item] = parent;
-    //   parent.children.Items.push(item);
-    // }
 
     getNewVGroup(header) {
       const group = {
-        name: 'VGroup',
+        name: "VGroup",
         children: { VGroupHeader: [], Items: [] },
       };
 
       if (header !== undefined) {
         group.children.VGroupHeader.push(header);
-      };
+      }
 
       return group;
     }
 
     getNewHGroup() {
       const group = {
-        name: 'HGroup',
+        name: "HGroup",
         children: { Items: [] },
       };
 
@@ -314,7 +204,7 @@
 
     getNewPage(header) {
       const page = {
-        name: 'Page',
+        name: "Page",
         children: { PageHeader: [header], Items: [] },
       };
       return page;
@@ -322,8 +212,8 @@
 
     getNewPages() {
       const page = {
-        name: 'Pages',
-        children: { Items: [] }
+        name: "Pages",
+        children: { Items: [] },
       };
       return page;
     }
@@ -334,21 +224,23 @@
       super(allTokens);
       const $ = this;
 
-      $.RULE('Form', () => {
+      $.RULE("Form", () => {
         let result = {
-          name: 'Form',
+          name: "Form",
           children: { Items: [] },
         };
 
         $.MANY(() => {
-          result.children.Items.push($.SUBRULE($.HGroup));
+          let group_stock = new GroupStock(result, result);          
+          $.SUBRULE($.Lines, { ARGS: [group_stock] });
         });
         return result;
       });
 
-      $.RULE('HGroup', () => {
+         
+      $.RULE("HGroup", () => {
         let result = {
-          name: 'HGroup',
+          name: "HGroup",
           children: { Items: [] },
         };
 
@@ -356,16 +248,15 @@
 
         // #Заголовок 1 #Заголовок 2
         $.AT_LEAST_ONE(() => {
-
           let header = $.SUBRULE($.VGroupHeader);
 
           if (!$.RECORDING_PHASE) {
             group_stock.add(header, 0);
-          };
+          }
         });
         if (!$.RECORDING_PHASE) {
           group_stock.doneLine();
-        };
+        }
 
         $.CONSUME(NewLine);
 
@@ -381,9 +272,9 @@
       });
 
       // #Заголовок 1
-      $.RULE('VGroupHeader', () => {
+      $.RULE("VGroupHeader", () => {
         let result = {
-          name: 'VGroupHeader',
+          name: "VGroupHeader",
           children: { Hash: [], Text: [] },
         };
 
@@ -394,9 +285,9 @@
       });
 
       // /Заголовок страницы
-      $.RULE('PageHeader', () => {
+      $.RULE("PageHeader", () => {
         let result = {
-          name: 'PageHeader',
+          name: "PageHeader",
           children: { Slash: [], Text: [] },
         };
 
@@ -405,18 +296,23 @@
 
         return result;
       });
-      $.RULE('Line', (group_stock) => {
 
+      $.RULE("Lines", (group_stock) => {
+        $.MANY(() => {
+          $.SUBRULE($.Line, { ARGS: [group_stock] });
+        });   
+      });
+
+      $.RULE("Line", (group_stock) => {
         $.MANY_SEP({
           SEP: Plus,
           DEF: () => {
             let indent = 0;
             $.MANY(() => {
-
-              let resTab = $.CONSUME(Tab);
+              $.CONSUME(Tab);
               if (!$.RECORDING_PHASE) {
                 indent++;
-              };
+              }
             });
 
             $.OR([
@@ -424,16 +320,13 @@
                 // #Подзаголовок 1 #Подзаголовок 2
                 ALT: () => {
                   $.AT_LEAST_ONE(() => {
-                    // debugger;
                     let header = $.SUBRULE($.VGroupHeader);
 
                     if (!$.RECORDING_PHASE) {
                       group_stock.add(header, 0);
-                      // group_stock.addSubGroup(header, indent);
-                    };
+                    }
                   });
-
-                }
+                },
               },
               // /Страница
               {
@@ -442,42 +335,37 @@
 
                   if (!$.RECORDING_PHASE) {
                     group_stock.add(header, indent);
-                  };
-                }
+                  }
+                },
               },
-              // Строчный элемент  
+              // Строчный элемент
               {
                 ALT: () => {
                   let item = this.CONSUME2(Text);
                   if (!$.RECORDING_PHASE) {
                     group_stock.add(item, indent);
-                  };
-                }
+                  }
+                },
               },
-            ])
+            ]);
 
             if (!$.RECORDING_PHASE) {
               group_stock.next();
-            };
+            }
           },
-        })
+        });
 
         $.CONSUME(NewLine);
 
         if (!$.RECORDING_PHASE) {
           group_stock.doneLine();
-        };
-
-
+        }
       });
 
+      $.RULE("Pages", () => {});
+      $.RULE("Page", () => {});
 
-
-
-      $.RULE('Pages', () => { });
-      $.RULE('Page', () => { });
-
-      $.RULE('OneLineGroup', () => { });
+      $.RULE("OneLineGroup", () => {});
 
       this.performSelfAnalysis();
     }
@@ -491,27 +379,23 @@
 
   // class GroupVisitor extends BaseGroupVisitor {
   //   constructor() {
-  //     super(); 
+  //     super();
   //     // This helper will detect any missing or redundant methods on this visitor
   //     this.validateVisitor();
-  //   } 
+  //   }
   // }
 
   // class LineVisitor extends BaseLineVisitor {
   //   constructor() {
   //     super();
-  //     this.validateVisitor();  
+  //     this.validateVisitor();
   //   }
   // }
-
-
 
   // for the playground to work the returned object must contain these fields
   return {
     lexer: lexer,
     parser: GroupParser,
-    defaultRule: 'Form'
+    defaultRule: "Form",
   };
-}())
-
-
+})();
