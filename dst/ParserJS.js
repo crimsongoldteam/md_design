@@ -16,14 +16,18 @@ Load = () => {
     line_breaks: true,
   });
 
-  
+  const LCurly = createToken({ name: "LCurly", pattern: /{/ , label: "{" });
+  const RCurly = createToken({ name: "RCurly", pattern: /}/ , label: "}" });
+  const Semicolon = createToken({ name: "Semicolon", pattern: /\;/ , label: ";" });
+  const Comma = createToken({ name: "Comma", pattern: /,/ , label: "," });
+  const Equals = createToken({ name: "Equals", pattern: /\=/ , label: "=" });
   const Hash = createToken({ name: "Hash", pattern: /#/, label: "#" });
   const Plus = createToken({ name: "Plus", pattern: /\+/, label: "+" });
   const Dash = createToken({ name: "Dash", pattern: /\-/, label: "-" });
   const Slash = createToken({ name: "Slash", pattern: /\//, label: "/" });
   const Ampersand = createToken({ name: "Ampersand", pattern: /\&/, label: "&" });
   const Tab = createToken({ name: "Tab", pattern: /\t/ });
-  const Text = createToken({ name: "Text", pattern: /[^\&\#\+\-\n\r\t\/]+/ });
+  const Text = createToken({ name: "Text", pattern: /[^\{\}\=\;\&\#\+\-\n\r\t\/]+/ });
   const NewLine = createToken({
     name: "NewLine",
     pattern: /\n/,
@@ -40,6 +44,11 @@ Load = () => {
     EmptyLine,
     Whitespace,
     NewLine,
+    LCurly,
+    RCurly,
+    Semicolon,
+    Comma,    
+    Equals,        
     Hash,
     Ampersand,
     Dash,
@@ -153,6 +162,7 @@ Load = () => {
         }
 
         const page = this.getNewPage(item);
+        page.children.Properties = item.children.Properties;
 
         this.setParent(page, parent);
         this.setIndent(page, curIndent + 1);
@@ -260,7 +270,7 @@ Load = () => {
     getNewPage(header) {
       const page = {
         name: "Page",
-        children: { PageHeader: [header], Items: [] },
+        children: { PageHeader: [header], Items: [], Properties: {} },
       };
       return page;
     }
@@ -383,17 +393,83 @@ Load = () => {
         return result;
       });
 
+      // $.RULE("FakeProperties", () => {
+      //   let result = [];
+      //   $.AT_LEAST_ONE(() => {
+      //     $.OR([
+      //       {
+      //         ALT: () => {
+      //           result.push($.CONSUME(Text));
+      //         },
+      //       },
+      //       {
+      //         ALT: () => {
+      //           result.push($.CONSUME(LCurly));
+      //         },
+      //       },
+      //       {
+      //         ALT: () => {
+      //           result.push($.CONSUME(RCurly));
+      //         },
+      //       },
+      //       {
+      //         ALT: () => {
+      //           result.push($.CONSUME(Equals));
+      //         },
+      //       },
+      //     ]);       
+      //   });
+      // })
+
       // /Заголовок страницы
       $.RULE("PageHeader", () => {
         let result = {
           name: "PageHeader",
-          children: { Slash: [], Text: [] },
+          children: { Slash: [], Text: [], Properties: {} },
         };
 
         result.children.Slash.push($.CONSUME(Slash));
         result.children.Text.push($.CONSUME(Text));
 
+        result.children.Properties = $.SUBRULE($.Properties);
+        // $.OR([
+        //   {
+        //     ALT: () => {
+        //       result.children.Properties = $.SUBRULE($.Properties);
+        //     },
+        //   },
+        //   {
+        //     ALT: () => {
+        //       result.children.Text.push($.SUBRULE($.FakeProperties));
+        //     },
+        //   },          
+        // ]);
+
         return result;
+      });
+
+      $.RULE("Properties", () => {
+        let result = {};
+        $.CONSUME(LCurly);
+        $.MANY_SEP({
+          SEP: Comma,
+          DEF: () => {
+            $.SUBRULE($.Property, { ARGS: [result] });
+          },
+        });
+        $.CONSUME(RCurly);
+
+        return result;
+      });
+
+      $.RULE("Property", (properties) => {
+        let key = $.CONSUME1(Text);
+        $.CONSUME(Equals);
+        let value = $.CONSUME2(Text);
+
+        if (!$.RECORDING_PHASE) {
+        properties[key.image] = value.image;
+        };
       });
 
       $.RULE("Indents", () => {
@@ -594,6 +670,8 @@ Load = () => {
 
       result.НаборСвойств.Заголовок = this.visit(ctx.PageHeader);
 
+      result.НаборСвойств = ctx.Properties;
+
       ctx.Items.forEach((item) => {
         result.ЭлементыПарсинг.push(this.visit(item));
       });
@@ -653,5 +731,5 @@ function parseInput(input) {
   // } catch (e) {
   //     return 'Ошибка ' + e.name + ":" + e.message + "\n" + e.stack;
   // }
-  return result;
+  return resultJSON;
 }
