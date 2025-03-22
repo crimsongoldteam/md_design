@@ -21,6 +21,12 @@ Load = () => {
     pattern: Lexer.NA,
   });
 
+  const PropertyType = createToken({
+    name: "PropertyType",
+    pattern: /Тип/g,
+    categories: [Header],
+  });
+
   const LCurly = createToken({
     name: "LCurly",
     pattern: /{/,
@@ -71,7 +77,6 @@ Load = () => {
     categories: [Header],
   });
 
-
   const NewLine = createToken({
     name: "NewLine",
     pattern: /\n/,
@@ -100,7 +105,7 @@ Load = () => {
     Slash,
     Tab,
     Text,
-    Header
+    Header,
   ];
 
   // class LineParser extends CstParser {
@@ -346,8 +351,6 @@ Load = () => {
     }
   }
 
-
-
   class GroupParser extends EmbeddedActionsParser {
     constructor() {
       super(allTokens);
@@ -359,23 +362,23 @@ Load = () => {
           children: { Items: [], FormHeader: [] },
         };
 
-        // $.OPTION(() => {
-        //   $.CONSUME1(Dash);
-        //   $.CONSUME2(Dash);
-        //   $.CONSUME3(Dash);
-
-        //   $.CONSUME4(Text);
-
-        //   $.CONSUME5(Dash);
-        //   $.CONSUME6(Dash);
-        //   $.CONSUME7(Dash);
-        //   // let header = $.SUBRULE($.FormHeader);
-        //   // result.children.FormHeader.push(header);
-        // });
+        $.OPTION({
+          GATE: $.BACKTRACK($.FormHeader),
+          DEF: () => {
+            let header = $.SUBRULE1($.FormHeader);
+            result.children.FormHeader.push(header);
+          },
+        });
 
         let group_stock = new GroupStock(result);
+        
+        $.SUBRULE($.Lines, { ARGS: [group_stock] });
 
-        $.MANY(() => {
+        return result;
+      });
+
+      $.RULE("Lines", (group_stock) => {
+        $.MANY2(() => {
           $.OR([
             {
               ALT: () => {
@@ -392,40 +395,33 @@ Load = () => {
             },
           ]);
         });
-        return result;
       });
 
-      // // ---Заголовок формы---
-      // $.RULE("FormHeader", () => {
-      //   let result = {
-      //     name: "FormHeader",
-      //     children: {Dash: [], Text: [] },
-      //   };
+      // ---Заголовок формы---
+      $.RULE("FormHeader", () => {
+        let result = {
+          name: "FormHeader",
+          children: { Dash: [], Text: [] },
+        };
 
-      //   // $.MANY(() => {
-      //   //   $.CONSUME(EmptyLine);
-      //   // });
+        $.MANY(() => {
+          $.CONSUME(EmptyLine);
+        });
 
-      //   result.children.Dash.push($.CONSUME1(Dash));
-      //   result.children.Dash.push($.CONSUME2(Dash));
-      //   result.children.Dash.push($.CONSUME3(Dash));
+        result.children.Dash.push($.CONSUME1(Dash));
+        result.children.Dash.push($.CONSUME2(Dash));
+        result.children.Dash.push($.CONSUME3(Dash));
 
-      //   result.children.Text.push($.CONSUME4(Text));
+        result.children.Text.push($.CONSUME(Text));
 
-      //   result.children.Dash.push($.CONSUME5(Dash));
-      //   result.children.Dash.push($.CONSUME6(Dash));
-      //   result.children.Dash.push($.CONSUME7(Dash));
+        result.children.Dash.push($.CONSUME5(Dash));
+        result.children.Dash.push($.CONSUME6(Dash));
+        result.children.Dash.push($.CONSUME7(Dash));
 
-      //   // $.OPTION(() => {
-      //   //   $.CONSUME(NewLine);
-      //   // });
+        $.CONSUME(NewLine);
 
-      //   // $.MANY(() => {
-      //   //   $.CONSUME(EmptyLine);
-      //   // });
-
-      //   return result;
-      // });
+        return result;
+      });
 
       // #Заголовок 1
       $.RULE("VGroupHeader", () => {
@@ -464,7 +460,12 @@ Load = () => {
       });
 
       $.RULE("Properties", () => {
-        let result = { properties: {}, tokens: [], isProperties: false, isPropertiesCounter: 0 };
+        let result = {
+          properties: {},
+          tokens: [],
+          isProperties: false,
+          isPropertiesCounter: 0,
+        };
 
         $.OPTION1(() => {
           result.tokens.push($.CONSUME(LCurly));
@@ -521,8 +522,7 @@ Load = () => {
         if (!$.RECORDING_PHASE) {
           if (isPropertiesCounter < 3) {
             params.isPropertiesCounter = 0;
-          }
-          else {
+          } else {
             params.properties[key.image] = value.image;
           }
         }
@@ -576,50 +576,53 @@ Load = () => {
         }
       });
 
-      $.RULE("Line", (group_stock) => {
-        $.MANY_SEP({
-          SEP: Plus,
-          DEF: () => {
-            let indent = $.SUBRULE($.Indents);
+      $.RULE("Column", (group_stock) => {
+        let indent = $.SUBRULE($.Indents);        
 
-            $.OR([
-              {
-                // #Подзаголовок 1 #Подзаголовок 2
-                ALT: () => {
-                  $.AT_LEAST_ONE(() => {
-                    let header = $.SUBRULE($.VGroupHeader);
+        $.OR([
+          {
+            // #Подзаголовок 1 #Подзаголовок 2
+            ALT: () => {
+              $.AT_LEAST_ONE(() => {
+                let header = $.SUBRULE($.VGroupHeader);
 
-                    if (!$.RECORDING_PHASE) {
-                      group_stock.add(header, indent);
-                    }
-                  });
-                },
-              },
-              // /Страница
-              {
-                ALT: () => {
-                  let header = $.SUBRULE($.PageHeader);
-
-                  if (!$.RECORDING_PHASE) {
-                    group_stock.add(header, indent);
-                  }
-                },
-              },
-              // Строчный элемент
-              {
-                ALT: () => {
-                  $.SUBRULE($.Inline, { ARGS: [group_stock, indent] });
-                },
-              },
-            ]);
-
-            if (!$.RECORDING_PHASE) {
-              group_stock.next();
-            }
+                if (!$.RECORDING_PHASE) {
+                  group_stock.add(header, indent);
+                }
+              });
+            },
           },
-        });
-        $.OPTION(() => {
-          $.CONSUME(NewLine);
+          // /Страница
+          {
+            ALT: () => {
+              let header = $.SUBRULE($.PageHeader);
+
+              if (!$.RECORDING_PHASE) {
+                group_stock.add(header, indent);
+              }
+            },
+          },
+          // Строчный элемент
+          {
+            ALT: () => {
+              $.SUBRULE($.Inline, { ARGS: [group_stock, indent] });
+            },
+          },
+        ]);  
+      })
+
+      $.RULE("Line", (group_stock) => {
+        $.SUBRULE1($.Column, { ARGS: [group_stock] });
+        $.OPTION1(() => {
+          $.CONSUME1(NewLine);
+        });        
+        
+        $.MANY(() => {
+          $.CONSUME(Plus);
+          $.SUBRULE2($.Column, { ARGS: [group_stock] });
+          $.OPTION2(() => {
+            $.CONSUME2(NewLine);
+          });
         });
 
         if (!$.RECORDING_PHASE) {
