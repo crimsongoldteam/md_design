@@ -16,6 +16,11 @@ Load = () => {
     line_breaks: true,
   });
 
+  const Header = createToken({
+    name: "Header",
+    pattern: Lexer.NA,
+  });
+
   const LCurly = createToken({
     name: "LCurly",
     pattern: /{/,
@@ -66,10 +71,6 @@ Load = () => {
     categories: [Header],
   });
 
-  const Header = createToken({
-    name: "Header",
-    pattern: Lexer.NA,
-  });
 
   const NewLine = createToken({
     name: "NewLine",
@@ -99,6 +100,7 @@ Load = () => {
     Slash,
     Tab,
     Text,
+    Header
   ];
 
   // class LineParser extends CstParser {
@@ -344,6 +346,8 @@ Load = () => {
     }
   }
 
+
+
   class GroupParser extends EmbeddedActionsParser {
     constructor() {
       super(allTokens);
@@ -436,40 +440,6 @@ Load = () => {
         return result;
       });
 
-      $.RULE("FakeProperties", (result) => {
-        let tokens = [];
-        if (!$.RECORDING_PHASE) {
-          tokens = result;
-        }
-        $.OR([
-          {
-            ALT: () => {
-              tokens.push($.CONSUME(Text));
-            },
-          },
-          {
-            ALT: () => {
-              tokens.push($.CONSUME(LCurly));
-            },
-          },
-          {
-            ALT: () => {
-              tokens.push($.CONSUME(Comma));
-            },
-          },
-          {
-            ALT: () => {
-              tokens.push($.CONSUME(RCurly));
-            },
-          },
-          {
-            ALT: () => {
-              tokens.push($.CONSUME(Equals));
-            },
-          },
-        ]);
-      });
-
       // /Заголовок страницы
       $.RULE("PageHeader", () => {
         let result = {
@@ -494,15 +464,11 @@ Load = () => {
       });
 
       $.RULE("Properties", () => {
-        let result = { properties: {}, tokens: [], isProperties: false };
-
-        let isLCurly = false;
-        let isRCurly = false;
-        let isTextAfterCurly = false;
+        let result = { properties: {}, tokens: [], isProperties: false, isPropertiesCounter: 0 };
 
         $.OPTION1(() => {
           result.tokens.push($.CONSUME(LCurly));
-          isLCurly = true;
+          result.isPropertiesCounter++;
         });
 
         $.OPTION2(() => {
@@ -515,14 +481,14 @@ Load = () => {
 
         $.OPTION3(() => {
           result.tokens.push($.CONSUME(RCurly));
+          result.isPropertiesCounter++;
           $.MANY2(() => {
-            isTextAfterCurly = true;
-            $.SUBRULE2($.FakeProperties, { ARGS: [result.tokens] });
+            result.isPropertiesCounter = 0;
+            result.tokens.push($.CONSUME(Header));
           });
-          isRCurly = true;
         });
 
-        result.isProperties = isLCurly && isRCurly && !isTextAfterCurly;
+        result.isProperties = result.isPropertiesCounter > 1;
 
         return result;
       });
@@ -533,14 +499,32 @@ Load = () => {
           tokens = params.tokens;
         }
 
-        let key = $.CONSUME1(Text);
-        tokens.push(key);
-        tokens.push($.CONSUME(Equals));
-        let value = $.CONSUME2(Text);
-        tokens.push(value);
+        let isPropertiesCounter = 0;
+        let key, value;
+        $.OPTION1(() => {
+          key = $.CONSUME1(Text);
+          tokens.push(key);
+          isPropertiesCounter++;
+        });
+
+        $.OPTION2(() => {
+          tokens.push($.CONSUME(Equals));
+          isPropertiesCounter++;
+        });
+
+        $.OPTION3(() => {
+          value = $.CONSUME2(Text);
+          tokens.push(value);
+          isPropertiesCounter++;
+        });
 
         if (!$.RECORDING_PHASE) {
-          params.properties[key.image] = value.image;
+          if (isPropertiesCounter < 3) {
+            params.isPropertiesCounter = 0;
+          }
+          else {
+            params.properties[key.image] = value.image;
+          }
         }
       });
 
