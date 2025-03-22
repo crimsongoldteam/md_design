@@ -1,5 +1,6 @@
 ﻿window.groupParser = null;
 window.lexer = null;
+window.visitor = null;
 
 Load = () => {
   const chevrotain = window.chevrotain;
@@ -15,12 +16,14 @@ Load = () => {
     line_breaks: true,
   });
 
+  
   const Hash = createToken({ name: "Hash", pattern: /#/, label: "#" });
   const Plus = createToken({ name: "Plus", pattern: /\+/, label: "+" });
-
+  const Dash = createToken({ name: "Dash", pattern: /\-/, label: "-" });
   const Slash = createToken({ name: "Slash", pattern: /\//, label: "/" });
+  const Ampersand = createToken({ name: "Ampersand", pattern: /\&/, label: "&" });
   const Tab = createToken({ name: "Tab", pattern: /\t/ });
-  const Text = createToken({ name: "Text", pattern: /[^#+\n\r\t\/]+/ });
+  const Text = createToken({ name: "Text", pattern: /[^\&\#\+\-\n\r\t\/]+/ });
   const NewLine = createToken({
     name: "NewLine",
     pattern: /\n/,
@@ -36,36 +39,38 @@ Load = () => {
   const allTokens = [
     EmptyLine,
     Whitespace,
-    Hash,
     NewLine,
+    Hash,
+    Ampersand,
+    Dash,
     Plus,
     Slash,
     Tab,
     Text,
   ];
 
-  class LineParser extends CstParser {
-    constructor() {
-      super(allTokens);
-      const $ = this;
+  // class LineParser extends CstParser {
+  //   constructor() {
+  //     super(allTokens);
+  //     const $ = this;
 
-      $.RULE("InlineStatement", () => {
-        $.MANY(() => {
-          $.SUBRULE($.Input);
-        });
-      });
+  //     $.RULE("InlineStatement", () => {
+  //       $.MANY(() => {
+  //         $.SUBRULE($.Input);
+  //       });
+  //     });
 
-      $.RULE("Input", () => {
-        $.MANY(() => {
-          $.CONSUME(Text);
-        });
-      });
+  //     $.RULE("Input", () => {
+  //       $.MANY(() => {
+  //         $.CONSUME(Text);
+  //       });
+  //     });
 
-      this.performSelfAnalysis();
-    }
-  }
+  //     this.performSelfAnalysis();
+  //   }
+  // }
 
-  const lineParser = new LineParser();
+  // const lineParser = new LineParser();
 
   class GroupStock {
     constructor(form) {
@@ -85,6 +90,7 @@ Load = () => {
     setCurrentParent(parent) {
       this.currentParent = parent;
     }
+
     doneLine() {
       this.prevGroups = this.currentGroups.slice();
       this.currentGroups = [];
@@ -176,9 +182,28 @@ Load = () => {
         return;
       }
 
+      const parentInline = this.getInline(parent, item);
+
       // Обычный элемент
-      this.setParent(item, parent);
+      this.setParent(item, parentInline);
       this.currentGroups.push(parent);
+    }
+
+    getInline(parent, item) {
+      if (item.name == "OneLineGroup") {
+        return parent;
+      }
+      
+      const len = parent.children.Items.length;
+      if (len == 0) {
+        return this.createInline(parent);
+      }
+
+      const parentInline = parent.children.Items[len - 1];
+      if (parentInline.name != "Inline") {
+        return this.createInline(parent);
+      }
+      return parentInline;
     }
 
     processEmptyLine() {
@@ -247,6 +272,23 @@ Load = () => {
       };
       return page;
     }
+
+    createOneLineGroup() {
+      const result = {
+        name: "OneLineGroup",
+        children: { Items: [] },
+      };
+      return result;
+    }    
+
+    createInline(parent) {
+      const inline = {
+        name: "Inline",
+        children: { Items: [] },
+      };
+      this.setParent(inline, parent);
+      return inline;
+    }
   }
 
   class GroupParser extends EmbeddedActionsParser {
@@ -257,8 +299,22 @@ Load = () => {
       $.RULE("Form", () => {
         let result = {
           name: "Form",
-          children: { Items: [] },
+          children: { Items: [], FormHeader: [] },
         };
+
+        // $.OPTION(() => {
+        //   $.CONSUME1(Dash);
+        //   $.CONSUME2(Dash);
+        //   $.CONSUME3(Dash);
+          
+        //   $.CONSUME4(Text);
+          
+        //   $.CONSUME5(Dash);
+        //   $.CONSUME6(Dash);
+        //   $.CONSUME7(Dash); 
+        //   // let header = $.SUBRULE($.FormHeader);
+        //   // result.children.FormHeader.push(header);
+        // });        
 
         let group_stock = new GroupStock(result);
 
@@ -268,7 +324,7 @@ Load = () => {
               ALT: () => {
                 $.CONSUME(EmptyLine);
                 if (!$.RECORDING_PHASE) {
-                  // group_stock.processEmptyLine();
+                  group_stock.processEmptyLine();
                 }
               },
             },
@@ -281,6 +337,38 @@ Load = () => {
         });
         return result;
       });
+      
+      // // ---Заголовок формы---
+      // $.RULE("FormHeader", () => {
+      //   let result = {
+      //     name: "FormHeader",
+      //     children: {Dash: [], Text: [] },
+      //   };
+                
+      //   // $.MANY(() => {
+      //   //   $.CONSUME(EmptyLine);
+      //   // });          
+
+      //   result.children.Dash.push($.CONSUME1(Dash));
+      //   result.children.Dash.push($.CONSUME2(Dash));
+      //   result.children.Dash.push($.CONSUME3(Dash));
+        
+      //   result.children.Text.push($.CONSUME4(Text));
+        
+      //   result.children.Dash.push($.CONSUME5(Dash));
+      //   result.children.Dash.push($.CONSUME6(Dash));
+      //   result.children.Dash.push($.CONSUME7(Dash));
+
+      //   // $.OPTION(() => {
+      //   //   $.CONSUME(NewLine);
+      //   // });
+                
+      //   // $.MANY(() => {
+      //   //   $.CONSUME(EmptyLine);
+      //   // });          
+
+      //   return result;
+      // });
 
       // #Заголовок 1
       $.RULE("VGroupHeader", () => {
@@ -289,8 +377,8 @@ Load = () => {
           children: { Hash: [], Text: [] },
         };
 
-        result.children.Hash.push($.CONSUME(Hash).image);
-        result.children.Text.push($.CONSUME(Text).image);
+        result.children.Hash.push($.CONSUME(Hash));
+        result.children.Text.push($.CONSUME(Text));
 
         return result;
       });
@@ -302,8 +390,8 @@ Load = () => {
           children: { Slash: [], Text: [] },
         };
 
-        result.children.Slash.push($.CONSUME(Slash).image);
-        result.children.Text.push($.CONSUME(Text).image);
+        result.children.Slash.push($.CONSUME(Slash));
+        result.children.Text.push($.CONSUME(Text));
 
         return result;
       });
@@ -318,6 +406,42 @@ Load = () => {
         });
         return indent;
       });
+
+      $.RULE("OneLineGroup", (group_stock, indent, first) => {
+        let result;
+        if (!$.RECORDING_PHASE) {
+          result = group_stock.createOneLineGroup();
+        
+          let inline = group_stock.createInline(result);
+          inline.children.Items.push(first);
+        };
+
+        $.MANY({
+          SEP: Ampersand,
+          DEF: () => {
+            let item = this.CONSUME(Text);
+            if (!$.RECORDING_PHASE) {
+              let inline = group_stock.createInline(result);
+              inline.children.Items.push(item);
+            };
+          }
+        });
+        return result;
+      });
+
+      $.RULE("Inline", (group_stock, indent) => {      
+        let item = this.CONSUME(Text);
+
+        $.OPTION(() => {
+          $.CONSUME(Ampersand);
+          item = $.SUBRULE($.OneLineGroup, { ARGS: [group_stock, indent, item] });
+        });
+
+        if (!$.RECORDING_PHASE) {
+          group_stock.add(item, indent);
+        }
+
+      })
 
       $.RULE("Line", (group_stock) => {
         $.MANY_SEP({
@@ -348,13 +472,10 @@ Load = () => {
                   }
                 },
               },
-              // Строчный элемент
+               // Строчный элемент
               {
                 ALT: () => {
-                  let item = this.CONSUME(Text);
-                  if (!$.RECORDING_PHASE) {
-                    group_stock.add(item, indent);
-                  }
+                  $.SUBRULE($.Inline, { ARGS: [group_stock, indent] });
                 },
               },
             ]);
@@ -379,23 +500,158 @@ Load = () => {
 
   window.groupParser = new GroupParser();
 
+  const BaseVisitor = window.groupParser.getBaseCstVisitorConstructor();
+
+  class Visitor extends BaseVisitor {
+    Form(ctx) {
+      let result = {
+        Тип: "Форма",
+        УИД: crypto.randomUUID(),
+        НаборСвойств: {},
+        Элементы: [],
+      };
+
+      let header = this.visit(ctx.FormHeader);
+      if (header !== undefined) {
+        result.НаборСвойств.Заголовок = this.visit(ctx.FormHeader);
+      }
+
+      ctx.Items.forEach((item) => {
+        result.Элементы.push(this.visit(item));
+      });
+
+      return result;
+    }
+
+    FormHeader(ctx) {
+      return ctx.Text[0].image;
+    }
+
+    PageHeader(ctx) {
+      return ctx.Text[0].image;
+    }
+
+    VGroupHeader(ctx) {
+      return ctx.Text[0].image;
+    }
+
+    HGroup(ctx) {
+      let result = {
+        Тип: "ГоризонтальнаяГруппа",
+        УИД: crypto.randomUUID(),
+        НаборСвойств: {},
+        Элементы: [],
+      };
+
+      ctx.Items.forEach((item) => {
+        result.Элементы.push(this.visit(item));
+      });
+
+      return result;
+    }
+
+    VGroup(ctx) {
+      let result = {
+        Тип: "ВертикальнаяГруппа",
+        УИД: crypto.randomUUID(),
+        НаборСвойств: {},
+        Элементы: [],
+        ЭлементыПарсинг: [],
+      };
+
+      result.НаборСвойств.Заголовок = this.visit(ctx.VGroupHeader);
+
+      ctx.Items.forEach((item) => {
+        result.ЭлементыПарсинг.push(this.visit(item));
+      });
+
+      return result;
+    }
+
+    Pages(ctx) {
+      let result = {
+        Тип: "Страницы",
+        УИД: crypto.randomUUID(),
+        НаборСвойств: {},
+        Элементы: [],
+      };
+
+      ctx.Items.forEach((item) => {
+        result.Элементы.push(this.visit(item));
+      });
+
+      return result;
+    }
+
+    Page(ctx) {
+      let result = {
+        Тип: "Страница",
+        УИД: crypto.randomUUID(),
+        НаборСвойств: {},
+        Элементы: [],
+        ЭлементыПарсинг: [],
+      };
+
+      result.НаборСвойств.Заголовок = this.visit(ctx.PageHeader);
+
+      ctx.Items.forEach((item) => {
+        result.ЭлементыПарсинг.push(this.visit(item));
+      });
+
+      return result;
+    }
+
+    OneLineGroup(ctx) {
+      let result = {
+        Тип: "ОднострочнаяГруппа",
+        УИД: crypto.randomUUID(),
+        НаборСвойств: {},
+        Элементы: [],
+        ЭлементыПарсинг: [],
+      };
+
+      ctx.Items.forEach((item) => {
+        result.ЭлементыПарсинг.push(this.visit(item));
+      });
+
+      return result;
+    }
+
+    Inline(ctx) {
+      let result = {
+        Тип: "СтрочныйЭлемент",
+        УИД: crypto.randomUUID(),
+        НаборСвойств: {},
+        ЭлементыПарсинг: "",
+      };
+
+      result.ЭлементыПарсинг = ctx.Items.map((token) => token.image);
+      return result;
+    }
+  }
+
+  window.visitor = new Visitor();
+
   window.lexer = new Lexer(allTokens);
 };
 
-function parseInput(input) {  
-  let resultJSON = ""; 
+function parseInput(input) {
+  let resultJSON = "";
   if (window.lexer === null) {
- 	 Load();
-  };
-
-  try {
-	  let lexingResult = window.lexer.tokenize(input);
-
-	  window.groupParser.input = lexingResult.tokens;
-	  let result = groupParser.Form();
-	  resultJSON = JSON.stringify(result);
-  } catch (e) {
-      return 'Ошибка ' + e.name + ":" + e.message + "\n" + e.stack;
+    Load();
   }
-  return resultJSON;
+
+  // try {
+  let lexingResult = window.lexer.tokenize(input);
+
+  window.groupParser.input = lexingResult.tokens;
+  let cst = groupParser.Form();
+
+  const result = window.visitor.visit(cst);
+
+  resultJSON = JSON.stringify(result);
+  // } catch (e) {
+  //     return 'Ошибка ' + e.name + ":" + e.message + "\n" + e.stack;
+  // }
+  return result;
 }

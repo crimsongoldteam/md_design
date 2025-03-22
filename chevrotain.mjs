@@ -1,4 +1,4 @@
-﻿// lib/src/version.js
+// lib/src/version.js
 var VERSION = "11.0.3";
 
 // ../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_freeGlobal.js
@@ -9497,7 +9497,7 @@ var Parser2 = class {
     throw new Error("The Parser class has been deprecated, use CstParser or EmbeddedActionsParser instead.	\nSee: https://chevrotain.io/docs/changes/BREAKING_CHANGES.html#_7-0-0");
   }
 };
-window.chevrotain = {
+export {
   Alternation,
   Alternative,
   CstParser,
@@ -9514,6 +9514,7 @@ window.chevrotain = {
   NonTerminal,
   NotAllInputParsedException,
   Option,
+  Parser2 as Parser,
   ParserDefinitionErrorType,
   Repetition,
   RepetitionMandatory,
@@ -9533,13 +9534,10 @@ window.chevrotain = {
   isRecognitionException,
   serializeGrammar,
   serializeProduction,
+  tokenLabel2 as tokenLabel,
   tokenMatcher,
   tokenName
-};         
-
-
-
-
+};
 /*! Bundled license information:
 
 lodash-es/lodash.js:

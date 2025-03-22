@@ -1,9 +1,14 @@
 ﻿<!DOCTYPE html>
 <html>
   <head></head>
-  <body>
+  <body>  
     <script>
-      %Скрипт%
+      (function chevrotain() {	
+      	%ChevrotainJS%
+      }())
+    </script> 
+    <script>
+      %ParserJS%
     </script> 
     
     Hello
