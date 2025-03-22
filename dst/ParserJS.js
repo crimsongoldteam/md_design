@@ -16,18 +16,61 @@ Load = () => {
     line_breaks: true,
   });
 
-  const LCurly = createToken({ name: "LCurly", pattern: /{/ , label: "{" });
-  const RCurly = createToken({ name: "RCurly", pattern: /}/ , label: "}" });
-  const Semicolon = createToken({ name: "Semicolon", pattern: /\;/ , label: ";" });
-  const Comma = createToken({ name: "Comma", pattern: /,/ , label: "," });
-  const Equals = createToken({ name: "Equals", pattern: /\=/ , label: "=" });
+  const LCurly = createToken({
+    name: "LCurly",
+    pattern: /{/,
+    label: "{",
+    categories: [Header],
+  });
+  const RCurly = createToken({
+    name: "RCurly",
+    pattern: /}/,
+    label: "}",
+    categories: [Header],
+  });
+  const Semicolon = createToken({
+    name: "Semicolon",
+    pattern: /\;/,
+    label: ";",
+    categories: [Header],
+  });
+  const Comma = createToken({
+    name: "Comma",
+    pattern: /\,/,
+    label: ",",
+    categories: [Header],
+  });
+  const Equals = createToken({
+    name: "Equals",
+    pattern: /\=/,
+    label: "=",
+    categories: [Header],
+  });
   const Hash = createToken({ name: "Hash", pattern: /#/, label: "#" });
   const Plus = createToken({ name: "Plus", pattern: /\+/, label: "+" });
   const Dash = createToken({ name: "Dash", pattern: /\-/, label: "-" });
   const Slash = createToken({ name: "Slash", pattern: /\//, label: "/" });
-  const Ampersand = createToken({ name: "Ampersand", pattern: /\&/, label: "&" });
+  const Ampersand = createToken({
+    name: "Ampersand",
+    pattern: /\&/,
+    label: "&",
+  });
   const Tab = createToken({ name: "Tab", pattern: /\t/ });
-  const Text = createToken({ name: "Text", pattern: /[^\{\}\=\;\&\#\+\-\n\r\t\/]+/ });
+  // const Text = createToken({
+  //   name: "Text",
+  //   pattern: /[^\,\{\}\=\;\&\#\+\-\n\r\t\/]+/,
+  // });
+  const Text = createToken({
+    name: "Text",
+    pattern: /[0-9a-zA-Zа-яА-Я_]+/,
+    categories: [Header],
+  });
+
+  const Header = createToken({
+    name: "Header",
+    pattern: Lexer.NA,
+  });
+
   const NewLine = createToken({
     name: "NewLine",
     pattern: /\n/,
@@ -47,8 +90,8 @@ Load = () => {
     LCurly,
     RCurly,
     Semicolon,
-    Comma,    
-    Equals,        
+    Comma,
+    Equals,
     Hash,
     Ampersand,
     Dash,
@@ -203,7 +246,7 @@ Load = () => {
       if (item.name == "OneLineGroup") {
         return parent;
       }
-      
+
       const len = parent.children.Items.length;
       if (len == 0) {
         return this.createInline(parent);
@@ -289,7 +332,7 @@ Load = () => {
         children: { Items: [] },
       };
       return result;
-    }    
+    }
 
     createInline(parent) {
       const inline = {
@@ -316,15 +359,15 @@ Load = () => {
         //   $.CONSUME1(Dash);
         //   $.CONSUME2(Dash);
         //   $.CONSUME3(Dash);
-          
+
         //   $.CONSUME4(Text);
-          
+
         //   $.CONSUME5(Dash);
         //   $.CONSUME6(Dash);
-        //   $.CONSUME7(Dash); 
+        //   $.CONSUME7(Dash);
         //   // let header = $.SUBRULE($.FormHeader);
         //   // result.children.FormHeader.push(header);
-        // });        
+        // });
 
         let group_stock = new GroupStock(result);
 
@@ -347,24 +390,24 @@ Load = () => {
         });
         return result;
       });
-      
+
       // // ---Заголовок формы---
       // $.RULE("FormHeader", () => {
       //   let result = {
       //     name: "FormHeader",
       //     children: {Dash: [], Text: [] },
       //   };
-                
+
       //   // $.MANY(() => {
       //   //   $.CONSUME(EmptyLine);
-      //   // });          
+      //   // });
 
       //   result.children.Dash.push($.CONSUME1(Dash));
       //   result.children.Dash.push($.CONSUME2(Dash));
       //   result.children.Dash.push($.CONSUME3(Dash));
-        
+
       //   result.children.Text.push($.CONSUME4(Text));
-        
+
       //   result.children.Dash.push($.CONSUME5(Dash));
       //   result.children.Dash.push($.CONSUME6(Dash));
       //   result.children.Dash.push($.CONSUME7(Dash));
@@ -372,10 +415,10 @@ Load = () => {
       //   // $.OPTION(() => {
       //   //   $.CONSUME(NewLine);
       //   // });
-                
+
       //   // $.MANY(() => {
       //   //   $.CONSUME(EmptyLine);
-      //   // });          
+      //   // });
 
       //   return result;
       // });
@@ -393,33 +436,39 @@ Load = () => {
         return result;
       });
 
-      // $.RULE("FakeProperties", () => {
-      //   let result = [];
-      //   $.AT_LEAST_ONE(() => {
-      //     $.OR([
-      //       {
-      //         ALT: () => {
-      //           result.push($.CONSUME(Text));
-      //         },
-      //       },
-      //       {
-      //         ALT: () => {
-      //           result.push($.CONSUME(LCurly));
-      //         },
-      //       },
-      //       {
-      //         ALT: () => {
-      //           result.push($.CONSUME(RCurly));
-      //         },
-      //       },
-      //       {
-      //         ALT: () => {
-      //           result.push($.CONSUME(Equals));
-      //         },
-      //       },
-      //     ]);       
-      //   });
-      // })
+      $.RULE("FakeProperties", (result) => {
+        let tokens = [];
+        if (!$.RECORDING_PHASE) {
+          tokens = result;
+        }
+        $.OR([
+          {
+            ALT: () => {
+              tokens.push($.CONSUME(Text));
+            },
+          },
+          {
+            ALT: () => {
+              tokens.push($.CONSUME(LCurly));
+            },
+          },
+          {
+            ALT: () => {
+              tokens.push($.CONSUME(Comma));
+            },
+          },
+          {
+            ALT: () => {
+              tokens.push($.CONSUME(RCurly));
+            },
+          },
+          {
+            ALT: () => {
+              tokens.push($.CONSUME(Equals));
+            },
+          },
+        ]);
+      });
 
       // /Заголовок страницы
       $.RULE("PageHeader", () => {
@@ -431,45 +480,68 @@ Load = () => {
         result.children.Slash.push($.CONSUME(Slash));
         result.children.Text.push($.CONSUME(Text));
 
-        result.children.Properties = $.SUBRULE($.Properties);
-        // $.OR([
-        //   {
-        //     ALT: () => {
-        //       result.children.Properties = $.SUBRULE($.Properties);
-        //     },
-        //   },
-        //   {
-        //     ALT: () => {
-        //       result.children.Text.push($.SUBRULE($.FakeProperties));
-        //     },
-        //   },          
-        // ]);
+        let propertiesObj = $.SUBRULE($.Properties);
+
+        if (propertiesObj.isProperties) {
+          result.children.Properties = propertiesObj.properties;
+        } else {
+          result.children.Text = result.children.Text.concat(
+            propertiesObj.tokens
+          );
+        }
 
         return result;
       });
 
       $.RULE("Properties", () => {
-        let result = {};
-        $.CONSUME(LCurly);
-        $.MANY_SEP({
-          SEP: Comma,
-          DEF: () => {
-            $.SUBRULE($.Property, { ARGS: [result] });
-          },
+        let result = { properties: {}, tokens: [], isProperties: false };
+
+        let isLCurly = false;
+        let isRCurly = false;
+        let isTextAfterCurly = false;
+
+        $.OPTION1(() => {
+          result.tokens.push($.CONSUME(LCurly));
+          isLCurly = true;
         });
-        $.CONSUME(RCurly);
+
+        $.OPTION2(() => {
+          $.SUBRULE1($.Property, { ARGS: [result] });
+          $.MANY1(() => {
+            result.tokens.push($.CONSUME(Comma));
+            $.SUBRULE2($.Property, { ARGS: [result] });
+          });
+        });
+
+        $.OPTION3(() => {
+          result.tokens.push($.CONSUME(RCurly));
+          $.MANY2(() => {
+            isTextAfterCurly = true;
+            $.SUBRULE2($.FakeProperties, { ARGS: [result.tokens] });
+          });
+          isRCurly = true;
+        });
+
+        result.isProperties = isLCurly && isRCurly && !isTextAfterCurly;
 
         return result;
       });
 
-      $.RULE("Property", (properties) => {
+      $.RULE("Property", (params) => {
+        let tokens = [];
+        if (!$.RECORDING_PHASE) {
+          tokens = params.tokens;
+        }
+
         let key = $.CONSUME1(Text);
-        $.CONSUME(Equals);
+        tokens.push(key);
+        tokens.push($.CONSUME(Equals));
         let value = $.CONSUME2(Text);
+        tokens.push(value);
 
         if (!$.RECORDING_PHASE) {
-        properties[key.image] = value.image;
-        };
+          params.properties[key.image] = value.image;
+        }
       });
 
       $.RULE("Indents", () => {
@@ -487,10 +559,10 @@ Load = () => {
         let result;
         if (!$.RECORDING_PHASE) {
           result = group_stock.createOneLineGroup();
-        
+
           let inline = group_stock.createInline(result);
           inline.children.Items.push(first);
-        };
+        }
 
         $.MANY({
           SEP: Ampersand,
@@ -499,25 +571,26 @@ Load = () => {
             if (!$.RECORDING_PHASE) {
               let inline = group_stock.createInline(result);
               inline.children.Items.push(item);
-            };
-          }
+            }
+          },
         });
         return result;
       });
 
-      $.RULE("Inline", (group_stock, indent) => {      
+      $.RULE("Inline", (group_stock, indent) => {
         let item = this.CONSUME(Text);
 
         $.OPTION(() => {
           $.CONSUME(Ampersand);
-          item = $.SUBRULE($.OneLineGroup, { ARGS: [group_stock, indent, item] });
+          item = $.SUBRULE($.OneLineGroup, {
+            ARGS: [group_stock, indent, item],
+          });
         });
 
         if (!$.RECORDING_PHASE) {
           group_stock.add(item, indent);
         }
-
-      })
+      });
 
       $.RULE("Line", (group_stock) => {
         $.MANY_SEP({
@@ -548,7 +621,7 @@ Load = () => {
                   }
                 },
               },
-               // Строчный элемент
+              // Строчный элемент
               {
                 ALT: () => {
                   $.SUBRULE($.Inline, { ARGS: [group_stock, indent] });
@@ -604,7 +677,7 @@ Load = () => {
     }
 
     PageHeader(ctx) {
-      return ctx.Text[0].image;
+      return ctx.Text.map((token) => token.image).join("");
     }
 
     VGroupHeader(ctx) {
@@ -667,10 +740,9 @@ Load = () => {
         Элементы: [],
         ЭлементыПарсинг: [],
       };
+      result.НаборСвойств = ctx.Properties;
 
       result.НаборСвойств.Заголовок = this.visit(ctx.PageHeader);
-
-      result.НаборСвойств = ctx.Properties;
 
       ctx.Items.forEach((item) => {
         result.ЭлементыПарсинг.push(this.visit(item));

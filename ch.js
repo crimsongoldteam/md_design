@@ -1,4 +1,5 @@
 (function MDDesignParsing() {
+  const chevrotain = window.chevrotain;
   const createToken = chevrotain.createToken;
   const Lexer = chevrotain.Lexer;
   const CstParser = chevrotain.CstParser;
@@ -11,12 +12,18 @@
     line_breaks: true,
   });
 
+  const LCurly = createToken({ name: "LCurly", pattern: /{/ , label: "{" });
+  const RCurly = createToken({ name: "RCurly", pattern: /}/ , label: "}" });
+  const Semicolon = createToken({ name: "Semicolon", pattern: /\;/ , label: ";" });
+  const Comma = createToken({ name: "Comma", pattern: /,/ , label: "," });
+  const Equals = createToken({ name: "Equals", pattern: /\=/ , label: "=" });
   const Hash = createToken({ name: "Hash", pattern: /#/, label: "#" });
   const Plus = createToken({ name: "Plus", pattern: /\+/, label: "+" });
-
+  const Dash = createToken({ name: "Dash", pattern: /\-/, label: "-" });
   const Slash = createToken({ name: "Slash", pattern: /\//, label: "/" });
+  const Ampersand = createToken({ name: "Ampersand", pattern: /\&/, label: "&" });
   const Tab = createToken({ name: "Tab", pattern: /\t/ });
-  const Text = createToken({ name: "Text", pattern: /[^#+\n\r\t\/]+/ });
+  const Text = createToken({ name: "Text", pattern: /[^\{\}\=\;\&\#\+\-\n\r\t\/]+/ });
   const NewLine = createToken({
     name: "NewLine",
     pattern: /\n/,
@@ -32,38 +39,43 @@
   const allTokens = [
     EmptyLine,
     Whitespace,
-    Hash,
     NewLine,
+    LCurly,
+    RCurly,
+    Semicolon,
+    Comma,    
+    Equals,        
+    Hash,
+    Ampersand,
+    Dash,
     Plus,
     Slash,
     Tab,
     Text,
   ];
 
-  const lexer = new Lexer(allTokens);
+  // class LineParser extends CstParser {
+  //   constructor() {
+  //     super(allTokens);
+  //     const $ = this;
 
-  class LineParser extends CstParser {
-    constructor() {
-      super(allTokens);
-      const $ = this;
+  //     $.RULE("InlineStatement", () => {
+  //       $.MANY(() => {
+  //         $.SUBRULE($.Input);
+  //       });
+  //     });
 
-      $.RULE("InlineStatement", () => {
-        $.MANY(() => {
-          $.SUBRULE($.Input);
-        });
-      });
+  //     $.RULE("Input", () => {
+  //       $.MANY(() => {
+  //         $.CONSUME(Text);
+  //       });
+  //     });
 
-      $.RULE("Input", () => {
-        $.MANY(() => {
-          $.CONSUME(Text);
-        });
-      });
+  //     this.performSelfAnalysis();
+  //   }
+  // }
 
-      this.performSelfAnalysis();
-    }
-  }
-
-  const lineParser = new LineParser();
+  // const lineParser = new LineParser();
 
   class GroupStock {
     constructor(form) {
@@ -83,6 +95,7 @@
     setCurrentParent(parent) {
       this.currentParent = parent;
     }
+
     doneLine() {
       this.prevGroups = this.currentGroups.slice();
       this.currentGroups = [];
@@ -145,6 +158,7 @@
         }
 
         const page = this.getNewPage(item);
+        page.children.Properties = item.children.Properties;
 
         this.setParent(page, parent);
         this.setIndent(page, curIndent + 1);
@@ -174,9 +188,28 @@
         return;
       }
 
+      const parentInline = this.getInline(parent, item);
+
       // Обычный элемент
-      this.setParent(item, parent);
+      this.setParent(item, parentInline);
       this.currentGroups.push(parent);
+    }
+
+    getInline(parent, item) {
+      if (item.name == "OneLineGroup") {
+        return parent;
+      }
+      
+      const len = parent.children.Items.length;
+      if (len == 0) {
+        return this.createInline(parent);
+      }
+
+      const parentInline = parent.children.Items[len - 1];
+      if (parentInline.name != "Inline") {
+        return this.createInline(parent);
+      }
+      return parentInline;
     }
 
     processEmptyLine() {
@@ -233,7 +266,7 @@
     getNewPage(header) {
       const page = {
         name: "Page",
-        children: { PageHeader: [header], Items: [] },
+        children: { PageHeader: [header], Items: [], Properties: {} },
       };
       return page;
     }
@@ -245,6 +278,23 @@
       };
       return page;
     }
+
+    createOneLineGroup() {
+      const result = {
+        name: "OneLineGroup",
+        children: { Items: [] },
+      };
+      return result;
+    }    
+
+    createInline(parent) {
+      const inline = {
+        name: "Inline",
+        children: { Items: [] },
+      };
+      this.setParent(inline, parent);
+      return inline;
+    }
   }
 
   class GroupParser extends EmbeddedActionsParser {
@@ -255,8 +305,22 @@
       $.RULE("Form", () => {
         let result = {
           name: "Form",
-          children: { Items: [] },
+          children: { Items: [], FormHeader: [] },
         };
+
+        // $.OPTION(() => {
+        //   $.CONSUME1(Dash);
+        //   $.CONSUME2(Dash);
+        //   $.CONSUME3(Dash);
+          
+        //   $.CONSUME4(Text);
+          
+        //   $.CONSUME5(Dash);
+        //   $.CONSUME6(Dash);
+        //   $.CONSUME7(Dash); 
+        //   // let header = $.SUBRULE($.FormHeader);
+        //   // result.children.FormHeader.push(header);
+        // });        
 
         let group_stock = new GroupStock(result);
 
@@ -266,7 +330,7 @@
               ALT: () => {
                 $.CONSUME(EmptyLine);
                 if (!$.RECORDING_PHASE) {
-                  // group_stock.processEmptyLine();
+                  group_stock.processEmptyLine();
                 }
               },
             },
@@ -279,6 +343,38 @@
         });
         return result;
       });
+      
+      // // ---Заголовок формы---
+      // $.RULE("FormHeader", () => {
+      //   let result = {
+      //     name: "FormHeader",
+      //     children: {Dash: [], Text: [] },
+      //   };
+                
+      //   // $.MANY(() => {
+      //   //   $.CONSUME(EmptyLine);
+      //   // });          
+
+      //   result.children.Dash.push($.CONSUME1(Dash));
+      //   result.children.Dash.push($.CONSUME2(Dash));
+      //   result.children.Dash.push($.CONSUME3(Dash));
+        
+      //   result.children.Text.push($.CONSUME4(Text));
+        
+      //   result.children.Dash.push($.CONSUME5(Dash));
+      //   result.children.Dash.push($.CONSUME6(Dash));
+      //   result.children.Dash.push($.CONSUME7(Dash));
+
+      //   // $.OPTION(() => {
+      //   //   $.CONSUME(NewLine);
+      //   // });
+                
+      //   // $.MANY(() => {
+      //   //   $.CONSUME(EmptyLine);
+      //   // });          
+
+      //   return result;
+      // });
 
       // #Заголовок 1
       $.RULE("VGroupHeader", () => {
@@ -287,23 +383,94 @@
           children: { Hash: [], Text: [] },
         };
 
-        result.children.Hash.push($.CONSUME(Hash).image);
-        result.children.Text.push($.CONSUME(Text).image);
+        result.children.Hash.push($.CONSUME(Hash));
+        result.children.Text.push($.CONSUME(Text));
 
         return result;
       });
+
+      $.RULE("FakeProperties", () => {
+        let result = [];
+        $.MANY(() => {
+          $.OR([
+            {
+              ALT: () => {
+                result.push($.CONSUME(Text));
+              },
+            },
+            {
+              ALT: () => {
+                result.push($.CONSUME(LCurly));
+              },
+            },
+            {
+              ALT: () => {
+                result.push($.CONSUME(RCurly));
+              },
+            },
+            {
+              ALT: () => {
+                result.push($.CONSUME(Equals));
+              },
+            },
+          ]);       
+        });
+      })
 
       // /Заголовок страницы
       $.RULE("PageHeader", () => {
         let result = {
           name: "PageHeader",
-          children: { Slash: [], Text: [] },
+          children: { Slash: [], Text: [], Properties: {} },
         };
 
-        result.children.Slash.push($.CONSUME(Slash).image);
-        result.children.Text.push($.CONSUME(Text).image);
+        result.children.Slash.push($.CONSUME(Slash));
+        result.children.Text.push($.CONSUME(Text));
+
+        
+        $.OPTION(() => {
+          result.children.Properties = $.SUBRULE($.Properties);
+        });
+        
+        let fp = $.SUBRULE($.FakeProperties);
+        // $.OR([
+        //   {
+        //     ALT: () => {
+        //       result.children.Properties = $.SUBRULE($.Properties);
+        //     },
+        //   },
+        //   {
+        //     ALT: () => {
+        //       result.children.Text.push($.SUBRULE($.FakeProperties));
+        //     },
+        //   },          
+        // ]);
 
         return result;
+      });
+
+      $.RULE("Properties", () => {
+        let result = {};
+        $.CONSUME(LCurly);
+        $.MANY_SEP({
+          SEP: Comma,
+          DEF: () => {
+            $.SUBRULE($.Property, { ARGS: [result] });
+          },
+        });
+        $.CONSUME(RCurly);
+
+        return result;
+      });
+
+      $.RULE("Property", (properties) => {
+        let key = $.CONSUME1(Text);
+        $.CONSUME(Equals);
+        let value = $.CONSUME2(Text);
+
+        if (!$.RECORDING_PHASE) {
+        properties[key.image] = value.image;
+        };
       });
 
       $.RULE("Indents", () => {
@@ -316,6 +483,42 @@
         });
         return indent;
       });
+
+      $.RULE("OneLineGroup", (group_stock, indent, first) => {
+        let result;
+        if (!$.RECORDING_PHASE) {
+          result = group_stock.createOneLineGroup();
+        
+          let inline = group_stock.createInline(result);
+          inline.children.Items.push(first);
+        };
+
+        $.MANY({
+          SEP: Ampersand,
+          DEF: () => {
+            let item = this.CONSUME(Text);
+            if (!$.RECORDING_PHASE) {
+              let inline = group_stock.createInline(result);
+              inline.children.Items.push(item);
+            };
+          }
+        });
+        return result;
+      });
+
+      $.RULE("Inline", (group_stock, indent) => {      
+        let item = this.CONSUME(Text);
+
+        $.OPTION(() => {
+          $.CONSUME(Ampersand);
+          item = $.SUBRULE($.OneLineGroup, { ARGS: [group_stock, indent, item] });
+        });
+
+        if (!$.RECORDING_PHASE) {
+          group_stock.add(item, indent);
+        }
+
+      })
 
       $.RULE("Line", (group_stock) => {
         $.MANY_SEP({
@@ -346,13 +549,10 @@
                   }
                 },
               },
-              // Строчный элемент
+               // Строчный элемент
               {
                 ALT: () => {
-                  let item = this.CONSUME(Text);
-                  if (!$.RECORDING_PHASE) {
-                    group_stock.add(item, indent);
-                  }
+                  $.SUBRULE($.Inline, { ARGS: [group_stock, indent] });
                 },
               },
             ]);
@@ -375,26 +575,6 @@
     }
   }
 
-  // const groupParser = new GroupParser();
-
-  // const BaseLineVisitor = lineParser.getBaseCstVisitorConstructor();
-
-  // const BaseGroupVisitor = groupParser.getBaseCstVisitorConstructor();
-
-  // class GroupVisitor extends BaseGroupVisitor {
-  //   constructor() {
-  //     super();
-  //     // This helper will detect any missing or redundant methods on this visitor
-  //     this.validateVisitor();
-  //   }
-  // }
-
-  // class LineVisitor extends BaseLineVisitor {
-  //   constructor() {
-  //     super();
-  //     this.validateVisitor();
-  //   }
-  // }
 
   // for the playground to work the returned object must contain these fields
   return {
