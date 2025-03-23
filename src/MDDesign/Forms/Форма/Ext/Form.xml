@@ -205,6 +205,72 @@
 						</UsualGroup>
 					</ChildItems>
 				</UsualGroup>
+				<Table name="__ДеревоЭлементов" id="315">
+					<Representation>Tree</Representation>
+					<ChangeRowSet>false</ChangeRowSet>
+					<ChangeRowOrder>false</ChangeRowOrder>
+					<AutoInsertNewRow>true</AutoInsertNewRow>
+					<EnableStartDrag>true</EnableStartDrag>
+					<EnableDrag>true</EnableDrag>
+					<DataPath>__ДеревоЭлементов</DataPath>
+					<ContextMenu name="__ДеревоЭлементовКонтекстноеМеню" id="316"/>
+					<AutoCommandBar name="__ДеревоЭлементовКоманднаяПанель" id="317"/>
+					<ExtendedTooltip name="__ДеревоЭлементовРасширеннаяПодсказка" id="318"/>
+					<SearchStringAddition name="__ДеревоЭлементовСтрокаПоиска" id="319">
+						<AdditionSource>
+							<Item>__ДеревоЭлементов</Item>
+							<Type>SearchStringRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="__ДеревоЭлементовСтрокаПоискаКонтекстноеМеню" id="320"/>
+						<ExtendedTooltip name="__ДеревоЭлементовСтрокаПоискаРасширеннаяПодсказка" id="321"/>
+					</SearchStringAddition>
+					<ViewStatusAddition name="__ДеревоЭлементовСостояниеПросмотра" id="322">
+						<AdditionSource>
+							<Item>__ДеревоЭлементов</Item>
+							<Type>ViewStatusRepresentation</Type>
+						</AdditionSource>
+						<ContextMenu name="__ДеревоЭлементовСостояниеПросмотраКонтекстноеМеню" id="323"/>
+						<ExtendedTooltip name="__ДеревоЭлементовСостояниеПросмотраРасширеннаяПодсказка" id="324"/>
+					</ViewStatusAddition>
+					<SearchControlAddition name="__ДеревоЭлементовУправлениеПоиском" id="325">
+						<AdditionSource>
+							<Item>__ДеревоЭлементов</Item>
+							<Type>SearchControl</Type>
+						</AdditionSource>
+						<ContextMenu name="__ДеревоЭлементовУправлениеПоискомКонтекстноеМеню" id="326"/>
+						<ExtendedTooltip name="__ДеревоЭлементовУправлениеПоискомРасширеннаяПодсказка" id="327"/>
+					</SearchControlAddition>
+					<ChildItems>
+						<InputField name="__ДеревоЭлементовПредставление" id="328">
+							<DataPath>__ДеревоЭлементов.Представление</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<ContextMenu name="__ДеревоЭлементовПредставлениеКонтекстноеМеню" id="329"/>
+							<ExtendedTooltip name="__ДеревоЭлементовПредставлениеРасширеннаяПодсказка" id="330"/>
+						</InputField>
+						<InputField name="__ДеревоЭлементовТип" id="331">
+							<DataPath>__ДеревоЭлементов.Тип</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<ContextMenu name="__ДеревоЭлементовТипКонтекстноеМеню" id="332"/>
+							<ExtendedTooltip name="__ДеревоЭлементовТипРасширеннаяПодсказка" id="333"/>
+						</InputField>
+						<InputField name="__ДеревоЭлементовИндексКартинки" id="334">
+							<DataPath>__ДеревоЭлементов.ИндексКартинки</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<ContextMenu name="__ДеревоЭлементовИндексКартинкиКонтекстноеМеню" id="335"/>
+							<ExtendedTooltip name="__ДеревоЭлементовИндексКартинкиРасширеннаяПодсказка" id="336"/>
+						</InputField>
+						<InputField name="__ДеревоЭлементовСвойства" id="337">
+							<DataPath>__ДеревоЭлементов.Свойства</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<ContextMenu name="__ДеревоЭлементовСвойстваКонтекстноеМеню" id="338"/>
+							<ExtendedTooltip name="__ДеревоЭлементовСвойстваРасширеннаяПодсказка" id="339"/>
+						</InputField>
+					</ChildItems>
+				</Table>
 			</ChildItems>
 		</UsualGroup>
 		<UsualGroup name="__ГруппаРамкаРедактор" id="263">
@@ -399,10 +465,18 @@
 								</Button>
 							</ChildItems>
 						</UsualGroup>
-						<TextDocumentField name="__Редактор" id="5">
+						<InputField name="__Редактор" id="5">
 							<DataPath>__Редактор</DataPath>
 							<TitleLocation>None</TitleLocation>
+							<AutoMaxWidth>false</AutoMaxWidth>
+							<HorizontalStretch>true</HorizontalStretch>
+							<VerticalStretch>true</VerticalStretch>
+							<MultiLine>true</MultiLine>
+							<ExtendedEdit>true</ExtendedEdit>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<EditTextUpdate>OnValueChange</EditTextUpdate>
 							<Font ref="sys:ANSIFixedFont" height="8" kind="WindowsFont"/>
+							<SpellCheckingOnTextInput>Use</SpellCheckingOnTextInput>
 							<ContextMenu name="__РедакторКонтекстноеМеню" id="6">
 								<ChildItems>
 									<ButtonGroup name="__РедакторКонтекстноеМенюГруппа" id="144">
@@ -464,8 +538,9 @@
 							<ExtendedTooltip name="__РедакторРасширеннаяПодсказка" id="7"/>
 							<Events>
 								<Event name="OnChange">__РедакторПриИзменении</Event>
+								<Event name="EditTextChange">__РедакторИзменениеТекстаРедактирования</Event>
 							</Events>
-						</TextDocumentField>
+						</InputField>
 						<UsualGroup name="__ГруппаРедакторГрупп" id="154">
 							<Title>
 								<v8:item>
