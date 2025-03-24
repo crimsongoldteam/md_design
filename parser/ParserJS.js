@@ -8,6 +8,7 @@ Load = () => {
   const Lexer = chevrotain.Lexer;
   const CstParser = chevrotain.CstParser;
   const EmbeddedActionsParser = chevrotain.EmbeddedActionsParser;
+  const EOF = chevrotain.EOF;
 
   const EmptyLine = createToken({
     name: "EmptyLine",
@@ -375,13 +376,13 @@ Load = () => {
           children: { Items: [], FormHeader: [] },
         };
 
-        $.OPTION({
-          GATE: $.BACKTRACK($.FormHeader),
-          DEF: () => {
-            let header = $.SUBRULE1($.FormHeader);
-            result.children.FormHeader.push(header);
-          },
-        });
+        // $.OPTION({
+        //   GATE: $.BACKTRACK($.FormHeader),
+        //   DEF: () => {
+        //     let header = $.SUBRULE1($.FormHeader);
+        //     result.children.FormHeader.push(header);
+        //   },
+        // });
 
         let group_stock = new GroupStock(result);
 
@@ -389,6 +390,24 @@ Load = () => {
 
         return result;
       });
+
+      // $.RULE("EOLN", () => {
+      //   $.OR([
+      //     {
+      //       ALT: () => {
+      //         $.CONSUME(NewLine);
+      //       },
+      //     },
+      //     {
+      //       GATE: () => {
+      //         return $.LA(1) != NewLine
+      //       },
+      //       ALT: () => {
+      //         $.CONSUME(EOF);
+      //       },
+      //     },
+      //   ]);
+      // });      
 
       $.RULE("Lines", (group_stock) => {
         $.MANY2(() => {
@@ -589,8 +608,8 @@ Load = () => {
         }
       });
 
-      $.RULE("Column", (group_stock) => {
-        let indent = $.SUBRULE($.Indents);
+      $.RULE("Column", (group_stock, indent) => {
+        // let indent = $.SUBRULE($.Indents);
 
         $.OR([
           {
@@ -628,20 +647,29 @@ Load = () => {
         }
       });
 
-      $.RULE("Line", (group_stock) => {
-        $.SUBRULE1($.Column, { ARGS: [group_stock] });
-        $.OPTION1(() => {
-          $.CONSUME1(NewLine);
-        });
-
+      $.RULE("Columns", (group_stock) => {
         $.MANY(() => {
           $.CONSUME(Plus);
+          let indent = $.SUBRULE($.Indents);
           $.OPTION2(() => {
-            $.SUBRULE2($.Column, { ARGS: [group_stock] });
+            $.SUBRULE2($.Column, { ARGS: [group_stock, indent] });
           });
-          $.OPTION3(() => {
-            $.CONSUME2(NewLine);
-          });
+        });
+      })
+
+      $.RULE("Line", (group_stock) => {
+        $.MANY_SEP({
+          SEP:Plus,
+          DEF: () => {
+            let indent = $.SUBRULE($.Indents);
+            $.OPTION2(() => {
+              $.SUBRULE2($.Column, { ARGS: [group_stock, indent] });
+            });
+          }
+        });
+
+        $.OPTION3(() => {
+           $.CONSUME2(NewLine);
         });
 
         if (!$.RECORDING_PHASE) {
