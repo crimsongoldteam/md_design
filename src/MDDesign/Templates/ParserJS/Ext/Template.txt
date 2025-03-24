@@ -8,6 +8,7 @@ Load = () => {
   const Lexer = chevrotain.Lexer;
   const CstParser = chevrotain.CstParser;
   const EmbeddedActionsParser = chevrotain.EmbeddedActionsParser;
+  const EOF = chevrotain.EOF;
 
   const EmptyLine = createToken({
     name: "EmptyLine",
@@ -108,7 +109,7 @@ Load = () => {
     Slash,
     Tab,
     Header,
-    InlineText
+    InlineText,
   ];
 
   // class LineParser extends CstParser {
@@ -154,7 +155,11 @@ Load = () => {
     }
 
     doneLine() {
-      for (let index = this.index; index <= this.prevGroups.length - 1; index++) {
+      for (
+        let index = this.index;
+        index <= this.prevGroups.length - 1;
+        index++
+      ) {
         let item = this.prevGroups[index];
         this.currentGroups.push(item);
       }
@@ -244,6 +249,7 @@ Load = () => {
         }
 
         const group = this.getNewVGroup(item);
+        group.children.Properties = item.children.Properties;
         this.setParent(group, parent);
         this.setIndent(group, curIndent);
         this.currentGroups.push(group);
@@ -277,9 +283,9 @@ Load = () => {
     processEmptyLine() {
       let prevGroup = this.getCurrentParent();
 
-      while (prevGroup.name != 'Page' && prevGroup.name != 'Form') {
+      while (prevGroup.name != "Page" && prevGroup.name != "Form") {
         prevGroup = this.getParent(prevGroup);
-      };
+      }
 
       this.currentGroups.push(prevGroup);
       this.prevGroups = [];
@@ -311,7 +317,7 @@ Load = () => {
     getNewVGroup(header) {
       const group = {
         name: "VGroup",
-        children: { VGroupHeader: [], Items: [] },
+        children: { VGroupHeader: [], Items: [], Properties: {}  },
       };
 
       if (header !== undefined) {
@@ -324,7 +330,7 @@ Load = () => {
     getNewHGroup() {
       const group = {
         name: "HGroup",
-        children: { Items: [] },
+        children: { Items: [], Properties: {}  },
       };
 
       return group;
@@ -375,14 +381,6 @@ Load = () => {
           children: { Items: [], FormHeader: [] },
         };
 
-        $.OPTION({
-          GATE: $.BACKTRACK($.FormHeader),
-          DEF: () => {
-            let header = $.SUBRULE1($.FormHeader);
-            result.children.FormHeader.push(header);
-          },
-        });
-
         let group_stock = new GroupStock(result);
 
         $.SUBRULE($.Lines, { ARGS: [group_stock] });
@@ -391,8 +389,21 @@ Load = () => {
       });
 
       $.RULE("Lines", (group_stock) => {
+        let isFirst = true;
         $.MANY2(() => {
           $.OR([
+            {
+              GATE: () => {
+                return isFirst;
+              },
+              ALT: () => {
+                let header = $.SUBRULE1($.FormHeader);
+                if (!$.RECORDING_PHASE) {
+                  group_stock.form.children.FormHeader.push(header);
+                }
+                isFirst = false;
+              },
+            },
             {
               ALT: () => {
                 $.CONSUME(EmptyLine);
@@ -403,6 +414,7 @@ Load = () => {
             },
             {
               ALT: () => {
+                isFirst = false;
                 $.SUBRULE($.Line, { ARGS: [group_stock] });
               },
             },
@@ -416,10 +428,6 @@ Load = () => {
           name: "FormHeader",
           children: { Dash: [], Text: [] },
         };
-
-        $.MANY(() => {
-          $.CONSUME(EmptyLine);
-        });
 
         result.children.Dash.push($.CONSUME1(Dash));
         result.children.Dash.push($.CONSUME2(Dash));
@@ -440,11 +448,21 @@ Load = () => {
       $.RULE("VGroupHeader", () => {
         let result = {
           name: "VGroupHeader",
-          children: { Hash: [], Text: [] },
+          children: { Hash: [], Text: [], Properties: {} },
         };
 
         result.children.Hash.push($.CONSUME(Hash));
         result.children.Text.push($.CONSUME(Text));
+
+        let propertiesObj = $.SUBRULE($.Properties);
+
+        if (propertiesObj.isProperties) {
+          result.children.Properties = propertiesObj.properties;
+        } else {
+          result.children.Text = result.children.Text.concat(
+            propertiesObj.tokens
+          );
+        }
 
         return result;
       });
@@ -589,8 +607,8 @@ Load = () => {
         }
       });
 
-      $.RULE("Column", (group_stock) => {
-        let indent = $.SUBRULE($.Indents);
+      $.RULE("Column", (group_stock, indent) => {
+        // let indent = $.SUBRULE($.Indents);
 
         $.OR([
           {
@@ -622,26 +640,25 @@ Load = () => {
             },
           },
         ]);
-
-        if (!$.RECORDING_PHASE) {
-          group_stock.next();
-        }
       });
 
       $.RULE("Line", (group_stock) => {
-        $.SUBRULE1($.Column, { ARGS: [group_stock] });
-        $.OPTION1(() => {
-          $.CONSUME1(NewLine);
+        $.MANY_SEP({
+          SEP: Plus,
+          DEF: () => {
+            let indent = $.SUBRULE($.Indents);
+            $.OPTION2(() => {
+              $.SUBRULE2($.Column, { ARGS: [group_stock, indent] });
+            });
+
+            if (!$.RECORDING_PHASE) {
+              group_stock.next();
+            }
+          },
         });
 
-        $.MANY(() => {
-          $.CONSUME(Plus);
-          $.OPTION2(() => {
-            $.SUBRULE2($.Column, { ARGS: [group_stock] });
-          });
-          $.OPTION3(() => {
-            $.CONSUME2(NewLine);
-          });
+        $.OPTION3(() => {
+          $.CONSUME2(NewLine);
         });
 
         if (!$.RECORDING_PHASE) {
@@ -685,7 +702,9 @@ Load = () => {
     }
 
     PageHeader(ctx) {
-      return ctx.Text.map((token) => token.image).join("").trim();
+      return ctx.Text.map((token) => token.image)
+        .join("")
+        .trim();
     }
 
     VGroupHeader(ctx) {
@@ -717,6 +736,10 @@ Load = () => {
         ЭлементыПарсинг: [],
         ТипыСвойств: {},
       };
+
+      for (const [key, value] of Object.entries(ctx.Properties)) {
+        result.НаборСвойств[key.trim()] = value.trim();
+      }
 
       result.НаборСвойств.Заголовок = this.visit(ctx.VGroupHeader);
 
@@ -752,7 +775,10 @@ Load = () => {
         ЭлементыПарсинг: [],
         ТипыСвойств: {},
       };
-      result.НаборСвойств = ctx.Properties;
+
+      for (const [key, value] of Object.entries(ctx.Properties)) {
+        result.НаборСвойств[key.trim()] = value.trim();
+      }
 
       result.НаборСвойств.Заголовок = this.visit(ctx.PageHeader);
 
@@ -799,7 +825,6 @@ Load = () => {
 };
 
 function parseInput(input) {
-
   let resultJSON = "";
   if (window.lexer === null) {
     Load();

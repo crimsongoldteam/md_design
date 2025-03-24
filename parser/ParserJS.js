@@ -109,7 +109,7 @@ Load = () => {
     Slash,
     Tab,
     Header,
-    InlineText
+    InlineText,
   ];
 
   // class LineParser extends CstParser {
@@ -155,7 +155,11 @@ Load = () => {
     }
 
     doneLine() {
-      for (let index = this.index; index <= this.prevGroups.length - 1; index++) {
+      for (
+        let index = this.index;
+        index <= this.prevGroups.length - 1;
+        index++
+      ) {
         let item = this.prevGroups[index];
         this.currentGroups.push(item);
       }
@@ -245,6 +249,7 @@ Load = () => {
         }
 
         const group = this.getNewVGroup(item);
+        group.children.Properties = item.children.Properties;
         this.setParent(group, parent);
         this.setIndent(group, curIndent);
         this.currentGroups.push(group);
@@ -278,9 +283,9 @@ Load = () => {
     processEmptyLine() {
       let prevGroup = this.getCurrentParent();
 
-      while (prevGroup.name != 'Page' && prevGroup.name != 'Form') {
+      while (prevGroup.name != "Page" && prevGroup.name != "Form") {
         prevGroup = this.getParent(prevGroup);
-      };
+      }
 
       this.currentGroups.push(prevGroup);
       this.prevGroups = [];
@@ -312,7 +317,7 @@ Load = () => {
     getNewVGroup(header) {
       const group = {
         name: "VGroup",
-        children: { VGroupHeader: [], Items: [] },
+        children: { VGroupHeader: [], Items: [], Properties: {}  },
       };
 
       if (header !== undefined) {
@@ -325,7 +330,7 @@ Load = () => {
     getNewHGroup() {
       const group = {
         name: "HGroup",
-        children: { Items: [] },
+        children: { Items: [], Properties: {}  },
       };
 
       return group;
@@ -382,20 +387,22 @@ Load = () => {
 
         return result;
       });
-      
+
       $.RULE("Lines", (group_stock) => {
         let isFirst = true;
         $.MANY2(() => {
           $.OR([
             {
-              GATE: ()=> { return isFirst },
+              GATE: () => {
+                return isFirst;
+              },
               ALT: () => {
                 let header = $.SUBRULE1($.FormHeader);
                 if (!$.RECORDING_PHASE) {
                   group_stock.form.children.FormHeader.push(header);
-                };
+                }
                 isFirst = false;
-              }
+              },
             },
             {
               ALT: () => {
@@ -422,7 +429,6 @@ Load = () => {
           children: { Dash: [], Text: [] },
         };
 
-
         result.children.Dash.push($.CONSUME1(Dash));
         result.children.Dash.push($.CONSUME2(Dash));
         result.children.Dash.push($.CONSUME3(Dash));
@@ -442,11 +448,21 @@ Load = () => {
       $.RULE("VGroupHeader", () => {
         let result = {
           name: "VGroupHeader",
-          children: { Hash: [], Text: [] },
+          children: { Hash: [], Text: [], Properties: {} },
         };
 
         result.children.Hash.push($.CONSUME(Hash));
         result.children.Text.push($.CONSUME(Text));
+
+        let propertiesObj = $.SUBRULE($.Properties);
+
+        if (propertiesObj.isProperties) {
+          result.children.Properties = propertiesObj.properties;
+        } else {
+          result.children.Text = result.children.Text.concat(
+            propertiesObj.tokens
+          );
+        }
 
         return result;
       });
@@ -624,35 +640,25 @@ Load = () => {
             },
           },
         ]);
-
-        if (!$.RECORDING_PHASE) {
-          group_stock.next();
-        }
       });
-
-      $.RULE("Columns", (group_stock) => {
-        $.MANY(() => {
-          $.CONSUME(Plus);
-          let indent = $.SUBRULE($.Indents);
-          $.OPTION2(() => {
-            $.SUBRULE2($.Column, { ARGS: [group_stock, indent] });
-          });
-        });
-      })
 
       $.RULE("Line", (group_stock) => {
         $.MANY_SEP({
-          SEP:Plus,
+          SEP: Plus,
           DEF: () => {
             let indent = $.SUBRULE($.Indents);
             $.OPTION2(() => {
               $.SUBRULE2($.Column, { ARGS: [group_stock, indent] });
             });
-          }
+
+            if (!$.RECORDING_PHASE) {
+              group_stock.next();
+            }
+          },
         });
 
         $.OPTION3(() => {
-           $.CONSUME2(NewLine);
+          $.CONSUME2(NewLine);
         });
 
         if (!$.RECORDING_PHASE) {
@@ -696,7 +702,9 @@ Load = () => {
     }
 
     PageHeader(ctx) {
-      return ctx.Text.map((token) => token.image).join("").trim();
+      return ctx.Text.map((token) => token.image)
+        .join("")
+        .trim();
     }
 
     VGroupHeader(ctx) {
@@ -728,6 +736,10 @@ Load = () => {
         ЭлементыПарсинг: [],
         ТипыСвойств: {},
       };
+
+      for (const [key, value] of Object.entries(ctx.Properties)) {
+        result.НаборСвойств[key.trim()] = value.trim();
+      }
 
       result.НаборСвойств.Заголовок = this.visit(ctx.VGroupHeader);
 
@@ -763,7 +775,10 @@ Load = () => {
         ЭлементыПарсинг: [],
         ТипыСвойств: {},
       };
-      result.НаборСвойств = ctx.Properties;
+
+      for (const [key, value] of Object.entries(ctx.Properties)) {
+        result.НаборСвойств[key.trim()] = value.trim();
+      }
 
       result.НаборСвойств.Заголовок = this.visit(ctx.PageHeader);
 
@@ -810,7 +825,6 @@ Load = () => {
 };
 
 function parseInput(input) {
-
   let resultJSON = "";
   if (window.lexer === null) {
     Load();
