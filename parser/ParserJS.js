@@ -376,42 +376,27 @@ Load = () => {
           children: { Items: [], FormHeader: [] },
         };
 
-        // $.OPTION({
-        //   GATE: $.BACKTRACK($.FormHeader),
-        //   DEF: () => {
-        //     let header = $.SUBRULE1($.FormHeader);
-        //     result.children.FormHeader.push(header);
-        //   },
-        // });
-
         let group_stock = new GroupStock(result);
 
         $.SUBRULE($.Lines, { ARGS: [group_stock] });
 
         return result;
       });
-
-      // $.RULE("EOLN", () => {
-      //   $.OR([
-      //     {
-      //       ALT: () => {
-      //         $.CONSUME(NewLine);
-      //       },
-      //     },
-      //     {
-      //       GATE: () => {
-      //         return $.LA(1) != NewLine
-      //       },
-      //       ALT: () => {
-      //         $.CONSUME(EOF);
-      //       },
-      //     },
-      //   ]);
-      // });      
-
+      
       $.RULE("Lines", (group_stock) => {
+        let isFirst = true;
         $.MANY2(() => {
           $.OR([
+            {
+              GATE: ()=> { return isFirst },
+              ALT: () => {
+                let header = $.SUBRULE1($.FormHeader);
+                if (!$.RECORDING_PHASE) {
+                  group_stock.form.children.FormHeader.push(header);
+                };
+                isFirst = false;
+              }
+            },
             {
               ALT: () => {
                 $.CONSUME(EmptyLine);
@@ -422,6 +407,7 @@ Load = () => {
             },
             {
               ALT: () => {
+                isFirst = false;
                 $.SUBRULE($.Line, { ARGS: [group_stock] });
               },
             },
@@ -436,9 +422,6 @@ Load = () => {
           children: { Dash: [], Text: [] },
         };
 
-        $.MANY(() => {
-          $.CONSUME(EmptyLine);
-        });
 
         result.children.Dash.push($.CONSUME1(Dash));
         result.children.Dash.push($.CONSUME2(Dash));
