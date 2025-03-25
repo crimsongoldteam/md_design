@@ -27,12 +27,6 @@ Load = () => {
     pattern: Lexer.NA,
   });
 
-  const PropertyType = createToken({
-    name: "PropertyType",
-    pattern: /Тип/g,
-    categories: [Header, InlineText],
-  });
-
   const LCurly = createToken({
     name: "LCurly",
     pattern: /{/,
@@ -93,9 +87,9 @@ Load = () => {
   });
 
   const allTokens = [
+    Whitespace,
     EmptyLine,
     Text,
-    Whitespace,
     NewLine,
     LCurly,
     RCurly,
@@ -273,11 +267,12 @@ Load = () => {
         return this.createInline(parent);
       }
 
-      const parentInline = parent.children.Items[len - 1];
-      if (parentInline.name != "Inline") {
-        return this.createInline(parent);
-      }
-      return parentInline;
+      // const parentInline = parent.children.Items[len - 1];
+      // Сейчас каждый раз создаем новый, когда будет полный парсер - будем собирать в один
+      // if (parentInline.name != "Inline") {
+      return this.createInline(parent);
+      // }
+      // return parentInline;
     }
 
     processEmptyLine() {
@@ -317,7 +312,7 @@ Load = () => {
     getNewVGroup(header) {
       const group = {
         name: "VGroup",
-        children: { VGroupHeader: [], Items: [], Properties: {}  },
+        children: { VGroupHeader: [], Items: [], Properties: {} },
       };
 
       if (header !== undefined) {
@@ -330,7 +325,7 @@ Load = () => {
     getNewHGroup() {
       const group = {
         name: "HGroup",
-        children: { Items: [], Properties: {}  },
+        children: { Items: [], Properties: {} },
       };
 
       return group;
@@ -372,7 +367,7 @@ Load = () => {
 
   class GroupParser extends EmbeddedActionsParser {
     constructor() {
-      super(allTokens, { nodeLocationTracking: "full" });
+      super(allTokens);
       const $ = this;
 
       $.RULE("Form", () => {
@@ -451,7 +446,10 @@ Load = () => {
           children: { Hash: [], Text: [], Properties: {} },
         };
 
-        result.children.Hash.push($.CONSUME(Hash));
+        $.AT_LEAST_ONE(() => {
+          result.children.Hash.push($.CONSUME(Hash));
+        });
+
         result.children.Text.push($.CONSUME(Text));
 
         let propertiesObj = $.SUBRULE($.Properties);
@@ -683,6 +681,7 @@ Load = () => {
         Элементы: [],
         ЭлементыПарсинг: [],
         ТипыСвойств: {},
+        Координаты: {},
       };
 
       let header = this.visit(ctx.FormHeader);
@@ -693,6 +692,8 @@ Load = () => {
       ctx.Items.forEach((item) => {
         result.ЭлементыПарсинг.push(this.visit(item));
       });
+
+      this.addChildLocation(result.ЭлементыПарсинг, result);
 
       return result;
     }
@@ -718,11 +719,14 @@ Load = () => {
         НаборСвойств: {},
         Элементы: [],
         ТипыСвойств: {},
+        Координаты: {},
       };
 
       ctx.Items.forEach((item) => {
         result.Элементы.push(this.visit(item));
       });
+
+      this.addChildLocation(result.Элементы, result);
 
       return result;
     }
@@ -735,6 +739,7 @@ Load = () => {
         Элементы: [],
         ЭлементыПарсинг: [],
         ТипыСвойств: {},
+        Координаты: {},
       };
 
       for (const [key, value] of Object.entries(ctx.Properties)) {
@@ -747,6 +752,13 @@ Load = () => {
         result.ЭлементыПарсинг.push(this.visit(item));
       });
 
+      if (ctx.VGroupHeader.length > 0) {
+        this.consumeLocation(ctx.VGroupHeader[0].children.Hash, result);
+        this.consumeLocation(ctx.VGroupHeader[0].children.Text, result);
+      }
+
+      this.addChildLocation(result.ЭлементыПарсинг, result);
+
       return result;
     }
 
@@ -757,11 +769,14 @@ Load = () => {
         НаборСвойств: {},
         Элементы: [],
         ТипыСвойств: {},
+        Координаты: {},
       };
 
       ctx.Items.forEach((item) => {
         result.Элементы.push(this.visit(item));
       });
+
+      this.addChildLocation(result.Элементы, result);
 
       return result;
     }
@@ -774,6 +789,7 @@ Load = () => {
         Элементы: [],
         ЭлементыПарсинг: [],
         ТипыСвойств: {},
+        Координаты: {},
       };
 
       for (const [key, value] of Object.entries(ctx.Properties)) {
@@ -782,9 +798,16 @@ Load = () => {
 
       result.НаборСвойств.Заголовок = this.visit(ctx.PageHeader);
 
+      if (ctx.PageHeader.length > 0) {
+        this.consumeLocation(ctx.PageHeader[0].children.Slash, result);
+        this.consumeLocation(ctx.PageHeader[0].children.Text, result);
+      }
+
       ctx.Items.forEach((item) => {
         result.ЭлементыПарсинг.push(this.visit(item));
       });
+
+      this.addChildLocation(result.ЭлементыПарсинг, result);
 
       return result;
     }
@@ -796,11 +819,14 @@ Load = () => {
         НаборСвойств: {},
         Элементы: [],
         ЭлементыПарсинг: [],
+        Координаты: {},
       };
 
       ctx.Items.forEach((item) => {
         result.ЭлементыПарсинг.push(this.visit(item));
       });
+
+      this.addChildLocation(result.ЭлементыПарсинг, result);
 
       return result;
     }
@@ -812,11 +838,45 @@ Load = () => {
         НаборСвойств: {},
         ЭлементыПарсинг: [],
         ТипыСвойств: {},
+        Координаты: {},
       };
 
       result.ЭлементыПарсинг = ctx.Items.map((token) => token.image);
+
+      this.consumeLocation(ctx.Items, result);
+
       return result;
     }
+
+    addChildLocation(childs, result) {
+      childs.forEach((item) => {
+        for (const [key, value] of Object.entries(item.Координаты)) {
+          this.consumeLocationInResult(result, key, value["Лево"], value["Право"]);
+        }        
+      });
+    }
+
+    consumeLocation(tokens, result) {
+      tokens.forEach((token) => {
+        let rowId = "Строка_" + token.startLine.toString();
+        this.consumeLocationInResult(result, rowId, token.startColumn, token.endColumn);
+      })
+    }
+
+    consumeLocationInResult(result, rowId, startColumn, endColumn) {
+      let row = result.Координаты[rowId];
+      if (row === undefined) {
+        result.Координаты[rowId] = {
+          Лево: startColumn,
+          Право: endColumn,
+        };
+      } else if (endColumn > row["Право"]) {
+        row["Право"] = endColumn;
+      } else {
+        row["Лево"] = startColumn;
+      }
+    }
+
   }
 
   window.visitor = new Visitor();
