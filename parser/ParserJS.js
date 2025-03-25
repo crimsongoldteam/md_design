@@ -8,7 +8,6 @@ Load = () => {
   const Lexer = chevrotain.Lexer;
   const CstParser = chevrotain.CstParser;
   const EmbeddedActionsParser = chevrotain.EmbeddedActionsParser;
-  const EOF = chevrotain.EOF;
 
   const EmptyLine = createToken({
     name: "EmptyLine",
@@ -45,12 +44,12 @@ Load = () => {
     label: ";",
     categories: [Header, InlineText],
   });
-  const Comma = createToken({
-    name: "Comma",
-    pattern: /\,/,
-    label: ",",
-    categories: [Header, InlineText],
-  });
+  // const Comma = createToken({
+  //   name: "Comma",
+  //   pattern: /\,/,
+  //   label: ",",
+  //   categories: [Header, InlineText],
+  // });
   const Equals = createToken({
     name: "Equals",
     pattern: /\=/,
@@ -59,7 +58,12 @@ Load = () => {
   });
   const Hash = createToken({ name: "Hash", pattern: /#/, label: "#" });
   const Plus = createToken({ name: "Plus", pattern: /\+/, label: "+" });
-  const Dash = createToken({ name: "Dash", pattern: /\-/, label: "-" });
+  const Dash = createToken({
+    name: "Dash",
+    pattern: /\-/,
+    label: "-",
+    categories: [Header, InlineText],
+  });
   const Slash = createToken({ name: "Slash", pattern: /\//, label: "/" });
   const Ampersand = createToken({
     name: "Ampersand",
@@ -94,7 +98,6 @@ Load = () => {
     LCurly,
     RCurly,
     Semicolon,
-    Comma,
     Equals,
     Hash,
     Ampersand,
@@ -250,30 +253,34 @@ Load = () => {
         return;
       }
 
-      const parentInline = this.getInline(parent, item);
+      // const parentInline = this.getInline(parent, item);
 
       // Обычный элемент
-      this.setParent(item, parentInline);
+      this.setParent(item, parent);
       this.currentGroups.push(parent);
     }
 
-    getInline(parent, item) {
-      if (item.name == "OneLineGroup") {
-        return parent;
-      }
+    // getInline(parent, item) {
+    //   if (item.name == "OneLineGroup") {
+    //     return parent;
+    //   }
 
-      const len = parent.children.Items.length;
-      if (len == 0) {
-        return this.createInline(parent);
-      }
+    //   // const len = parent.children.Items.length;
+    //   // if (len == 0) {
+    //   //   let inline = this.createInline();
+    //   //   this.setParent(inline, parent);
+    //   //   return inline;
+    //   // }
 
-      // const parentInline = parent.children.Items[len - 1];
-      // Сейчас каждый раз создаем новый, когда будет полный парсер - будем собирать в один
-      // if (parentInline.name != "Inline") {
-      return this.createInline(parent);
-      // }
-      // return parentInline;
-    }
+    //   // const parentInline = parent.children.Items[len - 1];
+    //   // Сейчас каждый раз создаем новый, когда будет полный парсер - будем собирать в один
+    //   // if (parentInline.name != "Inline") {
+    //   let inline = this.createInline();
+    //   this.setParent(inline, parent);
+    //   return inline;
+    //   // }
+    //   // return parentInline;
+    // }
 
     processEmptyLine() {
       let prevGroup = this.getCurrentParent();
@@ -355,12 +362,11 @@ Load = () => {
       return result;
     }
 
-    createInline(parent) {
+    createInline() {
       const inline = {
         name: "Inline",
         children: { Items: [] },
       };
-      this.setParent(inline, parent);
       return inline;
     }
   }
@@ -503,10 +509,10 @@ Load = () => {
 
         $.OPTION2(() => {
           $.SUBRULE1($.Property, { ARGS: [result] });
-          $.MANY1(() => {
-            result.tokens.push($.CONSUME(Comma));
-            $.SUBRULE2($.Property, { ARGS: [result] });
-          });
+          // $.MANY1(() => {
+          //   result.tokens.push($.CONSUME(Comma));
+          //   $.SUBRULE2($.Property, { ARGS: [result] });
+          // });
         });
 
         $.OPTION3(() => {
@@ -568,21 +574,22 @@ Load = () => {
         return indent;
       });
 
-      $.RULE("OneLineGroup", (group_stock, indent, first) => {
+      $.RULE("OneLineGroup", (group_stock, indent, firstInline) => {
         let result;
         if (!$.RECORDING_PHASE) {
           result = group_stock.createOneLineGroup();
 
-          let inline = group_stock.createInline(result);
-          inline.children.Items.push(first);
+          group_stock.setParent(firstInline, result);
+          // inline.children.Items.push(first);
         }
 
         $.MANY({
           SEP: Ampersand,
           DEF: () => {
-            let item = this.CONSUME(Text);
+            let item = this.CONSUME(InlineText);
             if (!$.RECORDING_PHASE) {
               let inline = group_stock.createInline(result);
+              group_stock.setParent(inline, result);
               inline.children.Items.push(item);
             }
           },
@@ -591,9 +598,21 @@ Load = () => {
       });
 
       $.RULE("Inline", (group_stock, indent) => {
-        let item = this.CONSUME(InlineText);
+        let item;
+        if (!$.RECORDING_PHASE) {
+          item = group_stock.createInline();
+        };
+        let isOneLineGroup = false;
+
+        $.AT_LEAST_ONE(() => {
+          let inlineText = this.CONSUME(InlineText);
+          if (!$.RECORDING_PHASE) {
+            item.children.Items.push(inlineText);
+          };
+        });
 
         $.OPTION(() => {
+          isOneLineGroup = true;
           $.CONSUME(Ampersand);
           item = $.SUBRULE($.OneLineGroup, {
             ARGS: [group_stock, indent, item],
@@ -748,6 +767,11 @@ Load = () => {
 
       result.НаборСвойств.Заголовок = this.visit(ctx.VGroupHeader);
 
+      this.addDisplayAndBehaviorToGroup(
+        result["НаборСвойств"],
+        ctx.VGroupHeader
+      );
+
       ctx.Items.forEach((item) => {
         result.ЭлементыПарсинг.push(this.visit(item));
       });
@@ -760,6 +784,42 @@ Load = () => {
       this.addChildLocation(result.ЭлементыПарсинг, result);
 
       return result;
+    }
+
+    addDisplayAndBehaviorToGroup(properties, VGroupHeader) {
+      if (VGroupHeader.length == 0) {
+        return;
+      }
+
+      const count = VGroupHeader[0].children.Hash.length;
+      let currentDisplay;
+      let currentBehavior;
+
+      if (count === 2) {
+        currentDisplay = "СлабоеВыделение";
+      } else if (count === 3) {
+        currentDisplay = "ОбычноеВыделение";
+      } else if (count === 4) {
+        currentDisplay = "СильноеВыделение";
+      } else if (count === 5) {
+        if (!properties.hasOwnProperty("Отображение")) {
+          currentDisplay = "ОбычноеВыделение";
+        }
+        currentBehavior = "Свертываемая";
+      } else if (count === 6) {
+        if (!properties.hasOwnProperty("Отображение")) {
+          currentDisplay = "ОбычноеВыделение";
+        }
+        currentBehavior = "Всплывающая";
+      }
+
+      if (currentDisplay !== undefined) {
+        properties["Отображение"] = currentDisplay;
+      }
+
+      if (currentBehavior !== undefined) {
+        properties["Поведение"] = currentBehavior;
+      }
     }
 
     Pages(ctx) {
@@ -841,7 +901,7 @@ Load = () => {
         Координаты: {},
       };
 
-      result.ЭлементыПарсинг = ctx.Items.map((token) => token.image);
+      result.ЭлементыПарсинг = [ctx.Items.map((token) => token.image).join('')];
 
       this.consumeLocation(ctx.Items, result);
 
@@ -851,16 +911,26 @@ Load = () => {
     addChildLocation(childs, result) {
       childs.forEach((item) => {
         for (const [key, value] of Object.entries(item.Координаты)) {
-          this.consumeLocationInResult(result, key, value["Лево"], value["Право"]);
-        }        
+          this.consumeLocationInResult(
+            result,
+            key,
+            value["Лево"],
+            value["Право"]
+          );
+        }
       });
     }
 
     consumeLocation(tokens, result) {
       tokens.forEach((token) => {
         let rowId = "Строка_" + token.startLine.toString();
-        this.consumeLocationInResult(result, rowId, token.startColumn, token.endColumn);
-      })
+        this.consumeLocationInResult(
+          result,
+          rowId,
+          token.startColumn,
+          token.endColumn
+        );
+      });
     }
 
     consumeLocationInResult(result, rowId, startColumn, endColumn) {
@@ -876,7 +946,6 @@ Load = () => {
         row["Лево"] = startColumn;
       }
     }
-
   }
 
   window.visitor = new Visitor();
@@ -901,7 +970,7 @@ function parseInput(input) {
 
     resultJSON = JSON.stringify(result);
   } catch (e) {
-    return "Ошибка " + e.name + ":" + e.message + "\n" + e.stack;
+    return "Ошибка: " + e.name + ":" + e.message + "\n" + e.stack;
   }
   return resultJSON;
 }
