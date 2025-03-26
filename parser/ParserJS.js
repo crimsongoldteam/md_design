@@ -90,6 +90,15 @@ Load = () => {
     label: "---",
     categories: [InlineText, PageGroupHeaderText, PropertiesValueText],
   });
+
+  const Dash = createToken({
+    name: "Dash",
+    pattern: /-[ \t]*/,
+    label: "-",
+    categories: [InlineText, PageGroupHeaderText, PropertiesValueText],
+    longer_alt: TripleDash,
+  });
+
   const Slash = createToken({
     name: "Slash",
     pattern: /\/ */,
@@ -106,7 +115,7 @@ Load = () => {
 
   const Text = createToken({
     name: "Text",
-    pattern: /[^\{\}\=\;\&\#\+\n\r\t\/ ][^\{\}\=\;\&\#\+\n\r\t]*/,
+    pattern: /[^\{\}\=\;\&\#\+\n\r\t\/\- ][^\{\}\=\;\&\#\+\n\r\t\-]*/,
     categories: [HeaderText, InlineText, PageGroupHeaderText, PropertiesNameText,PropertiesValueText],
   });
 
@@ -125,6 +134,8 @@ Load = () => {
   const allTokens = [
     Whitespace,
     EmptyLine,
+    Dash,
+    TripleDash,
     Text,
     NewLine,
     LCurly,
@@ -133,7 +144,6 @@ Load = () => {
     Equals,
     Hash,
     Ampersand,
-    TripleDash,
     Plus,
     Slash,
     Tab,
@@ -272,18 +282,20 @@ Load = () => {
 
       if (item.name == "VGroupHeader") {
         // debugger;
+        let vGroupIndent = 0;
         if (parent.name != "HGroup") {
           const hGroup = this.getNewHGroup();
           this.setParent(hGroup, parent);
           this.setIndent(hGroup, curIndent);
           this.setCurrentParent(hGroup);
+          vGroupIndent = curIndent;
           parent = hGroup;
         }
 
         const group = this.getNewVGroup(item);
         group.children.Properties = item.children.Properties;
         this.setParent(group, parent);
-        this.setIndent(group, curIndent);
+        this.setIndent(group, vGroupIndent);
         this.currentGroups.push(group);
         return;
       }
@@ -326,6 +338,9 @@ Load = () => {
 
       this.currentGroups.push(prevGroup);
       this.prevGroups = [];
+
+      let inline = this.createInline();
+      this.setParent(inline, this.form);
 
       this.doneLine();
     }
