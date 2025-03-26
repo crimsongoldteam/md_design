@@ -472,6 +472,7 @@
 							<AutoMaxWidth>false</AutoMaxWidth>
 							<HorizontalStretch>true</HorizontalStretch>
 							<VerticalStretch>true</VerticalStretch>
+							<Wrap>false</Wrap>
 							<MultiLine>true</MultiLine>
 							<ExtendedEdit>true</ExtendedEdit>
 							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
