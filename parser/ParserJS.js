@@ -106,7 +106,7 @@ Load = () => {
 
   const Text = createToken({
     name: "Text",
-    pattern: /[^\{\}\=\;\&\#\+\-\n\r\t\/ ][^\{\}\=\;\&\#\+\-\n\r\t]*/,
+    pattern: /[^\{\}\=\;\&\#\+\n\r\t\/ ][^\{\}\=\;\&\#\+\n\r\t]*/,
     categories: [HeaderText, InlineText, PageGroupHeaderText, PropertiesNameText,PropertiesValueText],
   });
 
@@ -1019,4 +1019,5 @@ function parseInput(input) {
   }
   return resultJSON;
 }
+
 
