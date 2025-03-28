@@ -9497,7 +9497,7 @@ var Parser2 = class {
     throw new Error("The Parser class has been deprecated, use CstParser or EmbeddedActionsParser instead.	\nSee: https://chevrotain.io/docs/changes/BREAKING_CHANGES.html#_7-0-0");
   }
 };
-window.chevrotain = {
+export const chevrotain = {
   Alternation,
   Alternative,
   CstParser,

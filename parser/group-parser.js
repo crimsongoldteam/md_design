@@ -1,0 +1,336 @@
+import {EmbeddedActionsParser, EOF} from './chevrotain.js';
+
+import { GroupStock } from "./group-stock.js";
+import * as t from "./lexer.js";
+
+class GroupParser extends EmbeddedActionsParser {
+  constructor() {
+    super(t.allTokens);
+    const $ = this;
+
+    $.RULE("Form", () => {
+      let result = {
+        name: "Form",
+        children: { Items: [], FormHeader: [] },
+      };
+
+      let group_stock = new GroupStock(result);
+
+      $.SUBRULE($.Lines, { ARGS: [group_stock] });
+
+      return result;
+    });
+
+    $.RULE("Lines", (group_stock) => {
+      let isFirst = true;
+      $.MANY(() => {
+        // let indent = $.SUBRULE($.Indents);
+        $.OR([
+          {
+            GATE: () => {
+              return isFirst;
+            },
+            ALT: () => {
+              let header = $.SUBRULE1($.FormHeader);
+              if (!$.RECORDING_PHASE) {
+                group_stock.form.children.FormHeader.push(header);
+              }
+              isFirst = false;
+            },
+          },
+          // {
+          //   ALT: () => {
+          //     $.CONSUME3(t.NewLine);
+
+          //   },
+          // },
+          {
+            ALT: () => {
+              isFirst = false;
+              $.SUBRULE($.Line, { ARGS: [group_stock] });
+            },
+          },
+        ]);
+      });
+    });
+
+    // ---Заголовок формы---
+    $.RULE("FormHeader", () => {
+      let result = {
+        name: "FormHeader",
+        children: { Dash: [], Text: [] },
+      };
+
+      result.children.Dash.push($.CONSUME1(t.TripleDash));
+
+      $.MANY(() => {
+        result.children.Text.push($.CONSUME(t.HeaderText));
+      });
+
+      result.children.Dash.push($.CONSUME7(t.TripleDash));
+
+      $.OPTION({
+        GATE: () => {
+          return $.LA(1).tokenType != EOF;
+        },
+        DEF: () => {
+          return $.CONSUME(t.NewLine);
+        },
+      });
+
+      return result;
+    });
+
+    // #Заголовок 1
+    $.RULE("VGroupHeader", () => {
+      let result = {
+        name: "VGroupHeader",
+        children: { Hash: [], Text: [], Properties: {} },
+      };
+
+      $.AT_LEAST_ONE(() => {
+        result.children.Hash.push($.CONSUME(t.Hash));
+      });
+
+      $.MANY(() => {
+        result.children.Text.push($.CONSUME(t.PageGroupHeaderText));
+      });
+
+      let propertiesObj = $.SUBRULE($.Properties);
+
+      if (propertiesObj.isProperties) {
+        result.children.Properties = propertiesObj.properties;
+      } else {
+        result.children.Text = result.children.Text.concat(
+          propertiesObj.tokens
+        );
+      }
+
+      return result;
+    });
+
+    // /Заголовок страницы
+    $.RULE("PageHeader", () => {
+      let result = {
+        name: "PageHeader",
+        children: { Slash: [], Text: [], Properties: {} },
+      };
+
+      result.children.Slash.push($.CONSUME(t.Slash));
+
+      $.MANY(() => {
+        result.children.Text.push($.CONSUME(t.PageGroupHeaderText));
+      });
+
+      let propertiesObj = $.SUBRULE($.Properties);
+
+      if (propertiesObj.isProperties) {
+        result.children.Properties = propertiesObj.properties;
+      } else {
+        result.children.Text = result.children.Text.concat(
+          propertiesObj.tokens
+        );
+      }
+
+      return result;
+    });
+
+    $.RULE("Properties", () => {
+      let result = {
+        properties: {},
+        tokens: [],
+        isProperties: false,
+        isPropertiesCounter: 0,
+      };
+
+      $.OPTION1(() => {
+        result.tokens.push($.CONSUME(t.LCurly));
+        result.isPropertiesCounter++;
+      });
+
+      $.OPTION2(() => {
+        $.SUBRULE1($.Property, { ARGS: [result] });
+        // $.MANY1(() => {
+        //   result.tokens.push($.CONSUME(Comma));
+        //   $.SUBRULE2($.Property, { ARGS: [result] });
+        // });
+      });
+
+      $.OPTION3(() => {
+        result.tokens.push($.CONSUME(t.RCurly));
+        result.isPropertiesCounter++;
+        $.MANY2(() => {
+          result.isPropertiesCounter = 0;
+          result.tokens.push($.CONSUME(t.PageGroupHeaderText));
+        });
+      });
+
+      result.isProperties = result.isPropertiesCounter > 1;
+
+      return result;
+    });
+
+    $.RULE("Property", (params) => {
+      let tokens = [];
+      if (!$.RECORDING_PHASE) {
+        tokens = params.tokens;
+      }
+
+      let isPropertiesCounter = 0;
+      let key, value;
+      $.OPTION1(() => {
+        key = $.CONSUME1(t.PropertiesNameText);
+        tokens.push(key);
+        isPropertiesCounter++;
+      });
+
+      $.OPTION2(() => {
+        tokens.push($.CONSUME(t.Equals));
+        isPropertiesCounter++;
+      });
+
+      $.OPTION3(() => {
+        value = $.CONSUME2(t.PropertiesValueText);
+        tokens.push(value);
+        isPropertiesCounter++;
+      });
+
+      if (!$.RECORDING_PHASE) {
+        if (isPropertiesCounter < 3) {
+          params.isPropertiesCounter = 0;
+        } else {
+          params.properties[key.image] = value.image;
+        }
+      }
+    });
+
+    $.RULE("Indents", () => {
+      let indent = 0;
+      $.MANY(() => {
+        $.CONSUME(t.Tab);
+        if (!$.RECORDING_PHASE) {
+          indent++;
+        }
+      });
+      return indent;
+    });
+
+    $.RULE("OneLineGroup", (group_stock, indent, firstInline) => {
+      let result;
+      if (!$.RECORDING_PHASE) {
+        result = group_stock.createOneLineGroup();
+
+        group_stock.setParent(firstInline, result);
+        // inline.children.Items.push(first);
+      }
+
+      $.MANY({
+        SEP: t.Ampersand,
+        DEF: () => {
+          let item = this.CONSUME(t.InlineText);
+          if (!$.RECORDING_PHASE) {
+            let inline = group_stock.createInline(result);
+            group_stock.setParent(inline, result);
+            inline.children.Items.push(item);
+          }
+        },
+      });
+      return result;
+    });
+
+    $.RULE("Inline", (group_stock, indent) => {
+      let item;
+      if (!$.RECORDING_PHASE) {
+        item = group_stock.createInline();
+      }
+
+      $.AT_LEAST_ONE(() => {
+        let inlineText = this.CONSUME(t.InlineText);
+        if (!$.RECORDING_PHASE) {
+          item.children.Items.push(inlineText);
+        }
+      });
+
+      $.OPTION(() => {
+        $.CONSUME(t.Ampersand);
+        item = $.SUBRULE($.OneLineGroup, {
+          ARGS: [group_stock, indent, item],
+        });
+      });
+
+      if (!$.RECORDING_PHASE) {
+        group_stock.add(item, indent);
+      }
+    });
+
+    $.RULE("Column", (group_stock, indent) => {
+      // let indent = $.SUBRULE($.Indents);
+
+      $.OR([
+        {
+          // #Подзаголовок 1 #Подзаголовок 2
+          ALT: () => {
+            $.AT_LEAST_ONE(() => {
+              let header = $.SUBRULE($.VGroupHeader);
+
+              if (!$.RECORDING_PHASE) {
+                group_stock.add(header, indent);
+              }
+            });
+          },
+        },
+        // /Страница
+        {
+          ALT: () => {
+            let header = $.SUBRULE($.PageHeader);
+
+            if (!$.RECORDING_PHASE) {
+              group_stock.add(header, indent);
+            }
+          },
+        },
+        // Строчный элемент
+        {
+          ALT: () => {
+            $.SUBRULE($.Inline, { ARGS: [group_stock, indent] });
+          },
+        },
+      ]);
+    });
+
+    $.RULE("Line", (group_stock) => {
+      $.AT_LEAST_ONE_SEP({
+        SEP: t.Plus,
+        DEF: () => {
+          let indent = $.SUBRULE($.Indents);
+
+          $.OPTION2(() => {
+            $.SUBRULE2($.Column, { ARGS: [group_stock, indent] });
+          });
+
+          if (!$.RECORDING_PHASE) {
+            group_stock.next();
+          }
+        },
+      });
+
+      $.OPTION3({
+        GATE: () => {
+          return $.LA(1).tokenType != EOF;
+        },
+        DEF: () => {
+          return $.CONSUME(t.NewLine);
+        },
+      });
+
+      if (!$.RECORDING_PHASE) {
+        group_stock.doneLine();
+      }
+    });
+
+    this.performSelfAnalysis();
+  }
+}
+
+
+export const groupParser = new GroupParser();
