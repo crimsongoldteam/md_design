@@ -26,36 +26,6 @@ import { lexer } from "./lexer.js";
 import { groupParser } from "./group-parser.js";
 import { visitor } from "./visitor.js";
 
-
-
-// window.groupParser = null;
-// window.lexer = null;
-// window.visitor = null;
-
-// Load = () => {
-//   const chevrotain = window.chevrotain;
-//   const createToken = chevrotain.createToken;
-//   const Lexer = chevrotain.Lexer;
-//   const CstParser = chevrotain.CstParser;
-//   const EmbeddedActionsParser = chevrotain.EmbeddedActionsParser;
-//   const EOF = chevrotain.EOF;
-
-//   // const EmptyLine = createToken({
-//   //   name: "EmptyLine",
-//   //   pattern: /(?<=\n)[ \t]*\n/,
-//   //   label: "Empty line",
-//   //   line_breaks: true,
-//   // });
-
-//   window.groupParser = new GroupParser();
-
-//   const BaseVisitor = window.groupParser.getBaseCstVisitorConstructor();
-
-//   window.visitor = new Visitor();
-
-//   // window.lexer = new Lexer(allTokens);
-// };
-
 function parseInput(input) {
   let resultJSON = "";
 
@@ -89,4 +59,5 @@ function parseInput(input) {
   return resultJSON;  
 }
 
+window.parseInput = parseInput;
 
