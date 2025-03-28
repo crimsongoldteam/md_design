@@ -9761,7 +9761,7 @@ const allTokens = [
   PropertiesValueText
 ];
 
-const lexer_lexer = new chevrotain/* Lexer */.JG(allTokens);
+const lexer = new chevrotain/* Lexer */.JG(allTokens);
 ;// ./parser/group-stock.js
 class GroupStock {
     constructor(form) {
@@ -10342,12 +10342,12 @@ class GroupParser extends chevrotain/* EmbeddedActionsParser */.jr {
 }
 
 
-const group_parser_groupParser = new GroupParser();
+const groupParser = new GroupParser();
 
 ;// ./parser/visitor.js
 
 
-const BaseVisitor = group_parser_groupParser.getBaseCstVisitorConstructor();
+const BaseVisitor = groupParser.getBaseCstVisitorConstructor();
 
 class Visitor extends BaseVisitor {
   Form(ctx) {
@@ -10605,7 +10605,7 @@ class Visitor extends BaseVisitor {
   }
 }
 
-const visitor_visitor = new Visitor();
+const visitor = new Visitor();
 
 ;// ./parser/app.js
 ﻿// MIT License
@@ -10635,36 +10635,6 @@ const visitor_visitor = new Visitor();
 
 
 
-
-
-
-// window.groupParser = null;
-// window.lexer = null;
-// window.visitor = null;
-
-// Load = () => {
-//   const chevrotain = window.chevrotain;
-//   const createToken = chevrotain.createToken;
-//   const Lexer = chevrotain.Lexer;
-//   const CstParser = chevrotain.CstParser;
-//   const EmbeddedActionsParser = chevrotain.EmbeddedActionsParser;
-//   const EOF = chevrotain.EOF;
-
-//   // const EmptyLine = createToken({
-//   //   name: "EmptyLine",
-//   //   pattern: /(?<=\n)[ \t]*\n/,
-//   //   label: "Empty line",
-//   //   line_breaks: true,
-//   // });
-
-//   window.groupParser = new GroupParser();
-
-//   const BaseVisitor = window.groupParser.getBaseCstVisitorConstructor();
-
-//   window.visitor = new Visitor();
-
-//   // window.lexer = new Lexer(allTokens);
-// };
 
 function parseInput(input) {
   let resultJSON = "";
@@ -10699,6 +10669,7 @@ function parseInput(input) {
   return resultJSON;  
 }
 
+window.parseInput = parseInput;
 
 
 /******/ })()

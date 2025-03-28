@@ -3,11 +3,6 @@
   <head></head>
   <body>  
     <script>
-      (function chevrotain() {	
-      	%ChevrotainJS%
-      }())
-    </script> 
-    <script>
       %ParserJS%
     </script> 
     
