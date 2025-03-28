@@ -1,4 +1,28 @@
-﻿window.groupParser = null;
+﻿// MIT License
+
+// Copyright (c) 2025 Zherebtsov Nikita <nikita@crimsongold.ru>
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+// https://github.com/crimsongoldteam/md_design
+
+window.groupParser = null;
 window.lexer = null;
 window.visitor = null;
 
@@ -10,12 +34,12 @@ Load = () => {
   const EmbeddedActionsParser = chevrotain.EmbeddedActionsParser;
   const EOF = chevrotain.EOF;
 
-  const EmptyLine = createToken({
-    name: "EmptyLine",
-    pattern: /\n[ \t]*\n/,
-    label: "Empty line",
-    line_breaks: true,
-  });
+  // const EmptyLine = createToken({
+  //   name: "EmptyLine",
+  //   pattern: /(?<=\n)[ \t]*\n/,
+  //   label: "Empty line",
+  //   line_breaks: true,
+  // });
 
   const HeaderText = createToken({
     name: "HeaderText",
@@ -133,7 +157,7 @@ Load = () => {
 
   const allTokens = [
     Whitespace,
-    EmptyLine,
+    // EmptyLine,
     Dash,
     TripleDash,
     Text,
@@ -329,21 +353,21 @@ Load = () => {
     //   // return parentInline;
     // }
 
-    processEmptyLine() {
-      let prevGroup = this.getCurrentParent();
+    // processEmptyLine() {
+    //   let prevGroup = this.getCurrentParent();
 
-      while (prevGroup.name != "Page" && prevGroup.name != "Form") {
-        prevGroup = this.getParent(prevGroup);
-      }
+    //   while (prevGroup.name != "Page" && prevGroup.name != "Form") {
+    //     prevGroup = this.getParent(prevGroup);
+    //   }
 
-      this.currentGroups.push(prevGroup);
-      this.prevGroups = [];
+    //   this.currentGroups.push(prevGroup);
+    //   this.prevGroups = [];
 
-      let inline = this.createInline();
-      this.setParent(inline, this.form);
+    //   let inline = this.createInline();
+    //   this.setParent(inline, prevGroup);
 
-      this.doneLine();
-    }
+    //   this.doneLine();
+    // }
 
     reset() {
       this.prevGroups = [];
@@ -441,7 +465,8 @@ Load = () => {
 
       $.RULE("Lines", (group_stock) => {
         let isFirst = true;
-        $.MANY2(() => {
+        $.MANY(() => {
+          // let indent = $.SUBRULE($.Indents);          
           $.OR([
             {
               GATE: () => {
@@ -455,14 +480,12 @@ Load = () => {
                 isFirst = false;
               },
             },
-            {
-              ALT: () => {
-                $.CONSUME(EmptyLine);
-                if (!$.RECORDING_PHASE) {
-                  group_stock.processEmptyLine();
-                }
-              },
-            },
+            // {
+            //   ALT: () => {
+            //     $.CONSUME3(NewLine);
+
+            //   },
+            // },
             {
               ALT: () => {
                 isFirst = false;
@@ -718,10 +741,11 @@ Load = () => {
       });
 
       $.RULE("Line", (group_stock) => {
-        $.MANY_SEP({
+        $.AT_LEAST_ONE_SEP({
           SEP: Plus,
           DEF: () => {
             let indent = $.SUBRULE($.Indents);
+
             $.OPTION2(() => {
               $.SUBRULE2($.Column, { ARGS: [group_stock, indent] });
             });
@@ -732,8 +756,13 @@ Load = () => {
           },
         });
 
-        $.OPTION3(() => {
-          $.CONSUME2(NewLine);
+        $.OPTION3({
+          GATE: () => {
+            return $.LA(1).tokenType != EOF;
+          },
+          DEF: () => {
+            return $.CONSUME(NewLine);
+          },
         });
 
         if (!$.RECORDING_PHASE) {

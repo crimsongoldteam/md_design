@@ -10,12 +10,12 @@ Load = () => {
   const EmbeddedActionsParser = chevrotain.EmbeddedActionsParser;
   const EOF = chevrotain.EOF;
 
-  const EmptyLine = createToken({
-    name: "EmptyLine",
-    pattern: /\n[ \t]*\n/,
-    label: "Empty line",
-    line_breaks: true,
-  });
+  // const EmptyLine = createToken({
+  //   name: "EmptyLine",
+  //   pattern: /(?<=\n)[ \t]*\n/,
+  //   label: "Empty line",
+  //   line_breaks: true,
+  // });
 
   const HeaderText = createToken({
     name: "HeaderText",
@@ -90,6 +90,15 @@ Load = () => {
     label: "---",
     categories: [InlineText, PageGroupHeaderText, PropertiesValueText],
   });
+
+  const Dash = createToken({
+    name: "Dash",
+    pattern: /-[ \t]*/,
+    label: "-",
+    categories: [InlineText, PageGroupHeaderText, PropertiesValueText],
+    longer_alt: TripleDash,
+  });
+
   const Slash = createToken({
     name: "Slash",
     pattern: /\/ */,
@@ -106,7 +115,7 @@ Load = () => {
 
   const Text = createToken({
     name: "Text",
-    pattern: /[^\{\}\=\;\&\#\+\n\r\t\/ ][^\{\}\=\;\&\#\+\n\r\t]*/,
+    pattern: /[^\{\}\=\;\&\#\+\n\r\t\/\- ][^\{\}\=\;\&\#\+\n\r\t\-]*/,
     categories: [HeaderText, InlineText, PageGroupHeaderText, PropertiesNameText,PropertiesValueText],
   });
 
@@ -124,7 +133,9 @@ Load = () => {
 
   const allTokens = [
     Whitespace,
-    EmptyLine,
+    // EmptyLine,
+    Dash,
+    TripleDash,
     Text,
     NewLine,
     LCurly,
@@ -133,7 +144,6 @@ Load = () => {
     Equals,
     Hash,
     Ampersand,
-    TripleDash,
     Plus,
     Slash,
     Tab,
@@ -272,18 +282,20 @@ Load = () => {
 
       if (item.name == "VGroupHeader") {
         // debugger;
+        let vGroupIndent = 0;
         if (parent.name != "HGroup") {
           const hGroup = this.getNewHGroup();
           this.setParent(hGroup, parent);
           this.setIndent(hGroup, curIndent);
           this.setCurrentParent(hGroup);
+          vGroupIndent = curIndent;
           parent = hGroup;
         }
 
         const group = this.getNewVGroup(item);
         group.children.Properties = item.children.Properties;
         this.setParent(group, parent);
-        this.setIndent(group, curIndent);
+        this.setIndent(group, vGroupIndent);
         this.currentGroups.push(group);
         return;
       }
@@ -326,6 +338,9 @@ Load = () => {
 
       this.currentGroups.push(prevGroup);
       this.prevGroups = [];
+
+      let inline = this.createInline();
+      this.setParent(inline, prevGroup);
 
       this.doneLine();
     }
@@ -426,7 +441,8 @@ Load = () => {
 
       $.RULE("Lines", (group_stock) => {
         let isFirst = true;
-        $.MANY2(() => {
+        $.MANY(() => {
+          let indent = $.SUBRULE($.Indents);          
           $.OR([
             {
               GATE: () => {
@@ -442,7 +458,7 @@ Load = () => {
             },
             {
               ALT: () => {
-                $.CONSUME(EmptyLine);
+                $.CONSUME3(NewLine);
                 if (!$.RECORDING_PHASE) {
                   group_stock.processEmptyLine();
                 }
@@ -451,7 +467,7 @@ Load = () => {
             {
               ALT: () => {
                 isFirst = false;
-                $.SUBRULE($.Line, { ARGS: [group_stock] });
+                $.SUBRULE($.Line, { ARGS: [group_stock, indent] });
               },
             },
           ]);
@@ -702,14 +718,16 @@ Load = () => {
         ]);
       });
 
-      $.RULE("Line", (group_stock) => {
-        $.MANY_SEP({
+      $.RULE("Line", (group_stock, firstIndent) => {
+        let indent = firstIndent;
+        $.AT_LEAST_ONE_SEP({
           SEP: Plus,
           DEF: () => {
-            let indent = $.SUBRULE($.Indents);
-            $.OPTION2(() => {
-              $.SUBRULE2($.Column, { ARGS: [group_stock, indent] });
-            });
+            // $.OPTION2(() => {
+            $.SUBRULE2($.Column, { ARGS: [group_stock, indent] });
+            // });
+
+            indent = $.SUBRULE($.Indents);
 
             if (!$.RECORDING_PHASE) {
               group_stock.next();
@@ -717,8 +735,13 @@ Load = () => {
           },
         });
 
-        $.OPTION3(() => {
-          $.CONSUME2(NewLine);
+        $.OPTION({
+          GATE: () => {
+            return $.LA(1).tokenType != EOF;
+          },
+          DEF: () => {
+            return $.CONSUME(NewLine);
+          },
         });
 
         if (!$.RECORDING_PHASE) {
@@ -1019,4 +1042,5 @@ function parseInput(input) {
   }
   return resultJSON;
 }
+
 
