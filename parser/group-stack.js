@@ -18,10 +18,11 @@ export class GroupStack {
   }
 
   doneLine() {
-    for (let index = this.index; index <= this.prevGroups.length - 1; index++) {
-      let item = this.prevGroups[index];
-      this.currentGroups.push(item);
-    }
+    let isGroupOver = false;
+    // for (let index = this.index; index <= this.prevGroups.length - 1; index++) {
+    //   let item = this.prevGroups[index];
+    //   this.currentGroups.push(item);
+    // }
 
     this.prevGroups = this.currentGroups.slice();
     this.currentGroups = [];

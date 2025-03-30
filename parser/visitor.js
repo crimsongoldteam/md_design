@@ -41,7 +41,9 @@ class Visitor extends BaseVisitor {
   }
 
   VGroupHeader(ctx) {
-    return ctx.Text[0].image.trim();
+    return ctx.Text.map((token) => token.image)
+      .join("")
+      .trim();
   }
 
   HGroup(ctx) {

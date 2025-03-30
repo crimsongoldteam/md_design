@@ -1,11 +1,15 @@
-import {EmbeddedActionsParser, EOF} from './chevrotain.js';
+import { EmbeddedActionsParser, EOF } from "./chevrotain.js";
+import { LLStarLookaheadStrategy } from "./chevrotain-allstar/all-star-lookahead.js";
 
 import { GroupStack } from "./group-stack.js";
 import * as t from "./lexer.js";
 
 class GroupParser extends EmbeddedActionsParser {
   constructor() {
-    super(t.allTokens);
+    super(t.allTokens, {
+      lookaheadStrategy: new LLStarLookaheadStrategy(),
+    });
+
     const $ = this;
 
     $.RULE("Form", () => {
@@ -16,12 +20,12 @@ class GroupParser extends EmbeddedActionsParser {
 
       let group_stack = new GroupStack(result);
 
-      $.SUBRULE($.Lines, { ARGS: [group_stack] });
+      $.SUBRULE($.Rows, { ARGS: [group_stack] });
 
       return result;
     });
 
-    $.RULE("Lines", (group_stack) => {
+    $.RULE("Rows", (group_stack) => {
       let isFirst = true;
       $.MANY(() => {
         // let indent = $.SUBRULE($.Indents);
@@ -38,16 +42,11 @@ class GroupParser extends EmbeddedActionsParser {
               isFirst = false;
             },
           },
-          // {
-          //   ALT: () => {
-          //     $.CONSUME3(t.NewLine);
 
-          //   },
-          // },
           {
             ALT: () => {
               isFirst = false;
-              $.SUBRULE($.Line, { ARGS: [group_stack] });
+              $.SUBRULE($.Row, { ARGS: [group_stack] });
             },
           },
         ]);
@@ -298,8 +297,8 @@ class GroupParser extends EmbeddedActionsParser {
       ]);
     });
 
-    $.RULE("Line", (group_stack) => {
-      $.AT_LEAST_ONE_SEP({
+    $.RULE("Row", (group_stack) => {
+      $.MANY({
         SEP: t.Plus,
         DEF: () => {
           let indent = $.SUBRULE($.Indents);
@@ -331,6 +330,5 @@ class GroupParser extends EmbeddedActionsParser {
     this.performSelfAnalysis();
   }
 }
-
 
 export const groupParser = new GroupParser();
