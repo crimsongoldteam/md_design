@@ -88,29 +88,40 @@ class GroupParser extends EmbeddedActionsParser {
     });
 
     // #Заголовок 1
-    $.RULE("VGroupHeader", () => {
-      let result = {
-        name: "VGroupHeader",
-        children: { Hash: [], Text: [], Properties: {} },
-      };
+    $.RULE("VGroupHeader", (group_stack, hGroup) => {
+      let vGroup;
+      let vGroupHeader;
 
-      result.children.Hash.push($.CONSUME(t.Hash));
+      $.ACTION(() => {
+        vGroup = group_stack.createVGroup(hGroup);
+        vGroupHeader = vGroup.children.VGroupHeader[0];
+      });
+
+      let hash = $.CONSUME(t.Hash);
+      $.ACTION(() => {
+        vGroupHeader.children.Hash.push(hash);
+      });
 
       $.MANY(() => {
-        result.children.Text.push($.CONSUME(t.PageGroupHeaderText));
+        let text = $.CONSUME(t.PageGroupHeaderText);
+        $.ACTION(() => {
+          vGroupHeader.children.Text.push(text);
+        });
       });
 
       let propertiesObj = $.SUBRULE($.Properties);
 
-      if (propertiesObj.isProperties) {
-        result.children.Properties = propertiesObj.properties;
-      } else {
-        result.children.Text = result.children.Text.concat(
-          propertiesObj.tokens
-        );
-      }
+      $.ACTION(() => {
+        if (propertiesObj.isProperties) {
+          vGroup.children.Properties = propertiesObj.properties;
+        } else {
+          vGroupHeader.children.Text = vGroupHeader.children.Text.concat(
+            propertiesObj.tokens
+          );
+        }
+      });
 
-      return result;
+      return vGroup;
     });
 
     // /Заголовок страницы
@@ -284,11 +295,7 @@ class GroupParser extends EmbeddedActionsParser {
             });
 
             $.AT_LEAST_ONE(() => {
-              let header = $.SUBRULE($.VGroupHeader);
-
-              $.ACTION(() => {
-                group_stack.createVGroup(header, result);
-              });
+              $.SUBRULE($.VGroupHeader, { ARGS: [group_stack, result] });
             });
           },
         },

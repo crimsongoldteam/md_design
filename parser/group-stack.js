@@ -18,11 +18,7 @@ export class GroupStack {
       return;
     }
 
-    for (
-      let index = 0;
-      index < this.collectedItems.length;
-      index++
-    ) {
+    for (let index = 0; index < this.collectedItems.length; index++) {
       let element = this.collectedItems[index];
       let item = element.item;
       let indent = element.indent;
@@ -186,21 +182,27 @@ export class GroupStack {
     parent.children.Items.push(item);
   }
 
-  createVGroup(header, parent) {
+  createVGroup(parent) {
     const group = {
       name: "VGroup",
       children: { VGroupHeader: [], Items: [], Properties: {} },
     };
 
-    if (header !== undefined) {
-      group.children.VGroupHeader.push(header);
-    }
+    group.children.VGroupHeader.push(this.createVGroupHeader());
 
     this.setParent(group, parent);
 
     return group;
   }
 
+  createVGroupHeader() {
+    const group = {
+      name: "VGroupHeader",
+      children: { Hash: [], Text: [] },
+    };
+
+    return group;
+  }
   createHGroup() {
     const group = {
       name: "HGroup",
