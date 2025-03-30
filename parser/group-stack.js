@@ -24,7 +24,12 @@ export class GroupStack {
       let indent = element.indent;
 
       let parent = this.getPrevAtIndex(index);
-      parent = this.getItemAtIndent(parent, indent);
+      
+      let isEmptyInline = (item.name == "Inline" && item.children.Items.length == 0);
+      
+      if (!isEmptyInline)  {
+        parent = this.getItemAtIndent(parent, indent);  
+      }
 
       let itemIndent = this.getIndent(parent);
 

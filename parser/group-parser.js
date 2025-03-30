@@ -95,18 +95,18 @@ class GroupParser extends EmbeddedActionsParser {
       $.ACTION(() => {
         vGroup = group_stack.createVGroup(hGroup);
         vGroupHeader = vGroup.children.VGroupHeader[0];
-      });
+      });      
 
       let hash = $.CONSUME(t.Hash);
       $.ACTION(() => {
         vGroupHeader.children.Hash.push(hash);
-      });
+      });  
 
       $.MANY(() => {
         let text = $.CONSUME(t.PageGroupHeaderText);
         $.ACTION(() => {
           vGroupHeader.children.Text.push(text);
-        });
+        });   
       });
 
       let propertiesObj = $.SUBRULE($.Properties);
@@ -119,7 +119,8 @@ class GroupParser extends EmbeddedActionsParser {
             propertiesObj.tokens
           );
         }
-      });
+      });        
+
 
       return vGroup;
     });
