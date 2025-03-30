@@ -1,43 +1,64 @@
+import { pathToFileURL } from "url";
+
 export class GroupStack {
   constructor(form) {
     this.form = form;
     this.reset();
   }
 
-  next() {
-    this.index++;
-    this.setCurrentParent(this.getPrevAtIndex());
-  }
+  doneRow() {
+    // Это разрыв группы
+    if (this.collectedItems.length == 1 && this.prevGroups.length > 1) {
+      let item = this.collectedItems[0];
+      parent = this.form;
+      this.add(item, parent, 0);
 
-  getCurrentParent() {
-    return this.currentParent;
-  }
+      this.prevGroups = this.currentGroups.slice();
+      this.currentGroups = [];
+      this.collectedItems = [];
 
-  setCurrentParent(parent) {
-    this.currentParent = parent;
-  }
+      return;
+    }
 
-  doneLine() {
-    let isGroupOver = false;
-    // for (let index = this.index; index <= this.prevGroups.length - 1; index++) {
-    //   let item = this.prevGroups[index];
-    //   this.currentGroups.push(item);
-    // }
+    for (
+      let index = this.index;
+      index <= this.collectedItems.length - 1;
+      index++
+    ) {
+      let element = this.collectedItems[index];
+      let item = element.item;
+      let indent = element.indent;
+
+      let parent = this.getPrevAtIndex(index);
+      parent = this.getItemAtIndent(parent, indent);
+
+      let itemIndent = this.getIndent(parent);
+
+      this.add(item, parent, itemIndent);
+    }
+
+    for (
+      let index = this.collectedItems.length;
+      index <= this.prevGroups.length - 1;
+      index++
+    ) {
+      let item = this.prevGroups[index];
+      this.currentGroups.push(item);
+    }
 
     this.prevGroups = this.currentGroups.slice();
     this.currentGroups = [];
-    this.index = 0;
-    this.setCurrentParent(this.getPrevAtIndex());
+    this.collectedItems = [];
   }
 
-  getPrevAtIndex() {
-    if (this.index >= this.prevGroups.length) {
+  getPrevAtIndex(index) {
+    if (index >= this.prevGroups.length) {
       if (this.prevGroups.length > 0) {
         return this.prevGroups[this.prevGroups.length - 1];
       }
       return this.form;
     }
-    return this.prevGroups[this.index];
+    return this.prevGroups[index];
   }
 
   getItemAtIndent(current, indent) {
@@ -68,18 +89,24 @@ export class GroupStack {
     return parent;
   }
 
-  add(item, indent) {
-    let prevGroup = this.getCurrentParent();
-    let parent = this.getItemAtIndent(prevGroup, indent);
-    let curIndent = this.getIndent(parent);
+  collect(item, indent, separator) {
+    this.collectedItems.push({
+      item: item,
+      indent: indent,
+      separator: separator,
+    });
+  }
 
-    if (this.addPage(item, parent, curIndent)) {
+  add(item, indent) {
+    // let curIndent = this.getIndent(parent);
+
+    if (this.addPage(item, parent, indent)) {
       return;
     }
 
-    if (this.addGroup(item, parent, curIndent)) {
+    if (this.addGroup(item, parent, indent)) {
       return;
-    }    
+    }
 
     //Если текущий элемент на этом уровне - страницы, значит они закончились и обращаемся к их родителю
     if (parent.name == "Pages") {
@@ -91,22 +118,21 @@ export class GroupStack {
     this.currentGroups.push(parent);
   }
 
-  addPage(item, parent, indent) {
-    if (item.name != "PageHeader") {
+  addPage(pageHeader, parent, indent) {
+    if (pageHeader.name != "PageHeader") {
       return false;
     }
 
     // Если это первая страница - создаем группу
     if (parent.name != "Pages") {
       const pages = this.getNewPages();
-      // parent.children.Items.push(pages);
       this.setParent(pages, parent);
       this.setIndent(pages, indent);
       parent = pages;
     }
 
-    const page = this.getNewPage(item);
-    page.children.Properties = item.children.Properties;
+    const page = this.getNewPage(pageHeader);
+    page.children.Properties = pageHeader.children.Properties;
 
     this.setParent(page, parent);
     this.setIndent(page, indent + 1);
@@ -114,81 +140,42 @@ export class GroupStack {
     return true;
   }
 
-  addGroup(item, parent, indent) {
-    if (item.name != "VGroupHeader") {
+  addGroup(hGroup, parent, indent) {
+    if (hGroup.name != "HGroup") {
       return false;
     }
- 
-    // Правила отступов для групп следующие 
+
+    this.setIndent(hGroup, indent);
+    this.setParent(hGroup, parent);
+
+    const items = hGroup.children.Items;
+
+    // Правила отступов для групп следующие
     // - отступ первой вертикальной группы совпадает с отступом родителя
     // - отступ каждой следующей вертикальной группы - всегда 0
-    let vGroupIndent = 0;
 
-    if (parent.name != "HGroup") {
-      const hGroup = this.getNewHGroup();
-      this.setParent(hGroup, parent);
-      this.setIndent(hGroup, indent);
-      this.setCurrentParent(hGroup);
-      vGroupIndent = indent;
-      parent = hGroup;
+    for (let index = 0; index < items.length; index++) {
+      const vGroup = items[index];
+
+      let vGroupIndent = 0;
+      if (index == 0) {
+        vGroupIndent = indent;
+      }
+      this.setIndent(vGroup, vGroupIndent);
+
+      this.currentGroups.push(vGroup);
     }
 
-    const group = this.getNewVGroup(item);
-    group.children.Properties = item.children.Properties;
-    this.setParent(group, parent);
-    this.setIndent(group, vGroupIndent);
-    this.currentGroups.push(group);
     return true;
   }
-
-  // getInline(parent, item) {
-  //   if (item.name == "OneLineGroup") {
-  //     return parent;
-  //   }
-
-  //   // const len = parent.children.Items.length;
-  //   // if (len == 0) {
-  //   //   let inline = this.createInline();
-  //   //   this.setParent(inline, parent);
-  //   //   return inline;
-  //   // }
-
-  //   // const parentInline = parent.children.Items[len - 1];
-  //   // Сейчас каждый раз создаем новый, когда будет полный парсер - будем собирать в один
-  //   // if (parentInline.name != "Inline") {
-  //   let inline = this.createInline();
-  //   this.setParent(inline, parent);
-  //   return inline;
-  //   // }
-  //   // return parentInline;
-  // }
-
-  // processEmptyLine() {
-  //   let prevGroup = this.getCurrentParent();
-
-  //   while (prevGroup.name != "Page" && prevGroup.name != "Form") {
-  //     prevGroup = this.getParent(prevGroup);
-  //   }
-
-  //   this.currentGroups.push(prevGroup);
-  //   this.prevGroups = [];
-
-  //   let inline = this.createInline();
-  //   this.setParent(inline, prevGroup);
-
-  //   this.doneLine();
-  // }
 
   reset() {
     this.prevGroups = [];
     this.currentGroups = [];
-    this.index = 0;
 
     this.parents = new WeakMap();
     this.indents = new WeakMap();
     this.setIndent(this.form, 0);
-
-    this.currentParent = this.form;
   }
 
   setIndent(item, indent) {
@@ -200,7 +187,7 @@ export class GroupStack {
     parent.children.Items.push(item);
   }
 
-  getNewVGroup(header) {
+  createVGroup(header, parent) {
     const group = {
       name: "VGroup",
       children: { VGroupHeader: [], Items: [], Properties: {} },
@@ -210,10 +197,12 @@ export class GroupStack {
       group.children.VGroupHeader.push(header);
     }
 
+    this.setParent(group, parent);
+
     return group;
   }
 
-  getNewHGroup() {
+  createHGroup() {
     const group = {
       name: "HGroup",
       children: { Items: [], Properties: {} },

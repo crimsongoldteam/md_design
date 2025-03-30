@@ -1,15 +1,11 @@
 import { EmbeddedActionsParser, EOF } from "./chevrotain.js";
-import { LLStarLookaheadStrategy } from "./chevrotain-allstar/all-star-lookahead.js";
 
 import { GroupStack } from "./group-stack.js";
 import * as t from "./lexer.js";
 
 class GroupParser extends EmbeddedActionsParser {
   constructor() {
-    super(t.allTokens, {
-      lookaheadStrategy: new LLStarLookaheadStrategy(),
-    });
-
+    super(t.allTokens);
     const $ = this;
 
     $.RULE("Form", () => {
@@ -42,7 +38,12 @@ class GroupParser extends EmbeddedActionsParser {
               isFirst = false;
             },
           },
+          // {
+          //   ALT: () => {
+          //     $.CONSUME3(t.NewLine);
 
+          //   },
+          // },
           {
             ALT: () => {
               isFirst = false;
@@ -214,117 +215,113 @@ class GroupParser extends EmbeddedActionsParser {
       return indent;
     });
 
-    $.RULE("OneLineGroup", (group_stack, indent, firstInline) => {
+    $.RULE("OneLineGroup", (group_stack, first) => {
       let result;
-      if (!$.RECORDING_PHASE) {
+      $.ACTION(() => {
         result = group_stack.createOneLineGroup();
-
-        group_stack.setParent(firstInline, result);
-        // inline.children.Items.push(first);
-      }
+        group_stack.setParent(first, result);
+      });
 
       $.MANY({
         SEP: t.Ampersand,
         DEF: () => {
           let item = this.CONSUME(t.InlineText);
-          if (!$.RECORDING_PHASE) {
+          $.ACTION(() => {
             let inline = group_stack.createInline(result);
             group_stack.setParent(inline, result);
             inline.children.Items.push(item);
-          }
+          });
         },
       });
       return result;
     });
 
-    $.RULE("Inline", (group_stack, indent) => {
-      let item;
-      if (!$.RECORDING_PHASE) {
-        item = group_stack.createInline();
-      }
+    $.RULE("Inline", (group_stack) => {
+      let result;
+
+      $.ACTION(() => {
+        result = group_stack.createInline();
+      });
 
       $.AT_LEAST_ONE(() => {
         let inlineText = this.CONSUME(t.InlineText);
-        if (!$.RECORDING_PHASE) {
-          item.children.Items.push(inlineText);
-        }
+        $.ACTION(() => {
+          result.children.Items.push(inlineText);
+        });
       });
 
       $.OPTION(() => {
         $.CONSUME(t.Ampersand);
-        item = $.SUBRULE($.OneLineGroup, {
-          ARGS: [group_stack, indent, item],
-        });
+        result = $.SUBRULE($.OneLineGroup, { ARGS: [group_stack, result] });
       });
 
-      if (!$.RECORDING_PHASE) {
-        group_stack.add(item, indent);
-      }
+      return result;
     });
 
-    $.RULE("Column", (group_stack, indent) => {
-      // let indent = $.SUBRULE($.Indents);
+    $.RULE("Column", (group_stack) => {
+      let result;
 
       $.OR([
         {
           // #Подзаголовок 1 #Подзаголовок 2
           ALT: () => {
+            result = group_stack.createHGroup();
             $.AT_LEAST_ONE(() => {
               let header = $.SUBRULE($.VGroupHeader);
-
-              if (!$.RECORDING_PHASE) {
-                group_stack.add(header, indent);
-              }
+              group_stack.createVGroup(header, result);
             });
           },
         },
         // /Страница
         {
           ALT: () => {
-            let header = $.SUBRULE($.PageHeader);
-
-            if (!$.RECORDING_PHASE) {
-              group_stack.add(header, indent);
-            }
+            result = $.SUBRULE($.PageHeader);
           },
         },
         // Строчный элемент
         {
           ALT: () => {
-            $.SUBRULE($.Inline, { ARGS: [group_stack, indent] });
+            result = $.SUBRULE($.Inline);
           },
         },
       ]);
+      return result;
+    });
+
+    $.RULE("RowSeparator", () => {
+      let result = false;
+      $.OR([
+        {
+          ALT: () => {
+            $.CONSUME(t.Plus);
+            result = true;
+          },
+        },
+        {
+          GATE: () => {
+            return $.LA(1).tokenType != EOF;
+          },
+          DEF: () => {
+            $.CONSUME(t.NewLine);
+          },
+        },
+      ]);
+      return result;
     });
 
     $.RULE("Row", (group_stack) => {
-      $.MANY({
-        SEP: t.Plus,
-        DEF: () => {
-          let indent = $.SUBRULE($.Indents);
+      $.MANY(() => {
+        let indent = $.SUBRULE($.Indents);
+        let item = $.SUBRULE($.Column, { ARGS: [group_stack, indent] });
+        let separator = $.SUBRULE($.RowSeparator);
 
-          $.OPTION2(() => {
-            $.SUBRULE2($.Column, { ARGS: [group_stack, indent] });
-          });
-
-          if (!$.RECORDING_PHASE) {
-            group_stack.next();
-          }
-        },
+        $.ACTION(() => {
+          group_stack.collect(item, indent, separator);
+        });
       });
-
-      $.OPTION3({
-        GATE: () => {
-          return $.LA(1).tokenType != EOF;
-        },
-        DEF: () => {
-          return $.CONSUME(t.NewLine);
-        },
+      $.ACTION(() => {
+        group_stack.doneRow();
       });
-
-      if (!$.RECORDING_PHASE) {
-        group_stack.doneLine();
-      }
     });
 
     this.performSelfAnalysis();
