@@ -1,5 +1,3 @@
-import { pathToFileURL } from "url";
-
 export class GroupStack {
   constructor(form) {
     this.form = form;
@@ -9,7 +7,7 @@ export class GroupStack {
   doneRow() {
     // Это разрыв группы
     if (this.collectedItems.length == 1 && this.prevGroups.length > 1) {
-      let item = this.collectedItems[0];
+      let item = this.collectedItems[0].item;
       parent = this.form;
       this.add(item, parent, 0);
 
@@ -21,8 +19,8 @@ export class GroupStack {
     }
 
     for (
-      let index = this.index;
-      index <= this.collectedItems.length - 1;
+      let index = 0;
+      index < this.collectedItems.length;
       index++
     ) {
       let element = this.collectedItems[index];
@@ -39,7 +37,7 @@ export class GroupStack {
 
     for (
       let index = this.collectedItems.length;
-      index <= this.prevGroups.length - 1;
+      index < this.prevGroups.length;
       index++
     ) {
       let item = this.prevGroups[index];
@@ -97,7 +95,7 @@ export class GroupStack {
     });
   }
 
-  add(item, indent) {
+  add(item, parent, indent) {
     // let curIndent = this.getIndent(parent);
 
     if (this.addPage(item, parent, indent)) {
@@ -170,8 +168,9 @@ export class GroupStack {
   }
 
   reset() {
-    this.prevGroups = [];
+    this.prevGroups = [this.form];
     this.currentGroups = [];
+    this.collectedItems = [];
 
     this.parents = new WeakMap();
     this.indents = new WeakMap();

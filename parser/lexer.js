@@ -62,7 +62,7 @@ export const Equals = createToken({
 });
 export const Hash = createToken({
   name: "Hash",
-  pattern: /# */,
+  pattern: /\#+ */,
   label: "#",
   categories: [HeaderText],
 });

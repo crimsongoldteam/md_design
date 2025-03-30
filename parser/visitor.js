@@ -103,7 +103,8 @@ class Visitor extends BaseVisitor {
       return;
     }
 
-    const count = VGroupHeader[0].children.Hash.length;
+    const hash = VGroupHeader[0].children.Hash[0].image.trim();
+    const count = hash.length;
     let currentDisplay;
     let currentBehavior;
 

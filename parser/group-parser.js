@@ -23,34 +23,40 @@ class GroupParser extends EmbeddedActionsParser {
 
     $.RULE("Rows", (group_stack) => {
       let isFirst = true;
-      $.MANY(() => {
-        // let indent = $.SUBRULE($.Indents);
-        $.OR([
-          {
-            GATE: () => {
-              return isFirst;
+      let isEnd = false;
+      $.MANY({
+        GATE: () => {
+          return !isEnd;
+        },
+        DEF: () => {
+          $.OR([
+            {
+              IGNORE_AMBIGUITIES: true,
+              ALT: () => {
+                isEnd = true;
+                $.CONSUME3(EOF);
+              },
             },
-            ALT: () => {
-              let header = $.SUBRULE1($.FormHeader);
-              if (!$.RECORDING_PHASE) {
-                group_stack.form.children.FormHeader.push(header);
-              }
-              isFirst = false;
+            {
+              GATE: () => {
+                return isFirst;
+              },
+              ALT: () => {
+                let header = $.SUBRULE1($.FormHeader);
+                if (!$.RECORDING_PHASE) {
+                  group_stack.form.children.FormHeader.push(header);
+                }
+                isFirst = false;
+              },
             },
-          },
-          // {
-          //   ALT: () => {
-          //     $.CONSUME3(t.NewLine);
-
-          //   },
-          // },
-          {
-            ALT: () => {
-              isFirst = false;
-              $.SUBRULE($.Row, { ARGS: [group_stack] });
+            {
+              ALT: () => {
+                isFirst = false;
+                $.SUBRULE($.Row, { ARGS: [group_stack] });
+              },
             },
-          },
-        ]);
+          ]);
+        },
       });
     });
 
@@ -88,9 +94,7 @@ class GroupParser extends EmbeddedActionsParser {
         children: { Hash: [], Text: [], Properties: {} },
       };
 
-      $.AT_LEAST_ONE(() => {
-        result.children.Hash.push($.CONSUME(t.Hash));
-      });
+      result.children.Hash.push($.CONSUME(t.Hash));
 
       $.MANY(() => {
         result.children.Text.push($.CONSUME(t.PageGroupHeaderText));
@@ -222,10 +226,20 @@ class GroupParser extends EmbeddedActionsParser {
         group_stack.setParent(first, result);
       });
 
+      let separator = true;
       $.MANY({
-        SEP: t.Ampersand,
+        GATE: () => {
+          return separator;
+        },
         DEF: () => {
           let item = this.CONSUME(t.InlineText);
+
+          separator = false;
+          $.OPTION(() => {
+            $.CONSUME(t.Ampersand);
+            separator = true;
+          });
+
           $.ACTION(() => {
             let inline = group_stack.createInline(result);
             group_stack.setParent(inline, result);
@@ -265,10 +279,16 @@ class GroupParser extends EmbeddedActionsParser {
         {
           // #Подзаголовок 1 #Подзаголовок 2
           ALT: () => {
-            result = group_stack.createHGroup();
+            $.ACTION(() => {
+              result = group_stack.createHGroup();
+            });
+
             $.AT_LEAST_ONE(() => {
               let header = $.SUBRULE($.VGroupHeader);
-              group_stack.createVGroup(header, result);
+
+              $.ACTION(() => {
+                group_stack.createVGroup(header, result);
+              });
             });
           },
         },
@@ -281,7 +301,7 @@ class GroupParser extends EmbeddedActionsParser {
         // Строчный элемент
         {
           ALT: () => {
-            result = $.SUBRULE($.Inline);
+            result = $.SUBRULE($.Inline, { ARGS: [group_stack] });
           },
         },
       ]);
@@ -298,10 +318,16 @@ class GroupParser extends EmbeddedActionsParser {
           },
         },
         {
+          IGNORE_AMBIGUITIES: true,
+          ALT: () => {
+            $.CONSUME(EOF);
+          },
+        },
+        {
           GATE: () => {
             return $.LA(1).tokenType != EOF;
           },
-          DEF: () => {
+          ALT: () => {
             $.CONSUME(t.NewLine);
           },
         },
@@ -310,14 +336,29 @@ class GroupParser extends EmbeddedActionsParser {
     });
 
     $.RULE("Row", (group_stack) => {
-      $.MANY(() => {
-        let indent = $.SUBRULE($.Indents);
-        let item = $.SUBRULE($.Column, { ARGS: [group_stack, indent] });
-        let separator = $.SUBRULE($.RowSeparator);
+      let separator = true;
+      $.MANY({
+        GATE: () => {
+          return separator;
+        },
+        DEF: () => {
+          let item;
+          $.ACTION(() => {
+            item = group_stack.createInline();
+          });
 
-        $.ACTION(() => {
-          group_stack.collect(item, indent, separator);
-        });
+          let indent = $.SUBRULE($.Indents);
+
+          $.OPTION(() => {
+            item = $.SUBRULE($.Column, { ARGS: [group_stack, indent] });
+          });
+
+          separator = $.SUBRULE($.RowSeparator);
+
+          $.ACTION(() => {
+            group_stack.collect(item, indent, separator);
+          });
+        },
       });
       $.ACTION(() => {
         group_stack.doneRow();
