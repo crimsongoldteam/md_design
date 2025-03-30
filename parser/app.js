@@ -36,7 +36,7 @@ function parseInput(input) {
 
   const result = visitor.visit(cst);
 
-  resultJSON = JSON.stringify(result);
+  resultJSON = JSON.stringify(result, null, 2);
 //   let resultJSON = "";
 //   if (window.lexer === null) {
 //     Load();

@@ -1,6 +1,6 @@
 import {EmbeddedActionsParser, EOF} from './chevrotain.js';
 
-import { GroupStock } from "./group-stock.js";
+import { GroupStack } from "./group-stack.js";
 import * as t from "./lexer.js";
 
 class GroupParser extends EmbeddedActionsParser {
@@ -14,14 +14,14 @@ class GroupParser extends EmbeddedActionsParser {
         children: { Items: [], FormHeader: [] },
       };
 
-      let group_stock = new GroupStock(result);
+      let group_stack = new GroupStack(result);
 
-      $.SUBRULE($.Lines, { ARGS: [group_stock] });
+      $.SUBRULE($.Lines, { ARGS: [group_stack] });
 
       return result;
     });
 
-    $.RULE("Lines", (group_stock) => {
+    $.RULE("Lines", (group_stack) => {
       let isFirst = true;
       $.MANY(() => {
         // let indent = $.SUBRULE($.Indents);
@@ -33,7 +33,7 @@ class GroupParser extends EmbeddedActionsParser {
             ALT: () => {
               let header = $.SUBRULE1($.FormHeader);
               if (!$.RECORDING_PHASE) {
-                group_stock.form.children.FormHeader.push(header);
+                group_stack.form.children.FormHeader.push(header);
               }
               isFirst = false;
             },
@@ -47,7 +47,7 @@ class GroupParser extends EmbeddedActionsParser {
           {
             ALT: () => {
               isFirst = false;
-              $.SUBRULE($.Line, { ARGS: [group_stock] });
+              $.SUBRULE($.Line, { ARGS: [group_stack] });
             },
           },
         ]);
@@ -215,12 +215,12 @@ class GroupParser extends EmbeddedActionsParser {
       return indent;
     });
 
-    $.RULE("OneLineGroup", (group_stock, indent, firstInline) => {
+    $.RULE("OneLineGroup", (group_stack, indent, firstInline) => {
       let result;
       if (!$.RECORDING_PHASE) {
-        result = group_stock.createOneLineGroup();
+        result = group_stack.createOneLineGroup();
 
-        group_stock.setParent(firstInline, result);
+        group_stack.setParent(firstInline, result);
         // inline.children.Items.push(first);
       }
 
@@ -229,8 +229,8 @@ class GroupParser extends EmbeddedActionsParser {
         DEF: () => {
           let item = this.CONSUME(t.InlineText);
           if (!$.RECORDING_PHASE) {
-            let inline = group_stock.createInline(result);
-            group_stock.setParent(inline, result);
+            let inline = group_stack.createInline(result);
+            group_stack.setParent(inline, result);
             inline.children.Items.push(item);
           }
         },
@@ -238,10 +238,10 @@ class GroupParser extends EmbeddedActionsParser {
       return result;
     });
 
-    $.RULE("Inline", (group_stock, indent) => {
+    $.RULE("Inline", (group_stack, indent) => {
       let item;
       if (!$.RECORDING_PHASE) {
-        item = group_stock.createInline();
+        item = group_stack.createInline();
       }
 
       $.AT_LEAST_ONE(() => {
@@ -254,16 +254,16 @@ class GroupParser extends EmbeddedActionsParser {
       $.OPTION(() => {
         $.CONSUME(t.Ampersand);
         item = $.SUBRULE($.OneLineGroup, {
-          ARGS: [group_stock, indent, item],
+          ARGS: [group_stack, indent, item],
         });
       });
 
       if (!$.RECORDING_PHASE) {
-        group_stock.add(item, indent);
+        group_stack.add(item, indent);
       }
     });
 
-    $.RULE("Column", (group_stock, indent) => {
+    $.RULE("Column", (group_stack, indent) => {
       // let indent = $.SUBRULE($.Indents);
 
       $.OR([
@@ -274,7 +274,7 @@ class GroupParser extends EmbeddedActionsParser {
               let header = $.SUBRULE($.VGroupHeader);
 
               if (!$.RECORDING_PHASE) {
-                group_stock.add(header, indent);
+                group_stack.add(header, indent);
               }
             });
           },
@@ -285,31 +285,31 @@ class GroupParser extends EmbeddedActionsParser {
             let header = $.SUBRULE($.PageHeader);
 
             if (!$.RECORDING_PHASE) {
-              group_stock.add(header, indent);
+              group_stack.add(header, indent);
             }
           },
         },
         // Строчный элемент
         {
           ALT: () => {
-            $.SUBRULE($.Inline, { ARGS: [group_stock, indent] });
+            $.SUBRULE($.Inline, { ARGS: [group_stack, indent] });
           },
         },
       ]);
     });
 
-    $.RULE("Line", (group_stock) => {
+    $.RULE("Line", (group_stack) => {
       $.AT_LEAST_ONE_SEP({
         SEP: t.Plus,
         DEF: () => {
           let indent = $.SUBRULE($.Indents);
 
           $.OPTION2(() => {
-            $.SUBRULE2($.Column, { ARGS: [group_stock, indent] });
+            $.SUBRULE2($.Column, { ARGS: [group_stack, indent] });
           });
 
           if (!$.RECORDING_PHASE) {
-            group_stock.next();
+            group_stack.next();
           }
         },
       });
@@ -324,7 +324,7 @@ class GroupParser extends EmbeddedActionsParser {
       });
 
       if (!$.RECORDING_PHASE) {
-        group_stock.doneLine();
+        group_stack.doneLine();
       }
     });
 

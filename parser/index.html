@@ -1,19 +1,36 @@
 ﻿<!DOCTYPE html>
 <html>
   <head></head>
-  <body>  
-    <!-- <script type="module">
-        import * as chevrotain from "chevrotain.js";
-    </script>  -->
-    <script type="module" src='./app.js'> 
+  <body>
+    <script type="module" src="./app.js"></script>
 
+    <script>
+      const app = import("./app.js");
+      onClick = () => {
+        let input = document.getElementById("input").value;
+        let result = parseInput(input);
+
+        document.getElementById("output").value = result;
+      };
+
+      // document.getElementById("input").addEventListener('keydown', function(e) {
+      //   if (e.key == 'Tab') {
+      //     e.preventDefault();
+      //     var start = this.selectionStart;
+      //     var end = this.selectionEnd;
+
+      //     // set textarea value to: text before caret + tab + text after caret
+      //     this.value = this.value.substring(0, start) +
+      //       "\t" + this.value.substring(end);
+
+      //     // put caret at right position again
+      //     this.selectionStart =
+      //       this.selectionEnd = start + 1;
+      //   }
+      // });      
     </script>
-    
-    <script > 
-      const app = await import('./app.js');
-
-    </script>   
-    
-    Hello
+    <textarea id="input" rows="5"></textarea>
+    <button id="button" type="button" onclick="onClick()">Check</button>
+    <textarea id="output" rows="5"></textarea>
   </body>
 </html>
