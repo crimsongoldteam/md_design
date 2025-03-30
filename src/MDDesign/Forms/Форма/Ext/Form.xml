@@ -466,19 +466,10 @@
 								</Button>
 							</ChildItems>
 						</UsualGroup>
-						<InputField name="__Редактор" id="5">
+						<TextDocumentField name="__Редактор" id="5">
 							<DataPath>__Редактор</DataPath>
 							<TitleLocation>None</TitleLocation>
-							<AutoMaxWidth>false</AutoMaxWidth>
-							<HorizontalStretch>true</HorizontalStretch>
-							<VerticalStretch>true</VerticalStretch>
-							<Wrap>false</Wrap>
-							<MultiLine>true</MultiLine>
-							<ExtendedEdit>true</ExtendedEdit>
-							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-							<EditTextUpdate>OnValueChange</EditTextUpdate>
 							<Font ref="sys:ANSIFixedFont" height="8" kind="WindowsFont"/>
-							<SpellCheckingOnTextInput>Use</SpellCheckingOnTextInput>
 							<ContextMenu name="__РедакторКонтекстноеМеню" id="6">
 								<ChildItems>
 									<ButtonGroup name="__РедакторКонтекстноеМенюГруппа" id="144">
@@ -540,9 +531,8 @@
 							<ExtendedTooltip name="__РедакторРасширеннаяПодсказка" id="7"/>
 							<Events>
 								<Event name="OnChange">__РедакторПриИзменении</Event>
-								<Event name="EditTextChange">__РедакторИзменениеТекстаРедактирования</Event>
 							</Events>
-						</InputField>
+						</TextDocumentField>
 						<UsualGroup name="__ГруппаРедакторГрупп" id="154">
 							<Title>
 								<v8:item>
