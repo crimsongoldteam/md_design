@@ -12,268 +12,289 @@
 		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
 	</Events>
 	<ChildItems>
-		<UsualGroup name="__ГруппаИИ" id="206">
-			<Title>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Группа ИИ</v8:content>
-				</v8:item>
-			</Title>
+		<Pages name="__ГруппаЛево" id="340">
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Группа ИИ</v8:content>
+					<v8:content>Группа лево</v8:content>
 				</v8:item>
 			</ToolTip>
-			<Group>Vertical</Group>
-			<Representation>None</Representation>
-			<ShowTitle>false</ShowTitle>
-			<BackColor>#FFB300</BackColor>
-			<ExtendedTooltip name="__ГруппаИИРасширеннаяПодсказка" id="207"/>
+			<PagesRepresentation>None</PagesRepresentation>
+			<ExtendedTooltip name="__ГруппаЛевоРасширеннаяПодсказка" id="341"/>
 			<ChildItems>
-				<UsualGroup name="__ГруппаРамкаИИ" id="308">
+				<Page name="__ГруппаИИ" id="206">
 					<Title>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>Группа рамка ИИ</v8:content>
+							<v8:content>ИИ чат</v8:content>
 						</v8:item>
 					</Title>
-					<HorizontalStretch>true</HorizontalStretch>
-					<VerticalStretch>true</VerticalStretch>
-					<Group>Vertical</Group>
-					<Representation>None</Representation>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа ИИ</v8:content>
+						</v8:item>
+					</ToolTip>
 					<ShowTitle>false</ShowTitle>
-					<BackColor>style:FormBackColor</BackColor>
-					<ExtendedTooltip name="__ГруппаРамкаИИРасширеннаяПодсказка" id="309"/>
+					<ExtendedTooltip name="__ГруппаИИРасширеннаяПодсказка" id="207"/>
 					<ChildItems>
-						<Table name="__ЧатИИ" id="211">
-							<Representation>List</Representation>
-							<ReadOnly>true</ReadOnly>
-							<ChangeRowSet>false</ChangeRowSet>
-							<ChangeRowOrder>false</ChangeRowOrder>
-							<SelectionMode>SingleRow</SelectionMode>
-							<RowSelectionMode>Row</RowSelectionMode>
-							<Header>false</Header>
-							<AutoInsertNewRow>true</AutoInsertNewRow>
-							<EnableStartDrag>true</EnableStartDrag>
-							<EnableDrag>true</EnableDrag>
-							<DataPath>__ЧатИИ</DataPath>
-							<Font ref="sys:ANSIFixedFont" faceName="Cascadia Code" kind="WindowsFont"/>
-							<CommandSet>
-								<ExcludedCommand>MoveDown</ExcludedCommand>
-								<ExcludedCommand>MoveUp</ExcludedCommand>
-								<ExcludedCommand>ShowRowRearrangement</ExcludedCommand>
-								<ExcludedCommand>SortListAsc</ExcludedCommand>
-								<ExcludedCommand>SortListDesc</ExcludedCommand>
-							</CommandSet>
-							<SearchStringLocation>None</SearchStringLocation>
-							<ViewStatusLocation>None</ViewStatusLocation>
-							<SearchControlLocation>None</SearchControlLocation>
-							<RowFilter xsi:nil="true"/>
-							<ContextMenu name="__ЧатИИКонтекстноеМеню" id="212">
-								<ChildItems>
-									<Button name="__ЧатИИЗаменить" id="310">
-										<Type>CommandBarButton</Type>
-										<CommandName>Form.Command.__ЗаменитьИИ</CommandName>
-										<ExtendedTooltip name="__ЧатИИЗаменитьРасширеннаяПодсказка" id="311"/>
-									</Button>
-								</ChildItems>
-							</ContextMenu>
-							<AutoCommandBar name="__ЧатИИКоманднаяПанель" id="213">
-								<Autofill>false</Autofill>
-							</AutoCommandBar>
-							<ExtendedTooltip name="__ЧатИИРасширеннаяПодсказка" id="214"/>
-							<SearchStringAddition name="__ЧатИИСтрокаПоиска" id="215">
-								<AdditionSource>
-									<Item>__ЧатИИ</Item>
-									<Type>SearchStringRepresentation</Type>
-								</AdditionSource>
-								<ContextMenu name="__ЧатИИСтрокаПоискаКонтекстноеМеню" id="216"/>
-								<ExtendedTooltip name="__ЧатИИСтрокаПоискаРасширеннаяПодсказка" id="217"/>
-							</SearchStringAddition>
-							<ViewStatusAddition name="__ЧатИИСостояниеПросмотра" id="218">
-								<AdditionSource>
-									<Item>__ЧатИИ</Item>
-									<Type>ViewStatusRepresentation</Type>
-								</AdditionSource>
-								<ContextMenu name="__ЧатИИСостояниеПросмотраКонтекстноеМеню" id="219"/>
-								<ExtendedTooltip name="__ЧатИИСостояниеПросмотраРасширеннаяПодсказка" id="220"/>
-							</ViewStatusAddition>
-							<SearchControlAddition name="__ЧатИИУправлениеПоиском" id="221">
-								<AdditionSource>
-									<Item>__ЧатИИ</Item>
-									<Type>SearchControl</Type>
-								</AdditionSource>
-								<ContextMenu name="__ЧатИИУправлениеПоискомКонтекстноеМеню" id="222"/>
-								<ExtendedTooltip name="__ЧатИИУправлениеПоискомРасширеннаяПодсказка" id="223"/>
-							</SearchControlAddition>
-							<Events>
-								<Event name="Selection">__ЧатИИВыбор</Event>
-							</Events>
-							<ChildItems>
-								<InputField name="__ЧатИИСообщение" id="224">
-									<DataPath>__ЧатИИ.Сообщение</DataPath>
-									<EditMode>EnterOnInput</EditMode>
-									<AutoCellHeight>true</AutoCellHeight>
-									<Height>50</Height>
-									<MaxHeight>100</MaxHeight>
-									<VerticalStretch>true</VerticalStretch>
-									<MultiLine>true</MultiLine>
-									<ExtendedEdit>true</ExtendedEdit>
-									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-									<ContextMenu name="__ЧатИИСообщениеКонтекстноеМеню" id="225"/>
-									<ExtendedTooltip name="__ЧатИИСообщениеРасширеннаяПодсказка" id="226"/>
-								</InputField>
-							</ChildItems>
-						</Table>
-						<UsualGroup name="__ГруппаЗапросИИ" id="232">
+						<UsualGroup name="__ГруппаРамкаИИ" id="308">
 							<Title>
 								<v8:item>
 									<v8:lang>ru</v8:lang>
-									<v8:content>Группа запрос ИИ</v8:content>
+									<v8:content>Группа рамка ИИ</v8:content>
 								</v8:item>
 							</Title>
-							<ToolTip>
-								<v8:item>
-									<v8:lang>ru</v8:lang>
-									<v8:content>Группа запрос ИИ</v8:content>
-								</v8:item>
-							</ToolTip>
+							<HorizontalStretch>true</HorizontalStretch>
+							<VerticalStretch>true</VerticalStretch>
 							<Group>Vertical</Group>
 							<Representation>None</Representation>
 							<ShowTitle>false</ShowTitle>
-							<ExtendedTooltip name="__ГруппаЗапросИИРасширеннаяПодсказка" id="233"/>
+							<BackColor>#FFB300</BackColor>
+							<ExtendedTooltip name="__ГруппаРамкаИИРасширеннаяПодсказка" id="309"/>
 							<ChildItems>
-								<InputField name="__ЗапросИИ" id="208">
-									<DataPath>__ЗапросИИ</DataPath>
-									<TitleLocation>None</TitleLocation>
-									<ToolTipRepresentation>None</ToolTipRepresentation>
-									<AutoMaxWidth>false</AutoMaxWidth>
-									<Height>2</Height>
-									<AutoMaxHeight>false</AutoMaxHeight>
-									<MaxHeight>4</MaxHeight>
-									<MultiLine>true</MultiLine>
-									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-									<EditTextUpdate>OnValueChange</EditTextUpdate>
-									<InputHint>
-										<v8:item>
-											<v8:lang>ru</v8:lang>
-											<v8:content>Опишите форму, укажите нужные вам поля</v8:content>
-										</v8:item>
-									</InputHint>
-									<ContextMenu name="__ЗапросИИКонтекстноеМеню" id="209"/>
-									<ExtendedTooltip name="__ЗапросИИРасширеннаяПодсказка" id="210"/>
-								</InputField>
-								<UsualGroup name="__ГруппаОперацииИИ" id="302">
+								<Table name="__ЧатИИ" id="211">
+									<Representation>List</Representation>
+									<ReadOnly>true</ReadOnly>
+									<ChangeRowSet>false</ChangeRowSet>
+									<ChangeRowOrder>false</ChangeRowOrder>
+									<SelectionMode>SingleRow</SelectionMode>
+									<RowSelectionMode>Row</RowSelectionMode>
+									<Header>false</Header>
+									<AutoInsertNewRow>true</AutoInsertNewRow>
+									<EnableStartDrag>true</EnableStartDrag>
+									<EnableDrag>true</EnableDrag>
+									<DataPath>__ЧатИИ</DataPath>
+									<Font ref="sys:ANSIFixedFont" faceName="Cascadia Code" kind="WindowsFont"/>
+									<CommandSet>
+										<ExcludedCommand>MoveDown</ExcludedCommand>
+										<ExcludedCommand>MoveUp</ExcludedCommand>
+										<ExcludedCommand>ShowRowRearrangement</ExcludedCommand>
+										<ExcludedCommand>SortListAsc</ExcludedCommand>
+										<ExcludedCommand>SortListDesc</ExcludedCommand>
+									</CommandSet>
+									<SearchStringLocation>None</SearchStringLocation>
+									<ViewStatusLocation>None</ViewStatusLocation>
+									<SearchControlLocation>None</SearchControlLocation>
+									<RowFilter xsi:nil="true"/>
+									<ContextMenu name="__ЧатИИКонтекстноеМеню" id="212">
+										<ChildItems>
+											<Button name="__ЧатИИЗаменить" id="310">
+												<Type>CommandBarButton</Type>
+												<CommandName>Form.Command.__ЗаменитьИИ</CommandName>
+												<ExtendedTooltip name="__ЧатИИЗаменитьРасширеннаяПодсказка" id="311"/>
+											</Button>
+										</ChildItems>
+									</ContextMenu>
+									<AutoCommandBar name="__ЧатИИКоманднаяПанель" id="213">
+										<Autofill>false</Autofill>
+									</AutoCommandBar>
+									<ExtendedTooltip name="__ЧатИИРасширеннаяПодсказка" id="214"/>
+									<SearchStringAddition name="__ЧатИИСтрокаПоиска" id="215">
+										<AdditionSource>
+											<Item>__ЧатИИ</Item>
+											<Type>SearchStringRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="__ЧатИИСтрокаПоискаКонтекстноеМеню" id="216"/>
+										<ExtendedTooltip name="__ЧатИИСтрокаПоискаРасширеннаяПодсказка" id="217"/>
+									</SearchStringAddition>
+									<ViewStatusAddition name="__ЧатИИСостояниеПросмотра" id="218">
+										<AdditionSource>
+											<Item>__ЧатИИ</Item>
+											<Type>ViewStatusRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="__ЧатИИСостояниеПросмотраКонтекстноеМеню" id="219"/>
+										<ExtendedTooltip name="__ЧатИИСостояниеПросмотраРасширеннаяПодсказка" id="220"/>
+									</ViewStatusAddition>
+									<SearchControlAddition name="__ЧатИИУправлениеПоиском" id="221">
+										<AdditionSource>
+											<Item>__ЧатИИ</Item>
+											<Type>SearchControl</Type>
+										</AdditionSource>
+										<ContextMenu name="__ЧатИИУправлениеПоискомКонтекстноеМеню" id="222"/>
+										<ExtendedTooltip name="__ЧатИИУправлениеПоискомРасширеннаяПодсказка" id="223"/>
+									</SearchControlAddition>
+									<Events>
+										<Event name="Selection">__ЧатИИВыбор</Event>
+									</Events>
+									<ChildItems>
+										<InputField name="__ЧатИИСообщение" id="224">
+											<DataPath>__ЧатИИ.Сообщение</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<AutoCellHeight>true</AutoCellHeight>
+											<Height>50</Height>
+											<MaxHeight>100</MaxHeight>
+											<VerticalStretch>true</VerticalStretch>
+											<MultiLine>true</MultiLine>
+											<ExtendedEdit>true</ExtendedEdit>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<ContextMenu name="__ЧатИИСообщениеКонтекстноеМеню" id="225"/>
+											<ExtendedTooltip name="__ЧатИИСообщениеРасширеннаяПодсказка" id="226"/>
+										</InputField>
+									</ChildItems>
+								</Table>
+								<UsualGroup name="__ГруппаЗапросИИ" id="232">
 									<Title>
 										<v8:item>
 											<v8:lang>ru</v8:lang>
-											<v8:content>Группа операции ИИ</v8:content>
+											<v8:content>Группа запрос ИИ</v8:content>
 										</v8:item>
 									</Title>
-									<HorizontalStretch>true</HorizontalStretch>
-									<Group>AlwaysHorizontal</Group>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Группа запрос ИИ</v8:content>
+										</v8:item>
+									</ToolTip>
+									<Group>Vertical</Group>
 									<Representation>None</Representation>
 									<ShowTitle>false</ShowTitle>
-									<ExtendedTooltip name="__ГруппаОперацииИИРасширеннаяПодсказка" id="303"/>
+									<ExtendedTooltip name="__ГруппаЗапросИИРасширеннаяПодсказка" id="233"/>
 									<ChildItems>
-										<Button name="__ОчиститьИИ" id="300">
-											<Type>UsualButton</Type>
-											<Width>9</Width>
-											<CommandName>Form.Command.__ОчиститьИИ</CommandName>
-											<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
-											<ExtendedTooltip name="__ОчиститьИИРасширеннаяПодсказка" id="301"/>
-										</Button>
-										<Button name="__ОтправитьИИ" id="230">
-											<Type>UsualButton</Type>
-											<GroupHorizontalAlign>Right</GroupHorizontalAlign>
-											<GroupVerticalAlign>Bottom</GroupVerticalAlign>
-											<CommandName>Form.Command.__ОтправитьИИ</CommandName>
-											<BackColor>style:FormBackColor</BackColor>
-											<Font ref="style:NormalTextFont" faceName="Calibri" bold="false" italic="false" underline="false" strikeout="false" kind="StyleItem" scale="100"/>
+										<InputField name="__ЗапросИИ" id="208">
+											<DataPath>__ЗапросИИ</DataPath>
+											<TitleLocation>None</TitleLocation>
+											<ToolTipRepresentation>None</ToolTipRepresentation>
+											<AutoMaxWidth>false</AutoMaxWidth>
+											<Height>2</Height>
+											<AutoMaxHeight>false</AutoMaxHeight>
+											<MaxHeight>4</MaxHeight>
+											<MultiLine>true</MultiLine>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<EditTextUpdate>OnValueChange</EditTextUpdate>
+											<InputHint>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Опишите форму, укажите нужные вам поля</v8:content>
+												</v8:item>
+											</InputHint>
+											<ContextMenu name="__ЗапросИИКонтекстноеМеню" id="209"/>
+											<ExtendedTooltip name="__ЗапросИИРасширеннаяПодсказка" id="210"/>
+										</InputField>
+										<UsualGroup name="__ГруппаОперацииИИ" id="302">
 											<Title>
 												<v8:item>
 													<v8:lang>ru</v8:lang>
-													<v8:content>Отправить</v8:content>
+													<v8:content>Группа операции ИИ</v8:content>
 												</v8:item>
 											</Title>
-											<ExtendedTooltip name="__ОтправитьИИРасширеннаяПодсказка" id="231"/>
-										</Button>
+											<HorizontalStretch>true</HorizontalStretch>
+											<Group>AlwaysHorizontal</Group>
+											<Representation>None</Representation>
+											<ShowTitle>false</ShowTitle>
+											<ExtendedTooltip name="__ГруппаОперацииИИРасширеннаяПодсказка" id="303"/>
+											<ChildItems>
+												<Button name="__ОчиститьИИ" id="300">
+													<Type>UsualButton</Type>
+													<Width>9</Width>
+													<CommandName>Form.Command.__ОчиститьИИ</CommandName>
+													<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+													<ExtendedTooltip name="__ОчиститьИИРасширеннаяПодсказка" id="301"/>
+												</Button>
+												<Button name="__ОтправитьИИ" id="230">
+													<Type>UsualButton</Type>
+													<GroupHorizontalAlign>Right</GroupHorizontalAlign>
+													<GroupVerticalAlign>Bottom</GroupVerticalAlign>
+													<CommandName>Form.Command.__ОтправитьИИ</CommandName>
+													<BackColor>style:FormBackColor</BackColor>
+													<Font ref="style:NormalTextFont" faceName="Calibri" bold="false" italic="false" underline="false" strikeout="false" kind="StyleItem" scale="100"/>
+													<Title>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Отправить</v8:content>
+														</v8:item>
+													</Title>
+													<ExtendedTooltip name="__ОтправитьИИРасширеннаяПодсказка" id="231"/>
+												</Button>
+											</ChildItems>
+										</UsualGroup>
 									</ChildItems>
 								</UsualGroup>
 							</ChildItems>
 						</UsualGroup>
 					</ChildItems>
-				</UsualGroup>
-				<Table name="__ДеревоЭлементов" id="315">
-					<Representation>Tree</Representation>
+				</Page>
+				<Page name="__ГруппаДеревоЭлементов" id="342">
 					<Visible>false</Visible>
-					<ChangeRowSet>false</ChangeRowSet>
-					<ChangeRowOrder>false</ChangeRowOrder>
-					<AutoInsertNewRow>true</AutoInsertNewRow>
-					<EnableStartDrag>true</EnableStartDrag>
-					<EnableDrag>true</EnableDrag>
-					<DataPath>__ДеревоЭлементов</DataPath>
-					<ContextMenu name="__ДеревоЭлементовКонтекстноеМеню" id="316"/>
-					<AutoCommandBar name="__ДеревоЭлементовКоманднаяПанель" id="317"/>
-					<ExtendedTooltip name="__ДеревоЭлементовРасширеннаяПодсказка" id="318"/>
-					<SearchStringAddition name="__ДеревоЭлементовСтрокаПоиска" id="319">
-						<AdditionSource>
-							<Item>__ДеревоЭлементов</Item>
-							<Type>SearchStringRepresentation</Type>
-						</AdditionSource>
-						<ContextMenu name="__ДеревоЭлементовСтрокаПоискаКонтекстноеМеню" id="320"/>
-						<ExtendedTooltip name="__ДеревоЭлементовСтрокаПоискаРасширеннаяПодсказка" id="321"/>
-					</SearchStringAddition>
-					<ViewStatusAddition name="__ДеревоЭлементовСостояниеПросмотра" id="322">
-						<AdditionSource>
-							<Item>__ДеревоЭлементов</Item>
-							<Type>ViewStatusRepresentation</Type>
-						</AdditionSource>
-						<ContextMenu name="__ДеревоЭлементовСостояниеПросмотраКонтекстноеМеню" id="323"/>
-						<ExtendedTooltip name="__ДеревоЭлементовСостояниеПросмотраРасширеннаяПодсказка" id="324"/>
-					</ViewStatusAddition>
-					<SearchControlAddition name="__ДеревоЭлементовУправлениеПоиском" id="325">
-						<AdditionSource>
-							<Item>__ДеревоЭлементов</Item>
-							<Type>SearchControl</Type>
-						</AdditionSource>
-						<ContextMenu name="__ДеревоЭлементовУправлениеПоискомКонтекстноеМеню" id="326"/>
-						<ExtendedTooltip name="__ДеревоЭлементовУправлениеПоискомРасширеннаяПодсказка" id="327"/>
-					</SearchControlAddition>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Элементы</v8:content>
+						</v8:item>
+					</Title>
+					<Group>HorizontalIfPossible</Group>
+					<ExtendedTooltip name="__ГруппаДеревоЭлементовРасширеннаяПодсказка" id="343"/>
 					<ChildItems>
-						<InputField name="__ДеревоЭлементовПредставление" id="328">
-							<DataPath>__ДеревоЭлементов.Представление</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-							<ContextMenu name="__ДеревоЭлементовПредставлениеКонтекстноеМеню" id="329"/>
-							<ExtendedTooltip name="__ДеревоЭлементовПредставлениеРасширеннаяПодсказка" id="330"/>
-						</InputField>
-						<InputField name="__ДеревоЭлементовТип" id="331">
-							<DataPath>__ДеревоЭлементов.Тип</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-							<ContextMenu name="__ДеревоЭлементовТипКонтекстноеМеню" id="332"/>
-							<ExtendedTooltip name="__ДеревоЭлементовТипРасширеннаяПодсказка" id="333"/>
-						</InputField>
-						<InputField name="__ДеревоЭлементовИндексКартинки" id="334">
-							<DataPath>__ДеревоЭлементов.ИндексКартинки</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-							<ContextMenu name="__ДеревоЭлементовИндексКартинкиКонтекстноеМеню" id="335"/>
-							<ExtendedTooltip name="__ДеревоЭлементовИндексКартинкиРасширеннаяПодсказка" id="336"/>
-						</InputField>
-						<InputField name="__ДеревоЭлементовСвойства" id="337">
-							<DataPath>__ДеревоЭлементов.Свойства</DataPath>
-							<EditMode>EnterOnInput</EditMode>
-							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-							<ContextMenu name="__ДеревоЭлементовСвойстваКонтекстноеМеню" id="338"/>
-							<ExtendedTooltip name="__ДеревоЭлементовСвойстваРасширеннаяПодсказка" id="339"/>
-						</InputField>
+						<Table name="__ДеревоЭлементов" id="315">
+							<Representation>Tree</Representation>
+							<ChangeRowSet>false</ChangeRowSet>
+							<ChangeRowOrder>false</ChangeRowOrder>
+							<AutoInsertNewRow>true</AutoInsertNewRow>
+							<EnableStartDrag>true</EnableStartDrag>
+							<EnableDrag>true</EnableDrag>
+							<DataPath>__ДеревоЭлементов</DataPath>
+							<ContextMenu name="__ДеревоЭлементовКонтекстноеМеню" id="316"/>
+							<AutoCommandBar name="__ДеревоЭлементовКоманднаяПанель" id="317"/>
+							<ExtendedTooltip name="__ДеревоЭлементовРасширеннаяПодсказка" id="318"/>
+							<SearchStringAddition name="__ДеревоЭлементовСтрокаПоиска" id="319">
+								<AdditionSource>
+									<Item>__ДеревоЭлементов</Item>
+									<Type>SearchStringRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="__ДеревоЭлементовСтрокаПоискаКонтекстноеМеню" id="320"/>
+								<ExtendedTooltip name="__ДеревоЭлементовСтрокаПоискаРасширеннаяПодсказка" id="321"/>
+							</SearchStringAddition>
+							<ViewStatusAddition name="__ДеревоЭлементовСостояниеПросмотра" id="322">
+								<AdditionSource>
+									<Item>__ДеревоЭлементов</Item>
+									<Type>ViewStatusRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="__ДеревоЭлементовСостояниеПросмотраКонтекстноеМеню" id="323"/>
+								<ExtendedTooltip name="__ДеревоЭлементовСостояниеПросмотраРасширеннаяПодсказка" id="324"/>
+							</ViewStatusAddition>
+							<SearchControlAddition name="__ДеревоЭлементовУправлениеПоиском" id="325">
+								<AdditionSource>
+									<Item>__ДеревоЭлементов</Item>
+									<Type>SearchControl</Type>
+								</AdditionSource>
+								<ContextMenu name="__ДеревоЭлементовУправлениеПоискомКонтекстноеМеню" id="326"/>
+								<ExtendedTooltip name="__ДеревоЭлементовУправлениеПоискомРасширеннаяПодсказка" id="327"/>
+							</SearchControlAddition>
+							<ChildItems>
+								<InputField name="__ДеревоЭлементовПредставление" id="328">
+									<DataPath>__ДеревоЭлементов.Представление</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+									<ContextMenu name="__ДеревоЭлементовПредставлениеКонтекстноеМеню" id="329"/>
+									<ExtendedTooltip name="__ДеревоЭлементовПредставлениеРасширеннаяПодсказка" id="330"/>
+								</InputField>
+								<InputField name="__ДеревоЭлементовТип" id="331">
+									<DataPath>__ДеревоЭлементов.Тип</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+									<ContextMenu name="__ДеревоЭлементовТипКонтекстноеМеню" id="332"/>
+									<ExtendedTooltip name="__ДеревоЭлементовТипРасширеннаяПодсказка" id="333"/>
+								</InputField>
+								<InputField name="__ДеревоЭлементовИндексКартинки" id="334">
+									<DataPath>__ДеревоЭлементов.ИндексКартинки</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+									<ContextMenu name="__ДеревоЭлементовИндексКартинкиКонтекстноеМеню" id="335"/>
+									<ExtendedTooltip name="__ДеревоЭлементовИндексКартинкиРасширеннаяПодсказка" id="336"/>
+								</InputField>
+								<InputField name="__ДеревоЭлементовСвойства" id="337">
+									<DataPath>__ДеревоЭлементов.Свойства</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+									<ContextMenu name="__ДеревоЭлементовСвойстваКонтекстноеМеню" id="338"/>
+									<ExtendedTooltip name="__ДеревоЭлементовСвойстваРасширеннаяПодсказка" id="339"/>
+								</InputField>
+							</ChildItems>
+						</Table>
 					</ChildItems>
-				</Table>
+				</Page>
 			</ChildItems>
-		</UsualGroup>
+		</Pages>
 		<UsualGroup name="__ГруппаРамкаРедактор" id="263">
 			<Title>
 				<v8:item>

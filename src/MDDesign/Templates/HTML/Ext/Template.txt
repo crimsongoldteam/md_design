@@ -5,7 +5,5 @@
     <script>
       %ParserJS%
     </script> 
-    
-    Hello
   </body>
 </html>
