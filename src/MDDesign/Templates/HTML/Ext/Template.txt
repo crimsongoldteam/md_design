@@ -1,0 +1,9 @@
+﻿<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>  
+    <script>
+      %ParserJS%
+    </script> 
+  </body>
+</html>

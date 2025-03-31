@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 
 // Copyright (c) 2025 Zherebtsov Nikita <nikita@crimsongold.ru>
 
@@ -22,27 +22,42 @@
 
 // https://github.com/crimsongoldteam/md_design
 
-#Область ОбработчикиСобытийФормы
+import { lexer } from "./lexer.js";
+import { groupParser } from "./group-parser.js";
+import { visitor } from "./visitor.js";
 
-&НаСервере
-Процедура ПриСозданииНаСервере(Отказ, СтандартнаяОбработка)
-	ЗаполнитьЗначенияСвойств(ЭтотОбъект, Параметры.Настройки);
-КонецПроцедуры
+function parseInput(input) {
+  let resultJSON = "";
 
-#КонецОбласти
+  let lexingResult = lexer.tokenize(input);  
+  groupParser.input = lexingResult.tokens;
 
-#Область ОбработчикиКомандФормы
+  let cst = groupParser.Form();
 
-&НаКлиенте
-Процедура ОК(Команда)
-	Настройки = Новый Структура;
-	ПоляНастроек = "__НеПроверятьОбновления,__ТокенИИ,__МодельИИ,__ПровайдерИИ";
-	МассивНастроек = СтрРазделить(ПоляНастроек, ",");
-	Для Каждого ИмяНастройки Из МассивНастроек Цикл
-		Настройки.Вставить(ИмяНастройки, ЭтаФорма[ИмяНастройки]);
-	КонецЦикла;
-	
-	Закрыть(Настройки);
-КонецПроцедуры
+  const result = visitor.visit(cst);
 
-#КонецОбласти
+  resultJSON = JSON.stringify(result, null, 2);
+//   let resultJSON = "";
+//   if (window.lexer === null) {
+//     Load();
+//   }
+
+//   try {
+//     let lexingResult = lexer.tokenize(input);
+
+//     window.groupParser.input = lexingResult.tokens;
+
+//     let cst = groupParser.Form();
+
+//     const result = visitor.visit(cst);
+
+//     
+//   } catch (e) {
+//     return "Ошибка: " + e.name + ":" + e.message + "\n" + e.stack;
+//   }
+  //  return resultJSON;
+  return resultJSON;  
+}
+
+window.parseInput = parseInput;
+
