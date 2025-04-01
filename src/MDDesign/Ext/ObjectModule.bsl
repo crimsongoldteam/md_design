@@ -1,4 +1,28 @@
-﻿#Если Сервер Или ТолстыйКлиентОбычноеПриложение Или ВнешнееСоединение Тогда
+﻿// MIT License
+
+// Copyright (c) 2025 Zherebtsov Nikita <nikita@crimsongold.ru>
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+// https://github.com/crimsongoldteam/md_design
+
+#Если Сервер Или ТолстыйКлиентОбычноеПриложение Или ВнешнееСоединение Тогда
 
 #Область ПрограммныйИнтерфейс
 
@@ -13,17 +37,50 @@
 //
 Функция СведенияОВнешнейОбработке() Экспорт
 	
-	ПараметрыРегистрации = ДополнительныеОтчетыИОбработки.СведенияОВнешнейОбработке();
+	Версия = "0.10.8";
+	Идентификатор = "Накидка";
+	БезопасныйРежим = Истина;
+	Представление = НСтр("ru = 'Накидка'; en = 'MD_Design'");
+	ПоказыватьОповещение = Ложь;
 	
-	ПараметрыРегистрации.Вид = ДополнительныеОтчетыИОбработкиКлиентСервер.ВидОбработкиДополнительнаяОбработка();
-	ПараметрыРегистрации.Версия = "0.10.3";
-	ПараметрыРегистрации.БезопасныйРежим = Истина;
-	
-	НоваяКоманда = ПараметрыРегистрации.Команды.Добавить();
-	НоваяКоманда.Представление = НСтр("ru = 'Накидка'");
-	НоваяКоманда.Идентификатор = "Накидка";
-	НоваяКоманда.Использование = ДополнительныеОтчетыИОбработкиКлиентСервер.ТипКомандыОткрытиеФормы();
-	НоваяКоманда.ПоказыватьОповещение = Ложь;
+	Если ЭтоБСП() Тогда
+		Модуль = Вычислить("ДополнительныеОтчетыИОбработки");
+		МодульКлиентСервер = Вычислить("ДополнительныеОтчетыИОбработкиКлиентСервер");
+		
+		ПараметрыРегистрации = Модуль.СведенияОВнешнейОбработке();
+		
+		ПараметрыРегистрации.Вид = МодульКлиентСервер.ВидОбработкиДополнительнаяОбработка();
+		ПараметрыРегистрации.Версия = Версия;
+		ПараметрыРегистрации.БезопасныйРежим = БезопасныйРежим;
+		
+		НоваяКоманда = ПараметрыРегистрации.Команды.Добавить();
+		НоваяКоманда.Представление = Представление;
+		НоваяКоманда.Идентификатор = Идентификатор;
+		НоваяКоманда.Использование = МодульКлиентСервер.ТипКомандыОткрытиеФормы();
+		НоваяКоманда.ПоказыватьОповещение = ПоказыватьОповещение;
+	ИначеЕсли ЭтоSSL() Тогда
+		Модуль = Вычислить("AdditionalReportsAndDataProcessors");
+		МодульКлиентСервер = Вычислить("AdditionalReportsAndDataProcessorsClientServer");
+		
+		ПараметрыРегистрации = Модуль.ExternalDataProcessorInfo();
+		
+		ПараметрыРегистрации.Kind = МодульКлиентСервер.DataProcessorKindAdditionalDataProcessor();
+		ПараметрыРегистрации.Version = Версия;
+		ПараметрыРегистрации.SafeMode = БезопасныйРежим;
+		ПараметрыРегистрации.Вставить("Версия", Версия);
+		
+		НоваяКоманда = ПараметрыРегистрации.Commands.Добавить();
+		НоваяКоманда.Presentation = Представление;
+		НоваяКоманда.ID = Идентификатор;
+		НоваяКоманда.Use = МодульКлиентСервер.CommandTypeOpenForm();
+		НоваяКоманда.ShouldShowUserNotification = ПоказыватьОповещение;
+	Иначе
+		ПараметрыРегистрации = Новый Структура;
+		
+		ПараметрыРегистрации.Вставить("Вид", "НашID");
+		ПараметрыРегистрации.Вставить("Версия", Версия);
+		ПараметрыРегистрации.Вставить("БезопасныйРежим", БезопасныйРежим);
+	КонецЕсли;
 	
 	Возврат ПараметрыРегистрации;
 	
@@ -49,6 +106,18 @@
 #КонецОбласти
 
 #Область СлужебныеПроцедурыИФункции
+
+Функция ЭтоБСП()
+	
+	Возврат Метаданные.ОбщиеМодули.Найти("ДополнительныеОтчетыИОбработки") <> Неопределено;
+	
+КонецФункции
+
+Функция ЭтоSSL()
+	
+	Возврат Метаданные.ОбщиеМодули.Найти("AdditionalReportsAndDataProcessors") <> Неопределено;
+	
+КонецФункции
 
 Функция ПересоздатьГруппуКонтейнер(ГруппаРодитель, Знач Форма)
 	ГруппаКонтейнер = Форма.Элементы.Найти("ГруппаКонтейнер");

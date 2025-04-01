@@ -8333,6 +8333,120 @@
 		<row>
 			<c>
 				<c>
+					<f>21</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ВертикальнаяГруппа</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ЦветФона</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Цвет фона</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Цвет</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>22</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>20</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>23</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>20</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>23</f>
+				</c>
+			</c>
+		</row>
+	</rowsItem>
+	<rowsItem>
+		<index>65</index>
+		<row>
+			<c>
+				<c>
 					<f>12</f>
 					<tl>
 						<v8:item>
@@ -8449,7 +8563,121 @@
 		</row>
 	</rowsItem>
 	<rowsItem>
-		<index>65</index>
+		<index>66</index>
+		<row>
+			<c>
+				<c>
+					<f>21</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Страница</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>ЦветФона</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Цвет фона</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+					<tl>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Цвет</v8:content>
+						</v8:item>
+					</tl>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>19</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>22</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>20</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>23</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>20</f>
+				</c>
+			</c>
+			<c>
+				<c>
+					<f>23</f>
+				</c>
+			</c>
+		</row>
+	</rowsItem>
+	<rowsItem>
+		<index>67</index>
 		<row>
 			<c>
 				<c>
@@ -8564,7 +8792,7 @@
 		</row>
 	</rowsItem>
 	<rowsItem>
-		<index>66</index>
+		<index>68</index>
 		<row>
 			<c>
 				<c>
@@ -8757,8 +8985,8 @@
 	</rowsItem>
 	<templateMode>true</templateMode>
 	<defaultFormatIndex>26</defaultFormatIndex>
-	<height>67</height>
-	<vgRows>67</vgRows>
+	<height>69</height>
+	<vgRows>69</vgRows>
 	<line width="1" gap="false">
 		<v8ui:style xsi:type="v8ui:SpreadsheetDocumentCellLineType">Solid</v8ui:style>
 	</line>

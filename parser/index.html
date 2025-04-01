@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <script type="module" src="./app.js"></script>
+
+    <script>
+      const app = import("./app.js");
+      onClick = () => {
+        let input = document.getElementById("input").value;
+        let result = parseInputInner(input);
+
+        document.getElementById("output").value = result;
+      };
+    </script>
+    <textarea id="input" rows="5"></textarea>
+    <button id="button" type="button" onclick="onClick()">Check</button>
+    <textarea id="output" rows="5"></textarea>
+  </body>
+</html>

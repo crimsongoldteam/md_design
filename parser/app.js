@@ -22,27 +22,34 @@
 
 // https://github.com/crimsongoldteam/md_design
 
-#Область ОбработчикиСобытийФормы
+import { lexer } from "./lexer.js";
+import { groupParser } from "./group-parser.js";
+import { visitor } from "./visitor.js";
 
-&НаСервере
-Процедура ПриСозданииНаСервере(Отказ, СтандартнаяОбработка)
-	ЗаполнитьЗначенияСвойств(ЭтотОбъект, Параметры.Настройки);
-КонецПроцедуры
+function parseInputInner(input) {
+  const lexingResult = lexer.tokenize(input);
+  
+  groupParser.input = lexingResult.tokens;
 
-#КонецОбласти
+  const cst = groupParser.Form();
 
-#Область ОбработчикиКомандФормы
+  const result = visitor.visit(cst);
 
-&НаКлиенте
-Процедура ОК(Команда)
-	Настройки = Новый Структура;
-	ПоляНастроек = "__НеПроверятьОбновления,__ТокенИИ,__МодельИИ,__ПровайдерИИ";
-	МассивНастроек = СтрРазделить(ПоляНастроек, ",");
-	Для Каждого ИмяНастройки Из МассивНастроек Цикл
-		Настройки.Вставить(ИмяНастройки, ЭтаФорма[ИмяНастройки]);
-	КонецЦикла;
-	
-	Закрыть(Настройки);
-КонецПроцедуры
+  const resultJSON = JSON.stringify(result, null, 2);
 
-#КонецОбласти
+  return resultJSON;
+}
+
+function parseInput(input) {
+  let result = "";
+
+  try {
+    result = window.parseInputInner(input);
+  } catch (e) {
+    return "Ошибка: " + e.name + ":" + e.message + "\n" + e.stack;
+  }
+  return result;
+}
+
+window.parseInputInner = parseInputInner;
+window.parseInput = parseInput;
