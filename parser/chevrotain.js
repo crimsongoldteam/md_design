@@ -1,4 +1,4 @@
-// lib/src/version.js
+﻿// lib/src/version.js
 var VERSION = "11.0.3";
 
 // ../../node_modules/.pnpm/lodash-es@4.17.21/node_modules/lodash-es/_freeGlobal.js
@@ -9538,17 +9538,3 @@ export {
   tokenMatcher,
   tokenName
 };
-/*! Bundled license information:
-
-lodash-es/lodash.js:
-  (**
-   * @license
-   * Lodash (Custom Build) <https://lodash.com/>
-   * Build: `lodash modularize exports="es" -o ./`
-   * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
-   * Released under MIT license <https://lodash.com/license>
-   * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-   * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-   *)
-*/
-//# sourceMappingURL=chevrotain.mjs.map

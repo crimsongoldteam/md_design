@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 
 // Copyright (c) 2025 Zherebtsov Nikita <nikita@crimsongold.ru>
 
@@ -26,38 +26,30 @@ import { lexer } from "./lexer.js";
 import { groupParser } from "./group-parser.js";
 import { visitor } from "./visitor.js";
 
-function parseInput(input) {
-  let resultJSON = "";
-
-  let lexingResult = lexer.tokenize(input);  
+function parseInputInner(input) {
+  const lexingResult = lexer.tokenize(input);
+  
   groupParser.input = lexingResult.tokens;
 
-  let cst = groupParser.Form();
+  const cst = groupParser.Form();
 
   const result = visitor.visit(cst);
 
-  resultJSON = JSON.stringify(result, null, 2);
-//   let resultJSON = "";
-//   if (window.lexer === null) {
-//     Load();
-//   }
+  const resultJSON = JSON.stringify(result, null, 2);
 
-//   try {
-//     let lexingResult = lexer.tokenize(input);
-
-//     window.groupParser.input = lexingResult.tokens;
-
-//     let cst = groupParser.Form();
-
-//     const result = visitor.visit(cst);
-
-//     
-//   } catch (e) {
-//     return "Ошибка: " + e.name + ":" + e.message + "\n" + e.stack;
-//   }
-  //  return resultJSON;
-  return resultJSON;  
+  return resultJSON;
 }
 
-window.parseInput = parseInput;
+function parseInput(input) {
+  let result = "";
 
+  try {
+    result = window.parseInputInner(input);
+  } catch (e) {
+    return "Ошибка: " + e.name + ":" + e.message + "\n" + e.stack;
+  }
+  return result;
+}
+
+window.parseInputInner = parseInputInner;
+window.parseInput = parseInput;

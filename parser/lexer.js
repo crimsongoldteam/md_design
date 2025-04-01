@@ -1,4 +1,4 @@
-import {createToken, Lexer} from './chevrotain.js';
+﻿import {createToken, Lexer} from './chevrotain.js';
 
 export const HeaderText = createToken({
   name: "HeaderText",
@@ -56,13 +56,13 @@ export const Semicolon = createToken({
 // });
 export const Equals = createToken({
   name: "Equals",
-  pattern: /\= */,
+  pattern: /\=[ \t]*/,
   label: "=",
   categories: [HeaderText, InlineText, PageGroupHeaderText],
 });
 export const Hash = createToken({
   name: "Hash",
-  pattern: /\#+ */,
+  pattern: /\#+[ \t]*/,
   label: "#",
   categories: [HeaderText],
 });
@@ -89,13 +89,13 @@ export const Dash = createToken({
 
 export const Slash = createToken({
   name: "Slash",
-  pattern: /\/ */,
+  pattern: /\/[ \t]*/,
   label: "/",
   categories: [HeaderText, PageGroupHeaderText, PropertiesValueText],
 });
 export const Ampersand = createToken({
   name: "Ampersand",
-  pattern: /\& */,
+  pattern: /\&[ \t]*/,
   label: "&",
   categories: [HeaderText, PageGroupHeaderText, PropertiesValueText],
 });
@@ -103,7 +103,7 @@ export const Tab = createToken({ name: "Tab", pattern: /\t/ });
 
 export const Text = createToken({
   name: "Text",
-  pattern: /[^\{\}\=\;\&\#\+\n\r\t\/\- ][^\{\}\=\;\&\#\+\n\r\t\-]*/,
+  pattern: /[^\{\}\=\;\&\#\+\n\r\t\/\- ][^\{\}\=\;\&\#\+\n\r\-]*/,
   categories: [
     HeaderText,
     InlineText,
