@@ -1,4 +1,4 @@
-import { EmbeddedActionsParser, EOF } from "./chevrotain.js";
+﻿import { EmbeddedActionsParser, EOF } from "./chevrotain.js";
 
 import { GroupStack } from "./group-stack.js";
 import * as t from "./lexer.js";
@@ -95,18 +95,18 @@ class GroupParser extends EmbeddedActionsParser {
       $.ACTION(() => {
         vGroup = group_stack.createVGroup(hGroup);
         vGroupHeader = vGroup.children.VGroupHeader[0];
-      });      
+      });
 
       let hash = $.CONSUME(t.Hash);
       $.ACTION(() => {
         vGroupHeader.children.Hash.push(hash);
-      });  
+      });
 
       $.MANY(() => {
         let text = $.CONSUME(t.PageGroupHeaderText);
         $.ACTION(() => {
           vGroupHeader.children.Text.push(text);
-        });   
+        });
       });
 
       let propertiesObj = $.SUBRULE($.Properties);
@@ -119,36 +119,45 @@ class GroupParser extends EmbeddedActionsParser {
             propertiesObj.tokens
           );
         }
-      });        
-
+      });
 
       return vGroup;
     });
 
     // /Заголовок страницы
-    $.RULE("PageHeader", () => {
-      let result = {
-        name: "PageHeader",
-        children: { Slash: [], Text: [], Properties: {} },
-      };
+    $.RULE("PageHeader", (group_stack) => {
+      let page;
+      let pageHeader;
 
-      result.children.Slash.push($.CONSUME(t.Slash));
+      $.ACTION(() => {
+        page = group_stack.createPage();
+        pageHeader = page.children.PageHeader[0];
+      });
+
+      let slash = $.CONSUME(t.Slash);
+      $.ACTION(() => {
+        pageHeader.children.Slash.push(slash);
+      });
 
       $.MANY(() => {
-        result.children.Text.push($.CONSUME(t.PageGroupHeaderText));
+        let text = $.CONSUME(t.PageGroupHeaderText);
+        $.ACTION(() => {
+          pageHeader.children.Text.push(text);
+        });
       });
 
       let propertiesObj = $.SUBRULE($.Properties);
 
-      if (propertiesObj.isProperties) {
-        result.children.Properties = propertiesObj.properties;
-      } else {
-        result.children.Text = result.children.Text.concat(
-          propertiesObj.tokens
-        );
-      }
-
-      return result;
+      $.ACTION(() => {
+        if (propertiesObj.isProperties) {
+          page.children.Properties = propertiesObj.properties;
+        } else {
+          pageHeader.children.Text = pageHeader.children.Text.concat(
+            propertiesObj.tokens
+          );
+        }
+      });
+      return page;
     });
 
     $.RULE("Properties", () => {
@@ -303,7 +312,7 @@ class GroupParser extends EmbeddedActionsParser {
         // /Страница
         {
           ALT: () => {
-            result = $.SUBRULE($.PageHeader);
+            result = $.SUBRULE($.PageHeader, { ARGS: [group_stack] });
           },
         },
         // Строчный элемент

@@ -1,20 +1,12 @@
-export class GroupStack {
+﻿export class GroupStack {
   constructor(form) {
     this.form = form;
     this.reset();
   }
 
   doneRow() {
-    // Это разрыв группы
-    if (this.collectedItems.length == 1 && this.prevGroups.length > 1) {
-      let item = this.collectedItems[0].item;
-      parent = this.form;
-      this.add(item, parent, 0);
 
-      this.prevGroups = this.currentGroups.slice();
-      this.currentGroups = [];
-      this.collectedItems = [];
-
+    if (this.doneSingleItemRow()) {
       return;
     }
 
@@ -24,9 +16,9 @@ export class GroupStack {
       let indent = element.indent;
 
       let parent = this.getPrevAtIndex(index);
-      
+       
       let isEmptyInline = (item.name == "Inline" && item.children.Items.length == 0);
-      
+     
       if (!isEmptyInline)  {
         parent = this.getItemAtIndent(parent, indent);  
       }
@@ -50,6 +42,30 @@ export class GroupStack {
     this.collectedItems = [];
   }
 
+  doneSingleItemRow() {
+    if (this.collectedItems.length != 1) { return false;}
+    if (this.prevGroups.length <= 1) { return false;}
+    
+    let item = this.collectedItems[0].item;
+    let indent = this.collectedItems[0].indent;
+    
+    parent = this.getFirstParentPage(this.prevGroups[0]);
+
+    let isEmptyInline = (item.name == "Inline" && item.children.Items.length == 0);
+     
+    if (!isEmptyInline)  {
+      parent = this.getItemAtIndent(parent, indent);  
+    }    
+    
+    this.add(item, parent, 0);
+
+    this.prevGroups = this.currentGroups.slice();
+    this.currentGroups = [];
+    this.collectedItems = [];
+
+    return true;
+  }
+
   getPrevAtIndex(index) {
     if (index >= this.prevGroups.length) {
       if (this.prevGroups.length > 0) {
@@ -70,7 +86,7 @@ export class GroupStack {
     let result = current;
     while (resultIndent > indent) {
       result = this.getParent(result);
-      resultIndent = this.getIndent(parent);
+      resultIndent = this.getIndent(result);
     }
 
     return result;
@@ -78,6 +94,37 @@ export class GroupStack {
 
   getIndent(item) {
     return this.indents.get(item);
+  }
+
+  getParents(item) {
+    let result = [];
+    
+    let parent = item;
+    
+    while (parent != this.form) {
+      parent = this.getParent(parent);
+      result.unshift(parent);
+    }    
+
+    return result;
+  }
+
+  getFirstParentPage(item) {
+    let result = this.form;
+    let parents = this.getParents(item);
+    for (let index = 1; index < parents.length; index++) {
+      const element = parents[index];
+      if (element.name == "HGroup") {
+        break;
+      }
+      
+      if (element.name == "Pages") {
+        continue;
+      }
+      result = element;
+    }
+
+    return result;
   }
 
   getParent(item) {
@@ -117,8 +164,8 @@ export class GroupStack {
     this.currentGroups.push(parent);
   }
 
-  addPage(pageHeader, parent, indent) {
-    if (pageHeader.name != "PageHeader") {
+  addPage(page, parent, indent) {
+    if (page.name != "Page") {
       return false;
     }
 
@@ -130,8 +177,8 @@ export class GroupStack {
       parent = pages;
     }
 
-    const page = this.getNewPage(pageHeader);
-    page.children.Properties = pageHeader.children.Properties;
+    // const page = this.createPage(pageHeader);
+    // page.children.Properties = pageHeader.children.Properties;
 
     this.setParent(page, parent);
     this.setIndent(page, indent + 1);
@@ -217,11 +264,17 @@ export class GroupStack {
     return group;
   }
 
-  getNewPage(header) {
+  createPage() {
+    const header = {
+      name: "PageHeader",
+      children: { Slash: [], Text: [], Properties: {} },
+    };
+
     const page = {
       name: "Page",
       children: { PageHeader: [header], Items: [], Properties: {} },
     };
+
     return page;
   }
 

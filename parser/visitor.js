@@ -1,4 +1,4 @@
-import { groupParser } from "./group-parser.js";
+﻿import { groupParser } from "./group-parser.js";
 
 const BaseVisitor = groupParser.getBaseCstVisitorConstructor();
 

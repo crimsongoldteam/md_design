@@ -8,7 +8,7 @@
       const app = import("./app.js");
       onClick = () => {
         let input = document.getElementById("input").value;
-        let result = parseInput(input);
+        let result = parseInputInner(input);
 
         document.getElementById("output").value = result;
       };
