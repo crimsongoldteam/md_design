@@ -77,6 +77,7 @@
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/naumovare"><img src="https://avatars.githubusercontent.com/u/175935393?v=4?s=100" width="100px;" alt="Regina Naumova"/><br /><sub><b>Regina Naumova</b></sub></a><br /><a href="#doc-naumovare" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/TkachenkoPI"><img src="https://avatars.githubusercontent.com/u/24578477?v=4?s=100" width="100px;" alt="Pavel Tkachenko"/><br /><sub><b>Pavel Tkachenko</b></sub></a><br /><a href="#code-TkachenkoPI" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://t.me/alei1180"><img src="https://avatars.githubusercontent.com/u/43796905?v=4?s=100" width="100px;" alt="Alexander Osadchy"/><br /><sub><b>Alexander Osadchy</b></sub></a><br /><a href="#doc-alei1180" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/karamazoffm"><img src="https://avatars.githubusercontent.com/u/146418188?v=4?s=100" width="100px;" alt="karamazoffm"/><br /><sub><b>karamazoffm</b></sub></a><br /><a href="#ideas-karamazoffm" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://pinkycat.ru"><img src="https://avatars.githubusercontent.com/u/16321985?v=4?s=100" width="100px;" alt="Gleb Bogachev"/><br /><sub><b>Gleb Bogachev</b></sub></a><br /><a href="#bug-pinkycat" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
