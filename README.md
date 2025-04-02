@@ -74,6 +74,7 @@
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/nikitazherebtsov"><img src="https://avatars.githubusercontent.com/u/65331748?v=4?s=100" width="100px;" alt="Nikita Zherebtsov"/><br /><sub><b>Nikita Zherebtsov</b></sub></a><br /><a href="#code-nikitazherebtsov" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/naumovare"><img src="https://avatars.githubusercontent.com/u/175935393?v=4?s=100" width="100px;" alt="Regina Naumova"/><br /><sub><b>Regina Naumova</b></sub></a><br /><a href="#doc-naumovare" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
