@@ -52,6 +52,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "pinkycat",
+      "name": "Gleb Bogachev",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16321985?v=4",
+      "profile": "http://pinkycat.ru",
+      "contributions": [
+        "bug"
+      ]
     }
   ]
 }
