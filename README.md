@@ -67,6 +67,8 @@
 
 Если вы хотите реализовать свою идею или исправить ошибку, ознакомьтесь со статьей [CONTRIBUTING](CONTRIBUTING.md). Мы всегда рады pull request'ам!
 
+Благодарим всех, кто принимает участие в развитии проекта: ([emoji key](https://allcontributors.org/docs/ru/emoji-key)):
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
@@ -94,9 +96,11 @@
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-## Благодарности
-- При разработке использовался список картинок из статьи [Диалог выбора картинки из библиотеки картинок](https://infostart.ru/1c/tools/1522958).
-- Парсинг осуществляется с помощью библиотеки [Сhevrotain](https://github.com/chevrotain/chevrotain).
+Этот проект следует спецификации [all-contributors](https://allcontributors.org).
+
+При разработке использовался список картинок из статьи [Диалог выбора картинки из библиотеки картинок](https://infostart.ru/1c/tools/1522958).
+
+Парсинг осуществляется с помощью библиотеки [Сhevrotain](https://github.com/chevrotain/chevrotain).
 
 ## Лицензии
 [MIT](LICENSE.md)
