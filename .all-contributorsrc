@@ -1,4 +1,21 @@
 {
   "projectName": "md_design",
-  "projectOwner": "crimsongoldteam"
+  "projectOwner": "crimsongoldteam",
+  "files": [
+    "README.md"
+  ],
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributorsPerLine": 7,
+  "contributors": [
+    {
+      "login": "nikitazherebtsov",
+      "name": "Nikita Zherebtsov",
+      "avatar_url": "https://avatars.githubusercontent.com/u/65331748?v=4",
+      "profile": "https://github.com/nikitazherebtsov",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
 }
