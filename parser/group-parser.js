@@ -253,19 +253,39 @@ class GroupParser extends EmbeddedActionsParser {
           return separator;
         },
         DEF: () => {
-          let item = this.CONSUME(t.InlineText);
+          $.OR([
+            {
+              ALT: () => {
+                $.CONSUME1(t.Ampersand);
+                separator = true;
+              },
+            },
+            {
+              ALT: () => {
+                let items = [];
+                $.AT_LEAST_ONE(() => {
+                  let inlineText = this.CONSUME(t.InlineText);
+                  $.ACTION(() => {
+                    items.push(inlineText);
+                  });
+                });
 
-          separator = false;
-          $.OPTION(() => {
-            $.CONSUME(t.Ampersand);
-            separator = true;
-          });
+                $.ACTION(() => {
+                  if (items.length > 0) {
+                    let inline = group_stack.createInline(result);
+                    group_stack.setParent(inline, result);
+                    inline.children.Items = items;
+                  }
+                });
 
-          $.ACTION(() => {
-            let inline = group_stack.createInline(result);
-            group_stack.setParent(inline, result);
-            inline.children.Items.push(item);
-          });
+                separator = false;
+                $.OPTION(() => {
+                  $.CONSUME(t.Ampersand);
+                  separator = true;
+                });
+              },
+            },
+          ]);
         },
       });
       return result;
