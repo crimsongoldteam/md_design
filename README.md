@@ -67,6 +67,15 @@
 
 Если вы хотите реализовать свою идею или исправить ошибку, ознакомьтесь со статьей [CONTRIBUTING](CONTRIBUTING.md). Мы всегда рады pull request'ам!
 
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ## Благодарности
 - При разработке использовался список картинок из статьи [Диалог выбора картинки из библиотеки картинок](https://infostart.ru/1c/tools/1522958).
 - Парсинг осуществляется с помощью библиотеки [Сhevrotain](https://github.com/chevrotain/chevrotain).
