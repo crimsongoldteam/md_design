@@ -83,6 +83,7 @@
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/shuricks"><img src="https://avatars.githubusercontent.com/u/3978674?v=4?s=100" width="100px;" alt="Alexander"/><br /><sub><b>Alexander</b></sub></a><br /><a href="#bug-shuricks" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/GorbatkoMD"><img src="https://avatars.githubusercontent.com/u/110474554?v=4?s=100" width="100px;" alt="Максим"/><br /><sub><b>Максим</b></sub></a><br /><a href="#bug-GorbatkoMD" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
