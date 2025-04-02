@@ -70,6 +70,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "shuricks",
+      "name": "Alexander",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3978674?v=4",
+      "profile": "https://github.com/shuricks",
+      "contributions": [
+        "bug"
+      ]
     }
   ]
 }
