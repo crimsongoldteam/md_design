@@ -81,6 +81,9 @@
       <td align="center" valign="top" width="14.28%"><a href="http://pinkycat.ru"><img src="https://avatars.githubusercontent.com/u/16321985?v=4?s=100" width="100px;" alt="Gleb Bogachev"/><br /><sub><b>Gleb Bogachev</b></sub></a><br /><a href="#bug-pinkycat" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/d-hurricane"><img src="https://avatars.githubusercontent.com/u/59051827?v=4?s=100" width="100px;" alt="Урянский Денис"/><br /><sub><b>Урянский Денис</b></sub></a><br /><a href="#ideas-d-hurricane" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/shuricks"><img src="https://avatars.githubusercontent.com/u/3978674?v=4?s=100" width="100px;" alt="Alexander"/><br /><sub><b>Alexander</b></sub></a><br /><a href="#bug-shuricks" title="Bug reports">🐛</a></td>
+    </tr>
   </tbody>
 </table>
 
