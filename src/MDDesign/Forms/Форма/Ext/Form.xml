@@ -1076,6 +1076,27 @@
 									<PictureLocation>Right</PictureLocation>
 									<ExtendedTooltip name="__ОткрытьДокументациюРасширеннаяПодсказка" id="194"/>
 								</Button>
+								<Button name="__ОткрытьТелеграмКанал" id="350">
+									<Type>Hyperlink</Type>
+									<Height>1</Height>
+									<GroupHorizontalAlign>Center</GroupHorizontalAlign>
+									<GroupVerticalAlign>Bottom</GroupVerticalAlign>
+									<CommandName>Form.Command.__ОткрытьТелеграмКанал</CommandName>
+									<TextColor>#190E70</TextColor>
+									<Font ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
+									<Picture>
+										<xr:Abs>Picture.png</xr:Abs>
+										<xr:LoadTransparent>false</xr:LoadTransparent>
+									</Picture>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Канал Telegram</v8:content>
+										</v8:item>
+									</Title>
+									<PictureLocation>Left</PictureLocation>
+									<ExtendedTooltip name="__ОткрытьТелеграмКаналРасширеннаяПодсказка" id="351"/>
+								</Button>
 							</ChildItems>
 						</UsualGroup>
 						<UsualGroup name="__ГруппаСправкаПодвал" id="306">
@@ -2073,6 +2094,21 @@
 				</v8:item>
 			</ToolTip>
 			<Action>__ГенераторXML</Action>
+		</Command>
+		<Command name="__ОткрытьТелеграмКанал" id="24">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Канал Telegram</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Перейти в телеграм-канал t.me/overlay1c</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>__ОткрытьТелеграмКанал</Action>
 		</Command>
 	</Commands>
 </Form>
