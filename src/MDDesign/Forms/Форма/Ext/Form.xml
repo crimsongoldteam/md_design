@@ -396,11 +396,33 @@
 															<CommandName>Form.Command.__ПостроитьФормуВОтдельномОкне</CommandName>
 															<ExtendedTooltip name="__ПостроитьФормуВОтдельномОкнеРасширеннаяПодсказка" id="128"/>
 														</Button>
-														<Button name="__ГенераторКода" id="198">
-															<Type>CommandBarButton</Type>
-															<CommandName>Form.Command.__ГенераторКода</CommandName>
-															<ExtendedTooltip name="__ГенераторКодаРасширеннаяПодсказка" id="199"/>
-														</Button>
+														<Popup name="__ГруппаГенераторы" id="346">
+															<Title>
+																<v8:item>
+																	<v8:lang>ru</v8:lang>
+																	<v8:content>Экспорт</v8:content>
+																</v8:item>
+															</Title>
+															<ToolTip>
+																<v8:item>
+																	<v8:lang>ru</v8:lang>
+																	<v8:content>Группа генераторы</v8:content>
+																</v8:item>
+															</ToolTip>
+															<ExtendedTooltip name="__ГруппаГенераторыРасширеннаяПодсказка" id="347"/>
+															<ChildItems>
+																<Button name="__ГенераторXML" id="344">
+																	<Type>CommandBarButton</Type>
+																	<CommandName>Form.Command.__ГенераторXML</CommandName>
+																	<ExtendedTooltip name="__ГенераторXMLРасширеннаяПодсказка" id="345"/>
+																</Button>
+																<Button name="__ГенераторКода" id="198">
+																	<Type>CommandBarButton</Type>
+																	<CommandName>Form.Command.__ГенераторКода</CommandName>
+																	<ExtendedTooltip name="__ГенераторКодаРасширеннаяПодсказка" id="199"/>
+																</Button>
+															</ChildItems>
+														</Popup>
 													</ChildItems>
 												</Popup>
 											</ChildItems>
@@ -881,7 +903,7 @@
 									<Title formatted="false">
 										<v8:item>
 											<v8:lang>ru</v8:lang>
-											<v8:content>Надпись { Цвет=Синий }</v8:content>
+											<v8:content>Надпись {ЦветТекста = Синий}</v8:content>
 										</v8:item>
 									</Title>
 									<GroupHorizontalAlign>Center</GroupHorizontalAlign>
@@ -1918,13 +1940,13 @@
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Подготовить код</v8:content>
+					<v8:content>Программное создание реквизитов</v8:content>
 				</v8:item>
 			</Title>
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Сгенерировать код программного создания элементов</v8:content>
+					<v8:content>Сгенерировать код программного создания элементов и реквизитов формы</v8:content>
 				</v8:item>
 			</ToolTip>
 			<Action>__ГенераторКода</Action>
@@ -2036,6 +2058,21 @@
 				</v8:item>
 			</Title>
 			<Action>__ЗаменитьИИ</Action>
+		</Command>
+		<Command name="__ГенераторXML" id="23">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Выгрузить в конфигурацию</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Генератор формы в формате XML</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>__ГенераторXML</Action>
 		</Command>
 	</Commands>
 </Form>
