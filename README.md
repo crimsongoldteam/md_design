@@ -41,7 +41,9 @@
 
 Вот в это:
 
-![Магические артефакты](./docs/_images/readme-example.png)
+<div align="center">
+    <img src="./docs/_images/readme-example.png">
+</div>
 
 и обратно!
 
