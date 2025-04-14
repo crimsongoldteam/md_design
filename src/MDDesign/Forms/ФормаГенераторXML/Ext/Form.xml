@@ -26,14 +26,14 @@
 	<ChildItems>
 		<LabelDecoration name="Предупреждение" id="55">
 			<AutoMaxWidth>false</AutoMaxWidth>
-			<MaxWidth>60</MaxWidth>
-			<TextColor>web:Crimson</TextColor>
+			<HorizontalStretch>true</HorizontalStretch>
 			<Title formatted="true">
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>&lt;b&gt;Внимание! &lt;/&gt;
-При использование возможны ошибки и повреждение конфигурации. 
-Загружайте измененные XML-выгрузки только в копии баз.</v8:content>
+					<v8:content>&lt;b&gt;&lt;color #dc143c&gt;Внимание! &lt;/&gt;&lt;/&gt;
+&lt;color #dc143c&gt;При использование возможны ошибки и повреждение конфигурации. &lt;/&gt;&lt;color #dc143c&gt;Загружайте измененные XML-выгрузки только в копии баз.&lt;/&gt;
+
+&lt;colorstyle -3&gt;С инструкцией по использованию и известными ограничениями можно ознакомиться в &lt;/&gt;&lt;link https://crimsongoldteam.github.io/md_design/#/ВыгрузитьВКонфигурацию&gt;документации&lt;/&gt;.</v8:content>
 				</v8:item>
 			</Title>
 			<ContextMenu name="ПредупреждениеКонтекстноеМеню" id="56"/>
