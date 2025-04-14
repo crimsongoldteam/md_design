@@ -67,9 +67,40 @@
 
 Если вы хотите реализовать свою идею или исправить ошибку, ознакомьтесь со статьей [CONTRIBUTING](CONTRIBUTING.md). Мы всегда рады pull request'ам!
 
-## Благодарности
-- При разработке использовался список картинок из статьи [Диалог выбора картинки из библиотеки картинок](https://infostart.ru/1c/tools/1522958).
-- Парсинг осуществляется с помощью библиотеки [Сhevrotain](https://github.com/chevrotain/chevrotain).
+Благодарим всех, кто принимает участие в развитии проекта: ([emoji key](https://allcontributors.org/docs/ru/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/nikitazherebtsov"><img src="https://avatars.githubusercontent.com/u/65331748?v=4?s=100" width="100px;" alt="Nikita Zherebtsov"/><br /><sub><b>Nikita Zherebtsov</b></sub></a><br /><a href="#code-nikitazherebtsov" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/naumovare"><img src="https://avatars.githubusercontent.com/u/175935393?v=4?s=100" width="100px;" alt="Regina Naumova"/><br /><sub><b>Regina Naumova</b></sub></a><br /><a href="#doc-naumovare" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/TkachenkoPI"><img src="https://avatars.githubusercontent.com/u/24578477?v=4?s=100" width="100px;" alt="Pavel Tkachenko"/><br /><sub><b>Pavel Tkachenko</b></sub></a><br /><a href="#code-TkachenkoPI" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://t.me/alei1180"><img src="https://avatars.githubusercontent.com/u/43796905?v=4?s=100" width="100px;" alt="Alexander Osadchy"/><br /><sub><b>Alexander Osadchy</b></sub></a><br /><a href="#doc-alei1180" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/karamazoffm"><img src="https://avatars.githubusercontent.com/u/146418188?v=4?s=100" width="100px;" alt="karamazoffm"/><br /><sub><b>karamazoffm</b></sub></a><br /><a href="#ideas-karamazoffm" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://pinkycat.ru"><img src="https://avatars.githubusercontent.com/u/16321985?v=4?s=100" width="100px;" alt="Gleb Bogachev"/><br /><sub><b>Gleb Bogachev</b></sub></a><br /><a href="#bug-pinkycat" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/d-hurricane"><img src="https://avatars.githubusercontent.com/u/59051827?v=4?s=100" width="100px;" alt="Урянский Денис"/><br /><sub><b>Урянский Денис</b></sub></a><br /><a href="#ideas-d-hurricane" title="Ideas, Planning, & Feedback">🤔</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/shuricks"><img src="https://avatars.githubusercontent.com/u/3978674?v=4?s=100" width="100px;" alt="Alexander"/><br /><sub><b>Alexander</b></sub></a><br /><a href="#bug-shuricks" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/GorbatkoMD"><img src="https://avatars.githubusercontent.com/u/110474554?v=4?s=100" width="100px;" alt="Максим"/><br /><sub><b>Максим</b></sub></a><br /><a href="#bug-GorbatkoMD" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/thequb1k"><img src="https://avatars.githubusercontent.com/u/177568772?v=4?s=100" width="100px;" alt="Dmitry Baraboy"/><br /><sub><b>Dmitry Baraboy</b></sub></a><br /><a href="#bug-thequb1k" title="Bug reports">🐛</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+Этот проект следует спецификации [all-contributors](https://allcontributors.org).
+
+При разработке использовался список картинок из статьи [Диалог выбора картинки из библиотеки картинок](https://infostart.ru/1c/tools/1522958).
+
+Парсинг осуществляется с помощью библиотеки [Сhevrotain](https://github.com/chevrotain/chevrotain).
 
 ## Лицензии
 [MIT](LICENSE.md)
