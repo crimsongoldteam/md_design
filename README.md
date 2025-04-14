@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://crimsongoldteam.github.io/md_design">
-    <img alt="docsify" src="./docs/_images/logo-nakidka.png" width=50%>
+    <img alt="docsify" src="./docs/_images/logo-nakidka.png" width=30%>
   </a>
 </p>
 
@@ -18,7 +18,7 @@
     <img src="https://img.shields.io/github/license/crimsongoldteam/md_design?style=for-the-badge&label=%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F">
   </a>
   <a href="https://t.me/overlay1c">
-    <img src="https://img.shields.io/badge/telegram-channal-blue.svg?style=for-the-badge&label=telegram">
+    <img src="https://img.shields.io/badge/telegram-%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB-blue.svg?style=for-the-badge&label=telegram">
   </a>
 
 </p>
