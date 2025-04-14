@@ -6,16 +6,18 @@
 
 <p align="center">
   <a href="https://openyellow.org/grid?data=top&repo=892746188">
-    <img src="https://img.shields.io/endpoint?url=https://openyellow.org/data/badges/6/892746188.json">
+    <img src="https://img.shields.io/endpoint?url=https://openyellow.org/data/badges/6/892746188.json&style=for-the-badge">
   </a>
   <a href="https://github.com/crimsongoldteam/md_design/releases/latest">
-    <img src="https://img.shields.io/github/v/release/crimsongoldteam/md_design">
+    <img src="https://img.shields.io/github/v/release/crimsongoldteam/md_design?style=for-the-badge&label=%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F">
   </a>
+  <a href="https://github.com/crimsongoldteam/md_design/releases/latest">
+     <img src="https://img.shields.io/github/downloads/crimsongoldteam/md_design/latest/total?style=for-the-badge&label=%D0%B7%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B8%40%D1%80%D0%B5%D0%BB%D0%B8%D0%B7">
+  </a>  
   <a href="https://github.com/crimsongoldteam/md_design/blob/main/LICENSE.md">
-    <img src="https://img.shields.io/github/license/crimsongoldteam/md_design">
+    <img src="https://img.shields.io/github/license/crimsongoldteam/md_design?style=for-the-badge&label=%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F">
   </a>
 </p>
-
 
 *Накидка* — это обработка, позволяющая создавать формы в 1С:Предприятие 8 на основе текстового описания. Используется знакомый синтаксис, похожий на Markdown. Инструмент также предоставляет возможности для визуального проектирования сложных элементов. 
 
