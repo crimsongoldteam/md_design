@@ -64,7 +64,7 @@
 Ознакомьтесь с кратким [руководством по началу работы](https://crimsongoldteam.github.io/md_design/#/БыстрыйСтарт).
 
 ## 📚Документация
-Документация расположена по адресу https://crimsongoldteam.github.io/md_design.
+[Полная документация проекта доступна на нашем сайте.](https://crimsongoldteam.github.io/md_design)
 
 ## [![Инфостарт](https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg)](https://infostart.ru/1c/tools/2304023/)
 
