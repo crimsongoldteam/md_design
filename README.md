@@ -17,6 +17,10 @@
   <a href="https://github.com/crimsongoldteam/md_design/blob/main/LICENSE.md">
     <img src="https://img.shields.io/github/license/crimsongoldteam/md_design?style=for-the-badge&label=%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F">
   </a>
+  <a href="https://t.me/overlay1c">
+    <img src="https://img.shields.io/badge/telegram-channal-blue.svg?style=for-the-badge&label=telegram">
+  </a>
+
 </p>
 
 *Накидка* — это обработка, позволяющая создавать формы в 1С:Предприятие 8 на основе текстового описания. Используется знакомый синтаксис, похожий на Markdown. Инструмент также предоставляет возможности для визуального проектирования сложных элементов. 
