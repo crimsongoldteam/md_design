@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcssch="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.18">
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcssch="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:pal="http://v8.1c.ru/8.1/data/ui/colors/palette" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.21">
+	<WindowOpeningMode>DontBlock</WindowOpeningMode>
 	<AutoSaveDataInSettings>Use</AutoSaveDataInSettings>
 	<AutoTitle>false</AutoTitle>
 	<Group>AlwaysHorizontal</Group>
@@ -23,6 +24,8 @@
 			<ExtendedTooltip name="__ГруппаЛевоРасширеннаяПодсказка" id="341"/>
 			<ChildItems>
 				<Page name="__ГруппаИИ" id="206">
+					<Visible>false</Visible>
+					<Visible>false</Visible>
 					<Title>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
@@ -35,7 +38,9 @@
 							<v8:content>Группа ИИ</v8:content>
 						</v8:item>
 					</ToolTip>
+					<Group>Vertical</Group>
 					<ShowTitle>false</ShowTitle>
+					<ScrollOnCompress>false</ScrollOnCompress>
 					<ExtendedTooltip name="__ГруппаИИРасширеннаяПодсказка" id="207"/>
 					<ChildItems>
 						<UsualGroup name="__ГруппаРамкаИИ" id="308">
@@ -61,6 +66,8 @@
 									<SelectionMode>SingleRow</SelectionMode>
 									<RowSelectionMode>Row</RowSelectionMode>
 									<Header>false</Header>
+									<HorizontalLines>false</HorizontalLines>
+									<VerticalLines>false</VerticalLines>
 									<AutoInsertNewRow>true</AutoInsertNewRow>
 									<EnableStartDrag>true</EnableStartDrag>
 									<EnableDrag>true</EnableDrag>
@@ -114,6 +121,7 @@
 										<ContextMenu name="__ЧатИИУправлениеПоискомКонтекстноеМеню" id="222"/>
 										<ExtendedTooltip name="__ЧатИИУправлениеПоискомРасширеннаяПодсказка" id="223"/>
 									</SearchControlAddition>
+									<SelectedItemsActionsPanel name="__ЧатИИПанельДействийВыделенныхСтрок" id="352"/>
 									<Events>
 										<Event name="Selection">__ЧатИИВыбор</Event>
 									</Events>
@@ -122,6 +130,7 @@
 											<DataPath>__ЧатИИ.Сообщение</DataPath>
 											<EditMode>EnterOnInput</EditMode>
 											<AutoCellHeight>true</AutoCellHeight>
+											<AutoEditMode>true</AutoEditMode>
 											<Height>50</Height>
 											<MaxHeight>100</MaxHeight>
 											<VerticalStretch>true</VerticalStretch>
@@ -130,6 +139,7 @@
 											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 											<ContextMenu name="__ЧатИИСообщениеКонтекстноеМеню" id="225"/>
 											<ExtendedTooltip name="__ЧатИИСообщениеРасширеннаяПодсказка" id="226"/>
+											<SelectedItemsActionsPanel name="__ЧатИИСообщениеПанельДействийВыделенныхСтрок" id="353"/>
 										</InputField>
 									</ChildItems>
 								</Table>
@@ -170,6 +180,7 @@
 											</InputHint>
 											<ContextMenu name="__ЗапросИИКонтекстноеМеню" id="209"/>
 											<ExtendedTooltip name="__ЗапросИИРасширеннаяПодсказка" id="210"/>
+											<SelectedItemsActionsPanel name="__ЗапросИИПанельДействийВыделенныхСтрок" id="355"/>
 										</InputField>
 										<UsualGroup name="__ГруппаОперацииИИ" id="302">
 											<Title>
@@ -223,12 +234,15 @@
 						</v8:item>
 					</Title>
 					<Group>HorizontalIfPossible</Group>
+					<ScrollOnCompress>false</ScrollOnCompress>
 					<ExtendedTooltip name="__ГруппаДеревоЭлементовРасширеннаяПодсказка" id="343"/>
 					<ChildItems>
 						<Table name="__ДеревоЭлементов" id="315">
 							<Representation>Tree</Representation>
 							<ChangeRowSet>false</ChangeRowSet>
 							<ChangeRowOrder>false</ChangeRowOrder>
+							<HorizontalLines>false</HorizontalLines>
+							<VerticalLines>false</VerticalLines>
 							<AutoInsertNewRow>true</AutoInsertNewRow>
 							<EnableStartDrag>true</EnableStartDrag>
 							<EnableDrag>true</EnableDrag>
@@ -260,37 +274,238 @@
 								<ContextMenu name="__ДеревоЭлементовУправлениеПоискомКонтекстноеМеню" id="326"/>
 								<ExtendedTooltip name="__ДеревоЭлементовУправлениеПоискомРасширеннаяПодсказка" id="327"/>
 							</SearchControlAddition>
+							<SelectedItemsActionsPanel name="__ДеревоЭлементовПанельДействийВыделенныхСтрок" id="356"/>
 							<ChildItems>
 								<InputField name="__ДеревоЭлементовПредставление" id="328">
 									<DataPath>__ДеревоЭлементов.Представление</DataPath>
 									<EditMode>EnterOnInput</EditMode>
+									<AutoEditMode>true</AutoEditMode>
 									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 									<ContextMenu name="__ДеревоЭлементовПредставлениеКонтекстноеМеню" id="329"/>
 									<ExtendedTooltip name="__ДеревоЭлементовПредставлениеРасширеннаяПодсказка" id="330"/>
+									<SelectedItemsActionsPanel name="__ДеревоЭлементовПредставлениеПанельДействийВыделенныхСтрок" id="357"/>
 								</InputField>
 								<InputField name="__ДеревоЭлементовТип" id="331">
 									<DataPath>__ДеревоЭлементов.Тип</DataPath>
 									<EditMode>EnterOnInput</EditMode>
+									<AutoEditMode>true</AutoEditMode>
 									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 									<ContextMenu name="__ДеревоЭлементовТипКонтекстноеМеню" id="332"/>
 									<ExtendedTooltip name="__ДеревоЭлементовТипРасширеннаяПодсказка" id="333"/>
+									<SelectedItemsActionsPanel name="__ДеревоЭлементовТипПанельДействийВыделенныхСтрок" id="358"/>
 								</InputField>
 								<InputField name="__ДеревоЭлементовИндексКартинки" id="334">
 									<DataPath>__ДеревоЭлементов.ИндексКартинки</DataPath>
 									<EditMode>EnterOnInput</EditMode>
+									<AutoEditMode>true</AutoEditMode>
 									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 									<ContextMenu name="__ДеревоЭлементовИндексКартинкиКонтекстноеМеню" id="335"/>
 									<ExtendedTooltip name="__ДеревоЭлементовИндексКартинкиРасширеннаяПодсказка" id="336"/>
+									<SelectedItemsActionsPanel name="__ДеревоЭлементовИндексКартинкиПанельДействийВыделенныхСтрок" id="359"/>
 								</InputField>
 								<InputField name="__ДеревоЭлементовСвойства" id="337">
 									<DataPath>__ДеревоЭлементов.Свойства</DataPath>
 									<EditMode>EnterOnInput</EditMode>
+									<AutoEditMode>true</AutoEditMode>
 									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 									<ContextMenu name="__ДеревоЭлементовСвойстваКонтекстноеМеню" id="338"/>
 									<ExtendedTooltip name="__ДеревоЭлементовСвойстваРасширеннаяПодсказка" id="339"/>
+									<SelectedItemsActionsPanel name="__ДеревоЭлементовСвойстваПанельДействийВыделенныхСтрок" id="360"/>
 								</InputField>
 							</ChildItems>
 						</Table>
+					</ChildItems>
+				</Page>
+				<Page name="__ГруппаДеревоФайлов" id="378">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Элементы</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Группа дерево файлов</v8:content>
+						</v8:item>
+					</ToolTip>
+					<Width>25</Width>
+					<HorizontalStretch>false</HorizontalStretch>
+					<ExtendedTooltip name="__ГруппаДеревоФайловРасширеннаяПодсказка" id="379"/>
+					<ChildItems>
+						<InputField name="_ПутьКПапкеСФайлами" id="380">
+							<DataPath>_ПутьКПапкеСФайлами</DataPath>
+							<TitleLocation>None</TitleLocation>
+							<ChoiceButton>true</ChoiceButton>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<InputHint>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Путь к папке с файлами</v8:content>
+								</v8:item>
+							</InputHint>
+							<ContextMenu name="_ПутьКПапкеСФайламиКонтекстноеМеню" id="381"/>
+							<ExtendedTooltip name="_ПутьКПапкеСФайламиРасширеннаяПодсказка" id="382"/>
+							<Events>
+								<Event name="OnChange">_ПутьКПапкеСФайламиПриИзменении</Event>
+								<Event name="StartChoice">_ПутьКПапкеСФайламиНачалоВыбора</Event>
+							</Events>
+						</InputField>
+						<CommandBar name="__ГруппаКнопокРаботаСФайлами" id="437">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа кнопок работа с файлами</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа кнопок работа с файлами</v8:content>
+								</v8:item>
+							</ToolTip>
+							<ExtendedTooltip name="__ГруппаКнопокРаботаСФайламиРасширеннаяПодсказка" id="438"/>
+							<ChildItems>
+								<Button name="__НовыйФайл" id="435">
+									<Type>CommandBarButton</Type>
+									<CommandName>Form.Command.__НовыйФайл</CommandName>
+									<Picture>
+										<xr:Abs>Picture.zip</xr:Abs>
+										<xr:LoadTransparent>false</xr:LoadTransparent>
+									</Picture>
+									<ExtendedTooltip name="__НовыйФайлРасширеннаяПодсказка" id="436"/>
+								</Button>
+								<Button name="__СохранитьФайл" id="411">
+									<Type>CommandBarButton</Type>
+									<CommandName>Form.Command.__СохранитьФайл</CommandName>
+									<ExtendedTooltip name="__СохранитьФайлРасширеннаяПодсказка" id="412"/>
+								</Button>
+							</ChildItems>
+						</CommandBar>
+						<UsualGroup name="_ГруппаДеревоФайлов" id="384">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа дерево файлов</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа дерево файлов</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Representation>None</Representation>
+							<ShowTitle>false</ShowTitle>
+							<ExtendedTooltip name="_ГруппаДеревоФайловРасширеннаяПодсказка" id="385"/>
+							<ChildItems>
+								<Table name="ДревоФайла" id="386">
+									<Representation>Tree</Representation>
+									<ReadOnly>true</ReadOnly>
+									<SelectionMode>SingleRow</SelectionMode>
+									<Header>false</Header>
+									<HorizontalLines>false</HorizontalLines>
+									<VerticalLines>false</VerticalLines>
+									<AutoInsertNewRow>true</AutoInsertNewRow>
+									<EnableStartDrag>true</EnableStartDrag>
+									<EnableDrag>true</EnableDrag>
+									<FileDragMode>AsFile</FileDragMode>
+									<DataPath>_ДеревоФайлов</DataPath>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Дерево каталогов</v8:content>
+										</v8:item>
+										<v8:item>
+											<v8:lang>en</v8:lang>
+											<v8:content>Directory tree</v8:content>
+										</v8:item>
+									</Title>
+									<CommandSet>
+										<ExcludedCommand>Add</ExcludedCommand>
+									</CommandSet>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Дерево файлов</v8:content>
+										</v8:item>
+										<v8:item>
+											<v8:lang>en</v8:lang>
+											<v8:content>File tree</v8:content>
+										</v8:item>
+									</ToolTip>
+									<ContextMenu name="ДревоФайлаКонтекстноеМеню" id="387"/>
+									<AutoCommandBar name="ДревоФайлаКоманднаяПанель" id="388">
+										<Autofill>false</Autofill>
+									</AutoCommandBar>
+									<ExtendedTooltip name="ДревоФайлаРасширеннаяПодсказка" id="389"/>
+									<SearchStringAddition name="ДревоФайлаСтрокаПоиска" id="390">
+										<AdditionSource>
+											<Item>ДревоФайла</Item>
+											<Type>SearchStringRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ДревоФайлаСтрокаПоискаКонтекстноеМеню" id="391"/>
+										<ExtendedTooltip name="ДревоФайлаСтрокаПоискаРасширеннаяПодсказка" id="392"/>
+									</SearchStringAddition>
+									<ViewStatusAddition name="ДревоФайлаСостояниеПросмотра" id="393">
+										<AdditionSource>
+											<Item>ДревоФайла</Item>
+											<Type>ViewStatusRepresentation</Type>
+										</AdditionSource>
+										<ContextMenu name="ДревоФайлаСостояниеПросмотраКонтекстноеМеню" id="394"/>
+										<ExtendedTooltip name="ДревоФайлаСостояниеПросмотраРасширеннаяПодсказка" id="395"/>
+									</ViewStatusAddition>
+									<SearchControlAddition name="ДревоФайлаУправлениеПоиском" id="396">
+										<AdditionSource>
+											<Item>ДревоФайла</Item>
+											<Type>SearchControl</Type>
+										</AdditionSource>
+										<ContextMenu name="ДревоФайлаУправлениеПоискомКонтекстноеМеню" id="397"/>
+										<ExtendedTooltip name="ДревоФайлаУправлениеПоискомРасширеннаяПодсказка" id="398"/>
+									</SearchControlAddition>
+									<Events>
+										<Event name="Selection">ДревоФайлаВыбор</Event>
+									</Events>
+									<ChildItems>
+										<ColumnGroup name="ДревоФайлаСтроки" id="401">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Строки дерева</v8:content>
+												</v8:item>
+												<v8:item>
+													<v8:lang>en</v8:lang>
+													<v8:content>Tree lines</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Древо файла строки</v8:content>
+												</v8:item>
+											</ToolTip>
+											<Group>InCell</Group>
+											<ExtendedTooltip name="ДревоФайлаСтрокиРасширеннаяПодсказка" id="402"/>
+											<ChildItems>
+												<PictureField name="ДревоФайлаКартинка" id="407">
+													<DataPath>_ДеревоФайлов.Картинка</DataPath>
+													<EditMode>EnterOnInput</EditMode>
+													<ContextMenu name="ДревоФайлаКартинкаКонтекстноеМеню" id="408"/>
+													<ExtendedTooltip name="ДревоФайлаКартинкаРасширеннаяПодсказка" id="409"/>
+												</PictureField>
+												<InputField name="ДревоФайлаИмя" id="403">
+													<DataPath>_ДеревоФайлов.Имя</DataPath>
+													<EditMode>EnterOnInput</EditMode>
+													<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+													<ContextMenu name="ДревоФайлаИмяКонтекстноеМеню" id="404"/>
+													<ExtendedTooltip name="ДревоФайлаИмяРасширеннаяПодсказка" id="405"/>
+												</InputField>
+											</ChildItems>
+										</ColumnGroup>
+									</ChildItems>
+								</Table>
+							</ChildItems>
+						</UsualGroup>
 					</ChildItems>
 				</Page>
 			</ChildItems>
@@ -308,6 +523,7 @@
 					<v8:content>Группа рамка редактор</v8:content>
 				</v8:item>
 			</ToolTip>
+			<Group>HorizontalIfPossible</Group>
 			<Representation>None</Representation>
 			<ShowTitle>false</ShowTitle>
 			<BackColor>#190E70</BackColor>
@@ -378,6 +594,7 @@
 													<BackColor>style:FormBackColor</BackColor>
 													<Font ref="style:NormalTextFont" faceName="Calibri" height="11" bold="false" italic="false" underline="false" strikeout="false" kind="StyleItem" scale="100"/>
 													<LocationInCommandBar>InCommandBar</LocationInCommandBar>
+													<ButtonImportance>Main</ButtonImportance>
 													<ExtendedTooltip name="__ПостроитьФормуРасширеннаяПодсказка" id="32"/>
 												</Button>
 												<Popup name="__ГруппаСформироватьЕще" id="200">
@@ -427,17 +644,144 @@
 												</Popup>
 											</ChildItems>
 										</ButtonGroup>
-										<Button name="__РедакторИИ" id="202">
-											<Type>CommandBarButton</Type>
-											<Representation>Picture</Representation>
-											<Width>3</Width>
-											<CommandName>Form.Command.__РедакторИИ</CommandName>
+										<Popup name="__ГруппаОтображениеПанелей" id="429">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Группа отображение панелей</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Группа отображение панелей</v8:content>
+												</v8:item>
+											</ToolTip>
 											<Picture>
-												<xr:Abs>Picture.png</xr:Abs>
-												<xr:LoadTransparent>false</xr:LoadTransparent>
+												<xr:Ref>StdPicture.ShowData</xr:Ref>
+												<xr:LoadTransparent>true</xr:LoadTransparent>
 											</Picture>
-											<ExtendedTooltip name="__РедакторИИРасширеннаяПодсказка" id="203"/>
-										</Button>
+											<Representation>Picture</Representation>
+											<ExtendedTooltip name="__ГруппаОтображениеПанелейРасширеннаяПодсказка" id="430"/>
+										</Popup>
+										<ButtonGroup name="__ГруппаКнопокЛеваяПанель" id="433">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Группа кнопок левая панель</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Группа кнопок левая панель</v8:content>
+												</v8:item>
+											</ToolTip>
+											<Representation>Compact</Representation>
+											<ExtendedTooltip name="__ГруппаКнопокЛеваяПанельРасширеннаяПодсказка" id="434"/>
+											<ChildItems>
+												<Button name="__РедакторИИ" id="202">
+													<Type>CommandBarButton</Type>
+													<Representation>Picture</Representation>
+													<Width>3</Width>
+													<CommandName>Form.Command.__РедакторИИ</CommandName>
+													<Picture>
+														<xr:Abs>Picture.png</xr:Abs>
+														<xr:LoadTransparent>false</xr:LoadTransparent>
+													</Picture>
+													<ToolTipRepresentation>Button</ToolTipRepresentation>
+													<ExtendedTooltip name="__РедакторИИРасширеннаяПодсказка" id="203"/>
+												</Button>
+												<Button name="__ПоказатьДеревоФайлов" id="431">
+													<Type>CommandBarButton</Type>
+													<CommandName>Form.Command.__ПоказатьДеревоФайлов</CommandName>
+													<Picture>
+														<xr:Abs>Picture.svg</xr:Abs>
+														<xr:LoadTransparent>false</xr:LoadTransparent>
+													</Picture>
+													<ExtendedTooltip name="__ПоказатьДеревоФайловРасширеннаяПодсказка" id="432"/>
+												</Button>
+												<Button name="__ПоказатьДеревоЭлементов" id="439">
+													<Type>CommandBarButton</Type>
+													<Visible>false</Visible>
+													<CommandName>Form.Command.__ПоказатьДеревоЭлементов</CommandName>
+													<Picture>
+														<xr:Ref>StdPicture.ListViewModeTree</xr:Ref>
+														<xr:LoadTransparent>true</xr:LoadTransparent>
+													</Picture>
+													<ExtendedTooltip name="__ПоказатьДеревоЭлементовРасширеннаяПодсказка" id="440"/>
+												</Button>
+											</ChildItems>
+										</ButtonGroup>
+										<Popup name="__ГруппаОтображениеПанелей" id="429">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Группа отображение панелей</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Группа отображение панелей</v8:content>
+												</v8:item>
+											</ToolTip>
+											<Picture>
+												<xr:Ref>StdPicture.ShowData</xr:Ref>
+												<xr:LoadTransparent>true</xr:LoadTransparent>
+											</Picture>
+											<Representation>Picture</Representation>
+											<ExtendedTooltip name="__ГруппаОтображениеПанелейРасширеннаяПодсказка" id="430"/>
+										</Popup>
+										<ButtonGroup name="__ГруппаКнопокЛеваяПанель" id="433">
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Группа кнопок левая панель</v8:content>
+												</v8:item>
+											</Title>
+											<ToolTip>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Группа кнопок левая панель</v8:content>
+												</v8:item>
+											</ToolTip>
+											<Representation>Compact</Representation>
+											<ExtendedTooltip name="__ГруппаКнопокЛеваяПанельРасширеннаяПодсказка" id="434"/>
+											<ChildItems>
+												<Button name="__РедакторИИ" id="202">
+													<Type>CommandBarButton</Type>
+													<Representation>Picture</Representation>
+													<Width>3</Width>
+													<CommandName>Form.Command.__РедакторИИ</CommandName>
+													<Picture>
+														<xr:Abs>Picture.png</xr:Abs>
+														<xr:LoadTransparent>false</xr:LoadTransparent>
+													</Picture>
+													<ToolTipRepresentation>Button</ToolTipRepresentation>
+													<ExtendedTooltip name="__РедакторИИРасширеннаяПодсказка" id="203"/>
+												</Button>
+												<Button name="__ПоказатьДеревоФайлов" id="431">
+													<Type>CommandBarButton</Type>
+													<CommandName>Form.Command.__ПоказатьДеревоФайлов</CommandName>
+													<Picture>
+														<xr:Abs>Picture.svg</xr:Abs>
+														<xr:LoadTransparent>false</xr:LoadTransparent>
+													</Picture>
+													<ExtendedTooltip name="__ПоказатьДеревоФайловРасширеннаяПодсказка" id="432"/>
+												</Button>
+												<Button name="__ПоказатьДеревоЭлементов" id="439">
+													<Type>CommandBarButton</Type>
+													<Visible>false</Visible>
+													<CommandName>Form.Command.__ПоказатьДеревоЭлементов</CommandName>
+													<Picture>
+														<xr:Ref>StdPicture.ListViewModeTree</xr:Ref>
+														<xr:LoadTransparent>true</xr:LoadTransparent>
+													</Picture>
+													<ExtendedTooltip name="__ПоказатьДеревоЭлементовРасширеннаяПодсказка" id="440"/>
+												</Button>
+											</ChildItems>
+										</ButtonGroup>
 									</ChildItems>
 								</CommandBar>
 								<Button name="__Форматировать" id="94">
@@ -495,6 +839,7 @@
 									<BorderColor>style:FormBackColor</BorderColor>
 									<ContextMenu name="ПолеHTMLКонтекстноеМеню" id="313"/>
 									<ExtendedTooltip name="ПолеHTMLРасширеннаяПодсказка" id="314"/>
+									<SelectedItemsActionsPanel name="ПолеHTMLПанельДействийВыделенныхСтрок" id="362"/>
 									<Events>
 										<Event name="DocumentComplete">ПолеHTMLДокументСформирован</Event>
 									</Events>
@@ -572,6 +917,7 @@
 								</ChildItems>
 							</ContextMenu>
 							<ExtendedTooltip name="__РедакторРасширеннаяПодсказка" id="7"/>
+							<SelectedItemsActionsPanel name="__РедакторПанельДействийВыделенныхСтрок" id="363"/>
 							<Events>
 								<Event name="OnChange">__РедакторПриИзменении</Event>
 							</Events>
@@ -591,7 +937,10 @@
 								<Table name="__ТаблицаГруппы" id="156">
 									<Representation>List</Representation>
 									<Height>3</Height>
+									<RowSelectionMode>Cell</RowSelectionMode>
 									<Header>false</Header>
+									<HorizontalLines>false</HorizontalLines>
+									<VerticalLines>false</VerticalLines>
 									<AutoInsertNewRow>true</AutoInsertNewRow>
 									<EnableStartDrag>true</EnableStartDrag>
 									<EnableDrag>true</EnableDrag>
@@ -670,6 +1019,7 @@
 										<ContextMenu name="__ТаблицаГруппыУправлениеПоискомКонтекстноеМеню" id="167"/>
 										<ExtendedTooltip name="__ТаблицаГруппыУправлениеПоискомРасширеннаяПодсказка" id="168"/>
 									</SearchControlAddition>
+									<SelectedItemsActionsPanel name="__ТаблицаГруппыПанельДействийВыделенныхСтрок" id="364"/>
 									<Events>
 										<Event name="Selection">__ТаблицаГруппыВыбор</Event>
 										<Event name="BeforeAddRow">__ТаблицаГруппыПередНачаломДобавления</Event>
@@ -681,9 +1031,11 @@
 										<InputField name="__ТаблицаГруппыЗаголовок" id="169">
 											<DataPath>__ТаблицаГруппы.Заголовок</DataPath>
 											<EditMode>EnterOnInput</EditMode>
+											<AutoEditMode>true</AutoEditMode>
 											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 											<ContextMenu name="__ТаблицаГруппыЗаголовокКонтекстноеМеню" id="170"/>
 											<ExtendedTooltip name="__ТаблицаГруппыЗаголовокРасширеннаяПодсказка" id="171"/>
+											<SelectedItemsActionsPanel name="__ТаблицаГруппыЗаголовокПанельДействийВыделенныхСтрок" id="365"/>
 										</InputField>
 									</ChildItems>
 								</Table>
@@ -716,6 +1068,7 @@
 							<Font ref="style:LargeTextFont" kind="StyleItem"/>
 							<ContextMenu name="__ЗаголовокФормыКонтекстноеМеню" id="138"/>
 							<ExtendedTooltip name="__ЗаголовокФормыРасширеннаяПодсказка" id="139"/>
+							<SelectedItemsActionsPanel name="__ЗаголовокФормыПанельДействийВыделенныхСтрок" id="367"/>
 						</LabelField>
 						<Button name="__ПоказатьСправку" id="236">
 							<Type>Hyperlink</Type>
@@ -1129,6 +1482,7 @@
 									<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 									<ContextMenu name="__НоваяВерсияКонтекстноеМеню" id="196"/>
 									<ExtendedTooltip name="__НоваяВерсияРасширеннаяПодсказка" id="197"/>
+									<SelectedItemsActionsPanel name="__НоваяВерсияПанельДействийВыделенныхСтрок" id="368"/>
 									<Events>
 										<Event name="Click">НоваяВерсияНажатие</Event>
 									</Events>
@@ -1610,6 +1964,174 @@
 					<v8:AllowedLength>Variable</v8:AllowedLength>
 				</v8:StringQualifiers>
 			</Type>
+		</Attribute>
+		<Attribute name="_ПутьКПапкеСФайлами" id="22">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Путь к папке с файлами</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="_ДеревоФайлов" id="23">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дерево файлов</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTree</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="Имя" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Имя</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ПолныйПуть" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Полный путь</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ЭтоПапка" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Это папка</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Картинка" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Картинка</v8:content>
+						</v8:item>
+						<v8:item>
+							<v8:lang>en</v8:lang>
+							<v8:content>Picture</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>v8ui:Picture</v8:Type>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+		<Attribute name="_ПутьКПапкеСФайлами" id="22">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Путь к папке с файлами</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="_ДеревоФайлов" id="23">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дерево файлов</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTree</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="Имя" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Имя</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ПолныйПуть" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Полный путь</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ЭтоПапка" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Это папка</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="Картинка" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Картинка</v8:content>
+						</v8:item>
+						<v8:item>
+							<v8:lang>en</v8:lang>
+							<v8:content>Picture</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>v8ui:Picture</v8:Type>
+					</Type>
+				</Column>
+			</Columns>
 		</Attribute>
 		<ConditionalAppearance>
 			<dcsset:item>
@@ -2109,6 +2631,136 @@
 				</v8:item>
 			</ToolTip>
 			<Action>__ОткрытьТелеграмКанал</Action>
+		</Command>
+		<Command name="__СохранитьФайл" id="25">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сохранить файл</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сохранить файл</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.SaveFile</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>_СохранитьФайл</Action>
+			<Representation>Picture</Representation>
+		</Command>
+		<Command name="__ПоказатьДеревоФайлов" id="26">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать дерево файлов</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать дерево файлов</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>__ПоказатьДеревоФайлов</Action>
+		</Command>
+		<Command name="__НовыйФайл" id="27">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Новый файл</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Новый файл</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>__НовыйФайл</Action>
+			<Representation>Picture</Representation>
+		</Command>
+		<Command name="__ПоказатьДеревоЭлементов" id="28">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать дерево элементов</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать дерево файлов</v8:content>
+				</v8:item>
+			</ToolTip>
+		</Command>
+		<Command name="__СохранитьФайл" id="25">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сохранить файл</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сохранить файл</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.SaveFile</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>_СохранитьФайл</Action>
+			<Representation>Picture</Representation>
+		</Command>
+		<Command name="__ПоказатьДеревоФайлов" id="26">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать дерево файлов</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать дерево файлов</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>__ПоказатьДеревоФайлов</Action>
+		</Command>
+		<Command name="__НовыйФайл" id="27">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Новый файл</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Новый файл</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>__НовыйФайл</Action>
+			<Representation>Picture</Representation>
+		</Command>
+		<Command name="__ПоказатьДеревоЭлементов" id="28">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать дерево элементов</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать дерево файлов</v8:content>
+				</v8:item>
+			</ToolTip>
 		</Command>
 	</Commands>
 </Form>

@@ -30,16 +30,13 @@
 			<SelectionMode>SingleRow</SelectionMode>
 			<RowSelectionMode>Row</RowSelectionMode>
 			<Header>false</Header>
+			<HorizontalLines>false</HorizontalLines>
+			<VerticalLines>false</VerticalLines>
 			<AutoInsertNewRow>true</AutoInsertNewRow>
 			<SearchOnInput>Use</SearchOnInput>
 			<EnableStartDrag>true</EnableStartDrag>
 			<EnableDrag>true</EnableDrag>
 			<DataPath>ДеревоКонфигурации</DataPath>
-			<RowPictureDataPath>ДеревоКонфигурации.Картинка</RowPictureDataPath>
-			<RowsPicture>
-				<xr:Ref>CommonPicture.КоллекцияОбъектыМетаданных</xr:Ref>
-				<xr:LoadTransparent>true</xr:LoadTransparent>
-			</RowsPicture>
 			<SearchStringLocation>Top</SearchStringLocation>
 			<ContextMenu name="ДеревоКонфигурацииКонтекстноеМеню" id="2"/>
 			<AutoCommandBar name="ДеревоКонфигурацииКоманднаяПанель" id="3">
