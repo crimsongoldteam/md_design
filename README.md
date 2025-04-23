@@ -99,6 +99,7 @@
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/shuricks"><img src="https://avatars.githubusercontent.com/u/3978674?v=4?s=100" width="100px;" alt="Alexander"/><br /><sub><b>Alexander</b></sub></a><br /><a href="#bug-shuricks" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/GorbatkoMD"><img src="https://avatars.githubusercontent.com/u/110474554?v=4?s=100" width="100px;" alt="Максим"/><br /><sub><b>Максим</b></sub></a><br /><a href="#bug-GorbatkoMD" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/thequb1k"><img src="https://avatars.githubusercontent.com/u/177568772?v=4?s=100" width="100px;" alt="Dmitry Baraboy"/><br /><sub><b>Dmitry Baraboy</b></sub></a><br /><a href="#bug-thequb1k" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Untru"><img src="https://avatars.githubusercontent.com/u/60393326?v=4?s=100" width="100px;" alt="Pavel"/><br /><sub><b>Pavel</b></sub></a><br /><a href="#code-Untru" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
