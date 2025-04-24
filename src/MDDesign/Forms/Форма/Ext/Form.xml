@@ -12,31 +12,212 @@
 		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
 	</Events>
 	<ChildItems>
-		<Pages name="__ГруппаЛево" id="340">
-			<ToolTip>
+		<Pages name="__СтраницыЛево" id="340">
+			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Группа лево</v8:content>
+					<v8:content>Страницы лево</v8:content>
 				</v8:item>
-			</ToolTip>
-			<PagesRepresentation>None</PagesRepresentation>
-			<ExtendedTooltip name="__ГруппаЛевоРасширеннаяПодсказка" id="341"/>
+			</Title>
+			<HorizontalStretch>true</HorizontalStretch>
+			<PagesRepresentation>TabsOnTop</PagesRepresentation>
+			<ExtendedTooltip name="__СтраницыЛевоРасширеннаяПодсказка" id="341"/>
+			<Events>
+				<Event name="OnCurrentPageChange">__СтраницыЛевоПриСменеСтраницы</Event>
+			</Events>
 			<ChildItems>
-				<Page name="__ГруппаИИ" id="206">
+				<Page name="__СтраницаСвойства" id="384">
 					<Title>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>ИИ чат</v8:content>
+							<v8:content>Свойства</v8:content>
 						</v8:item>
 					</Title>
+					<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="9" kind="StyleItem" scale="100"/>
 					<ToolTip>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>Группа ИИ</v8:content>
+							<v8:content>Палитра свойств</v8:content>
 						</v8:item>
 					</ToolTip>
-					<ShowTitle>false</ShowTitle>
-					<ExtendedTooltip name="__ГруппаИИРасширеннаяПодсказка" id="207"/>
+					<HorizontalStretch>true</HorizontalStretch>
+					<ExtendedTooltip name="__СтраницаСвойстваРасширеннаяПодсказка" id="385"/>
+					<ChildItems>
+						<Table name="__ПалитраСвойств" id="352">
+							<Representation>List</Representation>
+							<ChangeRowSet>false</ChangeRowSet>
+							<ChangeRowOrder>false</ChangeRowOrder>
+							<SelectionMode>SingleRow</SelectionMode>
+							<Header>false</Header>
+							<HorizontalScrollBar>DontUse</HorizontalScrollBar>
+							<UseAlternationRowColor>true</UseAlternationRowColor>
+							<DataPath>__ПалитраСвойств</DataPath>
+							<SearchStringLocation>CommandBar</SearchStringLocation>
+							<RowFilter xsi:nil="true"/>
+							<ContextMenu name="__ПалитраСвойствКонтекстноеМеню" id="353"/>
+							<AutoCommandBar name="__ПалитраСвойствКоманднаяПанель" id="354">
+								<ChildItems>
+									<Button name="__ПалитраСвойствВсеСвойства" id="392">
+										<Type>CommandBarButton</Type>
+										<CommandName>Form.Command.__ВсеСвойства</CommandName>
+										<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+										<ExtendedTooltip name="__ПалитраСвойствВсеСвойстваРасширеннаяПодсказка" id="393"/>
+									</Button>
+								</ChildItems>
+							</AutoCommandBar>
+							<ExtendedTooltip name="__ПалитраСвойствРасширеннаяПодсказка" id="355"/>
+							<SearchStringAddition name="__ПалитраСвойствСтрокаПоиска" id="356">
+								<AdditionSource>
+									<Item>__ПалитраСвойств</Item>
+									<Type>SearchStringRepresentation</Type>
+								</AdditionSource>
+								<Width>5</Width>
+								<ContextMenu name="__ПалитраСвойствСтрокаПоискаКонтекстноеМеню" id="357"/>
+								<ExtendedTooltip name="__ПалитраСвойствСтрокаПоискаРасширеннаяПодсказка" id="358"/>
+							</SearchStringAddition>
+							<ViewStatusAddition name="__ПалитраСвойствСостояниеПросмотра" id="359">
+								<AdditionSource>
+									<Item>__ПалитраСвойств</Item>
+									<Type>ViewStatusRepresentation</Type>
+								</AdditionSource>
+								<ContextMenu name="__ПалитраСвойствСостояниеПросмотраКонтекстноеМеню" id="360"/>
+								<ExtendedTooltip name="__ПалитраСвойствСостояниеПросмотраРасширеннаяПодсказка" id="361"/>
+							</ViewStatusAddition>
+							<SearchControlAddition name="__ПалитраСвойствУправлениеПоиском" id="362">
+								<AdditionSource>
+									<Item>__ПалитраСвойств</Item>
+									<Type>SearchControl</Type>
+								</AdditionSource>
+								<ContextMenu name="__ПалитраСвойствУправлениеПоискомКонтекстноеМеню" id="363"/>
+								<ExtendedTooltip name="__ПалитраСвойствУправлениеПоискомРасширеннаяПодсказка" id="364"/>
+							</SearchControlAddition>
+							<Events>
+								<Event name="Selection">__ПалитраСвойствВыбор</Event>
+								<Event name="OnActivateField">__ПалитраСвойствПриАктивизацииПоля</Event>
+							</Events>
+							<ChildItems>
+								<LabelField name="__ПалитраСвойствПредставлениеПоля" id="374">
+									<DataPath>__ПалитраСвойств.ПредставлениеПоля</DataPath>
+									<ReadOnly>true</ReadOnly>
+									<EditMode>EnterOnInput</EditMode>
+									<ShowInHeader>false</ShowInHeader>
+									<ShowInFooter>false</ShowInFooter>
+									<Width>25</Width>
+									<MaxWidth>25</MaxWidth>
+									<HorizontalStretch>true</HorizontalStretch>
+									<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+									<ContextMenu name="__ПалитраСвойствПредставлениеПоляКонтекстноеМеню" id="375"/>
+									<ExtendedTooltip name="__ПалитраСвойствПредставлениеПоляРасширеннаяПодсказка" id="376"/>
+								</LabelField>
+								<ColumnGroup name="__ПалитраСвойствГруппаЗначение" id="377">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Палитра свойств группа значение</v8:content>
+										</v8:item>
+									</Title>
+									<ToolTip>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Палитра свойств группа значение</v8:content>
+										</v8:item>
+									</ToolTip>
+									<Width>25</Width>
+									<HorizontalStretch>true</HorizontalStretch>
+									<ExtendedTooltip name="__ПалитраСвойствГруппаЗначениеРасширеннаяПодсказка" id="378"/>
+									<ChildItems>
+										<CheckBoxField name="__ПалитраСвойствЗначениеБулево" id="365">
+											<DataPath>__ПалитраСвойств.ЗначениеБулево</DataPath>
+											<EditMode>Directly</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<CheckBoxType>Auto</CheckBoxType>
+											<ContextMenu name="__ПалитраСвойствЗначениеБулевоКонтекстноеМеню" id="366"/>
+											<ExtendedTooltip name="__ПалитраСвойствЗначениеБулевоРасширеннаяПодсказка" id="367"/>
+											<Events>
+												<Event name="OnChange">__ПалитраСвойствЗначениеБулевоПриИзменении</Event>
+											</Events>
+										</CheckBoxField>
+										<InputField name="__ПалитраСвойствЗначениеСписок" id="368">
+											<DataPath>__ПалитраСвойств.ЗначениеСписок</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<Width>25</Width>
+											<MaxWidth>15</MaxWidth>
+											<HorizontalStretch>true</HorizontalStretch>
+											<ListChoiceMode>true</ListChoiceMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+											<ContextMenu name="__ПалитраСвойствЗначениеСписокКонтекстноеМеню" id="369"/>
+											<ExtendedTooltip name="__ПалитраСвойствЗначениеСписокРасширеннаяПодсказка" id="370"/>
+											<Events>
+												<Event name="OnChange">__ПалитраСвойствЗначениеСписокПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="__ПалитраСвойствЗначениеЦвет" id="379">
+											<DataPath>__ПалитраСвойств.ЗначениеЦвет</DataPath>
+											<EditMode>Directly</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<MaxWidth>15</MaxWidth>
+											<HorizontalStretch>true</HorizontalStretch>
+											<ChoiceButton>true</ChoiceButton>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<QuickChoice>true</QuickChoice>
+											<ChooseType>false</ChooseType>
+											<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+											<ContextMenu name="__ПалитраСвойствЗначениеЦветКонтекстноеМеню" id="380"/>
+											<ExtendedTooltip name="__ПалитраСвойствЗначениеЦветРасширеннаяПодсказка" id="381"/>
+											<Events>
+												<Event name="OnChange">__ПалитраСвойствЗначениеЦветПриИзменении</Event>
+												<Event name="StartChoice">__ПалитраСвойствЗначениеЦветНачалоВыбора</Event>
+											</Events>
+										</InputField>
+										<InputField name="__ПалитраСвойствЗначениеЧисло" id="386">
+											<DataPath>__ПалитраСвойств.ЗначениеЧисло</DataPath>
+											<EditMode>Directly</EditMode>
+											<HorizontalStretch>true</HorizontalStretch>
+											<SpinButton>true</SpinButton>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+											<ContextMenu name="__ПалитраСвойствЗначениеЧислоКонтекстноеМеню" id="387"/>
+											<ExtendedTooltip name="__ПалитраСвойствЗначениеЧислоРасширеннаяПодсказка" id="388"/>
+											<Events>
+												<Event name="OnChange">__ПалитраСвойствЗначениеЧислоПриИзменении</Event>
+											</Events>
+										</InputField>
+										<InputField name="__ПалитраСвойствЗначениеСтрока" id="389">
+											<DataPath>__ПалитраСвойств.ЗначениеСтрока</DataPath>
+											<EditMode>Directly</EditMode>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+											<ContextMenu name="__ПалитраСвойствЗначениеСтрокаКонтекстноеМеню" id="390"/>
+											<ExtendedTooltip name="__ПалитраСвойствЗначениеСтрокаРасширеннаяПодсказка" id="391"/>
+											<Events>
+												<Event name="OnChange">__ПалитраСвойствЗначениеСтрокаПриИзменении</Event>
+											</Events>
+										</InputField>
+									</ChildItems>
+								</ColumnGroup>
+							</ChildItems>
+						</Table>
+					</ChildItems>
+				</Page>
+				<Page name="__СтраницаЧатИИ" id="206">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Чат ИИ</v8:content>
+						</v8:item>
+					</Title>
+					<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="9" kind="StyleItem" scale="100"/>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Страница чат ИИ</v8:content>
+						</v8:item>
+					</ToolTip>
+					<HorizontalStretch>true</HorizontalStretch>
+					<ExtendedTooltip name="__СтраницаЧатИИРасширеннаяПодсказка" id="207"/>
 					<ChildItems>
 						<UsualGroup name="__ГруппаРамкаИИ" id="308">
 							<Title>
@@ -427,6 +608,11 @@
 												</Popup>
 											</ChildItems>
 										</ButtonGroup>
+										<Button name="__ПоказатьСвойства" id="394">
+											<Type>CommandBarButton</Type>
+											<CommandName>Form.Command.__ПоказатьСвойства</CommandName>
+											<ExtendedTooltip name="__ПоказатьСвойстваРасширеннаяПодсказка" id="395"/>
+										</Button>
 										<Button name="__РедакторИИ" id="202">
 											<Type>CommandBarButton</Type>
 											<Representation>Picture</Representation>
@@ -509,10 +695,9 @@
 								</Button>
 							</ChildItems>
 						</UsualGroup>
-						<TextDocumentField name="__Редактор" id="5">
-							<DataPath>__Редактор</DataPath>
+						<HTMLDocumentField name="__Редактор" id="5">
+							<DataPath>__ПолеHTMLРедактора</DataPath>
 							<TitleLocation>None</TitleLocation>
-							<Font ref="sys:ANSIFixedFont" height="8" kind="WindowsFont"/>
 							<ContextMenu name="__РедакторКонтекстноеМеню" id="6">
 								<ChildItems>
 									<ButtonGroup name="__РедакторКонтекстноеМенюГруппа" id="144">
@@ -574,8 +759,10 @@
 							<ExtendedTooltip name="__РедакторРасширеннаяПодсказка" id="7"/>
 							<Events>
 								<Event name="OnChange">__РедакторПриИзменении</Event>
+								<Event name="DocumentComplete">__РедакторДокументСформирован</Event>
+								<Event name="OnClick">__РедакторПриНажатии</Event>
 							</Events>
-						</TextDocumentField>
+						</HTMLDocumentField>
 						<UsualGroup name="__ГруппаРедакторГрупп" id="154">
 							<Title>
 								<v8:item>
@@ -994,25 +1181,6 @@
 									<ContextMenu name="__ДекорацияЗаголовокГруппыКонтекстноеМеню" id="275"/>
 									<ExtendedTooltip name="__ДекорацияЗаголовокГруппыРасширеннаяПодсказка" id="276"/>
 								</LabelDecoration>
-								<LabelDecoration name="__ДекорацияГруппы" id="251">
-									<HorizontalStretch>false</HorizontalStretch>
-									<TextColor>#424242</TextColor>
-									<Font ref="sys:ANSIFixedFont" height="9" bold="false" italic="false" underline="false" strikeout="false" kind="WindowsFont"/>
-									<Title formatted="false">
-										<v8:item>
-											<v8:lang>ru</v8:lang>
-											<v8:content>#Заголовок 1 #Заголовок 2
-Элемент 1    + Элемент 2</v8:content>
-										</v8:item>
-									</Title>
-									<GroupHorizontalAlign>Center</GroupHorizontalAlign>
-									<Hyperlink>true</Hyperlink>
-									<ContextMenu name="__ДекорацияГруппыКонтекстноеМеню" id="252"/>
-									<ExtendedTooltip name="__ДекорацияГруппыРасширеннаяПодсказка" id="253"/>
-									<Events>
-										<Event name="Click">__ДекорацияПримерНажатие</Event>
-									</Events>
-								</LabelDecoration>
 								<LabelDecoration name="__ДекорацияЗаголовокСтраницы" id="291">
 									<HorizontalStretch>false</HorizontalStretch>
 									<TextColor>#CCCCCC</TextColor>
@@ -1133,6 +1301,12 @@
 										<Event name="Click">НоваяВерсияНажатие</Event>
 									</Events>
 								</LabelField>
+								<Button name="__ИзменитьФорму" id="382">
+									<Type>UsualButton</Type>
+									<Representation>Picture</Representation>
+									<CommandName>Form.StandardCommand.CustomizeForm</CommandName>
+									<ExtendedTooltip name="__ИзменитьФормуРасширеннаяПодсказка" id="383"/>
+								</Button>
 								<Button name="__Настройки" id="304">
 									<Type>UsualButton</Type>
 									<CommandName>Form.Command.__Настройки</CommandName>
@@ -1492,18 +1666,22 @@
 				</Column>
 			</Columns>
 		</Attribute>
-		<Attribute name="__ОтображатьЧатИИ" id="14">
+		<Attribute name="__ОтображатьПанельЛево" id="14">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Отображать чат ИИ</v8:content>
+					<v8:content>Отображать панель лево</v8:content>
 				</v8:item>
 			</Title>
 			<Type>
-				<v8:Type>xs:boolean</v8:Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
 			</Type>
 			<Save>
-				<Field>__ОтображатьЧатИИ</Field>
+				<Field>__ОтображатьПанельЛево</Field>
 			</Save>
 		</Attribute>
 		<Attribute name="__ОжиданиеОтветаИИ" id="15">
@@ -1611,6 +1789,207 @@
 				</v8:StringQualifiers>
 			</Type>
 		</Attribute>
+		<Attribute name="__ПалитраСвойств" id="22">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Палитра свойств</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTable</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="ЗначениеБулево" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Значение булево</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="ЗначениеСписок" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Значение список</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>50</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Категория" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Категория</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ИмяПоля" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Имя поля</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ЗначениеЦвет" id="5">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Значение цвет</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>v8ui:Color</v8:Type>
+					</Type>
+				</Column>
+				<Column name="ПредставлениеПоля" id="6">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Представление поля</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Изменено" id="7">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Изменено</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="ЗначениеПоУмолчанию" id="8">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Значение по умолчанию</v8:content>
+						</v8:item>
+					</Title>
+					<Type/>
+				</Column>
+				<Column name="ЗначениеЧисло" id="9">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Значение число</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:decimal</v8:Type>
+						<v8:NumberQualifiers>
+							<v8:Digits>0</v8:Digits>
+							<v8:FractionDigits>0</v8:FractionDigits>
+							<v8:AllowedSign>Nonnegative</v8:AllowedSign>
+						</v8:NumberQualifiers>
+					</Type>
+				</Column>
+				<Column name="ЗначениеСтрока" id="10">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Значение строка</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="Отбор" id="13">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Отбор</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
+				</Column>
+				<Column name="ТипЭлемента" id="14">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Тип элемента</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
+		<Attribute name="__ПолеHTMLРедактора" id="23">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Поле HTMLРедактора</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+		</Attribute>
+		<Attribute name="__ПоказатьВсеСвойства" id="24">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать все свойства</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+			<Save>
+				<Field>__ПоказатьВсеСвойства</Field>
+			</Save>
+		</Attribute>
 		<ConditionalAppearance>
 			<dcsset:item>
 				<dcsset:selection>
@@ -1699,6 +2078,126 @@
 						<dcscor:use>false</dcscor:use>
 						<dcscor:parameter>ТолькоПросмотр</dcscor:parameter>
 						<dcscor:value xsi:type="xs:boolean">true</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>__ПалитраСвойствЗначениеБулево</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">__ПалитраСвойств.Категория</dcsset:left>
+						<dcsset:comparisonType>NotEqual</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:string">Булево</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>__ПалитраСвойствЗначениеСписок</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">__ПалитраСвойств.Категория</dcsset:left>
+						<dcsset:comparisonType>NotEqual</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:string">Список</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>__ПалитраСвойствЗначениеЦвет</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">__ПалитраСвойств.Категория</dcsset:left>
+						<dcsset:comparisonType>NotEqual</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:string">Цвет</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>__ПалитраСвойствЗначениеЧисло</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">__ПалитраСвойств.Категория</dcsset:left>
+						<dcsset:comparisonType>NotEqual</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:string">Число</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>__ПалитраСвойствЗначениеСтрока</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">__ПалитраСвойств.Категория</dcsset:left>
+						<dcsset:comparisonType>NotEqual</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:string">Строка</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>__ПалитраСвойств</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">__ПалитраСвойств.Изменено</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Шрифт</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Font" ref="style:NormalTextFont" faceName="Calibri" bold="true" italic="false" underline="false" strikeout="false" kind="StyleItem"/>
 					</dcscor:item>
 				</dcsset:appearance>
 			</dcsset:item>
@@ -2109,6 +2608,40 @@
 				</v8:item>
 			</ToolTip>
 			<Action>__ОткрытьТелеграмКанал</Action>
+		</Command>
+		<Command name="__ВсеСвойства" id="25">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Все</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Все свойства</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ВсеСвойства</Action>
+		</Command>
+		<Command name="__ПоказатьСвойства" id="26">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать свойства</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Показать свойства</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Picture>
+				<xr:Ref>StdPicture.Properties</xr:Ref>
+				<xr:LoadTransparent>true</xr:LoadTransparent>
+			</Picture>
+			<Action>__ПоказатьСвойства</Action>
 		</Command>
 	</Commands>
 </Form>

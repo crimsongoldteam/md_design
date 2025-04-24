@@ -42,12 +42,15 @@
 			<Form>ФормаРедактированияТаблицы</Form>
 			<Form>Форматтер</Form>
 			<Form>ФормаВыбораТипа</Form>
+			<Form>БиблиотекаJS</Form>
+			<Form>ФормаВыбораЦвета</Form>
 			<Template>HTML</Template>
 			<Template>LICENSE</Template>
 			<Template>ParserJS</Template>
 			<Template>Промпт</Template>
 			<Template>Свойства</Template>
 			<Template>ТипыЭлементов</Template>
+			<Template>БиблиотекаJS</Template>
 		</ChildObjects>
 	</ExternalDataProcessor>
 </MetaDataObject>

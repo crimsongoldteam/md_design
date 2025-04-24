@@ -25,33 +25,5 @@ module.exports = {
       originNameReg: "template.js",
       targetName: "Template.txt"
     }),
-
-    //   new FileManagerPlugin({
-    //     runTasksInSeries: true,
-    //     events: {
-    //       onStart: {
-    //         delete: [
-    //           {
-    //             source:  path.resolve(
-    //               __dirname,
-    //               "src/MDDesign/Templates/ParserJS/Ext/Template.txt"
-    //             ),
-    //             options: {
-    //               force: true,
-    //             },
-    //           },
-    //         ],
-    //         move: [
-    //           {
-    //             source: "./temp/template.js",
-    //             destination: path.resolve(
-    //               __dirname,
-    //               "src/MDDesign/Templates/ParserJS/Ext/Template.txt"
-    //             ),
-    //           },
-    //         ],
-    //       },
-    //     },
-    //   }),
   ],
 };
