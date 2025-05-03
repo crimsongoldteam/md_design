@@ -13,19 +13,27 @@ require(["vs/editor/editor.main"], function () {
     tabSize: 4
   });
 
-  window.setText = function (text) {
+  window.setEditorText = function (text) {
     editor.setValue(text);
   };
 
-  window.getText = function () {
+  window.getEditorText = function () {
     return editor.getValue();
   };
-
+  
+  window.setEditorPosition = function (lineNumber, column) {
+    return editor.setPosition({
+      lineNumber: lineNumber,
+      column: column
+    });
+  };
+  
   sendEvent = function (eventName, eventParams) {
     let lastEvent = new MouseEvent("click");
     lastEvent.eventData1C = { event: eventName, params: eventParams };
     return dispatchEvent(lastEvent);
   };
+
   editor.onDidChangeCursorSelection((e) => {
     let params = {
       line: e.selection.startLineNumber,

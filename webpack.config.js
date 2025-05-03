@@ -7,7 +7,7 @@ const webpack = require("webpack");
 const RenameWebpackPlugin = require("rename-webpack-plugin");
 
 module.exports = {
-  entry: "./parser/app.js",
+  entry: "./js/app.js",
   mode: "production",
   output: {
     filename: "template.js",
