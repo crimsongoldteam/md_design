@@ -7,7 +7,7 @@ const webpack = require("webpack");
 const RenameWebpackPlugin = require("rename-webpack-plugin");
 
 module.exports = {
-  entry: "./parser/app.js",
+  entry: "./js/app.js",
   mode: "production",
   output: {
     filename: "template.js",
@@ -25,33 +25,5 @@ module.exports = {
       originNameReg: "template.js",
       targetName: "Template.txt"
     }),
-
-    //   new FileManagerPlugin({
-    //     runTasksInSeries: true,
-    //     events: {
-    //       onStart: {
-    //         delete: [
-    //           {
-    //             source:  path.resolve(
-    //               __dirname,
-    //               "src/MDDesign/Templates/ParserJS/Ext/Template.txt"
-    //             ),
-    //             options: {
-    //               force: true,
-    //             },
-    //           },
-    //         ],
-    //         move: [
-    //           {
-    //             source: "./temp/template.js",
-    //             destination: path.resolve(
-    //               __dirname,
-    //               "src/MDDesign/Templates/ParserJS/Ext/Template.txt"
-    //             ),
-    //           },
-    //         ],
-    //       },
-    //     },
-    //   }),
   ],
 };

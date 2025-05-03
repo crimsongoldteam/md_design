@@ -6,7 +6,8 @@ class Visitor extends BaseVisitor {
   Form(ctx) {
     let result = {
       Тип: "Форма",
-      // УИД: self.crypto.randomUUID(),
+      ТипЭлемента: "Форма",
+      ВидЭлемента: "БезСвойств",
       НаборСвойств: {},
       Элементы: [],
       ЭлементыПарсинг: [],
@@ -49,7 +50,8 @@ class Visitor extends BaseVisitor {
   HGroup(ctx) {
     let result = {
       Тип: "ГоризонтальнаяГруппа",
-      // УИД: self.crypto.randomUUID(),
+      ТипЭлемента: "ГруппаФормы",
+      ВидЭлемента: "ОбычнаяГруппа",
       НаборСвойств: {},
       Элементы: [],
       ТипыСвойств: {},
@@ -68,7 +70,8 @@ class Visitor extends BaseVisitor {
   VGroup(ctx) {
     let result = {
       Тип: "ВертикальнаяГруппа",
-      // УИД: self.crypto.randomUUID(),
+      ТипЭлемента: "ГруппаФормы",
+      ВидЭлемента: "ОбычнаяГруппа",
       НаборСвойств: {},
       Элементы: [],
       ЭлементыПарсинг: [],
@@ -76,11 +79,23 @@ class Visitor extends BaseVisitor {
       Координаты: {},
     };
 
+    let properties = result["НаборСвойств"];
     for (const [key, value] of Object.entries(ctx.Properties)) {
-      result.НаборСвойств[key.trim()] = value.trim();
+      properties[key.trim()] = value.trim();
     }
 
-    result.НаборСвойств.Заголовок = this.visit(ctx.VGroupHeader);
+    // properties["Группировка"] = "Вертикальная";
+    // properties["РастягиватьПоГоризонтали"] = true;
+    // properties["РастягиватьПоВертикали"] = true;
+
+    let header = this.visit(ctx.VGroupHeader);
+
+    // if (header == "") {
+    //   properties["ОтображатьЗаголовок"] = false;
+    // }
+    // else {
+    properties["Заголовок"] = header;
+    // };
 
     this.addDisplayAndBehaviorToGroup(result["НаборСвойств"], ctx.VGroupHeader);
 
@@ -138,6 +153,8 @@ class Visitor extends BaseVisitor {
   Pages(ctx) {
     let result = {
       Тип: "Страницы",
+      ТипЭлемента: "ГруппаФормы",
+      ВидЭлемента: "Страницы",
       // УИД: self.crypto.randomUUID(),
       НаборСвойств: {},
       Элементы: [],
@@ -157,7 +174,8 @@ class Visitor extends BaseVisitor {
   Page(ctx) {
     let result = {
       Тип: "Страница",
-      // УИД: self.crypto.randomUUID(),
+      ТипЭлемента: "ГруппаФормы",
+      ВидЭлемента: "Страница",
       НаборСвойств: {},
       Элементы: [],
       ЭлементыПарсинг: [],
@@ -188,7 +206,8 @@ class Visitor extends BaseVisitor {
   OneLineGroup(ctx) {
     let result = {
       Тип: "ОднострочнаяГруппа",
-      // УИД: self.crypto.randomUUID(),
+      ТипЭлемента: "ГруппаФормы",
+      ВидЭлемента: "ОбычнаяГруппа",
       НаборСвойств: {},
       Элементы: [],
       ЭлементыПарсинг: [],

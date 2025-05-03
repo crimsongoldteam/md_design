@@ -37,6 +37,7 @@
 			<EnableStartDrag>true</EnableStartDrag>
 			<EnableDrag>true</EnableDrag>
 			<DataPath>ДеревоКонфигурации</DataPath>
+			<RowPictureDataPath>ДеревоКонфигурации.Картинка</RowPictureDataPath>
 			<SearchStringLocation>Top</SearchStringLocation>
 			<ContextMenu name="ДеревоКонфигурацииКонтекстноеМеню" id="2"/>
 			<AutoCommandBar name="ДеревоКонфигурацииКоманднаяПанель" id="3">
