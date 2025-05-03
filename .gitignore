@@ -1,3 +1,4 @@
 dst/*.epf
 .vscode
 temp/*
+icons/*

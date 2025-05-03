@@ -298,6 +298,8 @@
 							<Representation>Tree</Representation>
 							<ChangeRowSet>false</ChangeRowSet>
 							<ChangeRowOrder>false</ChangeRowOrder>
+							<HorizontalLines>false</HorizontalLines>
+							<VerticalLines>false</VerticalLines>
 							<AutoInsertNewRow>true</AutoInsertNewRow>
 							<EnableStartDrag>true</EnableStartDrag>
 							<EnableDrag>true</EnableDrag>
@@ -381,7 +383,8 @@
 					<Representation>List</Representation>
 					<ChangeRowOrder>false</ChangeRowOrder>
 					<Header>false</Header>
-					<UseAlternationRowColor>true</UseAlternationRowColor>
+					<HorizontalLines>false</HorizontalLines>
+					<VerticalLines>false</VerticalLines>
 					<AutoInsertNewRow>true</AutoInsertNewRow>
 					<EnableStartDrag>true</EnableStartDrag>
 					<EnableDrag>true</EnableDrag>

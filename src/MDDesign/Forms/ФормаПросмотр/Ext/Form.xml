@@ -32,7 +32,7 @@
 			</Type>
 			<MainAttribute>true</MainAttribute>
 		</Attribute>
-		<Attribute name="__ТаблицаСуществующихРеквизитов" id="2">
+		<Attribute name="ТаблицаСуществующихРеквизитов" id="2">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
@@ -77,7 +77,7 @@
 		</Attribute>
 	</Attributes>
 	<Commands>
-		<Command name="__КомандаЗаглушка" id="1">
+		<Command name="КомандаЗаглушка" id="1">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
