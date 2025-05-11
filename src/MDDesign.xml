@@ -41,9 +41,10 @@
 			<Form>ФормаПросмотр</Form>
 			<Form>ФормаРедактированияТаблицы</Form>
 			<Form>Форматтер</Form>
-			<Form>ФормаВыбораТипа</Form>
+			<Form>УдалитьФормаВыбораТипа</Form>
 			<Form>БиблиотекаJS</Form>
 			<Form>ФормаВыбораЦвета</Form>
+			<Form>ФормаВыбораТипа</Form>
 			<Template>HTML</Template>
 			<Template>LICENSE</Template>
 			<Template>ParserJS</Template>
@@ -52,6 +53,9 @@
 			<Template>БиблиотекаJS</Template>
 			<Template>Свойства</Template>
 			<Template>Цвета</Template>
+			<Template>ПромптТип</Template>
+			<Template>БиблиотекаКартинок</Template>
+			<Template>ПромптНазванияЭлементов</Template>
 		</ChildObjects>
 	</ExternalDataProcessor>
 </MetaDataObject>

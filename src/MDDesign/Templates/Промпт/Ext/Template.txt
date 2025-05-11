@@ -18,6 +18,8 @@ At the beginning of the prototype description, add a form header. This header wi
 < Кнопка 1 | Кнопка 2>
 ```
 Adds buttons (command bar) to the form.
+Для справочника командная панель содержит кнопки в следующем порядке: <Записать и закрыть | Записать >
+Для документа командная панель содержит кнопки в следующем порядке: <Провести и закрыть | Записать | Провести >
 
 ### Menu
 Add menus to the command bar. Separate buttons visually with `-`. Use the same symbol to separate menu items.
@@ -203,7 +205,7 @@ This can also be used for rows in a table.
 ## Example incoming request:
 Сделай форму ввода ФИО
 ## Example Output:
-<Записать и закрыть | Записать | Закрыть>
+<Записать и закрыть | Записать >
 Фамилия: Иванов
 Имя: Иван
 Отчество: Иванович
