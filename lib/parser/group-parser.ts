@@ -1,7 +1,9 @@
-﻿import { EmbeddedActionsParser, EOF } from "./chevrotain.js";
+﻿import { EmbeddedActionsParser, EOF } from "chevrotain";
 
-import { GroupStack } from "./group-stack.js";
-import * as t from "./lexer.js";
+import { GroupStack } from "./group-stack";
+import { InlineParser } from "./inline-parser";
+
+import * as t from "./lexer";
 
 class GroupParser extends EmbeddedActionsParser {
   constructor() {

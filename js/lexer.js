@@ -31,12 +31,30 @@ export const LCurly = createToken({
   label: "{",
   categories: [HeaderText, InlineText, PropertiesValueText],
 });
+
 export const RCurly = createToken({
   name: "RCurly",
   pattern: /} */,
   label: "}",
   categories: [HeaderText, InlineText, PageGroupHeaderText],
 });
+
+export const LSquare = createToken({
+  name: "LSquare",
+  pattern: /\[ */,
+  label: "[",
+  categories: [HeaderText, InlineText, PropertiesValueText],
+});
+
+
+export const RSquare = createToken({
+  name: "RSquare",
+  pattern: /\] */,
+  label: "]",
+  categories: [HeaderText, InlineText, PropertiesValueText],
+});
+
+
 export const Semicolon = createToken({
   name: "Semicolon",
   pattern: /\; */,
@@ -48,6 +66,21 @@ export const Semicolon = createToken({
     PropertiesValueText,
   ],
 });
+
+export const Colon = createToken({
+  name: "Colon",
+  pattern: /\: */,
+  label: ":",
+  categories: [HeaderText],
+});
+
+export const VBar = createToken({
+  name: "VBar",
+  pattern: /\| */,
+  label: "|",
+  categories: [HeaderText],
+});
+
 // const Comma = createToken({
 //   name: "Comma",
 //   pattern: /\,/,

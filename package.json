@@ -1,0 +1,19 @@
+{
+  "name": "md_design",
+  "private": true,
+  "version": "0.12.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "chevrotain": "^11.0.3",
+    "chevrotain-allstar": "^0.3.1"
+  }
+}

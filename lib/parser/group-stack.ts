@@ -1,5 +1,21 @@
-﻿export class GroupStack {
-  constructor(form) {
+﻿import { CstNode } from "chevrotain";
+
+interface IGroupItem {
+  item: CstNode;
+  indent: number;
+  separator: string;
+}
+
+
+export class GroupStack {
+  form: CstNode;
+  collectedItems: Array<IGroupItem> = [];
+  prevGroups: Array<CstNode> = [];
+  currentGroups: Array<CstNode> = [];
+  indents: WeakMap<CstNode, number> = new WeakMap();
+  parents: WeakMap<CstNode, CstNode> = new WeakMap();
+
+  constructor(form: CstNode) {
     this.form = form;
     this.reset();
   }
@@ -16,14 +32,15 @@
       let indent = element.indent;
 
       let parent = this.getPrevAtIndex(index);
-       
+
       let isEmptyInline = (item.name == "Inline" && item.children.Items.length == 0);
-     
-      if (!isEmptyInline)  {
-        parent = this.getItemAtIndent(parent, indent);  
+
+      if (!isEmptyInline) {
+        parent = this.getItemAtIndent(parent, indent);
       }
 
       let itemIndent = this.getIndent(parent);
+
 
       this.add(item, parent, itemIndent);
     }
@@ -43,20 +60,20 @@
   }
 
   doneSingleItemRow() {
-    if (this.collectedItems.length != 1) { return false;}
-    if (this.prevGroups.length <= 1) { return false;}
-    
+    if (this.collectedItems.length != 1) { return false; }
+    if (this.prevGroups.length <= 1) { return false; }
+
     let item = this.collectedItems[0].item;
     let indent = this.collectedItems[0].indent;
-    
-    parent = this.getFirstParentPage(this.prevGroups[0]);
+
+    let parent = this.getFirstParentPage(this.prevGroups[0]);
 
     let isEmptyInline = (item.name == "Inline" && item.children.Items.length == 0);
-     
-    if (!isEmptyInline)  {
-      parent = this.getItemAtIndent(parent, indent);  
-    }    
-    
+
+    if (!isEmptyInline) {
+      parent = this.getItemAtIndent(parent, indent);
+    }
+
     this.add(item, parent, 0);
 
     this.prevGroups = this.currentGroups.slice();
@@ -66,7 +83,7 @@
     return true;
   }
 
-  getPrevAtIndex(index) {
+  getPrevAtIndex(index: number) : CstNode {
     if (index >= this.prevGroups.length) {
       if (this.prevGroups.length > 0) {
         return this.prevGroups[this.prevGroups.length - 1];
@@ -76,7 +93,7 @@
     return this.prevGroups[index];
   }
 
-  getItemAtIndent(current, indent) {
+  getItemAtIndent(current: CstNode, indent: number) : CstNode {
     let resultIndent = this.getIndent(current);
 
     if (indent >= resultIndent) {
@@ -92,24 +109,25 @@
     return result;
   }
 
-  getIndent(item) {
-    return this.indents.get(item);
+  getIndent(item: CstNode) : number {
+    const indent = this.indents.get(item);
+    return indent !== undefined ? indent : 0;
   }
 
-  getParents(item) {
+  getParents(item: any) {
     let result = [];
-    
+
     let parent = item;
-    
+
     while (parent != this.form) {
       parent = this.getParent(parent);
       result.unshift(parent);
-    }    
+    }
 
     return result;
   }
 
-  getFirstParentPage(item) {
+  getFirstParentPage(item: CstNode) {
     let result = this.form;
     let parents = this.getParents(item);
     for (let index = 1; index < parents.length; index++) {
@@ -117,7 +135,7 @@
       if (element.name == "HGroup") {
         break;
       }
-      
+
       if (element.name == "Pages") {
         continue;
       }
@@ -127,7 +145,7 @@
     return result;
   }
 
-  getParent(item) {
+  getParent(item: CstNode) {
     const parent = this.parents.get(item);
     if (parent === undefined) {
       return this.form;
@@ -135,7 +153,7 @@
     return parent;
   }
 
-  collect(item, indent, separator) {
+  collect(item: CstNode, indent: number, separator: string) {
     this.collectedItems.push({
       item: item,
       indent: indent,
@@ -143,7 +161,7 @@
     });
   }
 
-  add(item, parent, indent) {
+  add(item: CstNode, parent: CstNode, indent: number) {
     // let curIndent = this.getIndent(parent);
 
     if (this.addPage(item, parent, indent)) {
@@ -164,7 +182,7 @@
     this.currentGroups.push(parent);
   }
 
-  addPage(page, parent, indent) {
+  addPage(page: CstNode, parent: CstNode, indent: number) {
     if (page.name != "Page") {
       return false;
     }
@@ -186,7 +204,7 @@
     return true;
   }
 
-  addGroup(hGroup, parent, indent) {
+  addGroup(hGroup: CstNode, parent: CstNode, indent: number) {
     if (hGroup.name != "HGroup") {
       return false;
     }
@@ -194,7 +212,7 @@
     this.setIndent(hGroup, indent);
     this.setParent(hGroup, parent);
 
-    const items = hGroup.children.Items;
+    const items = hGroup.children.Items as CstNode[];
 
     // Правила отступов для групп следующие
     // - отступ первой вертикальной группы совпадает с отступом родителя
@@ -225,19 +243,19 @@
     this.setIndent(this.form, 0);
   }
 
-  setIndent(item, indent) {
+  setIndent(item: CstNode, indent: number) {
     this.indents.set(item, indent);
   }
 
-  setParent(item, parent) {
+  setParent(item: CstNode, parent: CstNode) {
     this.parents.set(item, parent);
     parent.children.Items.push(item);
   }
 
-  createVGroup(parent) {
+  createVGroup(parent: CstNode) : CstNode {
     const group = {
       name: "VGroup",
-      children: { VGroupHeader: [], Items: [], Properties: {} },
+      children: { VGroupHeader: new Array<CstNode>(), Items: new Array<CstNode>(), Properties: [] },
     };
 
     group.children.VGroupHeader.push(this.createVGroupHeader());
@@ -278,7 +296,7 @@
     return page;
   }
 
-  getNewPages() {
+  getNewPages() : CstNode {
     const page = {
       name: "Pages",
       children: { Items: [] },
@@ -286,7 +304,7 @@
     return page;
   }
 
-  createOneLineGroup() {
+  createOneLineGroup() : CstNode {
     const result = {
       name: "OneLineGroup",
       children: { Items: [] },
@@ -294,7 +312,7 @@
     return result;
   }
 
-  createInline() {
+  createInline() : CstNode {
     const inline = {
       name: "Inline",
       children: { Items: [] },
