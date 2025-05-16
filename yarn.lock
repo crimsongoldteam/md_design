@@ -501,17 +501,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chevrotain-allstar@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "chevrotain-allstar@npm:0.3.1"
-  dependencies:
-    lodash-es: "npm:^4.17.21"
-  peerDependencies:
-    chevrotain: ^11.0.0
-  checksum: 10c0/5cadedffd3114eb06b15fd3939bb1aa6c75412dbd737fe302b52c5c24334f9cb01cee8edc1d1067d98ba80dddf971f1d0e94b387de51423fc6cf3c5d8b7ef27a
-  languageName: node
-  linkType: hard
-
 "chevrotain@npm:^11.0.3":
   version: 11.0.3
   resolution: "chevrotain@npm:11.0.3"
@@ -876,7 +865,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash-es@npm:4.17.21, lodash-es@npm:^4.17.21":
+"lodash-es@npm:4.17.21":
   version: 4.17.21
   resolution: "lodash-es@npm:4.17.21"
   checksum: 10c0/fb407355f7e6cd523a9383e76e6b455321f0f153a6c9625e21a8827d10c54c2a2341bd2ae8d034358b60e07325e1330c14c224ff582d04612a46a4f0479ff2f2
@@ -914,9 +903,10 @@ __metadata:
   resolution: "md_design@workspace:."
   dependencies:
     chevrotain: "npm:^11.0.3"
-    chevrotain-allstar: "npm:^0.3.1"
+    monaco-editor-core: "npm:^0.52.2"
     typescript: "npm:~5.8.3"
     vite: "npm:^6.3.5"
+    vite-plugin-monaco-editor: "npm:^1.1.0"
   languageName: unknown
   linkType: soft
 
@@ -1011,6 +1001,13 @@ __metadata:
   bin:
     mkdirp: dist/cjs/src/bin.js
   checksum: 10c0/9f2b975e9246351f5e3a40dcfac99fcd0baa31fbfab615fe059fb11e51f10e4803c63de1f384c54d656e4db31d000e4767e9ef076a22e12a641357602e31d57d
+  languageName: node
+  linkType: hard
+
+"monaco-editor-core@npm:^0.52.2":
+  version: 0.52.2
+  resolution: "monaco-editor-core@npm:0.52.2"
+  checksum: 10c0/502891e44581c9ccce96963b09d392c10cdda6d40bb570d5f5c6519d263e0b2c248f84defc37eedb4b3bc69261a1088ac54a2a05f82934a0021cd3649ec6d103
   languageName: node
   linkType: hard
 
@@ -1412,6 +1409,15 @@ __metadata:
   dependencies:
     imurmurhash: "npm:^0.1.4"
   checksum: 10c0/d324c5a44887bd7e105ce800fcf7533d43f29c48757ac410afd42975de82cc38ea2035c0483f4de82d186691bf3208ef35c644f73aa2b1b20b8e651be5afd293
+  languageName: node
+  linkType: hard
+
+"vite-plugin-monaco-editor@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "vite-plugin-monaco-editor@npm:1.1.0"
+  peerDependencies:
+    monaco-editor: ">=0.33.0"
+  checksum: 10c0/1f0d839c194d79f21f4ef192d19d82e42ed6dbbab580df684db2e4eeb01d1f2e9c572e9e5b50e9887e9028a54514c496ee6db9d68cab579d375d09456d8b91ee
   languageName: node
   linkType: hard
 

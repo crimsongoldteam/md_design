@@ -1,6 +1,6 @@
 {
   "name": "md_design",
-  "private": true,
+  "description": "Накидка",
   "version": "0.12.1",
   "type": "module",
   "scripts": {
@@ -10,10 +10,11 @@
   },
   "devDependencies": {
     "typescript": "~5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vite-plugin-monaco-editor": "^1.1.0"
   },
   "dependencies": {
     "chevrotain": "^11.0.3",
-    "chevrotain-allstar": "^0.3.1"
+    "monaco-editor-core": "^0.52.2"
   }
 }

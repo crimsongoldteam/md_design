@@ -1,14 +1,45 @@
-import { InlineParser } from './parser/inline-parser'
+import { parser } from './parser/parser'
 import { lexer } from './parser/lexer'
+import { groupVisitor } from './parser/groupVisitor'
+import { IToken, CstNode } from 'chevrotain'
+
+function transformStructure(node: CstNode | IToken): any {
+    if ('children' in node) {
+        // Это узел дерева (TreeNode)
+        const result: any = {
+            name: node.name,
+            children: {}
+        };
+
+        for (const [key, children] of Object.entries(node.children)) {
+            result.children[key] = children.map(child => transformStructure(child));
+        }
+
+        return result;
+    } else {
+        // Это конечный элемент (Token)
+        const result: any = {};
+        if ('image' in node) {
+            result.image = node.image;
+        }
+        if (node.tokenType?.name) {
+            result.tokenType = { name: node.tokenType.name };
+        }
+        return result;
+    }
+}
 
 function parseInputInner(input: string) {
     const lexingResult = lexer.tokenize(input);
 
-    const parser = new InlineParser()
     parser.input = lexingResult.tokens;
 
-    const result = parser.detect(parser.input);
-    return result;
+    const result = parser.parse();
+
+    const resultVisit =  groupVisitor.visit(result)
+
+    const resultFormat = transformStructure(resultVisit);
+    return JSON.stringify(resultFormat, null, 2);
 }
 
 declare global {

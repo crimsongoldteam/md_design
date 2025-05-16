@@ -9,7 +9,7 @@
 
     <div id="app">
       <textarea id="input" rows="5"></textarea>
-      <button id="button" type="button" onclick="onClick()">Check</button>
+      <button id="button" type="button" onclick="document.getElementById('output').value = parseInputInner(document.getElementById('input').value); ">Check</button>
       <textarea id="output" rows="5"></textarea>
     </div>
     <script type="module" src="/lib/main.ts"></script>

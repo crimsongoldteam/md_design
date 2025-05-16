@@ -1,26 +1,30 @@
-﻿import { CstNode } from "chevrotain";
+﻿import { CstNode, IToken } from "chevrotain";
+import { Detector } from "./detector";
 
 interface IGroupItem {
   item: CstNode;
   indent: number;
-  separator: string;
+  separator: boolean;
 }
 
-
 export class GroupStack {
-  form: CstNode;
+  form: CstNode = this.createForm();
   collectedItems: Array<IGroupItem> = [];
   prevGroups: Array<CstNode> = [];
   currentGroups: Array<CstNode> = [];
   indents: WeakMap<CstNode, number> = new WeakMap();
   parents: WeakMap<CstNode, CstNode> = new WeakMap();
+  detector: Detector = new Detector()
 
-  constructor(form: CstNode) {
-    this.form = form;
+  constructor() {
     this.reset();
   }
 
-  doneRow() {
+  public consume(token: IToken) {
+    
+  }
+
+  public doneRow() {
 
     if (this.doneSingleItemRow()) {
       return;
@@ -59,7 +63,7 @@ export class GroupStack {
     this.collectedItems = [];
   }
 
-  doneSingleItemRow() {
+  private doneSingleItemRow(): boolean {
     if (this.collectedItems.length != 1) { return false; }
     if (this.prevGroups.length <= 1) { return false; }
 
@@ -83,7 +87,7 @@ export class GroupStack {
     return true;
   }
 
-  getPrevAtIndex(index: number) : CstNode {
+  private getPrevAtIndex(index: number): CstNode {
     if (index >= this.prevGroups.length) {
       if (this.prevGroups.length > 0) {
         return this.prevGroups[this.prevGroups.length - 1];
@@ -93,7 +97,7 @@ export class GroupStack {
     return this.prevGroups[index];
   }
 
-  getItemAtIndent(current: CstNode, indent: number) : CstNode {
+  private getItemAtIndent(current: CstNode, indent: number): CstNode {
     let resultIndent = this.getIndent(current);
 
     if (indent >= resultIndent) {
@@ -109,12 +113,12 @@ export class GroupStack {
     return result;
   }
 
-  getIndent(item: CstNode) : number {
+  private getIndent(item: CstNode): number {
     const indent = this.indents.get(item);
     return indent !== undefined ? indent : 0;
   }
 
-  getParents(item: any) {
+  private getParents(item: CstNode): CstNode[] {
     let result = [];
 
     let parent = item;
@@ -127,7 +131,7 @@ export class GroupStack {
     return result;
   }
 
-  getFirstParentPage(item: CstNode) {
+  private getFirstParentPage(item: CstNode): CstNode {
     let result = this.form;
     let parents = this.getParents(item);
     for (let index = 1; index < parents.length; index++) {
@@ -145,7 +149,7 @@ export class GroupStack {
     return result;
   }
 
-  getParent(item: CstNode) {
+  private getParent(item: CstNode): CstNode {
     const parent = this.parents.get(item);
     if (parent === undefined) {
       return this.form;
@@ -153,7 +157,7 @@ export class GroupStack {
     return parent;
   }
 
-  collect(item: CstNode, indent: number, separator: string) {
+  public collect(item: CstNode, indent: number, separator: boolean) {
     this.collectedItems.push({
       item: item,
       indent: indent,
@@ -161,16 +165,12 @@ export class GroupStack {
     });
   }
 
-  add(item: CstNode, parent: CstNode, indent: number) {
+  private add(item: CstNode, parent: CstNode, indent: number) {
     // let curIndent = this.getIndent(parent);
 
-    if (this.addPage(item, parent, indent)) {
-      return;
-    }
+    if (this.addPage(item, parent, indent)) { return }
 
-    if (this.addGroup(item, parent, indent)) {
-      return;
-    }
+    if (this.addGroup(item, parent, indent)) { return }
 
     //Если текущий элемент на этом уровне - страницы, значит они закончились и обращаемся к их родителю
     if (parent.name == "Pages") {
@@ -182,7 +182,7 @@ export class GroupStack {
     this.currentGroups.push(parent);
   }
 
-  addPage(page: CstNode, parent: CstNode, indent: number) {
+  private addPage(page: CstNode, parent: CstNode, indent: number): boolean {
     if (page.name != "Page") {
       return false;
     }
@@ -195,16 +195,13 @@ export class GroupStack {
       parent = pages;
     }
 
-    // const page = this.createPage(pageHeader);
-    // page.children.Properties = pageHeader.children.Properties;
-
     this.setParent(page, parent);
     this.setIndent(page, indent + 1);
     this.currentGroups.push(page);
     return true;
   }
 
-  addGroup(hGroup: CstNode, parent: CstNode, indent: number) {
+  private addGroup(hGroup: CstNode, parent: CstNode, indent: number): boolean {
     if (hGroup.name != "HGroup") {
       return false;
     }
@@ -233,7 +230,8 @@ export class GroupStack {
     return true;
   }
 
-  reset() {
+  private reset() {
+    this.form = this.createForm();
     this.prevGroups = [this.form];
     this.currentGroups = [];
     this.collectedItems = [];
@@ -243,16 +241,16 @@ export class GroupStack {
     this.setIndent(this.form, 0);
   }
 
-  setIndent(item: CstNode, indent: number) {
+  private setIndent(item: CstNode, indent: number) {
     this.indents.set(item, indent);
   }
 
-  setParent(item: CstNode, parent: CstNode) {
+  public setParent(item: CstNode, parent: CstNode) {
     this.parents.set(item, parent);
     parent.children.Items.push(item);
   }
 
-  createVGroup(parent: CstNode) : CstNode {
+  public createVGroup(parent: CstNode): CstNode {
     const group = {
       name: "VGroup",
       children: { VGroupHeader: new Array<CstNode>(), Items: new Array<CstNode>(), Properties: [] },
@@ -265,7 +263,7 @@ export class GroupStack {
     return group;
   }
 
-  createVGroupHeader() {
+  public createVGroupHeader(): CstNode {
     const group = {
       name: "VGroupHeader",
       children: { Hash: [], Text: [] },
@@ -273,30 +271,30 @@ export class GroupStack {
 
     return group;
   }
-  createHGroup() {
+  public createHGroup(): CstNode {
     const group = {
       name: "HGroup",
-      children: { Items: [], Properties: {} },
+      children: { Items: [], Properties: [] },
     };
 
     return group;
   }
 
-  createPage() {
+  public createPage(): CstNode {
     const header = {
       name: "PageHeader",
-      children: { Slash: [], Text: [], Properties: {} },
+      children: { Slash: [], Text: [], Properties: [] },
     };
 
     const page = {
       name: "Page",
-      children: { PageHeader: [header], Items: [], Properties: {} },
+      children: { PageHeader: [header], Items: [], Properties: [] },
     };
 
     return page;
   }
 
-  getNewPages() : CstNode {
+  private getNewPages(): CstNode {
     const page = {
       name: "Pages",
       children: { Items: [] },
@@ -304,7 +302,7 @@ export class GroupStack {
     return page;
   }
 
-  createOneLineGroup() : CstNode {
+  public createOneLineGroup(): CstNode {
     const result = {
       name: "OneLineGroup",
       children: { Items: [] },
@@ -312,11 +310,50 @@ export class GroupStack {
     return result;
   }
 
-  createInline() : CstNode {
+  public createInline(): CstNode {
     const inline = {
       name: "Inline",
-      children: { Items: [] },
+      children: { CurrentRow: [], Items: [] },
     };
     return inline;
   }
+
+  public addToInline(item: CstNode, tokens: Array<IToken>) {
+    item.children.CurrentRow.push(token)
+  }
+
+  // public doneInline(item: CstNode) {
+  //   const typeToken = this.detector.detect(item.children.CurrentRow)
+
+  //   item.children.Items.push(typeToken)
+  //   item.children.Items.push(item.children.CurrentRow)
+  // }
+
+  public createForm(): CstNode {
+    return {
+      name: "Form",
+      children: { Items: Array<CstNode>(), FormHeader: Array<CstNode>() }
+    }
+  }
+
+  public createFormHeader(): CstNode {
+    let result = {
+      name: "FormHeader",
+      children: { Dash: Array<IToken>(), Text: Array<IToken>() },
+    };
+    return result;
+  }
+
+  public getForm(): CstNode {
+    return this.form;
+  }
 }
+
+
+// 
+// #Группа
+//   /Страница
+//     #Группа #Группа
+// От чего зависит
+// next
+// new line
