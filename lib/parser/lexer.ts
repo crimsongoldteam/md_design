@@ -1,30 +1,60 @@
-﻿import { createToken, Lexer, TokenType } from 'chevrotain';
+﻿import { createToken, Lexer, TokenType } from "chevrotain"
 
-function escapeRegExp(string: string): string {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape all special characters
-}
+// #region combineTokens
 
-export const InputHeader = createToken({ name: "InputHeader", pattern: Lexer.NA });
+export const GroupHeaderText = createToken({
+  name: "GroupHeaderText",
+  pattern: Lexer.NA,
+})
+export const PageHeaderText = createToken({
+  name: "PageHeaderText",
+  pattern: Lexer.NA,
+})
+export const InlineText = createToken({
+  name: "InlineText",
+  pattern: Lexer.NA,
+})
 
-export const InlineText = createToken({ name: "InlineText", pattern: Lexer.NA });
+export const LabelContent = createToken({
+  name: "LabelContent",
+  pattern: Lexer.NA,
+})
 
-export const InputValue = createToken({ name: "InputValue", pattern: Lexer.NA });
-export const InputModifiers = createToken({ name: "InputModifiers", pattern: Lexer.NA });
+export const InputHeader = createToken({
+  name: "InputHeader",
+  pattern: Lexer.NA,
+})
+export const InputValue = createToken({
+  name: "InputValue",
+  pattern: Lexer.NA,
+})
+export const InputModifiers = createToken({
+  name: "InputModifiers",
+  pattern: Lexer.NA,
+})
 
-export const CheckboxHeader = createToken({ name: "CheckboxHeader", pattern: Lexer.NA });
+export const CheckboxHeader = createToken({
+  name: "CheckboxHeader",
+  pattern: Lexer.NA,
+})
 
-export const Button = createToken({ name: "Button", pattern: Lexer.NA });
+export const Button = createToken({ name: "Button", pattern: Lexer.NA })
 
-export const TableCell = createToken({ name: "TableCell", pattern: Lexer.NA });
+export const TableCell = createToken({ name: "TableCell", pattern: Lexer.NA })
 
-export const FormHeaderText = createToken({ name: "HeaderText", pattern: Lexer.NA });
+export const FormHeaderText = createToken({
+  name: "HeaderText",
+  pattern: Lexer.NA,
+})
 
-export const PropertiesNameText = createToken({ name: "PropertiesNameText", pattern: Lexer.NA });
-
-export const PropertiesValueText = createToken({ name: "PropertiesValueText", pattern: Lexer.NA });
-
-export const GroupHeaderText = createToken({ name: "GroupHeaderText", pattern: Lexer.NA });
-export const PageHeaderText = createToken({ name: "PageHeaderText", pattern: Lexer.NA });
+export const PropertiesNameText = createToken({
+  name: "PropertiesNameText",
+  pattern: Lexer.NA,
+})
+export const PropertiesValueText = createToken({
+  name: "PropertiesValueText",
+  pattern: Lexer.NA,
+})
 
 export const combineTokens = [
   InlineText,
@@ -33,118 +63,187 @@ export const combineTokens = [
   GroupHeaderText,
   PropertiesNameText,
   PropertiesValueText,
+  LabelContent,
   InputHeader,
+  InputValue,
   InputModifiers,
   CheckboxHeader,
   Button,
-  TableCell
-];
+  TableCell,
+]
 
+// #endregion
+
+// #region utils
+
+function escapeRegExp(string: string): string {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") // Escape all special characters
+}
+
+// empty matcher
+// @ts-ignore
+function matchType(text: any, offset: any, matchedTokens: any, groups: any): RegExpExecArray | null {
+  return null
+}
 
 const excludeTokens = (...valuesToExclude: TokenType[]): TokenType[] => {
-  return combineTokens.filter(item => !valuesToExclude.includes(item));
+  return combineTokens.filter((item) => !valuesToExclude.includes(item))
 }
 
 const keyword = (name: string, keyword: string, ...valuesToExclude: TokenType[]) => {
   const keywordEscaped = escapeRegExp(keyword)
   return createToken({
     name: name,
-    pattern: new RegExp(keywordEscaped + '[ \\t]*'),
+    pattern: new RegExp(keywordEscaped + "[ \\t]*"),
     label: keyword,
-    categories: excludeTokens(...valuesToExclude)
+    categories: excludeTokens(...valuesToExclude),
   })
 }
 
-export const CheckboxChecked = createToken({ name: "CheckboxChecked", pattern: /\[[ \t]*\S[ \t]*\][ \t]*/, label: "[X]", categories: excludeTokens(CheckboxHeader) });
-export const CheckboxUnchecked = createToken({ name: "CheckboxUnchecked", pattern: /\[[ \t]*\][ \t]*/, label: "[ ]", categories: excludeTokens(CheckboxHeader) });
+// #endregion
+
+// #region keywords
+
+export const CheckboxChecked = createToken({
+  name: "CheckboxChecked",
+  pattern: /\[[ \t]*\S[ \t]*\][ \t]*/,
+  label: "[X]",
+  categories: excludeTokens(CheckboxHeader, TableCell),
+})
+export const CheckboxUnchecked = createToken({
+  name: "CheckboxUnchecked",
+  pattern: /\[[ \t]*\][ \t]*/,
+  label: "[ ]",
+  categories: excludeTokens(CheckboxHeader, TableCell),
+})
 
 export const SwitchChecked = createToken({
   name: "SwitchChecked",
-  pattern: /\[[ \t]*\|[ \t]*\S\[ \t]\][ \t]/,
+  pattern: /\[[ \t]*\|[ \t]*\S[ \t]*\][ \t]/,
   label: "[|1]",
-  categories: excludeTokens(CheckboxHeader)
-});
+  categories: excludeTokens(CheckboxHeader),
+})
 
 export const SwitchUnchecked = createToken({
   name: "SwitchUnchecked",
   pattern: /\[[ \t]*\S[ \t]*\|[ \t]*\][ \t]*/,
   label: "[0|]",
-  categories: excludeTokens(CheckboxHeader)
-});
+  categories: excludeTokens(CheckboxHeader),
+})
 
-// export const CheckboxChecked = keyword("CheckboxChecked", "\[\s*\S\s*\]", CheckboxHeader);
-// export const CheckboxUnchecked = keyword("CheckboxUnchecked", "\[\s*\]", CheckboxHeader);
-// export const SwitchChecked = keyword("SwitchChecked", "\[\s*\|\s*\S\s*\]", CheckboxHeader);
-// export const SwitchUnchecked = keyword("SwitchUnchecked", "\[\s*\S\s*\|\s*\]", CheckboxHeader);
+export const DoubleUnderscore = keyword("DoubleUnderscore", "__", InputValue)
 
-export const Underscore = keyword("Underscore", "_", InputValue)
+export const Picture = createToken({
+  name: "Picture",
+  pattern: /\@[a-zA-Zа-яА-ЯёЁ0-9]*[ \t]*/,
+  label: "@Picture",
+  categories: excludeTokens(Button),
+})
 
-export const Dot = keyword("Dot", ".", TableCell)
+export const Dots = createToken({
+  name: "Dots",
+  pattern: /\.+[ \t]*/,
+  label: "...",
+  categories: excludeTokens(TableCell),
+})
 
-export const LArrow = keyword("LArrow", "<-");
+export const ButtonGroup = createToken({
+  name: "ButtonGroup",
+  pattern: /\|[ \t]*\-[ \t]*\|[ \t]*/,
+  label: "|-|",
+  categories: excludeTokens(Button),
+})
+
+export const LArrow = keyword("LArrow", "<-")
 export const RArrow = keyword("RArrow", "->")
+export const LCurly = keyword(
+  "LCurly",
+  "{",
+  GroupHeaderText,
+  PageHeaderText,
+  LabelContent,
+  InputValue,
+  InputModifiers,
+  Button,
+  Picture,
+  TableCell
+)
+export const RCurly = keyword("RCurly", "}", PropertiesValueText)
+export const LSquare = keyword("LSquare", "[", CheckboxHeader)
+export const RSquare = keyword("RSquare", "]", CheckboxHeader)
+export const LAngle = keyword("LAngle", "<")
+export const RAngle = keyword("RAngle", ">", Button, Picture)
+export const Semicolon = keyword("Semicolon", ";", PropertiesValueText)
+export const Colon = keyword("Colon", ":", InputHeader)
+export const VBar = keyword("VBar", "|", Button, Picture, TableCell)
+export const Equals = keyword("Equals", "=", PropertiesNameText)
+export const Hash = keyword("Hash", "#", GroupHeaderText, PageHeaderText, InlineText)
+export const Plus = keyword("Plus", "+", GroupHeaderText, PageHeaderText, InlineText)
+export const Slash = keyword("Slash", "/", GroupHeaderText, PageHeaderText, InlineText)
+export const Ampersand = keyword("Ampersand", "&", InlineText)
+export const Whitespace = createToken({ name: "Tab", pattern: /[ \t]+/ })
 
-export const LCurly = keyword("LCurly", "{", PropertiesValueText, GroupHeaderText, PageHeaderText);
-export const RCurly = keyword("RCurly", "}", InputModifiers);
+export const Dashes = createToken({
+  name: "Dashes",
+  pattern: /\-\-*[ \t]/,
+  label: "|--|",
+  categories: excludeTokens(FormHeaderText, TableCell),
+})
 
-export const LSquare = keyword("LSquare", "[", CheckboxHeader);
-export const RSquare = keyword("RSquare", "]", CheckboxHeader);
-
-export const LAngle = keyword("LAngle", "<");
-export const RAngle = keyword("RAngle", ">");
-
-export const Semicolon = keyword("Semicolon", ";");
-
-export const Colon = keyword("Colon", ":", InputHeader);
-
-export const VBar = keyword("VBar", "|");
-
-export const Equals = keyword("Equals", "=");
-
-export const Hash = keyword("Hash", "#", GroupHeaderText, PageHeaderText, InlineText);
-
-export const Plus = keyword("Plus", "+", GroupHeaderText, PageHeaderText, InlineText);
-
-export const TripleDash = keyword("TripleDash", "---", FormHeaderText);
-
-export const Dash = keyword("Dash", "-");
-
-export const Slash = keyword("Slash", "/", GroupHeaderText, PageHeaderText, InlineText);
-
-export const Ampersand = keyword("Ampersand", "&", InlineText);
-
-export const Whitespace = createToken({ name: "Tab", pattern: /[ \t]+/ });
+export const Dash = createToken({
+  name: "Dash",
+  pattern: /\-[ \t]/,
+  label: "|-|",
+  // longer_alt: Dashes,
+  categories: excludeTokens(Button),
+})
 
 export const Text = createToken({
   name: "Text",
   pattern: /[a-zA-Zа-яА-ЯёЁ№!%0-9][a-zA-Zа-яА-ЯёЁ№!%0-9\t ]*/,
   categories: combineTokens,
-});
+})
 
 export const NewLine = createToken({
   name: "NewLine",
   pattern: /\n/,
   line_breaks: true,
-  // group: Lexer.SKIPPED,
-});
+})
 
-// our custom matcher
-function matchType(text: any, offset: any, matchedTokens: any, groups: any) : RegExpExecArray | null {
-  return null;
-}
-export const LabelFieldType = createToken({ name: "LabelFieldType", pattern: matchType });
-export const CheckboxRightFieldType = createToken({ name: "CheckboxRightFieldType", pattern: matchType });
-export const CheckboxLeftFieldType = createToken({ name: "CheckboxLeftFieldType", pattern: matchType });
-export const InputFieldType = createToken({ name: "InputFieldType", pattern: matchType });
-export const TableType = createToken({ name: "TableType", pattern: matchType });
-export const CommandBarType = createToken({ name: "CommandBarType", pattern: matchType });
+// #endregion
 
-// export const LabelFieldType = createToken({ name: "LabelFieldType", pattern: matchType });
-// export const CheckboxRightFieldType = createToken({ name: "CheckboxRightFieldType", pattern: matchType });
-// export const CheckboxLeftFieldType = createToken({ name: "CheckboxLeftFieldType", pattern: matchType });
-// export const InputFieldType = createToken({ name: "InputFieldType", pattern: matchType });
-// export const TableType = createToken({ name: "TableType", pattern: matchType });
-// export const CommandBarType = createToken({ name: "CommandBarType", pattern: matchType });
+// #region fields
+
+export const LabelFieldType = createToken({
+  name: "LabelFieldType",
+  pattern: matchType,
+  group: Lexer.SKIPPED,
+})
+export const CheckboxRightFieldType = createToken({
+  name: "CheckboxRightFieldType",
+  pattern: matchType,
+  group: Lexer.SKIPPED,
+})
+export const CheckboxLeftFieldType = createToken({
+  name: "CheckboxLeftFieldType",
+  pattern: matchType,
+  group: Lexer.SKIPPED,
+})
+export const InputFieldType = createToken({
+  name: "InputFieldType",
+  pattern: matchType,
+  group: Lexer.SKIPPED,
+})
+export const TableType = createToken({
+  name: "TableType",
+  pattern: matchType,
+  group: Lexer.SKIPPED,
+})
+export const CommandBarType = createToken({
+  name: "CommandBarType",
+  pattern: matchType,
+  group: Lexer.SKIPPED,
+})
 
 export const inlineTypesTokens = [
   LabelFieldType,
@@ -152,21 +251,27 @@ export const inlineTypesTokens = [
   CheckboxLeftFieldType,
   InputFieldType,
   TableType,
-  CommandBarType
-];
+  CommandBarType,
+]
+
+// #endregion
+
+// #region allTokens
 
 export const allTokens = [
   NewLine,
-  Underscore,
+  DoubleUnderscore,
   SwitchChecked,
   SwitchUnchecked,
   CheckboxChecked,
   CheckboxUnchecked,
+  ButtonGroup,
+  Picture,
   LArrow,
   RArrow,
-  Dot,
+  Dots,
+  Dashes,
   Dash,
-  TripleDash,
   Text,
   VBar,
   LCurly,
@@ -182,8 +287,9 @@ export const allTokens = [
   Slash,
   Whitespace,
   ...combineTokens,
-  ...inlineTypesTokens
-];
+  ...inlineTypesTokens,
+]
 
+// #endregion
 
-export const lexer = new Lexer(allTokens);
+export const lexer = new Lexer(allTokens)

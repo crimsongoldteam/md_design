@@ -501,6 +501,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chevrotain-allstar@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "chevrotain-allstar@npm:0.3.1"
+  dependencies:
+    lodash-es: "npm:^4.17.21"
+  peerDependencies:
+    chevrotain: ^11.0.0
+  checksum: 10c0/5cadedffd3114eb06b15fd3939bb1aa6c75412dbd737fe302b52c5c24334f9cb01cee8edc1d1067d98ba80dddf971f1d0e94b387de51423fc6cf3c5d8b7ef27a
+  languageName: node
+  linkType: hard
+
 "chevrotain@npm:^11.0.3":
   version: 11.0.3
   resolution: "chevrotain@npm:11.0.3"
@@ -865,7 +876,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash-es@npm:4.17.21":
+"lodash-es@npm:4.17.21, lodash-es@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash-es@npm:4.17.21"
   checksum: 10c0/fb407355f7e6cd523a9383e76e6b455321f0f153a6c9625e21a8827d10c54c2a2341bd2ae8d034358b60e07325e1330c14c224ff582d04612a46a4f0479ff2f2
@@ -903,6 +914,7 @@ __metadata:
   resolution: "md_design@workspace:."
   dependencies:
     chevrotain: "npm:^11.0.3"
+    chevrotain-allstar: "npm:^0.3.1"
     monaco-editor-core: "npm:^0.52.2"
     typescript: "npm:~5.8.3"
     vite: "npm:^6.3.5"
