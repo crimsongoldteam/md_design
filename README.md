@@ -68,6 +68,8 @@
 ## 📚Документация
 [Полная документация проекта доступна на нашем сайте.](https://crimsongoldteam.github.io/md_design)
 
+Видео демонстрация [YouTube](https://youtu.be/nhJveZRSHao), [VK Video](https://vkvideo.ru/video-227129566_456239051)
+
 ## [![Инфостарт](https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg)](https://infostart.ru/1c/tools/2304023/)
 
 - Обзорная статья: [От слов к формам: разработка интерфейса по текстовому описанию](https://infostart.ru/1c/tools/2304023/).
