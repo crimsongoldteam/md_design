@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru_RU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Накидка</title>
+  </head>
+  <body>
+    <div id="app">
+      <textarea id="input" rows="5">
+| Список          |
+| --------------- |
+| [ ] Без пометки |
+| [X] Пометка     |      
+      </textarea>
+      <button
+        id="button"
+        type="button"
+        onclick="document.getElementById('output').value = parseInputInner(document.getElementById('input').value); "
+      >
+        Check
+      </button>
+      <textarea id="output" rows="5"></textarea>
+    </div>
+    <script type="module" src="/lib/main.ts"></script>
+  </body>
+</html>

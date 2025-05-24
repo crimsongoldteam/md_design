@@ -1,25 +1,31 @@
 import { CstChildrenDictionary, CstElement, CstNode, IToken } from "chevrotain"
 import { parser } from "./parser"
 import {
-  FormItem,
-  InputItem,
-  CheckboxItem,
-  CommandBarItem,
-  ButtonItem,
-  ButtonGroupItem,
-  TableItem,
-  TableColumnItem,
-} from "./formExport"
-import { CommandBarManager } from "./commandBarManager"
-import { TableManager } from "./tableManager"
+  FormElement,
+  InputElement,
+  CheckboxElement,
+  CommandBarElement,
+  ButtonElement,
+  ButtonGroupElement,
+  TableElement,
+  TableColumnElement,
+  BaseFormElement as BaseItem,
+  LabelElement as LabelItem,
+  TableEmptyElement,
+  TableCellElement,
+  TableColumnGroupElement,
+  TableHeaderElement,
+} from "./visitorTools/formElements"
+import { CommandBarManager } from "./visitorTools/commandBarManager"
+import { TableManager, TableRowType } from "./visitorTools/tableManager"
 
 const BaseVisitor = parser.getBaseCstVisitorConstructor()
 
 export class Visitor extends BaseVisitor {
   // #region form
 
-  form(ctx: CstChildrenDictionary): FormItem {
-    const result = new FormItem("Форма", "Форма", "БезВида")
+  form(ctx: CstChildrenDictionary): FormElement {
+    const result = new FormElement()
 
     result.items = this.visit(ctx.Items as CstNode[])
 
@@ -28,7 +34,7 @@ export class Visitor extends BaseVisitor {
 
   // #endregion
 
-  field(ctx: CstChildrenDictionary): FormItem {
+  field(ctx: CstChildrenDictionary): BaseItem {
     const firstKey = Object.keys(ctx)[0]
     const firstValue = ctx[firstKey as keyof typeof ctx]
     return this.visit(firstValue as CstNode[])
@@ -36,8 +42,8 @@ export class Visitor extends BaseVisitor {
 
   // #region labelField
 
-  labelField(ctx: CstChildrenDictionary): FormItem {
-    const result = new FormItem("Надпись", "ДекорацияФормы", "Надпись")
+  labelField(ctx: CstChildrenDictionary): LabelItem {
+    const result = new LabelItem()
 
     let content = this.joinTokens(ctx.LabelContent)
     this.setProperty(result, "Заголовок", content)
@@ -51,8 +57,8 @@ export class Visitor extends BaseVisitor {
 
   // #region inputField
 
-  inputField(ctx: CstChildrenDictionary): FormItem {
-    const result = new InputItem()
+  inputField(ctx: CstChildrenDictionary): InputElement {
+    const result = new InputElement()
 
     let header = this.joinTokens(ctx.InputHeader)
     this.setProperty(result, "Заголовок", header)
@@ -68,7 +74,7 @@ export class Visitor extends BaseVisitor {
     return result
   }
 
-  addInputModifiers(modifiers: string | undefined, elementData: FormItem): void {
+  addInputModifiers(modifiers: string | undefined, elementData: InputElement): void {
     if (modifiers === undefined) {
       return
     }
@@ -83,8 +89,8 @@ export class Visitor extends BaseVisitor {
       o: "КнопкаОткрытия",
     }
 
-    for (let i = 0; i < modifiers.length; i++) {
-      const key = modifiers[i].toLowerCase()
+    for (const element of modifiers) {
+      const key = element.toLowerCase()
       if (propertyMap[key]) {
         this.setProperty(elementData, propertyMap[key], true)
       }
@@ -95,16 +101,16 @@ export class Visitor extends BaseVisitor {
 
   // #region checkboxLeftField
 
-  checkboxLeftField(ctx: CstChildrenDictionary): FormItem {
+  checkboxLeftField(ctx: CstChildrenDictionary): CheckboxElement {
     return this.checkboxCommonField(ctx, true)
   }
 
-  checkboxRightField(ctx: CstChildrenDictionary): FormItem {
+  checkboxRightField(ctx: CstChildrenDictionary): CheckboxElement {
     return this.checkboxCommonField(ctx, false)
   }
 
-  private checkboxCommonField(ctx: CstChildrenDictionary, left: boolean): FormItem {
-    const result = new CheckboxItem()
+  private checkboxCommonField(ctx: CstChildrenDictionary, left: boolean): CheckboxElement {
+    const result = new CheckboxElement()
     if (left) {
       this.setProperty(result, "ПоложениеЗаголовка", "Право")
     }
@@ -128,8 +134,8 @@ export class Visitor extends BaseVisitor {
 
   // #region commandBar
 
-  commandBar(ctx: CstChildrenDictionary): CommandBarItem {
-    const result = new CommandBarItem()
+  commandBar(ctx: CstChildrenDictionary): CommandBarElement {
+    const result = new CommandBarElement()
     let items = this.visitAll(ctx.buttonGroup)
 
     const manager = new CommandBarManager(result)
@@ -142,8 +148,8 @@ export class Visitor extends BaseVisitor {
     return result
   }
 
-  buttonGroup(ctx: CstChildrenDictionary): ButtonGroupItem {
-    const result = new ButtonGroupItem()
+  buttonGroup(ctx: CstChildrenDictionary): ButtonGroupElement {
+    const result = new ButtonGroupElement()
     result.items = this.visitAll(ctx.button)
 
     return result
@@ -158,8 +164,8 @@ export class Visitor extends BaseVisitor {
     params.manager.addButton(button, level)
   }
 
-  button(ctx: CstChildrenDictionary): ButtonItem {
-    const result = new ButtonItem()
+  button(ctx: CstChildrenDictionary): ButtonElement {
+    const result = new ButtonElement()
 
     let header = this.joinTokens(ctx.Button)
     this.setProperty(result, "Заголовок", header)
@@ -180,46 +186,136 @@ export class Visitor extends BaseVisitor {
 
   // #endregion
 
-  // #region inputField
+  // #region table
 
-  table(ctx: CstChildrenDictionary): TableItem {
-    const result = new TableItem()
+  table(ctx: CstChildrenDictionary): TableElement {
+    const result = new TableElement()
 
     const manager = new TableManager(result)
 
     for (const line of ctx.tableLine) {
       this.visit(line as CstNode, { manager: manager })
-      manager.endLine()
     }
 
     return result
   }
 
-  tableLine(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
-    this.visitAll(ctx.tableCell as CstNode[], { manager: params.manager })
+  tableLine(ctx: { tableCell: [] }, params: { manager: TableManager }): void {
+    params.manager.defineRowType(ctx.tableCell as CstNode[])
+
+    this.visitAll(ctx.tableCell, { manager: params.manager })
+
+    params.manager.nextRow()
   }
 
   tableCell(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
-    this.visit(ctx.tableDataCell as CstNode[], { manager: params.manager })
-    this.visit(ctx.tableSeparatorCell as CstNode[], { manager: params.manager })
+    const rowType = params.manager.getRowType()
+
+    if (rowType == TableRowType.Header) {
+      this.tableHeaderNode(ctx, { manager: params.manager })
+      params.manager.nextColumn()
+      return
+    }
+
+    if (rowType == TableRowType.Separator) {
+      this.tableSeparatorNode(ctx, { manager: params.manager })
+      params.manager.nextColumn()
+      return
+    }
+
+    this.tableCellNode(ctx, { manager: params.manager })
+    params.manager.nextColumn()
   }
 
-  tableDataCell(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
-    // let content = this.joinTokens(ctx.TableCell)
-    // const properties = this.visitAll(ctx.property as CstNode[])
+  tableHeaderNode(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
+    if (params.manager.isEmptyNode(ctx)) {
+      this.tableEmptyColumnNode(ctx, { manager: params.manager })
+      return
+    }
 
-    params.manager.addCell(ctx)
+    this.tableColumnNode(ctx, { manager: params.manager })
   }
 
-  tableSeparatorCell(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
-    params.manager.addSeparator()
+  tableEmptyColumnNode(_ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
+    params.manager.addHeaderElement(new TableEmptyElement())
   }
 
-  // #table
+  tableColumnNode(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
+    const data = (ctx.tableDataCell[0] as CstNode).children
+
+    let result: TableHeaderElement = new TableColumnElement()
+
+    let content = this.joinTokens(data.TableCell)
+    const isColumnGroup = /^-+.*-+$/.test(content ?? "")
+
+    if (isColumnGroup) {
+      result = new TableColumnGroupElement()
+      content = content?.slice(1, -1)
+    }
+
+    params.manager.addHeaderElement(result)
+
+    this.setProperty(result, "Заголовок", content)
+
+    this.visit(ctx.properties as CstNode[], { element: result })
+  }
+
+  tableSeparatorNode(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
+    if (params.manager.isEmptyNode(ctx)) {
+      return
+    }
+
+    const data = (ctx.tableSeparatorCell[0] as CstNode).children
+
+    const hasLeft = !!data.leftColon
+    const hasRight = !!data.rightColon
+
+    const column = params.manager.getHeaderLastRowCell()
+
+    if (hasLeft && !hasRight) {
+      this.setProperty(column, "ГоризонтальноеПоложение", "Лево")
+      return
+    }
+
+    if (hasLeft && hasRight) {
+      this.setProperty(column, "ГоризонтальноеПоложение", "Центр")
+      return
+    }
+
+    if (!hasLeft && hasRight) {
+      this.setProperty(column, "ГоризонтальноеПоложение", "Право")
+    }
+  }
+
+  tableCellNode(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
+    const data = (ctx.tableDataCell[0] as CstNode).children
+
+    const dots = this.joinTokens(data.Dots)
+    const level = dots ? dots.length : 0
+
+    const result = new TableCellElement()
+
+    const content = this.joinTokens(data.TableCell)
+    result.value = content
+
+    if (data.CheckboxChecked) {
+      result.hasCheckbox = true
+      result.valueCheckbox = true
+    }
+
+    if (data.CheckboxUnchecked) {
+      result.hasCheckbox = true
+      result.valueCheckbox = false
+    }
+
+    this.visit(data.properties as CstNode[], { element: result })
+
+    params.manager.addRowElement(result, level)
+  }
 
   // #region properties
 
-  properties(ctx: CstChildrenDictionary, params: { element: FormItem }): void {
+  properties(ctx: CstChildrenDictionary, params: { element: FormElement }): void {
     const properties = this.visitAll(ctx.property as CstNode[])
 
     for (const property of properties as { key: string; value: string }[]) {
@@ -238,7 +334,7 @@ export class Visitor extends BaseVisitor {
 
   // #region utils
 
-  setProperty(element: FormItem, key: string, value: string | boolean | undefined) {
+  setProperty(element: BaseItem, key: string, value: string | boolean | undefined) {
     const properties = element.properties
     const lowerKey = key.toLowerCase()
 

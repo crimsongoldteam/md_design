@@ -41,6 +41,7 @@ export const CheckboxHeader = createToken({
 export const Button = createToken({ name: "Button", pattern: Lexer.NA })
 
 export const TableCell = createToken({ name: "TableCell", pattern: Lexer.NA })
+export const TableCellContinue = createToken({ name: "TableCellContinue", pattern: Lexer.NA })
 
 export const FormHeaderText = createToken({
   name: "HeaderText",
@@ -70,6 +71,7 @@ export const combineTokens = [
   CheckboxHeader,
   Button,
   TableCell,
+  TableCellContinue,
 ]
 
 // #endregion
@@ -108,13 +110,13 @@ export const CheckboxChecked = createToken({
   name: "CheckboxChecked",
   pattern: /\[[ \t]*\S[ \t]*\][ \t]*/,
   label: "[X]",
-  categories: excludeTokens(CheckboxHeader, TableCell),
+  categories: excludeTokens(CheckboxHeader),
 })
 export const CheckboxUnchecked = createToken({
   name: "CheckboxUnchecked",
   pattern: /\[[ \t]*\][ \t]*/,
   label: "[ ]",
-  categories: excludeTokens(CheckboxHeader, TableCell),
+  categories: excludeTokens(CheckboxHeader),
 })
 
 export const SwitchChecked = createToken({
@@ -135,7 +137,7 @@ export const DoubleUnderscore = keyword("DoubleUnderscore", "__", InputValue)
 
 export const Picture = createToken({
   name: "Picture",
-  pattern: /\@[a-zA-Zа-яА-ЯёЁ0-9]*[ \t]*/,
+  pattern: /@[a-zA-Zа-яА-ЯёЁ0-9]*[ \t]*/,
   label: "@Picture",
   categories: excludeTokens(Button),
 })
@@ -149,7 +151,7 @@ export const Dots = createToken({
 
 export const ButtonGroup = createToken({
   name: "ButtonGroup",
-  pattern: /\|[ \t]*\-[ \t]*\|[ \t]*/,
+  pattern: /\|[ \t]*-[ \t]*\|[ \t]*/,
   label: "|-|",
   categories: excludeTokens(Button),
 })
@@ -166,7 +168,8 @@ export const LCurly = keyword(
   InputModifiers,
   Button,
   Picture,
-  TableCell
+  TableCell,
+  TableCellContinue
 )
 export const RCurly = keyword("RCurly", "}", PropertiesValueText)
 export const LSquare = keyword("LSquare", "[", CheckboxHeader)
@@ -174,8 +177,8 @@ export const RSquare = keyword("RSquare", "]", CheckboxHeader)
 export const LAngle = keyword("LAngle", "<")
 export const RAngle = keyword("RAngle", ">", Button, Picture)
 export const Semicolon = keyword("Semicolon", ";", PropertiesValueText)
-export const Colon = keyword("Colon", ":", InputHeader)
-export const VBar = keyword("VBar", "|", Button, Picture, TableCell)
+export const Colon = keyword("Colon", ":", InputHeader, TableCell)
+export const VBar = keyword("VBar", "|", Button, Picture, TableCell, TableCellContinue)
 export const Equals = keyword("Equals", "=", PropertiesNameText)
 export const Hash = keyword("Hash", "#", GroupHeaderText, PageHeaderText, InlineText)
 export const Plus = keyword("Plus", "+", GroupHeaderText, PageHeaderText, InlineText)
@@ -183,19 +186,18 @@ export const Slash = keyword("Slash", "/", GroupHeaderText, PageHeaderText, Inli
 export const Ampersand = keyword("Ampersand", "&", InlineText)
 export const Whitespace = createToken({ name: "Tab", pattern: /[ \t]+/ })
 
-export const Dashes = createToken({
-  name: "Dashes",
-  pattern: /\-\-*[ \t]/,
-  label: "|--|",
-  categories: excludeTokens(FormHeaderText, TableCell),
-})
-
 export const Dash = createToken({
   name: "Dash",
-  pattern: /\-[ \t]/,
-  label: "|-|",
-  // longer_alt: Dashes,
+  pattern: /-[ \t]*/,
+  label: "-",
   categories: excludeTokens(Button),
+})
+
+export const Dashes = createToken({
+  name: "Dashes",
+  pattern: /--+[ \t]*/,
+  label: "--",
+  categories: excludeTokens(FormHeaderText, TableCell),
 })
 
 export const Text = createToken({
@@ -218,31 +220,37 @@ export const LabelFieldType = createToken({
   name: "LabelFieldType",
   pattern: matchType,
   group: Lexer.SKIPPED,
+  line_breaks: true,
 })
 export const CheckboxRightFieldType = createToken({
   name: "CheckboxRightFieldType",
   pattern: matchType,
   group: Lexer.SKIPPED,
+  line_breaks: true,
 })
 export const CheckboxLeftFieldType = createToken({
   name: "CheckboxLeftFieldType",
   pattern: matchType,
   group: Lexer.SKIPPED,
+  line_breaks: true,
 })
 export const InputFieldType = createToken({
   name: "InputFieldType",
   pattern: matchType,
   group: Lexer.SKIPPED,
+  line_breaks: true,
 })
 export const TableType = createToken({
   name: "TableType",
   pattern: matchType,
   group: Lexer.SKIPPED,
+  line_breaks: true,
 })
 export const CommandBarType = createToken({
   name: "CommandBarType",
   pattern: matchType,
   group: Lexer.SKIPPED,
+  line_breaks: true,
 })
 
 export const inlineTypesTokens = [
@@ -260,6 +268,7 @@ export const inlineTypesTokens = [
 
 export const allTokens = [
   NewLine,
+  Dashes,
   DoubleUnderscore,
   SwitchChecked,
   SwitchUnchecked,
@@ -270,7 +279,6 @@ export const allTokens = [
   LArrow,
   RArrow,
   Dots,
-  Dashes,
   Dash,
   Text,
   VBar,

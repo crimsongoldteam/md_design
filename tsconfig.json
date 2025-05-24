@@ -2,11 +2,7 @@
   "compilerOptions": {
     "target": "ES2018",
     "module": "CommonJS",
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "sourceMap": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -24,11 +20,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "paths": {
-      "@/*": ["./lib/*"],
+      "@/*": ["./lib/*"]
     }
   },
-  "include": [
-    "lib"
-  ]
+  "include": ["lib"]
 }

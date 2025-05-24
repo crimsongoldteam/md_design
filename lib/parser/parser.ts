@@ -1,4 +1,3 @@
-// import { LLStarLookaheadStrategy } from "chevrotain-allstar";
 import { CstNode, CstParser, EMPTY_ALT, EOF, IToken } from "chevrotain"
 import * as t from "./lexer.ts"
 
@@ -20,7 +19,7 @@ export class InlineParser extends CstParser {
 
   // #region form
 
-  private form = this.RULE("form", () => {
+  private readonly form = this.RULE("form", () => {
     let isFirst = true
     let isEnd = false
     this.MANY({
@@ -54,7 +53,7 @@ export class InlineParser extends CstParser {
     })
   })
 
-  private formHeader = this.RULE("formHeader", () => {
+  private readonly formHeader = this.RULE("formHeader", () => {
     this.CONSUME1(t.Dashes)
     this.MANY(() => {
       this.CONSUME2(t.FormHeaderText)
@@ -68,13 +67,13 @@ export class InlineParser extends CstParser {
     this.SUBRULE(this.EOL)
   })
 
-  private row = this.RULE("row", () => {
+  private readonly row = this.RULE("row", () => {
     this.binaryExpression(this.column, t.Plus)
 
     this.SUBRULE(this.EOL)
   })
 
-  private column = this.RULE("column", () => {
+  private readonly column = this.RULE("column", () => {
     this.SUBRULE(this.indents)
     this.choice(
       () => {
@@ -90,13 +89,13 @@ export class InlineParser extends CstParser {
     )
   })
 
-  private indents = this.RULE("indents", () => {
+  private readonly indents = this.RULE("indents", () => {
     this.MANY(() => {
       this.CONSUME(t.Whitespace)
     })
   })
 
-  private EOL = this.RULE("EOL", () => {
+  private readonly EOL = this.RULE("EOL", () => {
     this.OPTION({
       GATE: () => {
         return this.LA(1).tokenType != EOF
@@ -111,7 +110,7 @@ export class InlineParser extends CstParser {
 
   // #region page
 
-  private pageHeader = this.RULE("pageHeader", () => {
+  private readonly pageHeader = this.RULE("pageHeader", () => {
     this.CONSUME(t.Slash)
     this.MANY(() => {
       this.CONSUME(t.PageHeaderText)
@@ -126,13 +125,13 @@ export class InlineParser extends CstParser {
 
   // #region group
 
-  private horizontalGroup = this.RULE("horizontalGroup", () => {
+  private readonly horizontalGroup = this.RULE("horizontalGroup", () => {
     this.AT_LEAST_ONE(() => {
       this.SUBRULE(this.verticalGroupHeader)
     })
   })
 
-  private verticalGroupHeader = this.RULE("verticalGroupHeader", () => {
+  private readonly verticalGroupHeader = this.RULE("verticalGroupHeader", () => {
     this.AT_LEAST_ONE(() => {
       this.CONSUME(t.Hash)
     })
@@ -149,11 +148,11 @@ export class InlineParser extends CstParser {
 
   // #region inline
 
-  private inline = this.RULE("inline", () => {
+  private readonly inline = this.RULE("inline", () => {
     this.binaryExpression(this.inlineItem, t.Ampersand)
   })
 
-  private inlineItem = this.RULE("inlineItem", () => {
+  private readonly inlineItem = this.RULE("inlineItem", () => {
     this.AT_LEAST_ONE(() => {
       this.CONSUME(t.InlineText)
     })
@@ -163,13 +162,13 @@ export class InlineParser extends CstParser {
 
   // #region fields
 
-  private fields = this.RULE("fields", () => {
+  private readonly fields = this.RULE("fields", () => {
     this.MANY(() => {
       this.SUBRULE(this.field)
     })
   })
 
-  private field = this.RULE("field", () => {
+  private readonly field = this.RULE("field", () => {
     this.choice(
       () => {
         this.SUBRULE(this.labelField)
@@ -203,7 +202,7 @@ export class InlineParser extends CstParser {
 
   // #region commandBar
 
-  private commandBar = this.RULE("commandBar", () => {
+  private readonly commandBar = this.RULE("commandBar", () => {
     this.CONSUME(t.CommandBarType)
 
     this.CONSUME1(t.LAngle)
@@ -220,11 +219,11 @@ export class InlineParser extends CstParser {
     })
   })
 
-  private buttonGroup = this.RULE("buttonGroup", () => {
+  private readonly buttonGroup = this.RULE("buttonGroup", () => {
     this.binaryExpression(this.button, t.VBar)
   })
 
-  private button = this.RULE("button", () => {
+  private readonly button = this.RULE("button", () => {
     this.OPTION1(() => {
       this.CONSUME1(t.Picture, { LABEL: "leftPicture" })
     })
@@ -239,7 +238,7 @@ export class InlineParser extends CstParser {
     })
   })
 
-  private commandBarLine = this.RULE("commandBarLine", () => {
+  private readonly commandBarLine = this.RULE("commandBarLine", () => {
     this.skipField()
     this.OPTION(() => {
       this.CONSUME(t.Dots)
@@ -251,7 +250,7 @@ export class InlineParser extends CstParser {
 
   // #region labelField
 
-  private labelField = this.RULE("labelField", () => {
+  private readonly labelField = this.RULE("labelField", () => {
     this.CONSUME(t.LabelFieldType)
     this.MANY1(() => {
       this.CONSUME(t.LabelContent)
@@ -265,7 +264,7 @@ export class InlineParser extends CstParser {
 
   // #region inputField
 
-  private inputField = this.RULE("inputField", () => {
+  private readonly inputField = this.RULE("inputField", () => {
     this.CONSUME(t.InputFieldType)
     this.MANY1(() => {
       this.CONSUME(t.InputHeader)
@@ -291,7 +290,7 @@ export class InlineParser extends CstParser {
 
   // #region checkboxField
 
-  private checkboxLeftField = this.RULE("checkboxLeftField", () => {
+  private readonly checkboxLeftField = this.RULE("checkboxLeftField", () => {
     this.CONSUME(t.CheckboxLeftFieldType)
 
     this.choice(
@@ -318,7 +317,7 @@ export class InlineParser extends CstParser {
     })
   })
 
-  private checkboxRightField = this.RULE("checkboxRightField", () => {
+  private readonly checkboxRightField = this.RULE("checkboxRightField", () => {
     this.CONSUME(t.CheckboxRightFieldType)
 
     this.MANY1(() => {
@@ -349,13 +348,13 @@ export class InlineParser extends CstParser {
 
   // #region table
 
-  private table = this.RULE("table", () => {
+  private readonly table = this.RULE("table", () => {
     this.AT_LEAST_ONE(() => {
       this.SUBRULE(this.tableLine)
     })
   })
 
-  private tableLine = this.RULE("tableLine", () => {
+  private readonly tableLine = this.RULE("tableLine", () => {
     this.CONSUME(t.TableType)
     this.OPTION(() => {
       this.CONSUME1(t.VBar)
@@ -363,7 +362,7 @@ export class InlineParser extends CstParser {
     this.binaryExpression(this.tableCell, t.VBar)
   })
 
-  private tableCell = this.RULE("tableCell", () => {
+  private readonly tableCell = this.RULE("tableCell", () => {
     this.choice(
       () => {
         this.SUBRULE(this.tableSeparatorCell)
@@ -374,7 +373,7 @@ export class InlineParser extends CstParser {
     )
   })
 
-  private tableSeparatorCell = this.RULE("tableSeparatorCell", () => {
+  private readonly tableSeparatorCell = this.RULE("tableSeparatorCell", () => {
     this.OPTION1(() => {
       this.CONSUME1(t.Colon, { LABEL: "leftColon" })
     })
@@ -386,7 +385,7 @@ export class InlineParser extends CstParser {
     })
   })
 
-  private tableDataCell = this.RULE("tableDataCell", () => {
+  private readonly tableDataCell = this.RULE("tableDataCell", () => {
     this.OPTION1(() => {
       this.CONSUME(t.Dots)
     })
@@ -402,11 +401,15 @@ export class InlineParser extends CstParser {
         // EMPTY_ALT
       )
     })
-    this.MANY(() => {
-      this.CONSUME(t.TableCell)
-    })
 
     this.OPTION3(() => {
+      this.CONSUME(t.TableCell)
+      this.MANY(() => {
+        this.CONSUME(t.TableCellContinue, { LABEL: "TableCell" })
+      })
+    })
+
+    this.OPTION4(() => {
       this.SUBRULE(this.properties)
     })
   })
@@ -415,7 +418,7 @@ export class InlineParser extends CstParser {
 
   // #region properties
 
-  private properties = this.RULE("properties", () => {
+  private readonly properties = this.RULE("properties", () => {
     this.CONSUME(t.LCurly)
 
     this.binaryExpression(this.property, t.Semicolon)
@@ -425,7 +428,7 @@ export class InlineParser extends CstParser {
     })
   })
 
-  private property = this.RULE("property", () => {
+  private readonly property = this.RULE("property", () => {
     this.MANY1(() => {
       this.CONSUME(t.PropertiesNameText)
     })

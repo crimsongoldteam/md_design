@@ -5,17 +5,27 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev-playground": "vite --open playground.html",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build-playground": "tsc && vite build --config vite.config.playground.js"
   },
   "devDependencies": {
+    "@types/node": "^22.15.21",
+    "path": "^0.12.7",
+    "pointer-events-polyfill": "^0.4.4-pre",
+    "resize-observer-polyfill": "^1.5.1",
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
-    "vite-plugin-monaco-editor": "^1.1.0"
+    "vite-plugin-monaco-editor": "^1.1.0",
+    "vite-plugin-singlefile": "^2.1.0"
   },
   "dependencies": {
+    "@ungap/global-this": "^0.4.4",
     "chevrotain": "^11.0.3",
-    "chevrotain-allstar": "^0.3.1",
-    "monaco-editor-core": "^0.52.2"
+    "class-transformer": "^0.5.1",
+    "monaco-editor-core": "^0.52.2",
+    "reflect-metadata": "^0.2.2",
+    "uuid": "^11.1.0"
   }
 }

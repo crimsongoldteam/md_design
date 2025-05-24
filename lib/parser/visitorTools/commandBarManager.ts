@@ -1,0 +1,79 @@
+import { ButtonGroupElement, ButtonElement, CommandBarElement } from "./formElements"
+import { HierarchyManager } from "./hierarchyManager"
+
+export class CommandBarManager {
+  // private hierarchy: ButtonElement[] = []
+  private readonly hierarchy: HierarchyManager
+
+  private rootButtons: { [key: string]: ButtonElement } = {}
+  private defaultGroup: CommandBarElement | ButtonGroupElement
+  private readonly commandBar: CommandBarElement
+
+  constructor(commandBar: CommandBarElement) {
+    this.defaultGroup = commandBar
+    this.commandBar = commandBar
+
+    this.hierarchy = new HierarchyManager({
+      collectionField: "items",
+      defaultParent: (item: ButtonElement): ButtonElement => {
+        return this.getCreateRootButton(item)
+      },
+    })
+  }
+
+  public addButtonGroups(groups: ButtonGroupElement[]) {
+    groups.forEach((group) => {
+      this.addRootButtons(false, ...group.items)
+    })
+
+    if (groups.length == 0) {
+      return
+    }
+
+    if (groups.length == 1) {
+      this.defaultGroup.items.push(...groups[0].items)
+      return
+    }
+
+    this.commandBar.items.push(...groups)
+    this.defaultGroup = groups.at(-1) as ButtonGroupElement
+  }
+
+  public addButton(button: ButtonElement, level: number) {
+    this.hierarchy.set(button, level)
+  }
+
+  private getCreateRootButton(button: ButtonElement): ButtonElement {
+    const key = this.getKey(button)
+    let result = this.getByKey(key)
+    if (!result) {
+      this.addRootButtons(true, button)
+      result = button
+    }
+    return result
+  }
+
+  private addRootButtons(addToDefaultGroup: boolean, ...buttons: (ButtonElement | ButtonGroupElement)[]) {
+    buttons.forEach((button) => {
+      const key = this.getKey(button)
+      this.setKey(button, key)
+      if (addToDefaultGroup) {
+        this.defaultGroup.items.push(button)
+      }
+    })
+  }
+
+  private getKey(button: ButtonElement): string {
+    const title = button.properties["Заголовок"]?.toLowerCase() ?? ""
+    const image = button.properties["Картинка"]?.toLowerCase() ?? ""
+    return title + "@" + image
+  }
+
+  private getByKey(key: string): ButtonElement | undefined {
+    return this.rootButtons[key]
+  }
+
+  private setKey(button: ButtonElement, key: string) {
+    this.rootButtons[key] = button
+  }
+}

@@ -1,17 +1,26 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ru_RU">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <title>Накидка</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0px;
+        overflow: hidden;
+      }
+      #container {
+        height: 100%;
+        overflow: hidden;
+      }
+    </style>
   </head>
   <body>
+    <div id="container"></div>
 
-    <div id="app">
-      <textarea id="input" rows="5"></textarea>
-      <button id="button" type="button" onclick="document.getElementById('output').value = parseInputInner(document.getElementById('input').value); ">Check</button>
-      <textarea id="output" rows="5"></textarea>
-    </div>
     <script type="module" src="/lib/main.ts"></script>
+    <script type="module" src="/lib/editor.ts"></script>
   </body>
 </html>
