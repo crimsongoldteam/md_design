@@ -3,6 +3,8 @@ import { viteSingleFile } from "vite-plugin-singlefile"
 import path from "path"
 import monacoEditorPlugin from "vite-plugin-monaco-editor"
 import replaceGlobalThis from "./vite-build-plugins/replace"
+// import legacy from "@vitejs/plugin-legacy"
+
 // import zipPack from "vite-plugin-zip-pack"
 
 export default defineConfig((api) => {
@@ -12,6 +14,8 @@ export default defineConfig((api) => {
     build: {
       minify: !isDev,
       sourcemap: isDev,
+      // minify: false,
+      // sourcemap: true,
       target: "es2018",
     },
     esbuild: {
@@ -21,7 +25,7 @@ export default defineConfig((api) => {
     },
 
     plugins: [
-      monacoEditorPlugin({
+      monacoEditorPlugin.default({
         globalAPI: false,
         languageWorkers: [],
         customWorkers: [
@@ -39,7 +43,7 @@ export default defineConfig((api) => {
     ],
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./src"),
+        "@": path.resolve(__dirname, "./lib"),
         "@assets": path.resolve(__dirname, "./assets"),
       },
     },

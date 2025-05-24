@@ -15,6 +15,7 @@
     "path": "^0.12.7",
     "pointer-events-polyfill": "^0.4.4-pre",
     "resize-observer-polyfill": "^1.5.1",
+    "terser": "^5.37.0",
     "typescript": "~5.8.3",
     "vite": "^6.3.5",
     "vite-plugin-monaco-editor": "^1.1.0",
@@ -22,10 +23,14 @@
   },
   "dependencies": {
     "@ungap/global-this": "^0.4.4",
+    "@ungap/weakrefs": "^0.2.0",
+    "@vitejs/plugin-legacy": "^6.1.1",
     "chevrotain": "^11.0.3",
     "class-transformer": "^0.5.1",
     "monaco-editor-core": "^0.52.2",
+    "performance-polyfill": "^0.0.3",
     "reflect-metadata": "^0.2.2",
+    "rollup": "^4.41.1",
     "uuid": "^11.1.0"
   }
 }

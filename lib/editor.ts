@@ -9,12 +9,8 @@ declare global {
   interface MouseEvent {
     eventData1C: any
   }
-  var sendEvent: (eventName: string, eventParams: any) => void
 }
 
-// require.config({ paths: { vs: "vs" } })
-
-// require(["vs/editor/editor.main"], function () {
 const container = document.getElementById("container")
 if (container) {
   let editor: any = monacoEditor.create(container, {
@@ -44,7 +40,7 @@ if (container) {
     })
   }
 
-  sendEvent = function (eventName, eventParams) {
+  const sendEvent = function (eventName: string, eventParams: any) {
     let lastEvent = new MouseEvent("click")
     lastEvent.eventData1C = { event: eventName, params: eventParams }
     return dispatchEvent(lastEvent)
