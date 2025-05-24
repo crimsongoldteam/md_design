@@ -14,7 +14,11 @@ declare global {
 const container = document.getElementById("container")
 if (container) {
   let editor: any = monacoEditor.create(container, {
+    language: "plaintext",
     minimap: { enabled: false },
+    unicodeHighlight: {
+      ambiguousCharacters: false,
+    },
     suggest: { showWords: false },
     automaticLayout: true,
     scrollBeyondLastLine: false,
@@ -54,7 +58,7 @@ if (container) {
     sendEvent("EVENT_CHANGE_CURSOR_SELECTION", params)
   })
 
-  editor.onDidChangeModelContent((e: any) => {
+  editor.onDidChangeModelContent((_e: any) => {
     let params = { text: editor.getValue() }
     sendEvent("EVENT_CHANGE_CONTENT", params)
   })
