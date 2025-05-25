@@ -22,7 +22,7 @@ export abstract class BaseFormElement {
   public properties: { [key: string]: any } = {}
 
   @Expose({ name: "Координаты", groups: ["production"] })
-  public location: {} = {}
+  public location: { [key: string]: ElementLocation } = {}
 
   @Expose({ name: "УИД", groups: ["production"] })
   public uuid: string = uuid()
@@ -77,7 +77,7 @@ export class CheckboxElement extends BaseFormElement {
   public value: boolean = false
 
   @Expose({ name: "ОписаниеТипов" })
-  public typeDescription: TypeDescription = new TypeDescription()
+  public typeDescription: TypeDescription = new TypeDescription("Булево")
 }
 
 export class CommandBarElement extends BaseFormElement {
@@ -112,14 +112,14 @@ export class TableElement extends BaseFormElement {
   public elementType = "ТаблицаФормы"
   public elementKind = "БезВида"
 
-  @Expose({ name: "Столбцы" })
+  @Expose({ name: "Колонки" })
   public columns: (TableColumnElement | TableColumnGroupElement)[] = []
 
   @Expose({ name: "Строки" })
   public rows: TableRowElement[] = []
 
   @Expose({ name: "ОписаниеТипов" })
-  public typeDescription: TypeDescription = new TypeDescription()
+  public typeDescription: TypeDescription = new TypeDescription("ТаблицаЗначений")
 }
 
 export class TableEmptyElement extends BaseFormElement {
@@ -146,20 +146,20 @@ export class TableColumnElement extends BaseFormElement {
   @Expose({ name: "ЕстьЗначение" })
   public hasValue: boolean = false
 
-  @Expose({ name: "Элементы" })
+  @Expose({ name: "Колонки" })
   public items: (TableColumnElement | TableColumnGroupElement)[] = []
 
   @Expose({ name: "ОписаниеТипов" })
   public typeDescription: TypeDescription = new TypeDescription()
 
   @Expose({ name: "ОписаниеТиповФлажок" })
-  public typeDescriptionCheckbox: TypeDescription = new TypeDescription()
+  public typeDescriptionCheckbox: TypeDescription = new TypeDescription("Булево")
 }
 
 export class TableRowElement extends BaseFormElement {
   public type = "СтрокаТаблицы"
 
-  @Expose({ name: "Элементы" })
+  @Expose({ name: "Ячейки" })
   public items: TableCellElement[] = []
 
   @Expose({ name: "Строки" })
@@ -170,7 +170,7 @@ export class TableCellElement extends BaseFormElement {
   public type = "ЯчейкаТаблицы"
 
   @Expose({ name: "Значение" })
-  public value?: string
+  public value: string = ""
 
   @Expose({ name: "ЕстьФлажок" })
   public hasCheckbox: boolean = false
@@ -185,9 +185,22 @@ export class TableCellElement extends BaseFormElement {
   public uuidCheckbox: string = ""
 }
 
+export class ElementLocation {
+  @Expose({ name: "Лево" })
+  public left: number = 0
+
+  @Expose({ name: "Право" })
+  public right: number = 0
+
+  constructor(left: number, right: number) {
+    this.left = left
+    this.right = right
+  }
+}
+
 export class TypeDescription {
   @Expose({ name: "Типы" })
-  public types: [] = []
+  public types: string[] = []
 
   @Expose({ name: "ДлинаЧисла" })
   public digits: number = 0
@@ -203,6 +216,14 @@ export class TypeDescription {
 
   @Expose({ name: "Авто" })
   public auto: boolean = true
+
+  constructor(type?: string) {
+    if (!type) {
+      return
+    }
+
+    this.types.push(type)
+  }
 }
 
 export type TableHeaderElement = TableColumnGroupElement | TableColumnElement

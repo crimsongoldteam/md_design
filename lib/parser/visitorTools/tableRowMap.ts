@@ -35,6 +35,10 @@ export class TableRowMap {
       this.currentRow = new TableRowElement()
     }
 
+    if (this.currentLevel) {
+      this.table.typeDescription.types = ["ДеревоЗначений"]
+    }
+
     this.headerColumnIndex = 0
     this.rollHeaderRow()
   }

@@ -42,11 +42,11 @@ export default defineConfig((api) => {
   }
   return {
     build: {
-      // minify: !isDev,
-      // sourcemap: isDev,
+      minify: !isDev,
+      sourcemap: isDev,
       outDir: "temp",
-      minify: false,
-      sourcemap: true,
+      // minify: false,
+      // sourcemap: true,
       target: "es2018",
     },
     esbuild: {

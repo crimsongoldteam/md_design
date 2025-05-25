@@ -15,6 +15,7 @@ import {
   TableCellElement,
   TableColumnGroupElement,
   TableHeaderElement,
+  ElementLocation,
 } from "./visitorTools/formElements"
 import { CommandBarManager } from "./visitorTools/commandBarManager"
 import { TableManager, TableRowType } from "./visitorTools/tableManager"
@@ -28,6 +29,8 @@ export class Visitor extends BaseVisitor {
     const result = new FormElement()
 
     result.items = this.visitAll(ctx.Items as CstNode[])
+
+    this.addChildLocation(result.items, result)
 
     return result
   }
@@ -50,6 +53,8 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
+    this.consumeLocation(ctx.LabelContent as IToken[], result)
+
     return result
   }
 
@@ -70,6 +75,10 @@ export class Visitor extends BaseVisitor {
     this.addInputModifiers(modifiers, result)
 
     this.visit(ctx.properties as CstNode[], { element: result })
+
+    this.consumeLocation(ctx.InputHeader as IToken[], result)
+    this.consumeLocation(ctx.InputValue as IToken[], result)
+    this.consumeLocation(ctx.InputModifiers as IToken[], result)
 
     return result
   }
@@ -128,6 +137,12 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
+    this.consumeLocation(ctx.CheckboxChecked as IToken[], result)
+    this.consumeLocation(ctx.CheckboxUnchecked as IToken[], result)
+    this.consumeLocation(ctx.SwitchChecked as IToken[], result)
+    this.consumeLocation(ctx.SwitchUnchecked as IToken[], result)
+    this.consumeLocation(ctx.CheckboxHeader as IToken[], result)
+
     return result
   }
   // #endregion
@@ -144,6 +159,8 @@ export class Visitor extends BaseVisitor {
     this.visit(ctx.properties as CstNode[], { element: result })
 
     this.visitAll(ctx.commandBarLine as CstNode[], { manager: manager })
+
+    this.addChildLocation(result.items, result)
 
     return result
   }
@@ -181,6 +198,10 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
+    this.consumeLocation(ctx.Button as IToken[], result)
+    this.consumeLocation(ctx.leftPicture as IToken[], result)
+    this.consumeLocation(ctx.rightPicture as IToken[], result)
+
     return result
   }
 
@@ -196,6 +217,9 @@ export class Visitor extends BaseVisitor {
     for (const line of ctx.tableLine) {
       this.visit(line as CstNode, { manager: manager })
     }
+
+    this.addChildLocation(result.columns, result)
+    this.addChildLocation(result.rows, result)
 
     return result
   }
@@ -257,6 +281,8 @@ export class Visitor extends BaseVisitor {
 
     this.setProperty(result, "Заголовок", content)
 
+    this.consumeLocation(data.TableCell as IToken[], result)
+
     this.visit(ctx.properties as CstNode[], { element: result })
   }
 
@@ -296,7 +322,7 @@ export class Visitor extends BaseVisitor {
     const result = new TableCellElement()
 
     const content = this.joinTokens(data.TableCell)
-    result.value = content
+    result.value = content ?? ""
 
     if (data.CheckboxChecked) {
       result.hasCheckbox = true
@@ -309,6 +335,11 @@ export class Visitor extends BaseVisitor {
     }
 
     this.visit(data.properties as CstNode[], { element: result })
+
+    this.consumeLocation(data.Dots as IToken[], result)
+    this.consumeLocation(data.CheckboxUnchecked as IToken[], result)
+    this.consumeLocation(data.CheckboxChecked as IToken[], result)
+    this.consumeLocation(data.TableCell as IToken[], result)
 
     params.manager.addRowElement(result, level)
   }
@@ -348,6 +379,9 @@ export class Visitor extends BaseVisitor {
   }
 
   visitAll(ctx: CstElement[], param?: any): any {
+    if (!ctx) {
+      return []
+    }
     return (ctx as CstNode[]).map((item) => this.visit(item, param))
   }
 
@@ -359,6 +393,36 @@ export class Visitor extends BaseVisitor {
       .map((token) => token.image)
       .join("")
       .trim()
+  }
+
+  addChildLocation(childs: BaseItem[], result: BaseItem) {
+    childs.forEach((item) => {
+      for (const [key, value] of Object.entries(item.location)) {
+        this.consumeLocationInResult(result, key, value.left, value.right)
+      }
+    })
+  }
+
+  consumeLocation(tokens: IToken[], result: BaseItem): void {
+    if (!tokens) {
+      return
+    }
+
+    tokens.forEach((token) => {
+      let rowId = "Строка_" + (token.startLine as number).toString()
+      this.consumeLocationInResult(result, rowId, token.startColumn as number, token.endColumn as number)
+    })
+  }
+
+  consumeLocationInResult(result: BaseItem, rowId: string, startColumn: number, endColumn: number): void {
+    let row = result.location[rowId]
+    if (row === undefined) {
+      result.location[rowId] = new ElementLocation(startColumn, endColumn)
+    } else if (endColumn > row.right) {
+      row.right = endColumn
+    } else {
+      row.left = startColumn
+    }
   }
 
   // #endregion
