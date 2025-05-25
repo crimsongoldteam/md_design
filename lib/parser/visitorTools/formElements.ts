@@ -2,6 +2,12 @@ import { Expose } from "class-transformer"
 import "reflect-metadata"
 import { v4 as uuid } from "uuid"
 
+export enum DateFractions {
+  Time,
+  Date,
+  DateTime,
+}
+
 export abstract class BaseFormElement {
   @Expose({ name: "Тип" })
   public type: string = ""
@@ -12,7 +18,7 @@ export abstract class BaseFormElement {
   @Expose({ name: "ВидЭлемента", groups: ["production"] })
   public elementKind: string = ""
 
-  @Expose({ name: "Свойства" })
+  @Expose({ name: "НаборСвойств" })
   public properties: { [key: string]: any } = {}
 
   @Expose({ name: "Координаты", groups: ["production"] })
@@ -20,6 +26,19 @@ export abstract class BaseFormElement {
 
   @Expose({ name: "УИД", groups: ["production"] })
   public uuid: string = uuid()
+
+  @Expose({ name: "НеизвестныеСвойства", groups: ["production"] })
+  public unknownProperties: string[] = []
+
+  @Expose({ name: "ТипыСвойств", groups: ["production"] })
+  public propertyTypes: {} = {}
+
+  @Expose({ name: "Формат", groups: ["production"] })
+  public format: {} = {
+    Результат: [],
+    Длина: 0,
+    РазрывСтрок: false,
+  }
 }
 
 export class FormElement extends BaseFormElement {
@@ -44,6 +63,9 @@ export class InputElement extends BaseFormElement {
 
   @Expose({ name: "Значение" })
   public value: string = ""
+
+  @Expose({ name: "ОписаниеТипов" })
+  public typeDescription: TypeDescription = new TypeDescription()
 }
 
 export class CheckboxElement extends BaseFormElement {
@@ -53,6 +75,9 @@ export class CheckboxElement extends BaseFormElement {
 
   @Expose({ name: "Значение" })
   public value: boolean = false
+
+  @Expose({ name: "ОписаниеТипов" })
+  public typeDescription: TypeDescription = new TypeDescription()
 }
 
 export class CommandBarElement extends BaseFormElement {
@@ -92,6 +117,9 @@ export class TableElement extends BaseFormElement {
 
   @Expose({ name: "Строки" })
   public rows: TableRowElement[] = []
+
+  @Expose({ name: "ОписаниеТипов" })
+  public typeDescription: TypeDescription = new TypeDescription()
 }
 
 export class TableEmptyElement extends BaseFormElement {
@@ -120,6 +148,12 @@ export class TableColumnElement extends BaseFormElement {
 
   @Expose({ name: "Элементы" })
   public items: (TableColumnElement | TableColumnGroupElement)[] = []
+
+  @Expose({ name: "ОписаниеТипов" })
+  public typeDescription: TypeDescription = new TypeDescription()
+
+  @Expose({ name: "ОписаниеТиповФлажок" })
+  public typeDescriptionCheckbox: TypeDescription = new TypeDescription()
 }
 
 export class TableRowElement extends BaseFormElement {
@@ -150,5 +184,26 @@ export class TableCellElement extends BaseFormElement {
   @Expose({ name: "УИДКолонкиФлажок" })
   public uuidCheckbox: string = ""
 }
+
+export class TypeDescription {
+  @Expose({ name: "Типы" })
+  public types: [] = []
+
+  @Expose({ name: "ДлинаЧисла" })
+  public digits: number = 0
+
+  @Expose({ name: "ТочностьЧисла" })
+  public fractionDigits: number = 0
+
+  @Expose({ name: "ДлинаСтроки" })
+  public length: number = 0
+
+  @Expose({ name: "ЧастиДаты" })
+  public dateFractions: DateFractions = DateFractions.Date
+
+  @Expose({ name: "Авто" })
+  public auto: boolean = true
+}
+
 export type TableHeaderElement = TableColumnGroupElement | TableColumnElement
 export type TableHeaderElementExt = TableColumnGroupElement | TableColumnElement | TableEmptyElement

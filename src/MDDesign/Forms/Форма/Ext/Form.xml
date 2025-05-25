@@ -815,7 +815,6 @@
 					<ChildItems>
 						<HTMLDocumentField name="ПолеHTMLРедактора" id="5">
 							<DataPath>ПолеHTMLРедактора</DataPath>
-							<Enabled>false</Enabled>
 							<TitleLocation>None</TitleLocation>
 							<Width>10</Width>
 							<ContextMenu name="ПолеHTMLРедактораКонтекстноеМеню" id="6">
@@ -1319,23 +1318,6 @@
 					<ShowTitle>false</ShowTitle>
 					<ExtendedTooltip name="ГруппаПросмотрРасширеннаяПодсказка" id="4"/>
 				</UsualGroup>
-				<HTMLDocumentField name="ПолеHTML" id="312">
-					<DataPath>ПолеHTML</DataPath>
-					<Enabled>false</Enabled>
-					<TitleLocation>None</TitleLocation>
-					<Width>1</Width>
-					<AutoMaxWidth>false</AutoMaxWidth>
-					<Height>1</Height>
-					<AutoMaxHeight>false</AutoMaxHeight>
-					<HorizontalStretch>false</HorizontalStretch>
-					<VerticalStretch>false</VerticalStretch>
-					<BorderColor>style:FormBackColor</BorderColor>
-					<ContextMenu name="ПолеHTMLКонтекстноеМеню" id="313"/>
-					<ExtendedTooltip name="ПолеHTMLРасширеннаяПодсказка" id="314"/>
-					<Events>
-						<Event name="DocumentComplete">ПолеHTMLДокументСформирован</Event>
-					</Events>
-				</HTMLDocumentField>
 				<UsualGroup name="ГруппаСправка" id="204">
 					<Title>
 						<v8:item>

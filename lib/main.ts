@@ -6,7 +6,7 @@ import { groupVisitor } from "./parser/groupVisitor"
 import { visitor } from "./parser/visitor"
 import { instanceToPlain } from "class-transformer"
 
-function parseInputInner(input: string) {
+export function parseInputInner(input: string): string {
   const lexingResult = lexer.tokenize(input)
 
   parser.input = lexingResult.tokens
@@ -15,7 +15,7 @@ function parseInputInner(input: string) {
   const fullAST = groupVisitor.visit(groupsAST)
   const result = visitor.visit(fullAST)
 
-  const plain = instanceToPlain(result, { groups: ["dev"] })
+  const plain = instanceToPlain(result, { groups: ["production"] })
   return JSON.stringify(plain, null, 2)
 }
 

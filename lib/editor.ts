@@ -1,4 +1,5 @@
 import { editor as monacoEditor } from "monaco-editor-core"
+import { parseInputInner } from "./main"
 
 declare global {
   interface Window {
@@ -59,7 +60,10 @@ if (container) {
   })
 
   editor.onDidChangeModelContent((_e: any) => {
-    let params = { text: editor.getValue() }
+    const text = editor.getValue()
+    const semanticsTree = parseInputInner(text)
+
+    let params = { text: editor.getValue(), semanticsTree: semanticsTree }
     sendEvent("EVENT_CHANGE_CONTENT", params)
   })
 

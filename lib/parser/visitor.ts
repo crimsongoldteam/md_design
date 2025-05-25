@@ -27,7 +27,7 @@ export class Visitor extends BaseVisitor {
   form(ctx: CstChildrenDictionary): FormElement {
     const result = new FormElement()
 
-    result.items = this.visit(ctx.Items as CstNode[])
+    result.items = this.visitAll(ctx.Items as CstNode[])
 
     return result
   }
