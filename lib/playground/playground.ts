@@ -9,11 +9,11 @@ const treeViewContainer = document.getElementById("output") as HTMLElement
 let treeView = new TreeView(treeViewContainer)
 let model = new CodeModel()
 
-model.on("codeModelChanged", (cst: FormElement) => {
+model.on("CSTChange", (cst: FormElement) => {
   treeView.setCST(cst)
 })
 
-model.on("onPositionChange", (hierarchy: string[]) => {
+model.on("PositionChange", (hierarchy: string[]) => {
   treeView.setHierarchy(hierarchy)
 })
 

@@ -6,7 +6,7 @@ import { EnterpriseConnector } from "./enterpriseConnector.js"
 let model = new CodeModel()
 let connector = new EnterpriseConnector()
 
-model.on("codeModelChanged", () => {
+model.on("CSTChange", () => {
   connector.changeCST({
     text: model.getText(),
     semanticsTree: model.getProduction(),
@@ -14,7 +14,7 @@ model.on("codeModelChanged", () => {
   })
 })
 
-model.on("onPositionChange", () => {
+model.on("PositionChange", () => {
   const location = model.getCursor()
   connector.changeSelectionHierarchy({
     line: location.line,

@@ -26,3 +26,5 @@ dist-ssr
 .yarn
 dst/*.epf
 temp
+
+.vscode/

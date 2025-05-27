@@ -56,7 +56,7 @@ export class CodeModel {
     this.hierarchy = []
     this.addElementAtLocation(this.hierarchy, this.cst, line, column)
 
-    this.emit("onPositionChange", this.hierarchy)
+    this.emit("PositionChange", this.hierarchy)
   }
 
   public getProduction(): any {
@@ -100,6 +100,6 @@ export class CodeModel {
     const groupsAST = parser.parse()
     const fullAST = this.groupVisitor.visit(groupsAST)
     this.cst = this.visitor.visit(fullAST)
-    this.emit("codeModelChanged", this.cst)
+    this.emit("CSTChange", this.cst)
   }
 }

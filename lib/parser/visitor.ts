@@ -9,8 +9,8 @@ import {
   ButtonGroupElement,
   TableElement,
   TableColumnElement,
-  BaseFormElement as BaseItem,
-  LabelElement as LabelItem,
+  BaseFormElement,
+  LabelElement,
   TableEmptyElement,
   TableCellElement,
   TableColumnGroupElement,
@@ -37,16 +37,20 @@ export class Visitor extends BaseVisitor {
 
   // #endregion
 
-  field(ctx: CstChildrenDictionary): BaseItem {
+  // #region field
+
+  field(ctx: CstChildrenDictionary): BaseFormElement {
     const firstKey = Object.keys(ctx)[0]
     const firstValue = ctx[firstKey as keyof typeof ctx]
     return this.visit(firstValue as CstNode[])
   }
 
+  // #endregion
+
   // #region labelField
 
-  labelField(ctx: CstChildrenDictionary): LabelItem {
-    const result = new LabelItem()
+  labelField(ctx: CstChildrenDictionary): LabelElement {
+    const result = new LabelElement()
 
     let content = this.joinTokens(ctx.LabelContent)
     this.setProperty(result, "Заголовок", content)
@@ -365,7 +369,7 @@ export class Visitor extends BaseVisitor {
 
   // #region utils
 
-  private setProperty(element: BaseItem, key: string, value: string | boolean | undefined) {
+  private setProperty(element: BaseFormElement, key: string, value: string | boolean | undefined) {
     const properties = element.properties
     const lowerKey = key.toLowerCase()
 
@@ -395,7 +399,7 @@ export class Visitor extends BaseVisitor {
       .trim()
   }
 
-  private addChildLocation(childs: BaseItem[], result: BaseItem) {
+  private addChildLocation(childs: BaseFormElement[], result: BaseFormElement) {
     childs.forEach((item) => {
       for (let [key, value] of item.location) {
         this.consumeLocationInResult(result, key, value.left, value.right)
@@ -403,7 +407,7 @@ export class Visitor extends BaseVisitor {
     })
   }
 
-  private consumeLocation(tokens: IToken[], result: BaseItem): void {
+  private consumeLocation(tokens: IToken[], result: BaseFormElement): void {
     if (!tokens) {
       return
     }
@@ -418,7 +422,12 @@ export class Visitor extends BaseVisitor {
     })
   }
 
-  private consumeLocationInResult(result: BaseItem, startLine: number, startColumn: number, endColumn: number): void {
+  private consumeLocationInResult(
+    result: BaseFormElement,
+    startLine: number,
+    startColumn: number,
+    endColumn: number
+  ): void {
     let row = result.location.get(startLine)
     if (!row) {
       result.location.set(startLine, new ElementLocation(startColumn, endColumn))
