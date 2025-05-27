@@ -27,5 +27,6 @@
       "@assets/*": ["./assets/*"]
     }
   },
-  "include": ["lib"]
+  "include": ["lib"],
+  "exclude": ["/lib/playground/*"]
 }

@@ -45,12 +45,9 @@ export default defineConfig((api) => {
       minify: !isDev,
       sourcemap: isDev,
       outDir: "temp",
-      // minify: false,
-      // sourcemap: true,
       target: "es2018",
     },
     esbuild: {
-      // Configure this value when the browser version of the development environment is lower
       target: "es2018",
       include: /\.(ts|jsx|tsx)$/,
     },
