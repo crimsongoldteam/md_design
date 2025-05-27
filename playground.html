@@ -4,24 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Накидка</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      body {
+        display: flex;
+      }
+
+      #container {
+        flex: 1;
+        height: 100%;
+        overflow: hidden;
+        background: #f0f0f0;
+      }
+
+      #output {
+        flex: 1;
+        height: 100%;
+        resize: none;
+        border: none;
+        padding: 10px;
+        box-sizing: border-box;
+        font-family: monospace;
+
+        .tree-selected {
+          font-weight: bold;
+          color: #9c2513;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="app">
-      <textarea id="input" rows="5">
-| Список          |
-| --------------- |
-| [ ] Без пометки |
-| [X] Пометка     |      
-      </textarea>
-      <button
-        id="button"
-        type="button"
-        onclick="document.getElementById('output').value = parseInputInner(document.getElementById('input').value); "
-      >
-        Check
-      </button>
-      <textarea id="output" rows="5"></textarea>
-    </div>
-    <script type="module" src="/lib/main.ts"></script>
+    <div id="container"></div>
+    <div id="output"></div>
+
+    <script type="module" src="/lib/playground/playground.ts"></script>
+    <script type="module" src="/lib/editor.ts"></script>
   </body>
 </html>

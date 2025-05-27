@@ -1,4 +1,4 @@
-import { Expose } from "class-transformer"
+import { Exclude, Expose } from "class-transformer"
 import "reflect-metadata"
 import { v4 as uuid } from "uuid"
 
@@ -21,9 +21,6 @@ export abstract class BaseFormElement {
   @Expose({ name: "НаборСвойств" })
   public properties: { [key: string]: any } = {}
 
-  @Expose({ name: "Координаты", groups: ["production"] })
-  public location: { [key: string]: ElementLocation } = {}
-
   @Expose({ name: "УИД", groups: ["production"] })
   public uuid: string = uuid()
 
@@ -39,6 +36,12 @@ export abstract class BaseFormElement {
     Длина: 0,
     РазрывСтрок: false,
   }
+
+  @Exclude()
+  public childrenFields: string[] = []
+
+  @Exclude()
+  public location: Map<number, ElementLocation> = new Map<number, ElementLocation>()
 }
 
 export class FormElement extends BaseFormElement {
@@ -48,6 +51,8 @@ export class FormElement extends BaseFormElement {
 
   @Expose({ name: "Элементы" })
   public items: BaseFormElement[] = []
+
+  public childrenFields = ["items"]
 }
 
 export class LabelElement extends BaseFormElement {
@@ -87,6 +92,8 @@ export class CommandBarElement extends BaseFormElement {
 
   @Expose({ name: "Элементы" })
   public items: (BaseFormElement | ButtonGroupElement)[] = []
+
+  public childrenFields = ["items"]
 }
 
 export class ButtonElement extends BaseFormElement {
@@ -120,6 +127,8 @@ export class TableElement extends BaseFormElement {
 
   @Expose({ name: "ОписаниеТипов" })
   public typeDescription: TypeDescription = new TypeDescription("ТаблицаЗначений")
+
+  public childrenFields = ["columns", "rows"]
 }
 
 export class TableEmptyElement extends BaseFormElement {
@@ -133,6 +142,8 @@ export class TableColumnGroupElement extends BaseFormElement {
 
   @Expose({ name: "Элементы" })
   public items: (TableColumnElement | TableColumnGroupElement)[] = []
+
+  public childrenFields = ["items"]
 }
 
 export class TableColumnElement extends BaseFormElement {
@@ -154,6 +165,8 @@ export class TableColumnElement extends BaseFormElement {
 
   @Expose({ name: "ОписаниеТиповФлажок" })
   public typeDescriptionCheckbox: TypeDescription = new TypeDescription("Булево")
+
+  public childrenFields = ["items"]
 }
 
 export class TableRowElement extends BaseFormElement {
@@ -164,6 +177,8 @@ export class TableRowElement extends BaseFormElement {
 
   @Expose({ name: "Строки" })
   public rows: TableRowElement[] = []
+
+  public childrenFields = ["items", "rows"]
 }
 
 export class TableCellElement extends BaseFormElement {

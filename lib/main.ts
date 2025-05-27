@@ -1,22 +1,29 @@
 import "./polyfill.js"
+import { CodeModel } from "./codeModel"
+import { Editor } from "./editor"
+import { EnterpriseConnector } from "./enterpriseConnector.js"
 
-import { parser } from "./parser/parser"
-import { lexer } from "./parser/lexer"
-import { groupVisitor } from "./parser/groupVisitor"
-import { visitor } from "./parser/visitor"
-import { instanceToPlain } from "class-transformer"
+let model = new CodeModel()
+let connector = new EnterpriseConnector()
 
-export function parseInputInner(input: string): string {
-  const lexingResult = lexer.tokenize(input)
+model.on("codeModelChanged", () => {
+  connector.changeCST({
+    text: model.getText(),
+    semanticsTree: model.getProduction(),
+    selectionHierarchy: model.getSelectionHierarchy(),
+  })
+})
 
-  parser.input = lexingResult.tokens
+model.on("onPositionChange", () => {
+  const location = model.getCursor()
+  connector.changeSelectionHierarchy({
+    line: location.line,
+    column: location.column,
+    selectionHierarchy: model.getSelectionHierarchy(),
+  })
+})
 
-  const groupsAST = parser.parse()
-  const fullAST = groupVisitor.visit(groupsAST)
-  const result = visitor.visit(fullAST)
+let editor = new Editor(model)
 
-  const plain = instanceToPlain(result, { groups: ["production"] })
-  return JSON.stringify(plain, null, 2)
-}
-
-;(window as any).parseInputInner = parseInputInner
+;(window as any).getEditorText = editor.getEditorText
+;(window as any).setEditorText = editor.setEditorText

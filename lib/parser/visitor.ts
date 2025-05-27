@@ -365,7 +365,7 @@ export class Visitor extends BaseVisitor {
 
   // #region utils
 
-  setProperty(element: BaseItem, key: string, value: string | boolean | undefined) {
+  private setProperty(element: BaseItem, key: string, value: string | boolean | undefined) {
     const properties = element.properties
     const lowerKey = key.toLowerCase()
 
@@ -378,14 +378,14 @@ export class Visitor extends BaseVisitor {
     properties[key] = value
   }
 
-  visitAll(ctx: CstElement[], param?: any): any {
+  private visitAll(ctx: CstElement[], param?: any): any {
     if (!ctx) {
       return []
     }
     return (ctx as CstNode[]).map((item) => this.visit(item, param))
   }
 
-  joinTokens(tokens: CstElement[]): string | undefined {
+  private joinTokens(tokens: CstElement[]): string | undefined {
     if (tokens === undefined) {
       return undefined
     }
@@ -395,29 +395,33 @@ export class Visitor extends BaseVisitor {
       .trim()
   }
 
-  addChildLocation(childs: BaseItem[], result: BaseItem) {
+  private addChildLocation(childs: BaseItem[], result: BaseItem) {
     childs.forEach((item) => {
-      for (const [key, value] of Object.entries(item.location)) {
+      for (let [key, value] of item.location) {
         this.consumeLocationInResult(result, key, value.left, value.right)
       }
     })
   }
 
-  consumeLocation(tokens: IToken[], result: BaseItem): void {
+  private consumeLocation(tokens: IToken[], result: BaseItem): void {
     if (!tokens) {
       return
     }
 
     tokens.forEach((token) => {
-      let rowId = "Строка_" + (token.startLine as number).toString()
-      this.consumeLocationInResult(result, rowId, token.startColumn as number, token.endColumn as number)
+      this.consumeLocationInResult(
+        result,
+        token.startLine as number,
+        token.startColumn as number,
+        token.endColumn as number
+      )
     })
   }
 
-  consumeLocationInResult(result: BaseItem, rowId: string, startColumn: number, endColumn: number): void {
-    let row = result.location[rowId]
-    if (row === undefined) {
-      result.location[rowId] = new ElementLocation(startColumn, endColumn)
+  private consumeLocationInResult(result: BaseItem, startLine: number, startColumn: number, endColumn: number): void {
+    let row = result.location.get(startLine)
+    if (!row) {
+      result.location.set(startLine, new ElementLocation(startColumn, endColumn))
     } else if (endColumn > row.right) {
       row.right = endColumn
     } else {
@@ -428,4 +432,4 @@ export class Visitor extends BaseVisitor {
   // #endregion
 }
 
-export const visitor = new Visitor()
+// export const visitor = new Visitor()

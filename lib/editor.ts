@@ -1,73 +1,62 @@
 import { editor as monacoEditor } from "monaco-editor-core"
-import { parseInputInner } from "./main"
+import { CodeModel } from "./codeModel"
 
-declare global {
-  interface Window {
-    setEditorText: (text: string) => void
-    getEditorText: () => string
-    setEditorPosition: (lineNumber: number, column: number) => void
-  }
-  interface MouseEvent {
-    eventData1C: any
-  }
-}
+export class Editor {
+  editor: monacoEditor.IStandaloneCodeEditor
+  model: CodeModel
 
-const container = document.getElementById("container")
-if (container) {
-  let editor: any = monacoEditor.create(container, {
-    language: "plaintext",
-    minimap: { enabled: false },
-    unicodeHighlight: {
-      ambiguousCharacters: false,
-    },
-    suggest: { showWords: false },
-    automaticLayout: true,
-    scrollBeyondLastLine: false,
-    selectionHighlight: false,
-    lineNumbers: "off",
-    contextmenu: true,
-    insertSpaces: false,
-    tabSize: 2,
-  })
+  constructor(model: CodeModel) {
+    this.model = model
 
-  window.setEditorText = function (text) {
-    editor.setValue(text)
-  }
+    const container = document.getElementById("container")
+    if (!container) {
+      throw new Error("Container not found")
+    }
 
-  window.getEditorText = function () {
-    return editor.getValue()
+    this.editor = monacoEditor.create(container, {
+      language: "plaintext",
+      minimap: { enabled: false },
+      unicodeHighlight: {
+        ambiguousCharacters: false,
+      },
+      suggest: { showWords: false },
+      automaticLayout: true,
+      scrollBeyondLastLine: false,
+      selectionHighlight: false,
+      lineNumbers: "off",
+      contextmenu: true,
+      insertSpaces: false,
+      tabSize: 2,
+    })
+
+    this.editor.onDidChangeCursorSelection(this.onDidChangeCursorSelection.bind(this))
+    this.editor.onDidChangeModelContent(this.onDidChangeModelContent.bind(this))
+    ;(window as any).addEventListener("resize", () => {
+      this.editor.layout()
+    })
   }
 
-  window.setEditorPosition = function (lineNumber, column) {
-    return editor.setPosition({
+  public getEditorText(): string {
+    return this.editor.getValue()
+  }
+
+  public setEditorText(text: string): void {
+    this.editor.setValue(text)
+  }
+
+  public setPosition(lineNumber: number, column: number): void {
+    this.editor.setPosition({
       lineNumber: lineNumber,
       column: column,
     })
   }
 
-  const sendEvent = function (eventName: string, eventParams: any) {
-    let lastEvent = new MouseEvent("click")
-    lastEvent.eventData1C = { event: eventName, params: eventParams }
-    return dispatchEvent(lastEvent)
+  private onDidChangeCursorSelection(e: any) {
+    this.model.setCursor(e.selection.startLineNumber, e.selection.startColumn)
   }
 
-  editor.onDidChangeCursorSelection((e: any) => {
-    let params = {
-      line: e.selection.startLineNumber,
-      column: e.selection.startColumn,
-    }
-    sendEvent("EVENT_CHANGE_CURSOR_SELECTION", params)
-  })
-
-  editor.onDidChangeModelContent((_e: any) => {
-    const text = editor.getValue()
-    const semanticsTree = parseInputInner(text)
-
-    let params = { text: editor.getValue(), semanticsTree: semanticsTree }
-    sendEvent("EVENT_CHANGE_CONTENT", params)
-  })
-
-  window.addEventListener("resize", function () {
-    editor.layout()
-  })
+  private onDidChangeModelContent() {
+    const text = this.editor.getValue()
+    this.model.setText(text)
+  }
 }
