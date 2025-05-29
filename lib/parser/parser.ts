@@ -1,7 +1,7 @@
 import { CstNode, CstParser, EMPTY_ALT, EOF, IToken } from "chevrotain"
 import * as t from "./lexer.ts"
 
-export class InlineParser extends CstParser {
+export class Parser extends CstParser {
   constructor() {
     super(t.allTokens)
     this.performSelfAnalysis()
@@ -464,4 +464,4 @@ export class InlineParser extends CstParser {
   // #endregion
 }
 
-export const parser = new InlineParser()
+export const parser = new Parser()

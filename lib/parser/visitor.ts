@@ -16,6 +16,10 @@ import {
   TableColumnGroupElement,
   TableHeaderElement,
   ElementLocation,
+  PagesElement,
+  PageElement,
+  HorizontalGroupElement,
+  VerticalGroupElement,
 } from "./visitorTools/formElements"
 import { CommandBarManager } from "./visitorTools/commandBarManager"
 import { TableManager, TableRowType } from "./visitorTools/tableManager"
@@ -33,6 +37,101 @@ export class Visitor extends BaseVisitor {
     this.addChildLocation(result.items, result)
 
     return result
+  }
+
+  // #endregion
+
+  // #region pages
+
+  pages(ctx: CstChildrenDictionary): PagesElement {
+    const result = new PagesElement()
+
+    result.items = this.visitAll(ctx.Items)
+
+    return result
+  }
+
+  page(ctx: CstChildrenDictionary): PageElement {
+    const result = new PageElement()
+
+    const pageHeader = ctx.PageHeader[0] as CstNode
+
+    let header = this.joinTokens(pageHeader.children.PageHeaderText)
+    this.setProperty(result, "Заголовок", header)
+
+    this.visit(ctx.properties as CstNode[], { element: result })
+
+    this.consumeLocation(pageHeader.children.PageHeaderText as IToken[], result)
+
+    result.items = this.visitAll(ctx.Items as CstNode[])
+
+    this.addChildLocation(result.items, result)
+
+    return result
+  }
+
+  // #endregion
+
+  // #region groups
+
+  horizontalGroup(ctx: CstChildrenDictionary): HorizontalGroupElement {
+    const result = new HorizontalGroupElement()
+
+    result.items = this.visitAll(ctx.Items)
+
+    return result
+  }
+
+  verticalGroup(ctx: CstChildrenDictionary): VerticalGroupElement {
+    const result = new VerticalGroupElement()
+
+    const groupHeader = ctx.GroupHeader[0] as CstNode
+
+    let header = this.joinTokens(groupHeader.children.GroupHeaderText)
+    this.setProperty(result, "Заголовок", header)
+
+    this.setGroupDisplayAndBehavior(result, groupHeader)
+
+    this.visit(ctx.properties as CstNode[], { element: result })
+
+    this.consumeLocation(groupHeader.children.GroupHeaderText as IToken[], result)
+
+    result.items = this.visitAll(ctx.Items as CstNode[])
+
+    this.addChildLocation(result.items, result)
+
+    return result
+  }
+
+  private setGroupDisplayAndBehavior(verticalGroup: VerticalGroupElement, groupHeader: CstNode): void {
+    const hash = this.joinTokens(groupHeader.children.Hash)
+
+    const count = hash?.length ?? 1
+
+    let currentDisplay = undefined
+    let currentBehavior = undefined
+
+    if (count === 2) {
+      currentDisplay = "СлабоеВыделение"
+    } else if (count === 3) {
+      currentDisplay = "ОбычноеВыделение"
+    } else if (count === 4) {
+      currentDisplay = "СильноеВыделение"
+    } else if (count === 5) {
+      currentDisplay = "ОбычноеВыделение"
+      currentBehavior = "Свертываемая"
+    } else if (count === 6) {
+      currentDisplay = "ОбычноеВыделение"
+      currentBehavior = "Всплывающая"
+    }
+
+    if (currentDisplay) {
+      this.setProperty(verticalGroup, "Отображение", currentDisplay)
+    }
+
+    if (currentBehavior) {
+      this.setProperty(verticalGroup, "Поведение", currentBehavior)
+    }
   }
 
   // #endregion

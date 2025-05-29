@@ -55,6 +55,50 @@ export class FormElement extends BaseFormElement {
   public childrenFields = ["items"]
 }
 
+export class HorizontalGroupElement extends BaseFormElement {
+  public type = "ГоризонтальнаяГруппа"
+  public elementType = "ГруппаФормы"
+  public elementKind = "ОбычнаяГруппа"
+
+  @Expose({ name: "Элементы" })
+  public items: VerticalGroupElement[] = []
+
+  public childrenFields = ["items"]
+}
+
+export class VerticalGroupElement extends BaseFormElement {
+  public type = "ВертикальнаяГруппа"
+  public elementType = "ГруппаФормы"
+  public elementKind = "ОбычнаяГруппа"
+
+  @Expose({ name: "Элементы" })
+  public items: PageElement[] = []
+
+  public childrenFields = ["items"]
+}
+
+export class PagesElement extends BaseFormElement {
+  public type = "Страницы"
+  public elementType = "ГруппаФормы"
+  public elementKind = "Страницы"
+
+  @Expose({ name: "Элементы" })
+  public items: PageElement[] = []
+
+  public childrenFields = ["items"]
+}
+
+export class PageElement extends BaseFormElement {
+  public type = "Страница"
+  public elementType = "ГруппаФормы"
+  public elementKind = "Страница"
+
+  @Expose({ name: "Элементы" })
+  public items: BaseFormElement[] = []
+
+  public childrenFields = ["items"]
+}
+
 export class LabelElement extends BaseFormElement {
   public type = "Надпись"
   public elementType = "ДекорацияФормы"

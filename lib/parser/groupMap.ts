@@ -1,60 +1,84 @@
 import { CstNode, IToken } from "chevrotain"
 import { Detector } from "./detector"
-import { InlineParser } from "./parser"
+import { Parser } from "./parser"
+import {
+  FormNode,
+  TreeNode,
+  ContentNode,
+  PagesNode,
+  PageNode,
+  HorizontalGroupNode,
+  VerticalGroupNode,
+  ContainerNode,
+} from "./groupMapNodes"
 
-interface TreeNode {
-  item: CstNode
-  parent: TreeNode | undefined
-  indent: number
-  children: TreeNode[]
+class ContainerInfo {
+  public exact: boolean = true
+  public node: ContainerNode
+
+  constructor(defaultNode: ContainerNode) {
+    this.node = defaultNode
+  }
 }
 
 export class GroupMap {
-  private readonly root: TreeNode
-  private currentLineParents: TreeNode[] = []
-  private nextLineParents: TreeNode[] = []
+  private readonly root: FormNode
+
+  private readonly currentLineContainters: ContainerNode[] = []
+  private readonly nextLineContentainers: ContainerNode[] = []
+
+  private readonly parser: Parser
   private currentGroupIndex = 0
-  private readonly parser: InlineParser
 
   private readonly detector: Detector = new Detector()
+  private isGroupLine: boolean = false
 
-  constructor(parser: InlineParser) {
-    this.root = this.createForm()
+  constructor(parser: Parser) {
+    this.root = this.createFormNode()
     this.parser = parser
-    this.currentLineParents = [this.root]
+    this.currentLineContainters = [this.root]
   }
 
   // #region public
 
-  /**
-   * Adds a new node to the indents map.
-   *
-   * @param {CstNode} node The node to add.
-   * @param {number} indent The indentation level of the node.
-   */
-  public add(node: CstNode, indent: number): void {
-    let parent = this.getParent(indent)
+  public startLine(isGroupLine: boolean): void {
+    this.isGroupLine = isGroupLine
+  }
 
-    if (this.isPageHeader(node)) {
-      this.createPage(parent, indent, node)
-      return
-    }
+  public addPage(node: CstNode, indent: number): void {
+    let parentInfo = this.getContainerAtIndent(indent + 1)
 
-    if (this.isVerticalGroupHeader(node)) {
-      this.createVerticalGroup(parent, indent, node)
+    let pages = this.getCreatePagesNode(parentInfo)
+
+    const container = this.createPageNode(pages, indent + 1, node)
+    this.addToNextLine(container)
+  }
+
+  public addHorizontalGroup(nodes: CstNode[], indent: number): void {
+    let parentInfo = this.getContainerAtIndent(indent + 1)
+
+    let horizontalGroup = this.getCreateHorizontalGroupNode(parentInfo)
+
+    let curIndent = indent + 1
+
+    for (let node of nodes) {
+      const container = this.createVerticalGroupNode(horizontalGroup, curIndent, node)
+      this.addToNextLine(container)
+
+      curIndent = 0
     }
   }
 
   public addTokens(tokens: IToken[], indent: number): void {
-    let parent = this.getParent(indent)
-    const inlineItem = this.getCreateInline(parent)
+    const containerInfo = this.getContainerAtIndent(indent)
+    const contentNode = this.getCreateContentNode(containerInfo.node)
 
     const typeToken = this.detector.getTypeToken(tokens)
-    this.insertToInline(inlineItem, typeToken)
+    this.addTokenToContentNode(contentNode, typeToken)
 
-    tokens.forEach((token) => this.insertToInline(inlineItem, token))
+    tokens.forEach((token) => this.addTokenToContentNode(contentNode, token))
 
-    this.addToNextLine(inlineItem)
+    this.addToNextLine(containerInfo.node)
   }
 
   public next(): void {
@@ -62,8 +86,9 @@ export class GroupMap {
   }
 
   public endLine(): void {
-    this.currentLineParents = [...this.nextLineParents]
-    this.nextLineParents = []
+    this.currentLineContainters.splice(0)
+    this.currentLineContainters.push(...this.nextLineContentainers)
+    this.nextLineContentainers.splice(0)
     this.currentGroupIndex = 0
   }
 
@@ -73,190 +98,210 @@ export class GroupMap {
 
   // #endregion
 
-  // #region inline
+  // #region content
 
-  private createInline(parent: TreeNode): TreeNode {
-    const item = {
-      name: "inline",
-      children: { Items: [], Properties: [] },
-    }
-
-    const treeItem = this.addItem(item, -1, parent)
-
-    return treeItem
+  private createContentNode(parent: TreeNode): ContentNode {
+    return new ContentNode(parent)
   }
 
-  private getCreateInline(parent: TreeNode): TreeNode {
-    if (this.isInline(parent.item)) {
-      return parent
+  private getCreateContentNode(container: ContainerNode): ContentNode {
+    let content = container.children.at(-1)
+    if (content && this.isContentNode(content)) {
+      return content as ContentNode
     }
 
-    return this.createInline(parent)
+    return this.createContentNode(container)
   }
 
-  private insertToInline(parent: TreeNode, token: IToken): void {
-    parent.item.children.Items.push(token)
+  private addTokenToContentNode(treeNode: ContentNode, token: IToken): void {
+    treeNode.item.children.Items.push(token)
   }
 
   // #endregion
 
   // #region form
 
-  private createForm(): TreeNode {
-    const item = {
-      name: "form",
-      children: { Items: [], Properties: [] },
-    }
-
-    const treeItem = this.addItem(item, 0, undefined)
-    return treeItem
+  private createFormNode(): FormNode {
+    return new FormNode()
   }
 
   // #endregion
 
   // #region page
 
-  private getCreatePages(parent: TreeNode, indent: number): TreeNode {
-    if (this.isPage(parent.item)) {
-      return parent.parent as TreeNode
+  private getCreatePagesNode(containerInfo: ContainerInfo): PagesNode {
+    if (containerInfo.exact && this.isPageNode(containerInfo.node)) {
+      return containerInfo.node.parent as PagesNode
     }
 
-    const item = {
-      name: "pages",
-      children: { Items: [] },
-    }
-
-    const treeItem = this.addItem(item, indent, parent)
-    return treeItem
+    return new PagesNode(containerInfo.node)
   }
 
-  private createPage(parent: TreeNode, indent: number, headerNode: CstNode): TreeNode {
-    const currentParent = this.getCreatePages(parent, indent)
-
-    const item = {
-      name: "page",
-      children: { PageHeader: [headerNode], Items: [], Properties: [] },
-    }
-
-    const treeItem = this.addItem(item, indent, currentParent)
-
-    const inlineItem = this.createInline(treeItem)
-    this.addToNextLine(inlineItem)
-    return inlineItem
+  private createPageNode(parent: PagesNode, indent: number, headerNode: CstNode): PageNode {
+    return new PageNode(headerNode, indent, parent)
   }
 
   // #endregion
 
   // #region group
 
-  private getCreateHorizontalGroup(parent: TreeNode, indent: number): TreeNode {
-    if (this.isVerticalGroup(parent.item)) {
-      return parent.parent as TreeNode
+  private getCreateHorizontalGroupNode(containerInfo: ContainerInfo): HorizontalGroupNode {
+    if (containerInfo.exact && this.isPageNode(containerInfo.node)) {
+      return containerInfo.node.parent as HorizontalGroupNode
     }
 
-    const item = {
-      name: "horizontalGroup",
-      children: { Items: [], Properties: [] },
-    }
-
-    return this.addItem(item, indent, parent)
+    return new HorizontalGroupNode(containerInfo.node)
   }
 
-  private createVerticalGroup(parent: TreeNode, indent: number, headerNode: CstNode): TreeNode {
-    const currentParent = this.getCreateHorizontalGroup(parent, indent)
-
-    const item = {
-      name: "verticalGroup",
-      children: { GroupHeader: [headerNode], Items: [], Properties: [] },
-    }
-
-    const treeItem = this.addItem(item, indent, currentParent)
-
-    const inlineItem = this.createInline(treeItem)
-    this.addToNextLine(inlineItem)
-    return inlineItem
+  private createVerticalGroupNode(parent: HorizontalGroupNode, indent: number, headerNode: CstNode): VerticalGroupNode {
+    return new VerticalGroupNode(headerNode, indent, parent)
   }
 
   // #endregion
 
-  private addItem(item: CstNode, indent: number, parent: TreeNode | undefined): TreeNode {
-    let result = {
-      item: item,
-      parent: parent,
-      indent: indent,
-      children: [] as TreeNode[],
-    }
-
-    parent?.children.push(result)
-    return result
+  private isContainerNode(item: TreeNode): boolean {
+    return this.isFormNode(item) || this.isPageNode(item) || this.isVerticalGroupNode(item)
   }
 
-  // private isForm(item: CstNode): boolean { return item.name == "form" }
-  private isPage(item: CstNode): boolean {
-    return item.name == "page"
-  }
-  private isVerticalGroup(item: CstNode): boolean {
-    return item.name == "verticalGroup"
-  }
-  private isInline(item: CstNode): boolean {
-    return item.name == "inline"
+  private isFormNode(item: TreeNode): boolean {
+    return item instanceof FormNode
   }
 
-  private isPageHeader(item: CstNode): boolean {
-    return item.name == "pageHeader"
+  private isPageNode(item: TreeNode): boolean {
+    return item instanceof PageNode
   }
-  private isVerticalGroupHeader(item: CstNode): boolean {
-    return item.name == "verticalGroupHeader"
+  private isVerticalGroupNode(item: TreeNode): boolean {
+    return item instanceof VerticalGroupNode
+  }
+  private isContentNode(item: TreeNode): boolean {
+    return item instanceof ContentNode
   }
 
-  private getCurrent(): TreeNode {
-    if (this.currentGroupIndex < this.currentLineParents.length) {
-      return this.currentLineParents[this.currentGroupIndex]
+  private getCurrentContainer(): ContainerNode {
+    if (this.currentGroupIndex < this.currentLineContainters.length) {
+      return this.currentLineContainters[this.currentGroupIndex]
     }
 
     return this.root
   }
 
-  private getParent(indent: number): TreeNode {
-    let current = this.getCurrent()
-    let resultIndent = current.indent
+  private getBaseContainer(item: ContainerNode): ContainerNode {
+    if (this.currentGroupIndex == 0 && this.isGroupLine) {
+      return this.getBaseFirstColumnContainer(item)
+    }
 
-    if (indent >= resultIndent) {
-      return current
+    return this.root
+  }
+
+  private getBaseFirstColumnContainer(item: ContainerNode): VerticalGroupNode | FormNode {
+    let currentItem: TreeNode = item
+
+    while (!this.isFormNode(currentItem) && !this.isVerticalGroupNode(currentItem)) {
+      currentItem = currentItem.parent
+    }
+
+    return currentItem as VerticalGroupNode | FormNode
+  }
+
+  private getContainerAtIndent(indent: number): ContainerInfo {
+    const currentContainer = this.getCurrentContainer()
+    const baseContainer = this.getBaseContainer(currentContainer)
+    let result: ContainerInfo = new ContainerInfo(baseContainer)
+
+    result.node = currentContainer
+    let resultIndent = result.node.indent
+
+    if (indent > resultIndent) {
+      result.exact = false
+      return result
+    }
+
+    if (currentContainer == baseContainer) {
+      return result
     }
 
     while (resultIndent > indent) {
-      current = current.parent as TreeNode
-      resultIndent = current.indent
+      let currentParent = result.node.parent
+
+      if (this.isFormNode(currentParent)) {
+        break
+      }
+
+      if (currentParent == baseContainer) {
+        break
+      }
+
+      if (!this.isContainerNode(currentParent)) {
+        currentParent = currentParent.parent as ContainerNode
+      }
+
+      resultIndent = currentParent.indent
+      result.node = currentParent as ContainerNode
     }
 
-    return current
+    return result
   }
 
-  private addToNextLine(item: TreeNode): void {
-    this.nextLineParents.push(item)
+  // private getLastContainerAtIndent(indent: number): ContainerNode {
+
+  // }
+
+  private addToNextLine(item: ContainerNode): void {
+    this.nextLineContentainers.push(item)
   }
 
   // #region build
 
-  private buildItem(treeNode: TreeNode): CstNode {
+  private buildItem(treeNode: ContainerNode): CstNode {
     const result = treeNode.item
     for (const childItem of treeNode.children) {
-      if (this.isInline(childItem.item)) {
-        let children = this.parseFields(childItem)
-        result.children.Items.push(...children)
+      if (this.isContentNode(childItem)) {
+        let children = this.parseFields(childItem as ContentNode)
+        ;(result.children.Items as CstNode[]).push(...children)
         continue
       }
 
-      let childCstElement = this.buildItem(childItem)
-      result.children.Items.push(childCstElement)
+      let childCstElement = this.buildItem(childItem as ContainerNode)
+      ;(result.children.Items as CstNode[]).push(childCstElement)
     }
     return result
   }
 
-  private parseFields(inline: TreeNode): CstNode[] {
-    return this.parser.parseFields(inline.item.children.Items as IToken[])
+  private parseFields(inline: ContentNode): CstNode[] {
+    return this.parser.parseFields(inline.item.children.Items)
   }
 
   // #endregion
 }
+
+// Для страницы
+// Если на этом уровне есть страница - мы берем страницу и ее родителя
+// Если на этом уровне ничего еще нет - создаем страницу
+
+// Элемента
+// Если на этом уровне есть страница - мы берем страницу
+// Если на этом уровне ничего еще нет - берем нижестоящий
+
+// Если прошлая с группами, а эта с группами
+// Добавляем по порядку
+
+// Если были группы и И сейчас группы - корень первого элемента - первая вертикальная группа
+// Если были группы А сейчас не группы - корень первого элемента - форма
+
+// /Страница
+//   #Группа 1 #Группа2
+//   Элемент
+
+// /Страница
+//   #Группа 1             #Группа2
+//     #Группа 3 #Группа 4 +
+//       /Страница  + +
+//   Элемент +
+
+// /Страница
+//  	#Группа 1 #Группа 2
+// Элемент1 + Элемент 2
+
+// /Страница
+//  	#Группа 1 #Группа 2
+//     Элемент1 + Элемент 2

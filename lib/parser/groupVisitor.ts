@@ -5,22 +5,28 @@ import { GroupMap } from "./groupMap"
 const BaseVisitor = parser.getBaseCstVisitorConstructor()
 
 export class GroupVisitor extends BaseVisitor {
-  indentsMap: GroupMap = new GroupMap(parser)
+  groupMap: GroupMap = new GroupMap(parser)
 
   form(ctx: CstChildrenDictionary): CstNode {
-    this.indentsMap = new GroupMap(parser)
+    this.groupMap = new GroupMap(parser)
 
     for (const row of ctx.row as CstNode[]) {
       this.visit(row)
-      this.indentsMap.endLine()
     }
-    return this.indentsMap.build()
+    return this.groupMap.build()
   }
 
   row(ctx: CstChildrenDictionary): void {
-    for (const column of ctx.column as CstNode[]) {
+    const columns = ctx.column as CstNode[]
+
+    this.groupMap.startLine(columns.length > 1)
+
+    for (const column of columns) {
       this.visit(column)
+      this.groupMap.next()
     }
+
+    this.groupMap.endLine()
   }
 
   column(ctx: CstChildrenDictionary): void {
@@ -28,11 +34,15 @@ export class GroupVisitor extends BaseVisitor {
 
     this.visit(ctx.inline as CstNode[], { indent: indent })
     this.visit(ctx.horizontalGroup as CstNode[], { indent: indent })
+
+    if (ctx.pageHeader) {
+      this.groupMap.addPage(ctx.pageHeader[0] as CstNode, indent)
+    }
   }
 
   inline(ctx: CstChildrenDictionary, params: any): void {
     let tokens = this.visit(ctx.inlineItem as CstNode[])
-    this.indentsMap.addTokens(tokens, params.indent)
+    this.groupMap.addTokens(tokens, params.indent)
   }
 
   inlineItem(ctx: CstChildrenDictionary): CstElement[] {
@@ -40,16 +50,12 @@ export class GroupVisitor extends BaseVisitor {
   }
 
   horizontalGroup(ctx: CstChildrenDictionary, params: any): void {
-    for (const item of ctx.verticalGroupHeader as CstNode[]) {
-      this.indentsMap.add(item, params.indent)
-    }
+    this.groupMap.addHorizontalGroup(ctx.verticalGroupHeader as CstNode[], params.indent)
   }
 
-  pages(ctx: CstChildrenDictionary, params: any): void {
-    for (const item of ctx.page as CstNode[]) {
-      this.indentsMap.add(item, params.indent)
-    }
-  }
+  // pageHeader(ctx: CstChildrenDictionary, params: any): void {
+  //   this.indentsMap.add(ctx, params.indent)
+  // }
 
   indents(ctx: CstChildrenDictionary): number {
     if (!ctx) {
