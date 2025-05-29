@@ -10,9 +10,12 @@ export class GroupVisitor extends BaseVisitor {
   form(ctx: CstChildrenDictionary): CstNode {
     this.groupMap = new GroupMap(parser)
 
-    for (const row of ctx.row as CstNode[]) {
-      this.visit(row)
+    if (ctx.row) {
+      for (const row of ctx.row as CstNode[]) {
+        this.visit(row)
+      }
     }
+
     return this.groupMap.build()
   }
 

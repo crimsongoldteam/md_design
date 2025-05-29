@@ -36,7 +36,7 @@ export class CommandBarManager {
     }
 
     this.commandBar.items.push(...groups)
-    this.defaultGroup = groups.at(-1) as ButtonGroupElement
+    this.defaultGroup = groups[groups.length - 1]
   }
 
   public addButton(button: ButtonElement, level: number) {

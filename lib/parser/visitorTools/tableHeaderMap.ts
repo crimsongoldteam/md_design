@@ -114,7 +114,7 @@ export class TableHeaderMap {
       return
     }
 
-    let currentRow: TableHeaderElementExt[] = this.map.at(-1) as TableHeaderElementExt[]
+    let currentRow: TableHeaderElementExt[] = this.map[this.map.length - 1]
     const result: TableHeaderElementExt[][] = [currentRow]
     const numColumns = currentRow.length
 

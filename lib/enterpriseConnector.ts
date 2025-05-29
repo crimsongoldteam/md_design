@@ -2,14 +2,19 @@ import { BaseFormElement } from "./parser/visitorTools/formElements"
 
 export class EnterpriseConnector {
   public changeSelectionHierarchy(params: { line: number; column: number; selectionHierarchy: string[] }): void {
-    this.sendEvent("EVENT_CHANGE_CURSOR_SELECTION", params)
+    const result = {
+      line: params.line,
+      column: params.column,
+      selectionHierarchy: JSON.stringify(params.selectionHierarchy),
+    }
+    this.sendEvent("EVENT_CHANGE_CURSOR_SELECTION", result)
   }
 
   public changeCST(params: { text: string; semanticsTree: BaseFormElement; selectionHierarchy: string[] }): void {
     const result = {
       text: params.text,
       semanticsTree: JSON.stringify(params.semanticsTree, null, 2),
-      selectionHierarchy: params.selectionHierarchy,
+      selectionHierarchy: JSON.stringify(params.selectionHierarchy),
     }
 
     this.sendEvent("EVENT_CHANGE_CONTENT", result)

@@ -105,7 +105,7 @@ export class GroupMap {
   }
 
   private getCreateContentNode(container: ContainerNode): ContentNode {
-    let content = container.children.at(-1)
+    let content = container.children[container.children.length - 1]
     if (content && this.isContentNode(content)) {
       return content as ContentNode
     }
