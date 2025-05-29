@@ -1,4 +1,4 @@
-import { CstNode, CstParser, EMPTY_ALT, EOF, IToken } from "chevrotain"
+import { CstNode, CstParser, EOF, IToken } from "chevrotain"
 import * as t from "./lexer.ts"
 
 export class Parser extends CstParser {
@@ -12,6 +12,9 @@ export class Parser extends CstParser {
   }
 
   public parseFields(tokens: IToken[]): CstNode[] {
+    if (!tokens.length) {
+      return [] as CstNode[]
+    }
     this.input = tokens
     const result = this.fields()
     return result.children.field as CstNode[]
@@ -84,8 +87,8 @@ export class Parser extends CstParser {
       },
       () => {
         this.SUBRULE(this.inline)
-      },
-      EMPTY_ALT
+      }
+      // EMPTY_ALT
     )
   })
 
@@ -101,7 +104,9 @@ export class Parser extends CstParser {
         return this.LA(1).tokenType != EOF
       },
       DEF: () => {
-        this.CONSUME(t.NewLine)
+        this.MANY(() => {
+          this.CONSUME(t.NewLine)
+        })
       },
     })
   })
@@ -132,9 +137,7 @@ export class Parser extends CstParser {
   })
 
   private readonly verticalGroupHeader = this.RULE("verticalGroupHeader", () => {
-    this.AT_LEAST_ONE(() => {
-      this.CONSUME(t.Hash)
-    })
+    this.CONSUME(t.Hash)
     this.MANY(() => {
       this.CONSUME(t.GroupHeaderText)
     })
@@ -153,7 +156,7 @@ export class Parser extends CstParser {
   })
 
   private readonly inlineItem = this.RULE("inlineItem", () => {
-    this.AT_LEAST_ONE(() => {
+    this.MANY(() => {
       this.CONSUME(t.InlineText)
     })
   })

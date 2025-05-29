@@ -23,7 +23,7 @@ export class Detector {
     for (let index = 0; index < tokens.length; index++) {
       const token = tokens[index]
       const nextToken = tokens[index + 1]
-      const isInlineElementEnd = index == tokens.length - 1 || nextToken?.tokenType == t.LCurly
+      const isInlineElementEnd = index == tokens.length - 1 || nextToken?.tokenType === t.LCurly
 
       if (token.tokenType == t.VBar) {
         hasVBar = true

@@ -25,5 +25,9 @@ model.on("PositionChange", () => {
 
 let editor = new Editor(model)
 
-;(window as any).getEditorText = editor.getEditorText
-;(window as any).setEditorText = editor.setEditorText
+;(window as any).getEditorText = () => {
+  return editor.getEditorText()
+}
+;(window as any).setEditorText = (text: string) => {
+  editor.setEditorText(text)
+}

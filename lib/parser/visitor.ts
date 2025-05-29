@@ -92,7 +92,7 @@ export class Visitor extends BaseVisitor {
 
     this.setGroupDisplayAndBehavior(result, groupHeader)
 
-    this.visit(ctx.properties as CstNode[], { element: result })
+    this.visit(groupHeader.children.properties as CstNode[], { element: result })
 
     this.consumeLocation(groupHeader.children.GroupHeaderText as IToken[], result)
 

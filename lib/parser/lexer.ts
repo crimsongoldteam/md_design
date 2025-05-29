@@ -180,11 +180,18 @@ export const Semicolon = keyword("Semicolon", ";", PropertiesValueText)
 export const Colon = keyword("Colon", ":", InputHeader, TableCell)
 export const VBar = keyword("VBar", "|", Button, Picture, TableCell, TableCellContinue)
 export const Equals = keyword("Equals", "=", PropertiesNameText)
-export const Hash = keyword("Hash", "#", GroupHeaderText, PageHeaderText, InlineText)
+// export const Hash = keyword("Hash", "#", GroupHeaderText, PageHeaderText, InlineText)
 export const Plus = keyword("Plus", "+", GroupHeaderText, PageHeaderText, InlineText)
 export const Slash = keyword("Slash", "/", GroupHeaderText, PageHeaderText, InlineText)
 export const Ampersand = keyword("Ampersand", "&", InlineText)
 export const Whitespace = createToken({ name: "Tab", pattern: /[ \t]+/ })
+
+export const Hash = createToken({
+  name: "Hash",
+  pattern: /#+[ \t]*/,
+  label: "##",
+  categories: excludeTokens(GroupHeaderText, PageHeaderText, InlineText),
+})
 
 export const Dash = createToken({
   name: "Dash",

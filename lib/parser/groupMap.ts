@@ -73,10 +73,12 @@ export class GroupMap {
     const containerInfo = this.getContainerAtIndent(indent)
     const contentNode = this.getCreateContentNode(containerInfo.node)
 
-    const typeToken = this.detector.getTypeToken(tokens)
-    this.addTokenToContentNode(contentNode, typeToken)
+    if (tokens.length) {
+      const typeToken = this.detector.getTypeToken(tokens)
+      this.addTokenToContentNode(contentNode, typeToken)
 
-    tokens.forEach((token) => this.addTokenToContentNode(contentNode, token))
+      tokens.forEach((token) => this.addTokenToContentNode(contentNode, token))
+    }
 
     this.addToNextLine(containerInfo.node)
   }
