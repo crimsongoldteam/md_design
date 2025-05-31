@@ -20,9 +20,11 @@ import {
   PageElement,
   HorizontalGroupElement,
   VerticalGroupElement,
+  TypeDescription,
 } from "./visitorTools/formElements"
 import { CommandBarManager } from "./visitorTools/commandBarManager"
 import { TableManager, TableRowType } from "./visitorTools/tableManager"
+import { TypesUtils } from "./visitorTools/typesUtuls"
 
 const BaseVisitor = parser.getBaseCstVisitorConstructor()
 
@@ -172,7 +174,11 @@ export class Visitor extends BaseVisitor {
     this.setProperty(result, "Заголовок", header)
 
     let content = this.joinTokens(ctx.InputValue)
-    this.setProperty(result, "Значение", content)
+    if (content) {
+      result.value = content
+    }
+
+    result.typeDescription = this.getTypeByContent(content)
 
     let modifiers = this.joinTokens(ctx.InputModifiers)
     this.addInputModifiers(modifiers, result)
@@ -467,6 +473,10 @@ export class Visitor extends BaseVisitor {
   // #endregion
 
   // #region utils
+
+  private getTypeByContent(content: string | undefined): TypeDescription {
+    return TypesUtils.getTypeByContent(content)
+  }
 
   private setProperty(element: BaseFormElement, key: string, value: string | boolean | undefined) {
     const properties = element.properties

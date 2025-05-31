@@ -3,9 +3,9 @@ import "reflect-metadata"
 import { v4 as uuid } from "uuid"
 
 export enum DateFractions {
-  Time,
-  Date,
-  DateTime,
+  Time = "Время",
+  Date = "Дата",
+  DateTime = "ДатаВремя",
 }
 
 export abstract class BaseFormElement {
@@ -147,6 +147,14 @@ export class ButtonElement extends BaseFormElement {
 
   @Expose({ name: "Элементы" })
   public items: BaseFormElement[] = []
+
+  public childrenFields = ["items"]
+
+  public switchToSubmenu() {
+    this.type = "Подменю"
+    this.elementType = "ГруппаФормы"
+    this.elementKind = "Подменю"
+  }
 }
 
 export class ButtonGroupElement extends BaseFormElement {
@@ -156,6 +164,8 @@ export class ButtonGroupElement extends BaseFormElement {
 
   @Expose({ name: "Элементы" })
   public items: ButtonElement[] = []
+
+  public childrenFields = ["items"]
 }
 
 export class TableElement extends BaseFormElement {

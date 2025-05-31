@@ -2008,6 +2008,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: 10c0/b79ff32830e6b7faa009590af6ae0fb8c3fd9ffad46d930548fbb5acf473773b4712ae887e156ba91a7b3dc30591ce0f517d69fd83bd9c38650fdc03b4e0bac8
+  languageName: node
+  linkType: hard
+
 "debug@npm:4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.4":
   version: 4.4.1
   resolution: "debug@npm:4.4.1"
@@ -2551,6 +2558,7 @@ __metadata:
     "@vitejs/plugin-legacy": "npm:^6.1.1"
     chevrotain: "npm:^11.0.3"
     class-transformer: "npm:^0.5.1"
+    date-fns: "npm:^4.1.0"
     monaco-editor-core: "npm:^0.43"
     path: "npm:^0.12.7"
     performance-polyfill: "npm:^0.0.3"

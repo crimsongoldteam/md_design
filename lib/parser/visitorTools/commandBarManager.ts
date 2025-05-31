@@ -2,7 +2,6 @@ import { ButtonGroupElement, ButtonElement, CommandBarElement } from "./formElem
 import { HierarchyManager } from "./hierarchyManager"
 
 export class CommandBarManager {
-  // private hierarchy: ButtonElement[] = []
   private readonly hierarchy: HierarchyManager
 
   private rootButtons: { [key: string]: ButtonElement } = {}
@@ -53,7 +52,7 @@ export class CommandBarManager {
     return result
   }
 
-  private addRootButtons(addToDefaultGroup: boolean, ...buttons: (ButtonElement | ButtonGroupElement)[]) {
+  private addRootButtons(addToDefaultGroup: boolean, ...buttons: ButtonElement[]) {
     buttons.forEach((button) => {
       const key = this.getKey(button)
       this.setKey(button, key)
