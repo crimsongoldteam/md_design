@@ -25,7 +25,7 @@ export class Editor {
       selectionHighlight: false,
       lineNumbers: "off",
       contextmenu: true,
-      insertSpaces: false,
+      insertSpaces: true,
       tabSize: 2,
     })
 

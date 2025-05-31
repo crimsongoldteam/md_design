@@ -1574,7 +1574,7 @@
 										<v8:item>
 											<v8:lang>ru</v8:lang>
 											<v8:content>#Заголовок 1 #Заголовок 2
-Элемент 1    + Элемент 2</v8:content>
+  Элемент 1  +Элемент 2</v8:content>
 										</v8:item>
 									</Title>
 									<GroupHorizontalAlign>Center</GroupHorizontalAlign>
@@ -1607,9 +1607,9 @@
 										<v8:item>
 											<v8:lang>ru</v8:lang>
 											<v8:content>/Страница 1
-    Элемент 1
+  Элемент 1
 /Страница 2
-    Элемент 2</v8:content>
+  Элемент 2</v8:content>
 										</v8:item>
 									</Title>
 									<GroupHorizontalAlign>Center</GroupHorizontalAlign>

@@ -61,7 +61,7 @@ export class Visitor extends BaseVisitor {
     let header = this.joinTokens(pageHeader.children.PageHeaderText)
     this.setProperty(result, "Заголовок", header)
 
-    this.visit(ctx.properties as CstNode[], { element: result })
+    this.visit(pageHeader.children.properties as CstNode[], { element: result })
 
     this.consumeLocation(pageHeader.children.PageHeaderText as IToken[], result)
 
