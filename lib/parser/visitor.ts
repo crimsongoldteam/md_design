@@ -298,11 +298,17 @@ export class Visitor extends BaseVisitor {
 
     if (ctx.leftPicture) {
       let picture = this.joinTokens(ctx.leftPicture)
-      this.setProperty(result, "Картинка", picture)
+      if (picture) {
+        picture = picture.substring(1)
+        this.setProperty(result, "Картинка", picture)
+      }
     } else if (ctx.rightPicture) {
       let picture = this.joinTokens(ctx.rightPicture)
-      this.setProperty(result, "Картинка", picture)
-      this.setProperty(result, "ПоложениеКартинки", "Право")
+      if (picture) {
+        picture = picture.substring(1)
+        this.setProperty(result, "Картинка", picture)
+        this.setProperty(result, "ПоложениеКартинки", "Право")
+      }
     }
 
     this.visit(ctx.properties as CstNode[], { element: result })
@@ -458,24 +464,34 @@ export class Visitor extends BaseVisitor {
   properties(ctx: CstChildrenDictionary, params: { element: FormElement }): void {
     const properties = this.visitAll(ctx.property as CstNode[])
 
-    for (const property of properties as { key: string; value: string }[]) {
-      this.setProperty(params.element, property.key, property.value)
+    for (const property of properties as { key: string; value: { value: string; options: any }[] }[]) {
+      if (params.element instanceof InputElement && property.key.toLowerCase() == "тип") {
+        ;(params.element as InputElement).typeDescription = this.getTypeDescription(property.value)
+        continue
+      }
+
+      let value = property.value.map((info: any) => info.value).join()
+
+      this.setProperty(params.element, property.key, value)
     }
   }
 
   property(ctx: CstChildrenDictionary): { key: string; value: string } {
     return {
       key: this.joinTokens(ctx.PropertiesNameText) ?? "",
-      value: this.joinTokens(ctx.PropertiesValueText) ?? "",
+      value: this.visitAll(ctx.propertyValues) ?? "",
     }
   }
 
-  // #endregion
+  propertyValues(ctx: CstChildrenDictionary): any {
+    const value = this.joinTokens(ctx.PropertiesValueText)
+    const options = this.visitAll(ctx.propertyValueOption)
 
-  // #region utils
+    return { value: value, options: options }
+  }
 
-  private getTypeByContent(content: string | undefined): TypeDescription {
-    return TypesUtils.getTypeByContent(content)
+  propertyValueOption(ctx: CstChildrenDictionary): any {
+    return this.joinTokens(ctx.PropertiesValueOptionText)
   }
 
   private setProperty(element: BaseFormElement, key: string, value: string | boolean | undefined) {
@@ -489,6 +505,63 @@ export class Visitor extends BaseVisitor {
     }
 
     properties[key] = value
+  }
+
+  private getTypeDescription(types: any): TypeDescription {
+    const result = new TypeDescription()
+    result.auto = false
+
+    const typeProcessors: { [key: string]: (typeInfo: any) => void } = {
+      число: (typeInfo) => this.processNumberType(result, typeInfo),
+      строка: (typeInfo) => this.processStringType(result, typeInfo),
+      дата: (typeInfo) => this.processDateType(result, typeInfo),
+    }
+
+    for (let typeInfo of types) {
+      let type = typeInfo.value
+      let typeLowerCase = type.toLowerCase()
+
+      result.types.push(type)
+
+      const processor = typeProcessors[typeLowerCase]
+      if (processor) {
+        processor(typeInfo)
+      }
+    }
+
+    return result
+  }
+
+  private processNumberType(result: TypeDescription, typeInfo: any): void {
+    let options = typeInfo.options
+    if (options && options.length > 0) {
+      result.digits = parseInt(options[0])
+    }
+    if (options && options.length > 1) {
+      result.fractionDigits = parseInt(options[1])
+    }
+  }
+
+  private processStringType(result: TypeDescription, typeInfo: any): void {
+    let options = typeInfo.options
+    if (options && options.length > 0) {
+      result.length = parseInt(options[0])
+    }
+  }
+
+  private processDateType(result: TypeDescription, typeInfo: any): void {
+    let options = typeInfo.options
+    if (options && options.length > 0) {
+      result.dateFractions = options[0]
+    }
+  }
+
+  // #endregion
+
+  // #region utils
+
+  private getTypeByContent(content: string | undefined): TypeDescription {
+    return TypesUtils.getTypeByContent(content)
   }
 
   private visitAll(ctx: CstElement[], param?: any): any {

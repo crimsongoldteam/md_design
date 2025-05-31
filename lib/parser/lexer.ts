@@ -52,8 +52,14 @@ export const PropertiesNameText = createToken({
   name: "PropertiesNameText",
   pattern: Lexer.NA,
 })
+
 export const PropertiesValueText = createToken({
   name: "PropertiesValueText",
+  pattern: Lexer.NA,
+})
+
+export const PropertiesValueOptionText = createToken({
+  name: "PropertiesValueOptionText",
   pattern: Lexer.NA,
 })
 
@@ -64,6 +70,7 @@ export const combineTokens = [
   GroupHeaderText,
   PropertiesNameText,
   PropertiesValueText,
+  PropertiesValueOptionText,
   LabelContent,
   InputHeader,
   InputValue,
@@ -171,16 +178,23 @@ export const LCurly = keyword(
   TableCell,
   TableCellContinue
 )
-export const RCurly = keyword("RCurly", "}", PropertiesValueText)
+export const RCurly = keyword("RCurly", "}", PropertiesValueText, PropertiesNameText)
+
 export const LSquare = keyword("LSquare", "[", CheckboxHeader)
 export const RSquare = keyword("RSquare", "]", CheckboxHeader)
+
+export const LRound = keyword("LRound", "(", PropertiesValueText)
+export const RRound = keyword("RRound", ")", PropertiesValueOptionText)
+
+export const Comma = keyword("Comma", ",", PropertiesValueText, PropertiesValueOptionText)
+
 export const LAngle = keyword("LAngle", "<")
 export const RAngle = keyword("RAngle", ">", Button, Picture)
-export const Semicolon = keyword("Semicolon", ";", PropertiesValueText)
+
+export const Semicolon = keyword("Semicolon", ";", PropertiesValueText, PropertiesValueOptionText)
 export const Colon = keyword("Colon", ":", InputHeader, TableCell)
 export const VBar = keyword("VBar", "|", Button, Picture, TableCell, TableCellContinue)
 export const Equals = keyword("Equals", "=", PropertiesNameText)
-// export const Hash = keyword("Hash", "#", GroupHeaderText, PageHeaderText, InlineText)
 export const Plus = keyword("Plus", "+", GroupHeaderText, PageHeaderText, InlineText)
 export const Slash = keyword("Slash", "/", GroupHeaderText, PageHeaderText, InlineText)
 export const Ampersand = keyword("Ampersand", "&", InlineText)
@@ -291,6 +305,9 @@ export const allTokens = [
   VBar,
   LCurly,
   RCurly,
+  LRound,
+  RRound,
+  Comma,
   LAngle,
   RAngle,
   Semicolon,

@@ -438,8 +438,27 @@ export class Parser extends CstParser {
     this.OPTION2(() => {
       this.CONSUME(t.Equals)
     })
-    this.MANY2(() => {
+
+    this.binaryExpression(this.propertyValues, t.Comma)
+  })
+
+  private readonly propertyValues = this.RULE("propertyValues", () => {
+    this.MANY1(() => {
       this.CONSUME(t.PropertiesValueText)
+    })
+
+    this.OPTION1(() => {
+      this.CONSUME(t.LRound)
+
+      this.binaryExpression(this.propertyValueOption, t.Comma)
+
+      this.CONSUME(t.RRound)
+    })
+  })
+
+  private readonly propertyValueOption = this.RULE("propertyValueOption", () => {
+    this.MANY1(() => {
+      this.CONSUME(t.PropertiesValueOptionText)
     })
   })
 
