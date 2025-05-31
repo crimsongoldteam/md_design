@@ -174,6 +174,9 @@ export class Parser extends CstParser {
   private readonly field = this.RULE("field", () => {
     this.choice(
       () => {
+        this.SUBRULE(this.propertyLine)
+      },
+      () => {
         this.SUBRULE(this.labelField)
       },
       () => {
@@ -278,7 +281,7 @@ export class Parser extends CstParser {
     })
 
     this.OPTION1(() => {
-      this.CONSUME(t.DoubleUnderscore)
+      this.CONSUME(t.Underscore)
       this.MANY3(() => {
         this.CONSUME(t.InputModifiers)
       })
@@ -287,8 +290,22 @@ export class Parser extends CstParser {
     this.OPTION2(() => {
       this.SUBRULE(this.properties)
     })
-  })
 
+    this.MANY({
+      GATE: () => {
+        return this.LA(1).tokenType == t.LabelFieldType && this.LA(2).tokenType == t.Underscore
+      },
+      DEF: () => {
+        this.SUBRULE(this.inputFieldMultiline)
+      },
+    })
+  })
+  private readonly inputFieldMultiline = this.RULE("inputFieldMultiline", () => {
+    this.CONSUME(t.LabelFieldType)
+    this.AT_LEAST_ONE(() => {
+      this.CONSUME2(t.Underscore)
+    })
+  })
   // #endregion
 
   // #region checkboxField
@@ -420,6 +437,11 @@ export class Parser extends CstParser {
   // #endregion
 
   // #region properties
+
+  private readonly propertyLine = this.RULE("propertyLine", () => {
+    this.CONSUME(t.PropertyLineType)
+    this.SUBRULE(this.properties)
+  })
 
   private readonly properties = this.RULE("properties", () => {
     this.CONSUME(t.LCurly)

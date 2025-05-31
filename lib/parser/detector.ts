@@ -16,6 +16,10 @@ export class Detector {
     let hasColon: boolean = false
     let hasRightCheckbox: boolean = false
 
+    if (firstToken.tokenType == t.LCurly) {
+      return t.PropertyLineType
+    }
+
     if (firstToken.tokenType == t.LAngle) {
       return t.CommandBarType
     }

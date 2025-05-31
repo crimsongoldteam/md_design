@@ -140,7 +140,7 @@ export const SwitchUnchecked = createToken({
   categories: excludeTokens(CheckboxHeader),
 })
 
-export const DoubleUnderscore = keyword("DoubleUnderscore", "__", InputValue)
+export const Underscore = keyword("Underscore", "_", InputValue)
 
 export const Picture = createToken({
   name: "Picture",
@@ -237,6 +237,12 @@ export const NewLine = createToken({
 
 // #region fields
 
+export const PropertyLineType = createToken({
+  name: "PropertyLineType",
+  pattern: matchType,
+  group: Lexer.SKIPPED,
+  line_breaks: true,
+})
 export const LabelFieldType = createToken({
   name: "LabelFieldType",
   pattern: matchType,
@@ -275,6 +281,7 @@ export const CommandBarType = createToken({
 })
 
 export const inlineTypesTokens = [
+  PropertyLineType,
   LabelFieldType,
   CheckboxRightFieldType,
   CheckboxLeftFieldType,
@@ -290,7 +297,7 @@ export const inlineTypesTokens = [
 export const allTokens = [
   NewLine,
   Dashes,
-  DoubleUnderscore,
+  Underscore,
   SwitchChecked,
   SwitchUnchecked,
   CheckboxChecked,

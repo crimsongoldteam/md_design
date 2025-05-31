@@ -178,6 +178,13 @@ export class Visitor extends BaseVisitor {
       result.value = content
     }
 
+    let height: number = ctx.inputFieldMultiline?.length ?? 0
+
+    if (height > 0) {
+      this.setProperty(result, "МногострочныйРежим", true)
+      this.setProperty(result, "Высота", height + 1)
+    }
+
     result.typeDescription = this.getTypeByContent(content)
 
     let modifiers = this.joinTokens(ctx.InputModifiers)
@@ -461,6 +468,10 @@ export class Visitor extends BaseVisitor {
 
   // #region properties
 
+  propertyLine(ctx: CstChildrenDictionary): void {
+    this.visit(ctx.properties as CstNode[])
+  }
+
   properties(ctx: CstChildrenDictionary, params: { element: FormElement }): void {
     const properties = this.visitAll(ctx.property as CstNode[])
 
@@ -494,7 +505,7 @@ export class Visitor extends BaseVisitor {
     return this.joinTokens(ctx.PropertiesValueOptionText)
   }
 
-  private setProperty(element: BaseFormElement, key: string, value: string | boolean | undefined) {
+  private setProperty(element: BaseFormElement, key: string, value: string | number | boolean | undefined) {
     const properties = element.properties
     const lowerKey = key.toLowerCase()
 
@@ -622,5 +633,3 @@ export class Visitor extends BaseVisitor {
 
   // #endregion
 }
-
-// export const visitor = new Visitor()
