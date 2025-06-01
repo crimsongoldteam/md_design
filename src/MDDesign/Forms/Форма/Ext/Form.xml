@@ -1168,7 +1168,6 @@
 											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 											<AutoChoiceIncomplete>false</AutoChoiceIncomplete>
 											<QuickChoice>false</QuickChoice>
-											<AutoMarkIncomplete>true</AutoMarkIncomplete>
 											<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 											<ContextMenu name="ПалитраСвойствЗначениеСписокКонтекстноеМеню" id="369"/>
 											<ExtendedTooltip name="ПалитраСвойствЗначениеСписокРасширеннаяПодсказка" id="370"/>

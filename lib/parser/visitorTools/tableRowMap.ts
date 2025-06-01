@@ -17,13 +17,7 @@ export class TableRowMap {
   constructor(table: TableElement, headerMap: TableHeaderMap) {
     this.table = table
     this.headerMap = headerMap
-    this.hierarchy = new HierarchyManager({
-      collectionField: "rows",
-      defaultParent: (item: TableRowElement): TableRowElement => {
-        this.table.rows.push(item)
-        return item
-      },
-    })
+    this.hierarchy = new HierarchyManager("rows", (item) => this.getDefaultParent(item))
   }
 
   public setColumnIndex(index: number): void {
@@ -79,6 +73,10 @@ export class TableRowMap {
     }
   }
 
+  private getDefaultParent(item: TableRowElement): TableRowElement {
+    this.table.rows.push(item)
+    return item
+  }
   private rollHeaderRow(): void {
     this.headerRowIndex++
     if (this.headerRowIndex >= this.headerMap.getRowsCount()) {

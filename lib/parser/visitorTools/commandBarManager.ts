@@ -12,12 +12,11 @@ export class CommandBarManager {
     this.defaultGroup = commandBar
     this.commandBar = commandBar
 
-    this.hierarchy = new HierarchyManager({
-      collectionField: "items",
-      defaultParent: (item: ButtonElement): ButtonElement => {
-        return this.getCreateRootButton(item)
-      },
-    })
+    this.hierarchy = new HierarchyManager(
+      "items",
+      (item) => this.getDefaultParent(item),
+      (parent, item) => this.afterAddCallback(parent, item)
+    )
   }
 
   public addButtonGroups(groups: ButtonGroupElement[]) {
@@ -74,5 +73,16 @@ export class CommandBarManager {
 
   private setKey(button: ButtonElement, key: string) {
     this.rootButtons[key] = button
+  }
+
+  private getDefaultParent(item: ButtonElement): ButtonElement {
+    return this.getCreateRootButton(item)
+  }
+
+  private afterAddCallback(parent: ButtonElement | undefined, _item: ButtonElement): void {
+    if (!parent) {
+      return
+    }
+    parent.switchToSubmenu()
   }
 }
