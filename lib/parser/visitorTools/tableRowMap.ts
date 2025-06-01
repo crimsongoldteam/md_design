@@ -40,6 +40,9 @@ export class TableRowMap {
   }
 
   public addElement(item: TableCellElement, level: number): void {
+    if (!item.hasCheckbox && item.value.trim() == "") {
+      return
+    }
     if (this.headerColumnIndex == 0) {
       this.currentLevel = level
     }
