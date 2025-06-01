@@ -2,6 +2,8 @@ import { createTokenInstance, IToken, TokenType } from "chevrotain"
 import * as t from "./lexer.ts"
 
 export class Detector {
+  private readonly checkboxTokens = [t.CheckboxChecked, t.CheckboxUnchecked, t.SwitchChecked, t.SwitchUnchecked]
+
   public getTypeToken(tokens: Array<IToken>): IToken {
     const tokenType = this.detect(tokens)
     return createTokenInstance(tokenType, tokenType.name, -1, -1, -1, -1, -1, -1)
@@ -9,8 +11,6 @@ export class Detector {
 
   private detect(tokens: Array<IToken>): TokenType {
     const firstToken = tokens[0]
-
-    const checkboxTokens = [t.CheckboxChecked, t.CheckboxUnchecked, t.SwitchChecked, t.SwitchUnchecked]
 
     let hasVBar: boolean = false
     let hasColon: boolean = false
@@ -37,7 +37,7 @@ export class Detector {
         hasColon = true
         continue
       }
-      if (checkboxTokens.includes(token.tokenType) && isInlineElementEnd) {
+      if (this.checkboxTokens.includes(token.tokenType) && isInlineElementEnd) {
         hasRightCheckbox = true
       }
     }
@@ -54,7 +54,7 @@ export class Detector {
       return t.CheckboxRightFieldType
     }
 
-    if (checkboxTokens.includes(firstToken.tokenType)) {
+    if (this.checkboxTokens.includes(firstToken.tokenType)) {
       return t.CheckboxLeftFieldType
     }
 

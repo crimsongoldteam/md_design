@@ -56,10 +56,6 @@ export class GroupVisitor extends BaseVisitor {
     this.groupMap.addHorizontalGroup(ctx.verticalGroupHeader as CstNode[], params.indent)
   }
 
-  // pageHeader(ctx: CstChildrenDictionary, params: any): void {
-  //   this.indentsMap.add(ctx, params.indent)
-  // }
-
   indents(ctx: CstChildrenDictionary): number {
     if (!ctx) {
       return 0

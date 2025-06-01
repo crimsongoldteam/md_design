@@ -1,4 +1,4 @@
-import { TableCellElement, TableElement, TableRowElement } from "./formElements"
+import { TableCellElement, TableColumnElement, TableElement, TableRowElement } from "./formElements"
 import { HierarchyManager } from "./hierarchyManager"
 import { TableHeaderMap } from "./tableHeaderMap"
 
@@ -8,6 +8,7 @@ export class TableRowMap {
 
   private readonly table: TableElement
   private readonly headerMap: TableHeaderMap
+  private readonly headerCells: Map<TableColumnElement, TableCellElement[]> = new Map()
 
   private headerRowIndex: number = 0
   private headerColumnIndex: number = 0
@@ -36,6 +37,7 @@ export class TableRowMap {
     }
 
     if (this.currentLevel) {
+      this.table.type = "Дерево"
       this.table.typeDescription.types = ["ДеревоЗначений"]
     }
 
@@ -50,6 +52,7 @@ export class TableRowMap {
 
     let column = this.headerMap.getCellAt(this.headerRowIndex, this.headerColumnIndex)
     item.uuidColumn = column.uuid
+    item.uuidCheckbox = column.uuidCheckbox
 
     if (item.hasCheckbox) {
       column.hasCheckbox = true
@@ -59,7 +62,21 @@ export class TableRowMap {
       column.hasValue = true
     }
 
+    let cells = this.headerCells.get(column) as TableCellElement[]
+    cells.push(item)
+
     this.currentRow.items.push(item)
+  }
+
+  public getHeaderCells(): Map<TableColumnElement, TableCellElement[]> {
+    return this.headerCells
+  }
+
+  public initializeHeaderCellsMap(): void {
+    let columns = this.headerMap.getColumns()
+    for (let column of columns) {
+      this.headerCells.set(column, [])
+    }
   }
 
   private rollHeaderRow(): void {

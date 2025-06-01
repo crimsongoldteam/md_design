@@ -340,6 +340,8 @@ export class Visitor extends BaseVisitor {
       this.visit(line as CstNode, { manager: manager })
     }
 
+    manager.defineColumnsTypeDescription()
+
     this.addChildLocation(result.columns, result)
     this.addChildLocation(result.rows, result)
 

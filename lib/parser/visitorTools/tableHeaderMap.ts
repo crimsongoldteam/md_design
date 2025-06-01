@@ -11,9 +11,7 @@ export class TableHeaderMap {
   public map: TableHeaderElementExt[][] = []
   private readonly table: TableElement
   private currentRow: TableHeaderElementExt[] = []
-
-  // private rowIndex: number = 0
-  // private colIndex: number = 0
+  public columns: TableColumnElement[] = []
 
   constructor(table: TableElement) {
     this.table = table
@@ -21,6 +19,13 @@ export class TableHeaderMap {
 
   public addElement(item: TableHeaderElementExt): void {
     this.currentRow.push(item)
+    if (item instanceof TableColumnElement && !this.columns.includes(item)) {
+      this.columns.push(item)
+    }
+  }
+
+  public getColumns(): TableColumnElement[] {
+    return this.columns
   }
 
   public addRow(): void {

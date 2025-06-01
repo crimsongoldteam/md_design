@@ -1,7 +1,16 @@
 import { CstChildrenDictionary, CstNode } from "chevrotain"
 import { TableHeaderMap } from "./tableHeaderMap"
-import { TableCellElement, TableElement, TableHeaderElement, TableHeaderElementExt } from "./formElements"
+import {
+  DateFractions,
+  TableCellElement,
+  TableColumnElement,
+  TableElement,
+  TableHeaderElement,
+  TableHeaderElementExt,
+  TypeDescription,
+} from "./formElements"
 import { TableRowMap } from "./tableRowMap"
+import { TypesUtils } from "./typesUtuls"
 
 export enum TableRowType {
   Header,
@@ -37,12 +46,12 @@ export class TableManager {
     }
 
     if (this.currentRowType == TableRowType.Separator) {
+      this.rowMap.initializeHeaderCellsMap()
       return
     }
 
     this.rowMap.addRow()
   }
-  // public getHeaderCell(): TableColumnElement | undefined {}
 
   public addHeaderElement(item: TableHeaderElementExt): void {
     this.headerMap.addElement(item)
@@ -78,7 +87,73 @@ export class TableManager {
     }
   }
 
-  public isSeparatorRow(row: CstNode[]): boolean {
+  public defineColumnsTypeDescription(): void {
+    const headerCells = this.rowMap.getHeaderCells()
+
+    for (let header of headerCells) {
+      this.defineColumnTypeDescription(header)
+    }
+  }
+
+  private defineColumnTypeDescription(header: [TableColumnElement, TableCellElement[]]): void {
+    let column = header[0]
+    if (!column.typeDescription.isEmpty()) {
+      return
+    }
+
+    let resultTypeDescription: TypeDescription | undefined
+    for (let cell of header[1]) {
+      if (cell.isEmpty()) {
+        continue
+      }
+      let currentTypeDefinition = TypesUtils.getTypeByContent(cell.value)
+
+      let currentType = currentTypeDefinition.types[0].toLowerCase()
+      if (currentType === "строка") {
+        resultTypeDescription = undefined
+        break
+      }
+
+      resultTypeDescription = this.updateTypeDescription(resultTypeDescription, currentTypeDefinition)
+
+      if (resultTypeDescription === undefined) {
+        break
+      }
+    }
+
+    column.typeDescription = resultTypeDescription ?? new TypeDescription("Строка")
+  }
+
+  private updateTypeDescription(
+    resultTypeDescription: TypeDescription | undefined,
+    currentTypeDefinition: TypeDescription
+  ): TypeDescription | undefined {
+    let currentType = currentTypeDefinition.types[0].toLowerCase()
+
+    if (resultTypeDescription === undefined) {
+      return currentTypeDefinition
+    }
+
+    if (resultTypeDescription.types[0].toLowerCase() != currentType) {
+      return undefined
+    }
+
+    if (currentType === "число") {
+      resultTypeDescription.digits = Math.max(resultTypeDescription.digits, currentTypeDefinition.digits)
+      resultTypeDescription.fractionDigits = Math.max(
+        resultTypeDescription.fractionDigits,
+        currentTypeDefinition.fractionDigits
+      )
+    }
+
+    if (currentType === "дата" && resultTypeDescription.dateFractions != currentTypeDefinition.dateFractions) {
+      resultTypeDescription.dateFractions = DateFractions.DateTime
+    }
+
+    return resultTypeDescription
+  }
+
+  private isSeparatorRow(row: CstNode[]): boolean {
     for (const tableCell of row) {
       if (this.isEmptyNode(tableCell.children)) {
         continue
@@ -90,10 +165,11 @@ export class TableManager {
     return true
   }
 
-  public isSeparatorNode(ctx: CstChildrenDictionary): boolean {
+  private isSeparatorNode(ctx: CstChildrenDictionary): boolean {
     return ctx.tableSeparatorCell !== undefined
   }
-  public isCellNode(ctx: CstChildrenDictionary): boolean {
+
+  private isCellNode(ctx: CstChildrenDictionary): boolean {
     let tableDataCells = ctx.tableDataCell
     if (tableDataCells == undefined) {
       return false

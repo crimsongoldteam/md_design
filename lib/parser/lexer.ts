@@ -178,6 +178,7 @@ export const LCurly = keyword(
   TableCell,
   TableCellContinue
 )
+
 export const RCurly = keyword("RCurly", "}", PropertiesValueText, PropertiesNameText)
 
 export const LSquare = keyword("LSquare", "[", CheckboxHeader)
