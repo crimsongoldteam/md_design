@@ -33,8 +33,8 @@ export class GroupMap {
   private readonly detector: Detector = new Detector()
   private isGroupLine: boolean = false
 
-  constructor(parser: Parser) {
-    this.root = this.createFormNode()
+  constructor(parser: Parser, formHeader: CstNode[] | undefined) {
+    this.root = this.createFormNode(formHeader)
     this.parser = parser
     this.currentLineContainters = [this.root]
   }
@@ -123,8 +123,8 @@ export class GroupMap {
 
   // #region form
 
-  private createFormNode(): FormNode {
-    return new FormNode()
+  private createFormNode(formHeader: CstNode[] | undefined): FormNode {
+    return new FormNode(formHeader)
   }
 
   // #endregion

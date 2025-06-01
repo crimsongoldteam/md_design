@@ -5,10 +5,10 @@ import { GroupMap } from "./groupMap"
 const BaseVisitor = parser.getBaseCstVisitorConstructor()
 
 export class GroupVisitor extends BaseVisitor {
-  groupMap: GroupMap = new GroupMap(parser)
+  groupMap: GroupMap = new GroupMap(parser, undefined)
 
   form(ctx: CstChildrenDictionary): CstNode {
-    this.groupMap = new GroupMap(parser)
+    this.groupMap = new GroupMap(parser, ctx.formHeader as CstNode[])
 
     if (ctx.row) {
       for (const row of ctx.row as CstNode[]) {

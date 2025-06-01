@@ -36,11 +36,20 @@ export class Visitor extends BaseVisitor {
 
     result.items = this.visitAll(ctx.Items as CstNode[])
 
+    this.visit(ctx.formHeader as CstNode[], { element: result })
+
     this.addChildLocation(result.items, result)
 
     return result
   }
 
+  formHeader(ctx: CstChildrenDictionary, params: { element: FormElement }): void {
+    let header = this.joinTokens(ctx.HeaderText)
+    if (header) {
+      this.setProperty(params.element, "Заголовок", header)
+    }
+    this.visit(ctx.properties as CstNode[], { element: params.element })
+  }
   // #endregion
 
   // #region pages

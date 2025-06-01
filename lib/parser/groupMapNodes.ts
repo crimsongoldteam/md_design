@@ -23,7 +23,14 @@ export abstract class TreeNode {
 export class FormNode extends TreeNode {
   item = {
     name: "form",
-    children: { Items: [], Properties: [] },
+    children: { formHeader: [] as CstNode[], Items: [], Properties: [] },
+  }
+
+  constructor(formHeader: CstNode[] | undefined) {
+    super()
+    if (formHeader) {
+      this.item.children.formHeader = formHeader
+    }
   }
 }
 export class HorizontalGroupNode extends TreeNode {
