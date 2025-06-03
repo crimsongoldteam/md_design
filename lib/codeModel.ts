@@ -4,7 +4,11 @@ import { lexer } from "./parser/lexer"
 import { parser } from "./parser/parser"
 import { Visitor } from "./parser/visitor"
 import { BaseFormElement, FormElement } from "./parser/visitorTools/formElements"
+import { SemanticTokensManager } from "./parser/visitorTools/sematicTokensManager"
+
 export class CodeModel {
+  private readonly semanticTokensManager: SemanticTokensManager = new SemanticTokensManager()
+
   private readonly visitor: Visitor
   private readonly groupVisitor: GroupVisitor
   private text: string = ""
@@ -15,7 +19,7 @@ export class CodeModel {
   private column: number = 0
 
   constructor() {
-    this.visitor = new Visitor()
+    this.visitor = new Visitor(this.semanticTokensManager)
     this.groupVisitor = new GroupVisitor()
   }
 
@@ -41,12 +45,20 @@ export class CodeModel {
     this.build()
   }
 
-  getText(): string {
+  public getText(): string {
     return this.text
   }
 
-  getCursor() {
+  public getCursor() {
     return { line: this.line, column: this.column }
+  }
+
+  public getSemanticTokensData(): number[] {
+    return this.semanticTokensManager.getTokensData()
+  }
+
+  public getDecorations(): any {
+    return this.semanticTokensManager.getDecorations()
   }
 
   public setCursor(line: number, column: number): void {
@@ -96,6 +108,8 @@ export class CodeModel {
     const lexingResult = lexer.tokenize(this.text)
 
     parser.input = lexingResult.tokens
+
+    this.semanticTokensManager.reset()
 
     const groupsAST = parser.parse()
     const fullAST = this.groupVisitor.visit(groupsAST)

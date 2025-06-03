@@ -25,10 +25,17 @@ import {
 import { CommandBarManager } from "./visitorTools/commandBarManager"
 import { TableManager, TableRowType } from "./visitorTools/tableManager"
 import { TypesUtils } from "./visitorTools/typesUtuls"
+import { SemanticTokensManager, SemanticTokensTypes } from "./visitorTools/sematicTokensManager"
 
 const BaseVisitor = parser.getBaseCstVisitorConstructor()
 
 export class Visitor extends BaseVisitor {
+  private readonly semanticTokensManager: SemanticTokensManager = new SemanticTokensManager()
+
+  constructor(semanticTokensManager: SemanticTokensManager, ...args: any) {
+    super(args)
+    this.semanticTokensManager = semanticTokensManager
+  }
   // #region form
 
   form(ctx: CstChildrenDictionary): FormElement {
@@ -38,7 +45,9 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.formHeader as CstNode[], { element: result })
 
-    this.addChildLocation(result.items, result)
+    this.semanticTokensManager.add(SemanticTokensTypes.FormHeader, ctx.formHeader as CstNode[], result, ["properties"])
+
+    this.semanticTokensManager.prepare()
 
     return result
   }
@@ -49,6 +58,8 @@ export class Visitor extends BaseVisitor {
       this.setProperty(params.element, "Заголовок", header)
     }
     this.visit(ctx.properties as CstNode[], { element: params.element })
+
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties as CstNode[], params.element)
   }
   // #endregion
 
@@ -105,11 +116,18 @@ export class Visitor extends BaseVisitor {
 
     this.visit(groupHeader.children.properties as CstNode[], { element: result })
 
-    this.consumeLocation(groupHeader.children.GroupHeaderText as IToken[], result)
-
     result.items = this.visitAll(ctx.Items as CstNode[])
 
     this.addChildLocation(result.items, result)
+
+    this.semanticTokensManager.add(
+      SemanticTokensTypes.VerticalGroupHeader,
+      groupHeader.children.GroupHeaderText,
+      result
+    )
+    this.semanticTokensManager.add(SemanticTokensTypes.VerticalGroupHeader, groupHeader.children.Hash, result)
+
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, groupHeader.children.properties, result)
 
     return result
   }
@@ -167,7 +185,8 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
-    this.consumeLocation(ctx.LabelContent as IToken[], result)
+    this.semanticTokensManager.add(SemanticTokensTypes.LableHeader, ctx.LabelContent as CstNode[], result)
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties as CstNode[], result)
 
     return result
   }
@@ -201,9 +220,11 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
-    this.consumeLocation(ctx.InputHeader as IToken[], result)
-    this.consumeLocation(ctx.InputValue as IToken[], result)
-    this.consumeLocation(ctx.InputModifiers as IToken[], result)
+    this.semanticTokensManager.add(SemanticTokensTypes.InputHeader, ctx.InputHeader as CstNode[], result)
+    let inputValueTokens = [...(ctx.InputValue ?? []), ...(ctx.InputModifiers ?? [])]
+    this.semanticTokensManager.add(SemanticTokensTypes.InputValue, inputValueTokens, result)
+    this.semanticTokensManager.add(SemanticTokensTypes.InputMultiline, ctx.inputFieldMultiline, result)
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties as CstNode[], result)
 
     return result
   }
@@ -262,11 +283,16 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
-    this.consumeLocation(ctx.CheckboxChecked as IToken[], result)
-    this.consumeLocation(ctx.CheckboxUnchecked as IToken[], result)
-    this.consumeLocation(ctx.SwitchChecked as IToken[], result)
-    this.consumeLocation(ctx.SwitchUnchecked as IToken[], result)
-    this.consumeLocation(ctx.CheckboxHeader as IToken[], result)
+    let checkboxTokens = [
+      ...(ctx.CheckboxChecked ?? []),
+      ...(ctx.CheckboxUnchecked ?? []),
+      ...(ctx.SwitchChecked ?? []),
+      ...(ctx.SwitchUnchecked ?? []),
+      ...(ctx.CheckboxHeader ?? []),
+    ]
+    this.semanticTokensManager.add(SemanticTokensTypes.Checkbox, checkboxTokens, result)
+
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties as CstNode[], result)
 
     return result
   }
@@ -285,6 +311,10 @@ export class Visitor extends BaseVisitor {
 
     this.visitAll(ctx.commandBarLine as CstNode[], { manager: manager })
 
+    this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.LAngle, result)
+    this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.RAngle, result)
+    this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.ButtonGroup, result)
+
     this.addChildLocation(result.items, result)
 
     return result
@@ -293,6 +323,8 @@ export class Visitor extends BaseVisitor {
   buttonGroup(ctx: CstChildrenDictionary): ButtonGroupElement {
     const result = new ButtonGroupElement()
     result.items = this.visitAll(ctx.button)
+
+    this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.VBar as CstNode[], result)
 
     return result
   }
@@ -332,6 +364,11 @@ export class Visitor extends BaseVisitor {
     this.consumeLocation(ctx.Button as IToken[], result)
     this.consumeLocation(ctx.leftPicture as IToken[], result)
     this.consumeLocation(ctx.rightPicture as IToken[], result)
+
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties as CstNode[], result)
+
+    let buttonTokens = [...(ctx.Button ?? []), ...(ctx.leftPicture ?? []), ...(ctx.rightPicture ?? [])]
+    this.semanticTokensManager.add(SemanticTokensTypes.Button, buttonTokens, result)
 
     return result
   }
