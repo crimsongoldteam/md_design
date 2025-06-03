@@ -91,33 +91,6 @@ export class SemanticTokensManager {
     }
   }
 
-  public getTokensData(): number[] {
-    const result: number[] = []
-
-    // let deltaLine = 0
-    // for (const row of this.rows) {
-    //   let deltaStartChar = 0
-
-    //   if (!row || row.length === 0) {
-    //     deltaLine++
-    //     continue
-    //   }
-
-    //   for (const token of row) {
-    //     let length = token.endColumn - token.startColumn + 1
-    //     // [deltaLine, deltaStartChar, length, tokenTypeIndex, tokenModifiersBits]
-    //     const data = [deltaLine, deltaStartChar, length, token.type, 0]
-
-    //     deltaStartChar = deltaStartChar + length
-    //     deltaLine = 0
-    //     result.push(...data)
-    //   }
-    //   deltaLine = 1
-    // }
-
-    return result
-  }
-
   private readonly decorationOptions: {
     [key in SemanticTokensTypes]?: monaco.editor.IModelDeltaDecoration["options"]
   } = {
@@ -180,8 +153,8 @@ export class SemanticTokensManager {
     semanticToken.endColumn = token.endColumn ?? 0
 
     const image = token.image
-    const leadingSpaceLength = image.length - image.trimStart().length
-    const trailingSpaceLength = image.length - image.trimEnd().length
+    const leadingSpaceLength = image.length - this.getTrimmedStart(image).length
+    const trailingSpaceLength = image.length - this.getTrimmedEnd(image).length
 
     semanticToken.startColumnPayload = semanticToken.startColumn + leadingSpaceLength
     semanticToken.endColumnPayload = semanticToken.endColumn - trailingSpaceLength + 1
@@ -190,5 +163,25 @@ export class SemanticTokensManager {
       this.rows[semanticToken.startLine - 1] = []
     }
     this.rows[semanticToken.startLine - 1].push(semanticToken)
+  }
+
+  /**
+   * Возвращает строку с обрезанными ведущими пробелами.
+   * Поддерживает как `trimStart()`, так и устаревший `trimLeft()`.
+   */
+  private getTrimmedStart(str: string): string {
+    if (typeof str.trimStart === "function") return str.trimStart()
+    if (typeof str.trimLeft === "function") return str.trimLeft()
+    return str.replace(/^\s+/, "")
+  }
+
+  /**
+   * Возвращает строку с обрезанными завершающими пробелами.
+   * Поддерживает как `trimEnd()`, так и устаревший `trimRight()`.
+   */
+  private getTrimmedEnd(str: string): string {
+    if (typeof str.trimEnd === "function") return str.trimEnd()
+    if (typeof str.trimRight === "function") return str.trimRight()
+    return str.replace(/\s+$/, "")
   }
 }

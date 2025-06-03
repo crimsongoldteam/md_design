@@ -53,10 +53,6 @@ export class CodeModel {
     return { line: this.line, column: this.column }
   }
 
-  public getSemanticTokensData(): number[] {
-    return this.semanticTokensManager.getTokensData()
-  }
-
   public getDecorations(): any {
     return this.semanticTokensManager.getDecorations()
   }

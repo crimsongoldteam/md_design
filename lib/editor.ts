@@ -1,6 +1,5 @@
 import { editor as monacoEditor } from "monaco-editor-core"
 import { CodeModel } from "./codeModel"
-import * as monaco from "monaco-editor-core"
 
 export class Editor {
   editor: monacoEditor.IStandaloneCodeEditor
@@ -14,8 +13,6 @@ export class Editor {
     if (!container) {
       throw new Error("Container not found")
     }
-
-    this.defineTheme()
 
     this.editor = monacoEditor.create(container, {
       language: "plaintext",
@@ -42,31 +39,6 @@ export class Editor {
     ;(window as any).addEventListener("resize", () => {
       this.editor.layout()
     })
-  }
-
-  private defineTheme() {
-    // monaco.editor.defineTheme("myCustomTheme", {
-    //   base: "vs",
-    //   inherit: false,
-    //   colors: {},
-    //   rules: [{ token: "Properties", foreground: "9c2513" }],
-    // })
-    // monaco.languages.registerDocumentSemanticTokensProvider("plaintext", {
-    //   getLegend: () => {
-    //     return {
-    //       tokenTypes: ["FormHeader", "Properties", "LabelHeader"],
-    //       tokenModifiers: [],
-    //     }
-    //   },
-    //   provideDocumentSemanticTokens: (_model, _lastResultId, _token) => {
-    //     const data = this.model.getSemanticTokensData()
-    //     return {
-    //       data: new Uint32Array(data),
-    //       resultId: undefined,
-    //     }
-    //   },
-    //   releaseDocumentSemanticTokens: (_resultId) => {},
-    // })
   }
 
   public getEditorText(): string {
