@@ -14,6 +14,10 @@ export enum SemanticTokensTypes {
   InputMultiline,
   CommandBarSeparator,
   Button,
+  LineButton,
+  TableCell,
+  TableSeparator,
+  TableColumn,
 }
 
 class SemanticToken {
@@ -97,6 +101,7 @@ export class SemanticTokensManager {
     [SemanticTokensTypes.InputValue]: { inlineClassName: "edit-input-value-decoration" },
     [SemanticTokensTypes.Button]: { inlineClassName: "edit-button-decoration" },
     [SemanticTokensTypes.VerticalGroupHeader]: { inlineClassName: "edit-group-header-decoration" },
+    [SemanticTokensTypes.PageHeader]: { inlineClassName: "edit-page-header-decoration" },
     [SemanticTokensTypes.Properties]: { inlineClassName: "edit-properties-decoration" },
   }
 
@@ -171,7 +176,7 @@ export class SemanticTokensManager {
    */
   private getTrimmedStart(str: string): string {
     if (typeof str.trimStart === "function") return str.trimStart()
-    if (typeof str.trimLeft === "function") return str.trimLeft()
+    if (typeof str.trimLeft === "function") return str.trimLeft() // NOSONAR
     return str.replace(/^\s+/, "")
   }
 
@@ -181,7 +186,7 @@ export class SemanticTokensManager {
    */
   private getTrimmedEnd(str: string): string {
     if (typeof str.trimEnd === "function") return str.trimEnd()
-    if (typeof str.trimRight === "function") return str.trimRight()
+    if (typeof str.trimRight === "function") return str.trimRight() // NOSONAR
     return str.replace(/\s+$/, "")
   }
 }

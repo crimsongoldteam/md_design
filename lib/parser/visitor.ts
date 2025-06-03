@@ -83,11 +83,11 @@ export class Visitor extends BaseVisitor {
 
     this.visit(pageHeader.children.properties as CstNode[], { element: result })
 
-    this.consumeLocation(pageHeader.children.PageHeaderText as IToken[], result)
-
     result.items = this.visitAll(ctx.Items as CstNode[])
 
-    this.addChildLocation(result.items, result)
+    let headerTokens = [...(pageHeader.children.PageHeaderText ?? []), ...(pageHeader.children.Slash ?? [])]
+    this.semanticTokensManager.add(SemanticTokensTypes.PageHeader, headerTokens, result)
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, pageHeader.children.properties, result)
 
     return result
   }
@@ -120,13 +120,8 @@ export class Visitor extends BaseVisitor {
 
     this.addChildLocation(result.items, result)
 
-    this.semanticTokensManager.add(
-      SemanticTokensTypes.VerticalGroupHeader,
-      groupHeader.children.GroupHeaderText,
-      result
-    )
-    this.semanticTokensManager.add(SemanticTokensTypes.VerticalGroupHeader, groupHeader.children.Hash, result)
-
+    let headerTokens = [...(groupHeader.children.GroupHeaderText ?? []), ...(groupHeader.children.Hash ?? [])]
+    this.semanticTokensManager.add(SemanticTokensTypes.VerticalGroupHeader, headerTokens, result)
     this.semanticTokensManager.add(SemanticTokensTypes.Properties, groupHeader.children.properties, result)
 
     return result
@@ -322,7 +317,7 @@ export class Visitor extends BaseVisitor {
 
   buttonGroup(ctx: CstChildrenDictionary): ButtonGroupElement {
     const result = new ButtonGroupElement()
-    result.items = this.visitAll(ctx.button)
+    result.items = this.visitAll(ctx.button, { line: false })
 
     this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.VBar as CstNode[], result)
 
@@ -333,12 +328,12 @@ export class Visitor extends BaseVisitor {
     const dots = this.joinTokens(ctx.Dots)
     const level = dots ? dots.length : 0
 
-    const button = this.visit(ctx.button as CstNode[])
+    const button = this.visit(ctx.button as CstNode[], { line: true })
 
     params.manager.addButton(button, level)
   }
 
-  button(ctx: CstChildrenDictionary): ButtonElement {
+  button(ctx: CstChildrenDictionary, params: { line: boolean }): ButtonElement {
     const result = new ButtonElement()
 
     let header = this.joinTokens(ctx.Button)
@@ -361,14 +356,11 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
-    this.consumeLocation(ctx.Button as IToken[], result)
-    this.consumeLocation(ctx.leftPicture as IToken[], result)
-    this.consumeLocation(ctx.rightPicture as IToken[], result)
-
     this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties as CstNode[], result)
 
     let buttonTokens = [...(ctx.Button ?? []), ...(ctx.leftPicture ?? []), ...(ctx.rightPicture ?? [])]
-    this.semanticTokensManager.add(SemanticTokensTypes.Button, buttonTokens, result)
+    const buttontype = params.line ? SemanticTokensTypes.LineButton : SemanticTokensTypes.Button
+    this.semanticTokensManager.add(buttontype, buttonTokens, result)
 
     return result
   }
@@ -388,16 +380,15 @@ export class Visitor extends BaseVisitor {
 
     manager.defineColumnsTypeDescription()
 
-    this.addChildLocation(result.columns, result)
-    this.addChildLocation(result.rows, result)
-
     return result
   }
 
-  tableLine(ctx: { tableCell: [] }, params: { manager: TableManager }): void {
+  tableLine(ctx: { tableCell: []; VBar: [] }, params: { manager: TableManager }): void {
     params.manager.defineRowType(ctx.tableCell as CstNode[])
 
     this.visitAll(ctx.tableCell, { manager: params.manager })
+
+    this.semanticTokensManager.add(SemanticTokensTypes.TableSeparator, ctx.VBar, params.manager.getTableElement())
 
     params.manager.nextRow()
   }
@@ -454,6 +445,9 @@ export class Visitor extends BaseVisitor {
     this.consumeLocation(data.TableCell as IToken[], result)
 
     this.visit(ctx.properties as CstNode[], { element: result })
+
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, data.properties as CstNode[], result)
+    this.semanticTokensManager.add(SemanticTokensTypes.TableColumn, data.TableCell, result)
   }
 
   tableSeparatorNode(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
@@ -481,6 +475,9 @@ export class Visitor extends BaseVisitor {
     if (!hasLeft && hasRight) {
       this.setProperty(column, "ГоризонтальноеПоложение", "Право")
     }
+
+    let tokens = [...(data.leftColon ?? []), ...(data.Dashes ?? []), ...(data.rightColon ?? [])]
+    this.semanticTokensManager.add(SemanticTokensTypes.TableSeparator, tokens, column)
   }
 
   tableCellNode(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
@@ -506,10 +503,14 @@ export class Visitor extends BaseVisitor {
 
     this.visit(data.properties as CstNode[], { element: result })
 
-    this.consumeLocation(data.Dots as IToken[], result)
-    this.consumeLocation(data.CheckboxUnchecked as IToken[], result)
-    this.consumeLocation(data.CheckboxChecked as IToken[], result)
-    this.consumeLocation(data.TableCell as IToken[], result)
+    let cellTokens = [
+      ...(ctx.Dots ?? []),
+      ...(ctx.CheckboxUnchecked ?? []),
+      ...(ctx.CheckboxChecked ?? []),
+      ...(ctx.TableCell ?? []),
+    ]
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, data.properties as CstNode[], result)
+    this.semanticTokensManager.add(SemanticTokensTypes.TableCell, cellTokens, result)
 
     params.manager.addRowElement(result, level)
   }

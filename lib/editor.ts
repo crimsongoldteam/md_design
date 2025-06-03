@@ -24,6 +24,9 @@ export class Editor {
       automaticLayout: true,
       scrollBeyondLastLine: false,
       selectionHighlight: false,
+      renderLineHighlight: "none",
+      // @ts-expect-error
+      renderIndentGuides: false,
       lineNumbers: "off",
       contextmenu: true,
       insertSpaces: true,

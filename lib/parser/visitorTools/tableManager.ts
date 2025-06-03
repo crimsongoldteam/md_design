@@ -19,6 +19,7 @@ export enum TableRowType {
 }
 
 export class TableManager {
+  private readonly tableElement: TableElement
   private readonly headerMap: TableHeaderMap
   private readonly rowMap: TableRowMap
 
@@ -27,8 +28,13 @@ export class TableManager {
   private currentRowType: TableRowType = TableRowType.Header
 
   constructor(tableElement: TableElement) {
+    this.tableElement = tableElement
     this.headerMap = new TableHeaderMap(tableElement)
     this.rowMap = new TableRowMap(tableElement, this.headerMap)
+  }
+
+  getTableElement(): TableElement {
+    return this.tableElement
   }
 
   public nextColumn(): void {
