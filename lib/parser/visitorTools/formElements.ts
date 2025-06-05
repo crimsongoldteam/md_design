@@ -218,6 +218,21 @@ export class CommandBarElement extends BaseFormElement {
   public items: (BaseFormElement | ButtonGroupElement)[] = []
 
   public childrenFields = ["items"]
+
+  public getAllButtons(): (ButtonElement | ButtonGroupElement)[] {
+    const buttons: (ButtonElement | ButtonGroupElement)[] = []
+
+    for (const item of this.items) {
+      if (item instanceof ButtonElement) {
+        buttons.push(item)
+        continue
+      }
+
+      buttons.push(...(item as ButtonGroupElement).getAllButtons())
+    }
+
+    return buttons
+  }
 }
 
 export class ButtonElement extends BaseFormElement {
@@ -226,7 +241,7 @@ export class ButtonElement extends BaseFormElement {
   public elementKind = "БезВида"
 
   @Expose({ name: "Элементы" })
-  public readonly items: BaseFormElement[] = []
+  public readonly items: (ButtonElement | ButtonGroupElement)[] = []
 
   public childrenFields = ["items"]
 
@@ -234,6 +249,20 @@ export class ButtonElement extends BaseFormElement {
     this.type = "Подменю"
     this.elementType = "ГруппаФормы"
     this.elementKind = "Подменю"
+  }
+  public getAllButtons(): (ButtonElement | ButtonGroupElement)[] {
+    const buttons: (ButtonElement | ButtonGroupElement)[] = []
+
+    for (const item of this.items) {
+      if (item instanceof ButtonElement) {
+        buttons.push(item)
+        continue
+      }
+
+      buttons.push(...(item as ButtonGroupElement).getAllButtons())
+    }
+
+    return buttons
   }
 }
 
@@ -249,6 +278,10 @@ export class ButtonGroupElement extends BaseFormElement {
 
   public getBaseElementName(): string {
     return this.type + super.getBaseElementName("")
+  }
+
+  public getAllButtons(): (ButtonElement | ButtonGroupElement)[] {
+    return [this, ...this.items]
   }
 }
 

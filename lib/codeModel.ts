@@ -5,12 +5,11 @@ import { parser } from "./parser/parser"
 import { Visitor } from "./parser/visitor"
 import { BaseFormElement, FormElement, VerticalGroupElement } from "./parser/visitorTools/formElements"
 import { SemanticTokensManager } from "./parser/visitorTools/sematicTokensManager"
-import { Formatter } from "./formatter/formFormatter"
+import { FormFormatterFactory } from "./formatter/formatterFactory"
 
 export class CodeModel {
   private readonly semanticTokensManager: SemanticTokensManager = new SemanticTokensManager()
 
-  private readonly formatter: Formatter
   private readonly visitor: Visitor
   private readonly groupVisitor: GroupVisitor
   private text: string = ""
@@ -23,20 +22,25 @@ export class CodeModel {
   constructor() {
     this.visitor = new Visitor(this.semanticTokensManager)
     this.groupVisitor = new GroupVisitor()
-    this.formatter = new Formatter()
   }
 
-  public getSemanicTree(): any {
-    return this.cst
+  public onChangeContent: (content: string) => void = () => {
+    throw new Error("onChangeContent is not implemented")
+  }
+
+  public format(): void {
+    const formatted = FormFormatterFactory.getFormatter(this.cst).format(this.cst)
+    this.setText(formatted.join("\n"))
+    this.onChangeContent(this.getText())
   }
 
   public setSemanicTree(element: BaseFormElement) {
     this.cst = element
-    this.formatter.fetchFormat(this.getProduction(), this.onFormat.bind(this))
+    this.format()
   }
 
-  private onFormat(text: string) {
-    this.setText(text)
+  public getSemanicTree(): BaseFormElement {
+    return this.cst
   }
 
   public updateVerticalGroup(groupEditorCurrentElement: string, semanticTree: VerticalGroupElement) {

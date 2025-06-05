@@ -13,8 +13,9 @@ export class CheckboxFormatter implements IFormatter<CheckboxElement> {
 
     let result = this.getCheckboxString(
       header,
-      element.value,
+      true,
       element.properties["ВидФлажка"],
+      element.value,
       element.properties["ПоложениеЗаголовка"]
     )
 

@@ -10,7 +10,10 @@ export class InputFormatter implements IFormatter<InputElement> {
     let header = element.properties["Заголовок"] ?? ""
     header += t.Colon.LABEL
 
-    let value = element.value ?? ""
+    let value = ""
+    if (element.value) {
+      value = " " + element.value
+    }
 
     const modificators = this.getModificators(element)
     if (modificators.length > 0) {
@@ -66,12 +69,12 @@ export class InputFormatter implements IFormatter<InputElement> {
       КнопкаВыбора: "В",
       КнопкаВыпадающегоСписка: "С",
       КнопкаОчистки: "Х",
-      КнопкаРегулирования: "Д",
       КнопкаОткрытия: "О",
+      КнопкаРегулирования: "Д",
     }
 
-    return Object.keys(element.properties)
-      .filter((key) => propertyMap[key])
+    return Object.keys(propertyMap)
+      .filter((key) => element.properties[key])
       .map((key) => propertyMap[key])
       .join("")
   }

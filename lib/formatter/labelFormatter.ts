@@ -12,6 +12,6 @@ export class LabelFormatter implements IFormatter<LabelElement> {
     let result = element.properties["Заголовок"] ?? ""
     result += properties.join("")
 
-    return result
+    return [result]
   }
 }

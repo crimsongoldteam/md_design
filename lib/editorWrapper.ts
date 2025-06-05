@@ -15,7 +15,9 @@ export class EditorWrapper {
     this.decorationsCollection = this.editor.createDecorationsCollection([])
     this.editor.onDidChangeCursorSelection(this.onDidChangeCursorSelection.bind(this))
 
-    this.editor.onDidChangeModelContent(this.onDidChangeModelContent.bind(this))
+    this.editor.onDidChangeModelContent(this.onChangeEditorContent.bind(this))
+
+    this.model.onChangeContent = this.onChangeModelContent.bind(this)
 
     window.addEventListener("resize", this.handleResize.bind(this))
   }
@@ -82,7 +84,11 @@ export class EditorWrapper {
     this.editor.layout()
   }
 
-  private onDidChangeModelContent() {
+  private onChangeModelContent(content: string): void {
+    this.editor.setValue(content)
+  }
+
+  private onChangeEditorContent() {
     const text = this.editor.getValue()
     this.model.setText(text)
 

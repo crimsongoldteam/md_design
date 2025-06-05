@@ -1,4 +1,3 @@
-import { IEvent } from "monaco-editor-core"
 import { EditorWrapper } from "./editorWrapper"
 import { BaseFormElement, FormElement } from "./parser/visitorTools/formElements"
 
@@ -13,7 +12,7 @@ export class Application {
     this.mainEditor.onChangeContent = this.onChangeMainEditorContent.bind(this)
 
     this.groupEditor = new EditorWrapper(groupEditorContainer)
-    // this.groupEditor.onChangeEditorContent(this.onChangeGroupEditorContent.bind(this))
+    this.groupEditor.onChangeContent = this.onChangeGroupEditorContent.bind(this)
 
     this.currentEditor = this.mainEditor
 
@@ -51,13 +50,13 @@ export class Application {
 
   private onChangeMainEditorContent(semanticTree: BaseFormElement): void {
     this.currentEditor = this.mainEditor
-    this.onChangeContent(semanticTree)
     this.groupEditor.setSemanicTree(semanticTree)
+    this.onChangeContent(semanticTree)
   }
 
   private onChangeGroupEditorContent(semanticTree: BaseFormElement): void {
-    this.currentEditor = this.groupEditor
-    this.mainEditor.updateGroup(this.groupId, this.groupEditor.getSemanicTree())
+    // this.currentEditor = this.groupEditor
+    // this.mainEditor.updateGroup(this.groupId, this.groupEditor.getSemanicTree())
     // this.fetchFormatText()
   }
 

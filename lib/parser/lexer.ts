@@ -152,7 +152,7 @@ export const Picture = createToken({
 export const Dots = createToken({
   name: "Dots",
   pattern: /\.+[ \t]*/,
-  label: "...",
+  label: ".",
   categories: excludeTokens(TableCell),
 })
 

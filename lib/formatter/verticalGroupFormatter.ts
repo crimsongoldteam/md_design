@@ -7,13 +7,14 @@ import { FormFormatterFactory } from "./formatterFactory"
 
 export class VerticalGroupFormatter implements IFormatter<VerticalGroupElement> {
   public format(element: VerticalGroupElement, params: { addIndent: boolean }): string[] {
+    const indent = params.addIndent ? "  " : ""
     let textLines: string[] = []
     const header = this.getHeader(element, params.addIndent)
     textLines.push(header)
 
     for (const item of element.items) {
       const text = FormFormatterFactory.getFormatter(item).format(item)
-      textLines.push(...text)
+      textLines.push(...text.map((line) => indent + line))
     }
 
     textLines = this.addSpaces(textLines)
