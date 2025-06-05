@@ -1,8 +1,9 @@
 import "../polyfill.js"
 import { CodeModel } from "../codeModel"
-import { Editor } from "../editor"
+// import { EditorManager } from "../editor"
 import { TreeView } from "../playground/treeView"
-import { FormElement } from "../parser/visitorTools/formElements.js"
+import { BaseFormElement, FormElement } from "../parser/visitorTools/formElements.js"
+import { Application } from "../application.js"
 
 const treeViewContainer = document.getElementById("output") as HTMLElement
 
@@ -17,7 +18,15 @@ model.on("PositionChange", (hierarchy: string[]) => {
   treeView.setHierarchy(hierarchy)
 })
 
-let editor = new Editor(model)
+const application = new Application(
+  document.getElementById("container-up") as HTMLElement,
+  document.getElementById("container-down") as HTMLElement
+)
 
-;(window as any).getEditorText = editor.getEditorText
-;(window as any).setEditorText = editor.setEditorText
+application.onChangeContent = (semanticTree: BaseFormElement) => {
+  treeView.setCST(semanticTree as FormElement)
+}
+
+// let editor = new EditorWrapper(document.getElementById("editor") as HTMLElement)
+// ;(window as any).getEditorText = editor.getEditorText
+// ;(window as any).setEditorText = editor.setEditorText

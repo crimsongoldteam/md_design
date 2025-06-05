@@ -1,73 +1,92 @@
-import { editor as monacoEditor } from "monaco-editor-core"
-import { CodeModel } from "./codeModel"
+// import { editor as monacoEditor } from "monaco-editor-core"
+// import { CodeModel } from "./codeModel"
+// import { EditorWrapper } from "./editorWrapper"
 
-export class Editor {
-  editor: monacoEditor.IStandaloneCodeEditor
-  model: CodeModel
-  decorationsCollection: monacoEditor.IEditorDecorationsCollection
+// export class EditorManager {
+//   mainEditor: EditorWrapper
+//   groupEditor: EditorWrapper
+//   model: CodeModel
+//   // mainEditorDecorationsCollection: monacoEditor.IEditorDecorationsCollection
 
-  constructor(model: CodeModel) {
-    this.model = model
+//   constructor(model: CodeModel) {
+//     this.model = model
 
-    const container = document.getElementById("container")
-    if (!container) {
-      throw new Error("Container not found")
-    }
+//     const containerMainEditor = document.getElementById("container-up")
+//     const containerGroupEditor = document.getElementById("container-down")
+//     if (!containerMainEditor || !containerGroupEditor) {
+//       throw new Error("Container not found")
+//     }
 
-    this.editor = monacoEditor.create(container, {
-      language: "plaintext",
-      minimap: { enabled: false },
-      unicodeHighlight: {
-        ambiguousCharacters: false,
-      },
-      suggest: { showWords: false },
-      automaticLayout: true,
-      scrollBeyondLastLine: false,
-      selectionHighlight: false,
-      renderLineHighlight: "none",
-      // @ts-expect-error
-      renderIndentGuides: false,
-      lineNumbers: "off",
-      contextmenu: true,
-      insertSpaces: true,
-      tabSize: 2,
-      theme: "myCustomTheme",
-      "semanticHighlighting.enabled": true,
-    })
+//     this.mainEditor = new EditorWrapper(containerMainEditor)
+//     this.groupEditor = new EditorWrapper(containerGroupEditor)
+//     // this.mainEditor = this.initMainEditor(containerMainEditor)
 
-    this.decorationsCollection = this.editor.createDecorationsCollection([])
+//     // this.groupEditor = this.initGroupEditor(containerGroupEditor)
+//     // ;(window as any).addEventListener("resize", () => {
+//     //   this.mainEditor.layout()
+//     // })
+//   }
 
-    this.editor.onDidChangeCursorSelection(this.onDidChangeCursorSelection.bind(this))
-    this.editor.onDidChangeModelContent(this.onDidChangeModelContent.bind(this))
-    ;(window as any).addEventListener("resize", () => {
-      this.editor.layout()
-    })
-  }
+//   // private initMainEditor(container: HTMLElement): monacoEditor.IStandaloneCodeEditor {
+//   //   const result = this.createEditor(container)
+//   //   this.mainEditorDecorationsCollection = result.createDecorationsCollection([])
+//   //   result.onDidChangeCursorSelection(this.onDidChangeCursorSelection.bind(this))
+//   //   result.onDidChangeModelContent(this.onDidChangeModelContent.bind(this))
 
-  public getEditorText(): string {
-    return this.editor.getValue()
-  }
+//   //   return result
+//   // }
 
-  public setEditorText(text: string): void {
-    this.editor.setValue(text)
-  }
+//   // private initGroupEditor(container: HTMLElement): monacoEditor.IStandaloneCodeEditor {
+//   //   const result = this.createEditor(container)
+//   //   this.mainEditorDecorationsCollection = result.createDecorationsCollection([])
+//   //   result.onDidChangeCursorSelection(this.onDidChangeCursorSelection.bind(this))
+//   //   result.onDidChangeModelContent(this.onDidChangeModelContent.bind(this))
 
-  public setPosition(lineNumber: number, column: number): void {
-    this.editor.setPosition({
-      lineNumber: lineNumber,
-      column: column,
-    })
-  }
+//   //   return result
+//   // }
 
-  private onDidChangeCursorSelection(e: any) {
-    this.model.setCursor(e.selection.startLineNumber, e.selection.startColumn)
-  }
+//   private createEditor(container: HTMLElement): monacoEditor.IStandaloneCodeEditor {
+//     return monacoEditor.create(container, {
+//       language: "plaintext",
+//       minimap: { enabled: false },
+//       unicodeHighlight: {
+//         ambiguousCharacters: false,
+//       },
+//       suggest: { showWords: false },
+//       automaticLayout: true,
+//       scrollBeyondLastLine: false,
+//       selectionHighlight: false,
+//       renderLineHighlight: "none",
+//       // @ts-expect-error
+//       renderIndentGuides: false,
+//       lineNumbers: "off",
+//       contextmenu: true,
+//       insertSpaces: true,
+//       tabSize: 2,
+//     })
+//   }
 
-  private onDidChangeModelContent() {
-    const text = this.editor.getValue()
-    this.model.setText(text)
+//   public getEditorText(): string {
+//     return this.mainEditor.getText()
+//   }
 
-    const decorations = this.model.getDecorations()
-    this.decorationsCollection.set(decorations)
-  }
-}
+//   public setEditorText(text: string): void {
+//     this.mainEditor.setText(text)
+//   }
+
+//   public setPosition(lineNumber: number, column: number): void {
+//     this.mainEditor.setPosition(lineNumber, column)
+//   }
+
+//   private onDidChangeCursorSelection(e: any) {
+//     this.model.setCursor(e.selection.startLineNumber, e.selection.startColumn)
+//   }
+
+//   private onDidChangeModelContent() {
+//     const text = this.mainEditor.getText()
+//     this.model.setText(text)
+
+//     const decorations = this.model.getDecorations()
+//     this.mainEditor.setDecorations(decorations)
+//   }
+// }

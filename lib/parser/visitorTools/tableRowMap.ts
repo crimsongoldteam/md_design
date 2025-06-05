@@ -62,7 +62,7 @@ export class TableRowMap {
     let cells = this.headerCells.get(column) as TableCellElement[]
     cells.push(item)
 
-    this.currentRow.items.push(item)
+    this.currentRow.add("items", [item])
   }
 
   public getHeaderCells(): Map<TableColumnElement, TableCellElement[]> {
@@ -77,7 +77,7 @@ export class TableRowMap {
   }
 
   private getDefaultParent(item: TableRowElement): TableRowElement {
-    this.table.rows.push(item)
+    this.table.add("rows", [item])
     return item
   }
   private rollHeaderRow(): void {

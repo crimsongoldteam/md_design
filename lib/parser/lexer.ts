@@ -204,7 +204,7 @@ export const Whitespace = createToken({ name: "Tab", pattern: /[ \t]+/ })
 export const Hash = createToken({
   name: "Hash",
   pattern: /#+[ \t]*/,
-  label: "##",
+  label: "#",
   categories: excludeTokens(GroupHeaderText, PageHeaderText, InlineText),
 })
 

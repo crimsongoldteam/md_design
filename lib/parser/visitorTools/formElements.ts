@@ -1,6 +1,7 @@
 import { Exclude, Expose } from "class-transformer"
 import "reflect-metadata"
 import { v4 as uuid } from "uuid"
+import { NameGenerator } from "./nameGenerator"
 
 export enum DateFractions {
   Time = "Время",
@@ -22,7 +23,7 @@ export abstract class BaseFormElement {
   public properties: { [key: string]: any } = {}
 
   @Expose({ name: "УИД", groups: ["production"] })
-  public uuid: string = uuid()
+  public uuid: string = ""
 
   @Expose({ name: "НеизвестныеСвойства", groups: ["production"] })
   public unknownProperties: string[] = []
@@ -38,10 +39,74 @@ export abstract class BaseFormElement {
   }
 
   @Exclude()
+  public parent: BaseFormElement = this
+
+  @Exclude()
   public childrenFields: string[] = []
 
   @Exclude()
   public location: Map<number, ElementLocation> = new Map<number, ElementLocation>()
+
+  public add(field: string, items: BaseFormElement[]): void {
+    const propertyName = field as keyof BaseFormElement
+    ;(this[propertyName] as BaseFormElement[]).push(...items)
+
+    for (let item of items) {
+      item.parent = this
+    }
+  }
+
+  public defineElementName(nameGenerator: NameGenerator) {
+    this.uuid = nameGenerator.generateName(this)
+  }
+
+  public getBaseElementName(fallback: string = this.type): string {
+    let text =
+      this.toPascalCase(this.getPropertyCaseInsensitive("Имя"), fallback) ??
+      this.toPascalCase(this.getPropertyCaseInsensitive("Заголовок"), fallback) ??
+      fallback
+    return text
+  }
+
+  protected getPropertyCaseInsensitive(key: string): any {
+    const lowerKey = key.toLowerCase()
+    for (const propKey in this.properties) {
+      if (propKey.toLowerCase() === lowerKey) {
+        return this.properties[propKey]
+      }
+    }
+    return undefined
+  }
+
+  /**
+   * Преобразует строку в PascalCase формат
+   * @param input - Входная строка для преобразования
+   * @param prefixIfStartsWithDigit - Префикс, если строка начинается с цифры
+   * @returns Строка в PascalCase формате
+   */
+  private toPascalCase(input: string | undefined, prefixIfStartsWithDigit: string): string | undefined {
+    if (!input || typeof input !== "string") return undefined
+
+    const withNumberReplaced = input.replace(/№/g, "Номер")
+
+    const cleaned = withNumberReplaced.replace(/[^a-zA-Zа-яА-Я0-9_ \t]/g, "")
+
+    if (!cleaned) {
+      return undefined
+    }
+
+    const parts = cleaned.split(/[ \t]+/).filter(Boolean)
+
+    if (parts.length === 0) return undefined
+
+    let result = parts.map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase()).join("")
+
+    if (/^\d/.test(cleaned)) {
+      result = prefixIfStartsWithDigit + result
+    }
+
+    return result
+  }
 }
 
 export class FormElement extends BaseFormElement {
@@ -61,7 +126,7 @@ export class HorizontalGroupElement extends BaseFormElement {
   public elementKind = "ОбычнаяГруппа"
 
   @Expose({ name: "Элементы" })
-  public items: VerticalGroupElement[] = []
+  public readonly items: VerticalGroupElement[] = []
 
   public childrenFields = ["items"]
 }
@@ -72,7 +137,7 @@ export class VerticalGroupElement extends BaseFormElement {
   public elementKind = "ОбычнаяГруппа"
 
   @Expose({ name: "Элементы" })
-  public items: PageElement[] = []
+  public readonly items: PageElement[] = []
 
   public childrenFields = ["items"]
 }
@@ -83,7 +148,7 @@ export class PagesElement extends BaseFormElement {
   public elementKind = "Страницы"
 
   @Expose({ name: "Элементы" })
-  public items: PageElement[] = []
+  public readonly items: PageElement[] = []
 
   public childrenFields = ["items"]
 }
@@ -94,7 +159,7 @@ export class PageElement extends BaseFormElement {
   public elementKind = "Страница"
 
   @Expose({ name: "Элементы" })
-  public items: BaseFormElement[] = []
+  public readonly items: BaseFormElement[] = []
 
   public childrenFields = ["items"]
 }
@@ -110,11 +175,22 @@ export class InputElement extends BaseFormElement {
   public elementType = "ПолеФормы"
   public elementKind = "ПолеВвода"
 
+  @Expose({ name: "ИмяРеквизита" })
+  public dataAttribute: string = ""
+
   @Expose({ name: "Значение" })
   public value: string = ""
 
   @Expose({ name: "ОписаниеТипов" })
   public typeDescription: TypeDescription = new TypeDescription()
+
+  public getBaseElementName(): string {
+    return super.getBaseElementName("ПолеВвода")
+  }
+
+  public defineDataAttributeName(nameGenerator: NameGenerator) {
+    this.dataAttribute = nameGenerator.generateName(this)
+  }
 }
 
 export class CheckboxElement extends BaseFormElement {
@@ -127,6 +203,10 @@ export class CheckboxElement extends BaseFormElement {
 
   @Expose({ name: "ОписаниеТипов" })
   public typeDescription: TypeDescription = new TypeDescription("Булево")
+
+  public getBaseElementName(): string {
+    return super.getBaseElementName("Флажок")
+  }
 }
 
 export class CommandBarElement extends BaseFormElement {
@@ -146,7 +226,7 @@ export class ButtonElement extends BaseFormElement {
   public elementKind = "БезВида"
 
   @Expose({ name: "Элементы" })
-  public items: BaseFormElement[] = []
+  public readonly items: BaseFormElement[] = []
 
   public childrenFields = ["items"]
 
@@ -163,9 +243,13 @@ export class ButtonGroupElement extends BaseFormElement {
   public elementKind = "ГруппаКнопок"
 
   @Expose({ name: "Элементы" })
-  public items: ButtonElement[] = []
+  public readonly items: ButtonElement[] = []
 
   public childrenFields = ["items"]
+
+  public getBaseElementName(): string {
+    return this.type + super.getBaseElementName("")
+  }
 }
 
 export class TableElement extends BaseFormElement {
@@ -174,19 +258,26 @@ export class TableElement extends BaseFormElement {
   public elementKind = "БезВида"
 
   @Expose({ name: "Колонки" })
-  public columns: (TableColumnElement | TableColumnGroupElement)[] = []
+  public readonly columns: (TableColumnElement | TableColumnGroupElement)[] = []
 
   @Expose({ name: "Строки" })
-  public rows: TableRowElement[] = []
+  public readonly rows: TableRowElement[] = []
 
   @Expose({ name: "ОписаниеТипов" })
   public typeDescription: TypeDescription = new TypeDescription("ТаблицаЗначений")
 
   public childrenFields = ["columns", "rows"]
+
+  public getBaseElementName(): string {
+    return this.type + super.getBaseElementName("")
+  }
 }
 
 export class TableEmptyElement extends BaseFormElement {
   public type = "ПустойЭлементТаблицы"
+  public getBaseElementName(): string {
+    throw new Error("Method not implemented.")
+  }
 }
 
 export class TableColumnGroupElement extends BaseFormElement {
@@ -198,6 +289,10 @@ export class TableColumnGroupElement extends BaseFormElement {
   public items: (TableColumnElement | TableColumnGroupElement)[] = []
 
   public childrenFields = ["items"]
+
+  public getBaseElementName(): string {
+    return "ГруппаКолонок" + super.getBaseElementName("")
+  }
 }
 
 export class TableColumnElement extends BaseFormElement {
@@ -224,16 +319,20 @@ export class TableColumnElement extends BaseFormElement {
   public typeDescriptionCheckbox: TypeDescription = new TypeDescription("Булево")
 
   public childrenFields = ["items"]
+
+  public getBaseElementName(): string {
+    return "Колонка" + super.getBaseElementName("")
+  }
 }
 
 export class TableRowElement extends BaseFormElement {
   public type = "СтрокаТаблицы"
 
   @Expose({ name: "Ячейки" })
-  public items: TableCellElement[] = []
+  public readonly items: TableCellElement[] = []
 
   @Expose({ name: "Строки" })
-  public rows: TableRowElement[] = []
+  public readonly rows: TableRowElement[] = []
 
   public childrenFields = ["items", "rows"]
 }

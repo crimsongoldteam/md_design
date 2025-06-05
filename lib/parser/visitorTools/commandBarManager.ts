@@ -29,7 +29,8 @@ export class CommandBarManager {
     }
 
     if (groups.length == 1) {
-      this.defaultGroup.items.push(...groups[0].items)
+      this.defaultGroup.add("items", groups[0].items)
+
       return
     }
 

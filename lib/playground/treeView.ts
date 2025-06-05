@@ -37,10 +37,7 @@ export class TreeView {
       .appendChild(document.createElement("details"))
     details.setAttribute("open", "")
 
-    let caption = cst.type
-    // if ((cst as any).typeDescription) {
-    //   caption = caption + " " + JSON.stringify((cst as any).typeDescription)
-    // }
+    let caption = cst.uuid
     caption = caption + " " + JSON.stringify(cst.properties)
 
     const summary = details.appendChild(document.createElement("summary"))

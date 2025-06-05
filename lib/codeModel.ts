@@ -3,12 +3,14 @@ import { GroupVisitor } from "./parser/groupVisitor"
 import { lexer } from "./parser/lexer"
 import { parser } from "./parser/parser"
 import { Visitor } from "./parser/visitor"
-import { BaseFormElement, FormElement } from "./parser/visitorTools/formElements"
+import { BaseFormElement, FormElement, VerticalGroupElement } from "./parser/visitorTools/formElements"
 import { SemanticTokensManager } from "./parser/visitorTools/sematicTokensManager"
+import { Formatter } from "./formatter/formFormatter"
 
 export class CodeModel {
   private readonly semanticTokensManager: SemanticTokensManager = new SemanticTokensManager()
 
+  private readonly formatter: Formatter
   private readonly visitor: Visitor
   private readonly groupVisitor: GroupVisitor
   private text: string = ""
@@ -21,6 +23,32 @@ export class CodeModel {
   constructor() {
     this.visitor = new Visitor(this.semanticTokensManager)
     this.groupVisitor = new GroupVisitor()
+    this.formatter = new Formatter()
+  }
+
+  public getSemanicTree(): any {
+    return this.cst
+  }
+
+  public setSemanicTree(element: BaseFormElement) {
+    this.cst = element
+    this.formatter.fetchFormat(this.getProduction(), this.onFormat.bind(this))
+  }
+
+  private onFormat(text: string) {
+    this.setText(text)
+  }
+
+  public updateVerticalGroup(groupEditorCurrentElement: string, semanticTree: VerticalGroupElement) {
+    const element = this.getElementByName(groupEditorCurrentElement)
+    if (element && element instanceof VerticalGroupElement) {
+      element.items.length = 0
+      element.items.push(...semanticTree.items)
+    }
+  }
+
+  public getElementByName(elementName: string): BaseFormElement {
+    throw new Error("Method not implemented.")
   }
 
   public on(event: string, listener: (...args: any[]) => void): void {
@@ -69,7 +97,6 @@ export class CodeModel {
 
   public getProduction(): any {
     return instanceToPlain(this.cst, { groups: ["production"] })
-    // return
   }
 
   public getSelectionHierarchy(): string[] {

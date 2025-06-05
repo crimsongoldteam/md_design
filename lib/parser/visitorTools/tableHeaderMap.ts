@@ -3,7 +3,6 @@ import {
   TableColumnGroupElement,
   TableElement,
   TableEmptyElement,
-  TableHeaderElement,
   TableHeaderElementExt,
 } from "./formElements"
 
@@ -73,8 +72,8 @@ export class TableHeaderMap {
       return
     }
 
-    let items = parent instanceof TableElement ? parent.columns : (parent as TableHeaderElement).items
-    items.push(item as TableHeaderElement)
+    let field = parent instanceof TableElement ? "columns" : "items"
+    parent.add(field, [item])
   }
 
   private fillRow(rowIndex: number, parentRow: TableHeaderElementExt[]): void {
