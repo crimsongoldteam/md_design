@@ -1,0 +1,33 @@
+import * as t from "../parser/lexer"
+
+import { TableColumnElement } from "../parser/visitorTools/formElements"
+import { IFormatter } from "./formFormatter"
+import { PropertiesFormatter } from "./propertiesFormatter"
+
+export class TableColumnFormatter implements IFormatter<TableColumnElement> {
+  private readonly groupSymbol = t.Dash.LABEL
+
+  public format(element: TableColumnElement): string[] {
+    const excludeProperties = ["Заголовок"]
+
+    let horizontalPosition = element.properties["ГоризонтальноеПоложение"] ?? "Лево"
+
+    if (horizontalPosition === "Лево" || element.items.length === 0) {
+      excludeProperties.push("ГоризонтальноеПоложение")
+    }
+
+    let description = element.properties["Заголовок"] ?? ""
+
+    if (element.type === "ГруппаКолонокТаблицы") {
+      description = ` ${this.groupSymbol} ${description} ${this.groupSymbol} `
+    }
+
+    const propertiesFormatter = new PropertiesFormatter()
+    const properties = propertiesFormatter.format(element, { excludeProperties })
+    description += properties.join("")
+
+    description = ` ${description} `
+
+    return [description]
+  }
+}

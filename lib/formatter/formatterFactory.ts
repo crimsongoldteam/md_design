@@ -10,6 +10,10 @@ import {
   LabelElement,
   PageElement,
   PagesElement,
+  TableCellElement,
+  TableColumnElement,
+  TableColumnGroupElement,
+  TableElement,
   VerticalGroupElement,
 } from "../parser/visitorTools/formElements"
 import { FormFormatter, IFormatter } from "./formFormatter"
@@ -24,6 +28,9 @@ import { PagesFormatter } from "./pagesFormatter"
 import { CommandBarFormatter } from "./commandBarFormatter"
 import { ButtonFormatter } from "./buttonFormatter"
 import { ButtonGroupFormatter } from "./buttonGroupFormatter"
+import { TableFormatter } from "./tableFormatter"
+import { TableCellFormatter } from "./tableCellFormatter"
+import { TableColumnFormatter } from "./tableColumnFormatter"
 
 export class FormFormatterFactory {
   private static readonly formatters = new Map<typeof BaseFormElement, new () => IFormatter<BaseFormElement>>()
@@ -40,6 +47,10 @@ export class FormFormatterFactory {
     this.registerFormatter(CommandBarElement, CommandBarFormatter)
     this.registerFormatter(ButtonElement, ButtonFormatter)
     this.registerFormatter(ButtonGroupElement, ButtonGroupFormatter)
+    this.registerFormatter(TableElement, TableFormatter)
+    this.registerFormatter(TableColumnElement, TableColumnFormatter)
+    this.registerFormatter(TableColumnGroupElement, TableColumnFormatter)
+    this.registerFormatter(TableCellElement, TableCellFormatter)
   }
 
   public static registerFormatter(

@@ -9,6 +9,12 @@ export enum DateFractions {
   DateTime = "ДатаВремя",
 }
 
+export enum TableCellAlignment {
+  Left = "Лево",
+  Center = "Центр",
+  Right = "Право",
+}
+
 export abstract class BaseFormElement {
   @Expose({ name: "Тип" })
   public type: string = ""
@@ -326,6 +332,15 @@ export class TableColumnGroupElement extends BaseFormElement {
   public getBaseElementName(): string {
     return "ГруппаКолонок" + super.getBaseElementName("")
   }
+
+  public getAlignment(): TableCellAlignment {
+    const alignment = this.getPropertyCaseInsensitive("ГоризонтальноеПоложение")
+    if (!alignment) {
+      return TableCellAlignment.Left
+    }
+
+    return alignment as TableCellAlignment
+  }
 }
 
 export class TableColumnElement extends BaseFormElement {
@@ -356,18 +371,31 @@ export class TableColumnElement extends BaseFormElement {
   public getBaseElementName(): string {
     return "Колонка" + super.getBaseElementName("")
   }
+
+  public getAlignment(): TableCellAlignment {
+    const alignment = this.getPropertyCaseInsensitive("ГоризонтальноеПоложение")
+    if (!alignment) {
+      return TableCellAlignment.Left
+    }
+
+    return alignment as TableCellAlignment
+  }
 }
 
 export class TableRowElement extends BaseFormElement {
   public type = "СтрокаТаблицы"
 
   @Expose({ name: "Ячейки" })
-  public readonly items: TableCellElement[] = []
+  public readonly items: Map<string, TableCellElement> = new Map()
 
   @Expose({ name: "Строки" })
   public readonly rows: TableRowElement[] = []
 
-  public childrenFields = ["items", "rows"]
+  public childrenFields = ["rows"]
+
+  public getByColumn(column: TableColumnElement): TableCellElement | undefined {
+    return this.items.get(column.uuid)
+  }
 }
 
 export class TableCellElement extends BaseFormElement {

@@ -453,13 +453,13 @@ export class Visitor extends BaseVisitor {
       content = content?.slice(1, -1)
     }
 
-    params.manager.addHeaderElement(result)
-
     this.setProperty(result, "Заголовок", content)
 
-    this.consumeLocation(data.TableCell as IToken[], result)
-
     this.visit(ctx.properties as CstNode[], { element: result })
+
+    result.defineElementName(this.nameGenerator)
+
+    params.manager.addHeaderElement(result)
 
     this.semanticTokensManager.add(SemanticTokensTypes.Properties, data.properties as CstNode[], result)
     this.semanticTokensManager.add(SemanticTokensTypes.TableColumn, data.TableCell, result)

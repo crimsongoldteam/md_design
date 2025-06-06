@@ -59,10 +59,7 @@ export class TableRowMap {
       column.hasValue = true
     }
 
-    let cells = this.headerCells.get(column) as TableCellElement[]
-    cells.push(item)
-
-    this.currentRow.add("items", [item])
+    this.currentRow.items.set(column.uuid, item)
   }
 
   public getHeaderCells(): Map<TableColumnElement, TableCellElement[]> {

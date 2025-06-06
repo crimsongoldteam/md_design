@@ -1,6 +1,7 @@
 import { CheckboxElement } from "../parser/visitorTools/formElements"
 import { FormFormatterFactory } from "./formatterFactory"
 import { IFormatter } from "./formFormatter"
+import { FormatterUtils } from "./formatterUtils"
 
 export class CheckboxFormatter implements IFormatter<CheckboxElement> {
   public format(element: CheckboxElement): string[] {
@@ -11,7 +12,7 @@ export class CheckboxFormatter implements IFormatter<CheckboxElement> {
 
     const header = element.properties["Заголовок"]
 
-    let result = this.getCheckboxString(
+    let result = FormatterUtils.getCheckboxString(
       header,
       true,
       element.properties["ВидФлажка"],
@@ -22,33 +23,5 @@ export class CheckboxFormatter implements IFormatter<CheckboxElement> {
     result += properties.join("")
 
     return [result]
-  }
-
-  private getCheckboxString(
-    text: string,
-    hasCheckbox: boolean,
-    checkboxType: string = "Флажок",
-    checkboxValue: boolean = false,
-    captionPosition: string = "Лево"
-  ): string {
-    if (!hasCheckbox) {
-      return text
-    }
-
-    let value = ""
-
-    if (checkboxType === "Выключатель") {
-      value = checkboxValue ? " |1" : "0| "
-    } else {
-      value = checkboxValue ? "X" : " "
-    }
-
-    const checkbox = `[${value}]`
-
-    if (!text) {
-      return checkbox
-    }
-
-    return captionPosition === "Право" ? `${checkbox} ${text}` : `${text} ${checkbox}`
   }
 }
