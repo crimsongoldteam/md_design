@@ -26,9 +26,9 @@
   border: 1px solid #d6d6d6;
   border-radius: 3px;
   bottom: 0px;
-  padding-left: 1px;
+  /* padding-left: 1px; */
   padding-top: 1px;
-  padding-right: 1px;
+  /* padding-right: 1px; */
   padding-bottom: 0px;
   background: -webkit-linear-gradient(top, white, white 50%, rgba(0, 0, 0, 0.07));
   background: linear-gradient(to bottom, white, white 50%, rgba(0, 0, 0, 0.07));

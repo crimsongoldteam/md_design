@@ -178,6 +178,8 @@ export class Visitor extends BaseVisitor {
   labelField(ctx: CstChildrenDictionary): LabelElement {
     const result = new LabelElement()
 
+    this.setAligment(ctx, result)
+
     let content = this.joinTokens(ctx.LabelContent)
     this.setProperty(result, "Заголовок", content)
 
@@ -197,6 +199,8 @@ export class Visitor extends BaseVisitor {
 
   inputField(ctx: CstChildrenDictionary): InputElement {
     const result = new InputElement()
+
+    this.setAligment(ctx, result)
 
     let header = this.joinTokens(ctx.InputHeader)
     this.setProperty(result, "Заголовок", header)
@@ -280,6 +284,8 @@ export class Visitor extends BaseVisitor {
       this.setProperty(result, "ВидФлажка", "Выключатель")
     }
 
+    this.setAligment(ctx, result)
+
     let content = this.joinTokens(ctx.CheckboxHeader)
     this.setProperty(result, "Заголовок", content)
 
@@ -306,6 +312,8 @@ export class Visitor extends BaseVisitor {
 
   commandBar(ctx: CstChildrenDictionary): CommandBarElement {
     const result = new CommandBarElement()
+
+    this.setAligment(ctx, result)
 
     this.visit(ctx.properties as CstNode[], { element: result })
     result.defineElementName(this.nameGenerator)
@@ -634,6 +642,24 @@ export class Visitor extends BaseVisitor {
   // #endregion
 
   // #region utils
+
+  private setAligment(ctx: CstChildrenDictionary, element: BaseFormElement): void {
+    //-> *
+    if (ctx.leftArrowRight) {
+      //-> * <-
+      if (ctx.rightArrowLeft) {
+        this.setProperty(element, "ГоризонтальноеПоложениеВГруппе", "Центр")
+        return
+      }
+      this.setProperty(element, "ГоризонтальноеПоложениеВГруппе", "Право")
+      return
+    }
+
+    //  * ->
+    if (ctx.rightArrowRight) {
+      this.setProperty(element, "РастягиватьПоГоризонтали", true)
+    }
+  }
 
   private getTypeByContent(content: string | undefined): TypeDescription {
     return TypesUtils.getTypeByContent(content)

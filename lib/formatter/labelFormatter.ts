@@ -1,17 +1,21 @@
 import { LabelElement } from "../parser/visitorTools/formElements"
 import { PropertiesFormatter } from "./propertiesFormatter"
 import { IFormatter } from "./formFormatter"
+import { FormatterUtils } from "./formatterUtils"
 
 export class LabelFormatter implements IFormatter<LabelElement> {
   public format(element: LabelElement): string[] {
-    const excludeProperties = ["ГоризонтальноеПоложениеВГруппе", "Заголовок"]
+    let excludeProperties = ["ГоризонтальноеПоложениеВГруппе", "Заголовок"]
+
+    FormatterUtils.excludeStretchProperties(excludeProperties, element)
 
     const propertiesFormatter = new PropertiesFormatter()
     const properties = propertiesFormatter.format(element, { excludeProperties })
 
-    let result = element.properties["Заголовок"] ?? ""
+    let result = FormatterUtils.getAlignmentAtLeft(element)
+    result += element.properties["Заголовок"] ?? ""
     result += properties.join("")
-
+    result += FormatterUtils.getAlignmentAtRight(element)
     return [result]
   }
 }

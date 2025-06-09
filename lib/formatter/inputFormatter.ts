@@ -2,12 +2,15 @@ import * as t from "../parser/lexer"
 import { InputElement } from "../parser/visitorTools/formElements"
 import { IFormatter } from "./formFormatter"
 import { FormFormatterFactory } from "./formatterFactory"
+import { FormatterUtils } from "./formatterUtils"
 
 export class InputFormatter implements IFormatter<InputElement> {
   public format(element: InputElement): string[] {
     const underline = t.Underscore.LABEL as string
 
-    let header = element.properties["Заголовок"] ?? ""
+    let header: string = FormatterUtils.getAlignmentAtLeft(element)
+
+    header += element.properties["Заголовок"] ?? ""
     header += t.Colon.LABEL
 
     let value = ""
@@ -20,20 +23,25 @@ export class InputFormatter implements IFormatter<InputElement> {
       value += underline.repeat(2) + modificators
     }
 
+    let excludeProperties = [
+      "КнопкаВыпадающегоСписка",
+      "КнопкаВыбора",
+      "КнопкаОчистки",
+      "КнопкаРегулирования",
+      "КнопкаОткрытия",
+      "ГоризонтальноеПоложениеВГруппе",
+      "Заголовок",
+    ]
+
+    FormatterUtils.excludeStretchProperties(excludeProperties, element)
+
     const propertiesFormatter = FormFormatterFactory.getPropertiesFormatter()
     const properties = propertiesFormatter.format(element, {
-      excludeProperties: [
-        "КнопкаВыпадающегоСписка",
-        "КнопкаВыбора",
-        "КнопкаОчистки",
-        "КнопкаРегулирования",
-        "КнопкаОткрытия",
-        "ГоризонтальноеПоложениеВГруппе",
-        "Заголовок",
-      ],
+      excludeProperties: excludeProperties,
     })
 
-    let result = header + value + properties
+    let result = header + value + properties + FormatterUtils.getAlignmentAtRight(element)
+
     result += this.getMultilineString(element, header.length, value.length)
 
     return [result]

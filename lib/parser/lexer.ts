@@ -163,8 +163,8 @@ export const ButtonGroup = createToken({
   categories: excludeTokens(Button),
 })
 
-export const LArrow = keyword("LArrow", "<-")
-export const RArrow = keyword("RArrow", "->")
+export const LArrow = keyword("LArrow", "<-", LabelContent, InputValue, InputModifiers, CheckboxHeader)
+export const RArrow = keyword("RArrow", "->", LabelContent, InputValue, InputModifiers, CheckboxHeader)
 export const LCurly = keyword(
   "LCurly",
   "{",

@@ -10,39 +10,75 @@ export class Detector {
   }
 
   private detect(tokens: Array<IToken>): TokenType {
-    const firstToken = tokens[0]
+    if (tokens.length === 0) {
+      return t.LabelFieldType
+    }
 
-    let hasVBar: boolean = false
-    let hasColon: boolean = false
-    let hasRightCheckbox: boolean = false
+    const { firstToken, hasLeftArrow } = this.processFirstToken(tokens)
 
-    if (firstToken.tokenType == t.LCurly) {
+    if (this.isPropertyLine(firstToken)) {
       return t.PropertyLineType
     }
 
-    if (firstToken.tokenType == t.LAngle) {
+    if (this.isCommandBar(firstToken)) {
       return t.CommandBarType
     }
+
+    const { hasVBar, hasColon, hasRightCheckbox } = this.analyzeTokens(tokens)
+
+    return this.determineFieldType(hasVBar, hasColon, hasRightCheckbox, hasLeftArrow, firstToken)
+  }
+
+  private processFirstToken(tokens: Array<IToken>): { firstToken: IToken; hasLeftArrow: boolean } {
+    let firstToken = tokens[0]
+    let hasLeftArrow = false
+
+    if (firstToken.tokenType === t.LArrow || firstToken.tokenType === t.RArrow) {
+      hasLeftArrow = true
+      firstToken = tokens[1]
+    }
+
+    return { firstToken, hasLeftArrow }
+  }
+
+  private isPropertyLine(token: IToken): boolean {
+    return token.tokenType === t.LCurly
+  }
+
+  private isCommandBar(token: IToken): boolean {
+    return token.tokenType === t.LAngle
+  }
+
+  private analyzeTokens(tokens: Array<IToken>): { hasVBar: boolean; hasColon: boolean; hasRightCheckbox: boolean } {
+    let hasVBar = false
+    let hasColon = false
+    let hasRightCheckbox = false
 
     for (let index = 0; index < tokens.length; index++) {
       const token = tokens[index]
       const nextToken = tokens[index + 1]
-      const isInlineElementEnd = index == tokens.length - 1 || nextToken?.tokenType === t.LCurly
+      const isInlineElementEnd = index === tokens.length - 1 || nextToken?.tokenType === t.LCurly
 
-      if (token.tokenType == t.VBar) {
+      if (token.tokenType === t.VBar) {
         hasVBar = true
-        continue
-      }
-      if (token.tokenType == t.Colon) {
+      } else if (token.tokenType === t.Colon) {
         hasColon = true
-        continue
-      }
-      if (this.checkboxTokens.includes(token.tokenType) && isInlineElementEnd) {
+      } else if (this.checkboxTokens.includes(token.tokenType) && isInlineElementEnd) {
         hasRightCheckbox = true
       }
     }
 
-    if (hasVBar) {
+    return { hasVBar, hasColon, hasRightCheckbox }
+  }
+
+  private determineFieldType(
+    hasVBar: boolean,
+    hasColon: boolean,
+    hasRightCheckbox: boolean,
+    hasLeftArrow: boolean,
+    firstToken: IToken
+  ): TokenType {
+    if (hasVBar && !hasLeftArrow) {
       return t.TableType
     }
 

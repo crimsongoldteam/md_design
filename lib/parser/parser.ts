@@ -1,4 +1,4 @@
-import { CstNode, CstParser, EOF, IToken } from "chevrotain"
+import { CstNode, CstParser, EMPTY_ALT, EOF, IToken } from "chevrotain"
 import * as t from "./lexer.ts"
 
 export class Parser extends CstParser {
@@ -211,6 +211,8 @@ export class Parser extends CstParser {
   private readonly commandBar = this.RULE("commandBar", () => {
     this.CONSUME(t.CommandBarType)
 
+    this.aligment("left")
+
     this.CONSUME1(t.LAngle)
 
     this.binaryExpression(this.buttonGroup, t.ButtonGroup)
@@ -219,10 +221,15 @@ export class Parser extends CstParser {
       this.SUBRULE(this.commandBarLine)
     })
 
-    this.CONSUME3(t.RAngle)
     this.OPTION4(() => {
+      this.CONSUME3(t.RAngle)
+    })
+
+    this.OPTION5(() => {
       this.SUBRULE3(this.properties)
     })
+
+    this.aligment("right")
   })
 
   private readonly buttonGroup = this.RULE("buttonGroup", () => {
@@ -258,12 +265,17 @@ export class Parser extends CstParser {
 
   private readonly labelField = this.RULE("labelField", () => {
     this.CONSUME(t.LabelFieldType)
+
+    this.aligment("left")
+
     this.MANY1(() => {
       this.CONSUME(t.LabelContent)
     })
     this.OPTION2(() => {
       this.SUBRULE(this.properties)
     })
+
+    this.aligment("right")
   })
 
   // #endregion
@@ -272,6 +284,9 @@ export class Parser extends CstParser {
 
   private readonly inputField = this.RULE("inputField", () => {
     this.CONSUME(t.InputFieldType)
+
+    this.aligment("left")
+
     this.MANY1(() => {
       this.CONSUME(t.InputHeader)
     })
@@ -290,6 +305,8 @@ export class Parser extends CstParser {
     this.OPTION2(() => {
       this.SUBRULE(this.properties)
     })
+
+    this.aligment("right")
 
     this.MANY({
       GATE: () => {
@@ -313,6 +330,8 @@ export class Parser extends CstParser {
   private readonly checkboxLeftField = this.RULE("checkboxLeftField", () => {
     this.CONSUME(t.CheckboxLeftFieldType)
 
+    this.aligment("left")
+
     this.choice(
       () => {
         this.CONSUME(t.CheckboxChecked)
@@ -335,10 +354,14 @@ export class Parser extends CstParser {
     this.OPTION(() => {
       this.SUBRULE(this.properties)
     })
+
+    this.aligment("right")
   })
 
   private readonly checkboxRightField = this.RULE("checkboxRightField", () => {
     this.CONSUME(t.CheckboxRightFieldType)
+
+    this.aligment("left")
 
     this.MANY1(() => {
       this.CONSUME(t.CheckboxHeader)
@@ -362,6 +385,8 @@ export class Parser extends CstParser {
     this.OPTION3(() => {
       this.SUBRULE(this.properties)
     })
+
+    this.aligment("right")
   })
 
   // #endregion
@@ -487,6 +512,25 @@ export class Parser extends CstParser {
   // #endregion
 
   // #region etc
+
+  private aligment(direction: "left" | "right"): void {
+    let idx1 = direction === "left" ? 6 : 8
+    let idx2 = idx1 + 1
+    let idx3 = idx2 + 1
+    this.or(idx1, [
+      {
+        ALT: () => {
+          this.consume(idx2, t.LArrow, { LABEL: `${direction}ArrowLeft` })
+        },
+      },
+      {
+        ALT: () => {
+          this.consume(idx3, t.RArrow, { LABEL: `${direction}ArrowRight` })
+        },
+      },
+      { ALT: EMPTY_ALT },
+    ])
+  }
 
   // https://github.com/bia-technologies/yaxunit-editor
   private choice(...tokens: (() => any)[]) {

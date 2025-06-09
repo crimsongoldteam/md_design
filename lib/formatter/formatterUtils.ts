@@ -1,4 +1,43 @@
+import * as t from "../parser/lexer"
+import { BaseFormElement } from "@/parser/visitorTools/formElements"
+
 export class FormatterUtils {
+  public static getAlignmentAtLeft(element: BaseFormElement): string {
+    if (
+      element.properties["ГоризонтальноеПоложениеВГруппе"] === "Центр" ||
+      element.properties["ГоризонтальноеПоложениеВГруппе"] === "Право"
+    ) {
+      return t.RArrow.LABEL + " "
+    }
+
+    if (element.properties["ГоризонтальноеПоложениеВГруппе"] === "Центр") {
+      return t.LArrow.LABEL + " "
+    }
+
+    return ""
+  }
+
+  public static getAlignmentAtRight(element: BaseFormElement): string {
+    if (element.properties["ГоризонтальноеПоложениеВГруппе"] === "Центр") {
+      return " " + t.LArrow.LABEL
+    }
+
+    if (this.isStretch(element)) {
+      return " " + t.RArrow.LABEL
+    }
+
+    return ""
+  }
+
+  public static excludeStretchProperties(excludeProperties: string[], element: BaseFormElement): void {
+    if (!this.isStretch(element)) return
+
+    excludeProperties.push("РастягиватьПоГоризонтали")
+  }
+  private static isStretch(element: BaseFormElement): boolean {
+    return element.properties["РастягиватьПоГоризонтали"] && !element.properties["ГоризонтальноеПоложениеВГруппе"]
+  }
+
   public static getCheckboxString(
     text: string,
     hasCheckbox: boolean,

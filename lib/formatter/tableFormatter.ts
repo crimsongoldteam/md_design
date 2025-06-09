@@ -2,6 +2,7 @@ import * as t from "../parser/lexer"
 
 import {
   TableCellAlignment,
+  TableCellElement,
   TableColumnElement,
   TableColumnGroupElement,
   TableElement,
@@ -30,6 +31,39 @@ class TableCellData {
     this.length = this.value.length
   }
 }
+
+class TableColumnCellData extends TableCellData {
+  public element: TableColumnElement | undefined
+
+  public columns: TableColumnCellData[] = []
+  public cells: TableCellData[] = []
+  private readonly MIN_COLUMN_WIDTH: number = 5
+
+  // constructor(options: { value?: string; alignment?: TableCellAlignment; isEmpty?: boolean }) {
+  //   this.value = options.value ?? ""
+  //   this.alignment = options.alignment ?? TableCellAlignment.Left
+  //   this.isEmpty = options.isEmpty ?? false
+  //   this.length = this.value.length
+  // }
+
+  public calculateLength(): void {
+    if (this.isEmpty) {
+      return
+    }
+    const maxLength = Math.max(this.MIN_COLUMN_WIDTH, this.length, ...this.cells.map((cell) => cell.length))
+    this.length = maxLength
+  }
+}
+
+// 1. Строим шапку в виде таблицы
+// 2. Делаем вариант свернутой таблицы для формирования тела
+// 2. Строим тело в виде таблицы
+// 3. И добавляем ячейки тела в шапку
+// 4. Вычисляем максимальную ширину колонок
+// 5. Распределяем ширину вышестоящих колонок на подчиненные
+// 6. Записываем ширину для каждой ячейки
+// 7. Выравниваем ячейки
+// 8. Формируем таблицу
 
 export class TableFormatter implements IFormatter<TableElement> {
   private readonly emptyElement = new TableEmptyElement()

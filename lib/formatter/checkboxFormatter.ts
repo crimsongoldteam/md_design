@@ -5,14 +5,18 @@ import { FormatterUtils } from "./formatterUtils"
 
 export class CheckboxFormatter implements IFormatter<CheckboxElement> {
   public format(element: CheckboxElement): string[] {
-    const excludeProperties = ["Заголовок", "ГоризонтальноеПоложениеВГруппе", "ПоложениеЗаголовка", "ВидФлажка"]
+    let excludeProperties = ["Заголовок", "ГоризонтальноеПоложениеВГруппе", "ПоложениеЗаголовка", "ВидФлажка"]
+
+    FormatterUtils.excludeStretchProperties(excludeProperties, element)
 
     const propertiesFormatter = FormFormatterFactory.getPropertiesFormatter()
     const properties = propertiesFormatter.format(element, { excludeProperties })
 
-    const header = element.properties["Заголовок"]
+    let header = element.properties["Заголовок"]
 
-    let result = FormatterUtils.getCheckboxString(
+    let result = FormatterUtils.getAlignmentAtLeft(element)
+
+    result += FormatterUtils.getCheckboxString(
       header,
       true,
       element.properties["ВидФлажка"],
@@ -21,6 +25,7 @@ export class CheckboxFormatter implements IFormatter<CheckboxElement> {
     )
 
     result += properties.join("")
+    result += FormatterUtils.getAlignmentAtRight(element)
 
     return [result]
   }
