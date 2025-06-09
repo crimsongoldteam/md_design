@@ -11,6 +11,7 @@ import {
   VerticalGroupNode,
   ContainerNode,
 } from "./groupMapNodes"
+import { FieldNode, PropertiesNode } from "./nodes"
 
 class ContainerInfo {
   public exact: boolean = true
@@ -255,18 +256,63 @@ export class GroupMap {
   // #region build
 
   private buildItem(treeNode: ContainerNode): CstNode {
+    const propertiesCache: CstNode[] = []
     const result = treeNode.item
     for (const childItem of treeNode.children) {
       if (this.isContentNode(childItem)) {
         let children = this.parseFields(childItem as ContentNode)
+        this.processProperties(children, propertiesCache)
         ;(result.children.Items as CstNode[]).push(...children)
         continue
       }
+
+      this.addProperties(childItem.item, propertiesCache as FieldNode[])
 
       let childCstElement = this.buildItem(childItem as ContainerNode)
       ;(result.children.Items as CstNode[]).push(childCstElement)
     }
     return result
+  }
+
+  private processProperties(items: CstNode[], propertiesCache: CstNode[]): void {
+    const processedItems: CstNode[] = []
+
+    for (const item of items) {
+      if (item.children.propertyLine) {
+        propertiesCache.push(item)
+        continue
+      }
+
+      this.addProperties(item, propertiesCache as FieldNode[])
+      processedItems.push(item)
+      propertiesCache.length = 0
+    }
+
+    items.length = 0
+    items.push(...processedItems)
+  }
+
+  private addProperties(item: CstNode, fieldsNodes: FieldNode[]): void {
+    const properties: PropertiesNode[] = []
+    for (const fieldNode of fieldsNodes) {
+      const propertyLine = fieldNode.children.propertyLine[0]
+      properties.push(...propertyLine.children.properties)
+    }
+
+    if (item.name == "field") {
+      const field = item as FieldNode
+      const firstChild = this.getFirstChild(field)
+      firstChild.children.properties = properties as PropertiesNode[]
+
+      return
+    }
+
+    item.children.properties = properties as PropertiesNode[]
+  }
+
+  private getFirstChild(item: CstNode): CstNode {
+    const firstKey = Object.keys(item.children)[0]
+    return item.children[firstKey][0] as CstNode
   }
 
   private parseFields(inline: ContentNode): CstNode[] {
@@ -277,7 +323,7 @@ export class GroupMap {
 }
 
 // Для страницы
-// Если на этом уровне есть страница - мы берем страницу и ее родителя
+// Если на этом уровне есть страница - мы берем страницу и ее     родителя
 // Если на этом уровне ничего еще нет - создаем страницу
 
 // Элемента

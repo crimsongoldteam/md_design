@@ -27,6 +27,7 @@ import { TableManager, TableRowType } from "./visitorTools/tableManager"
 import { TypesUtils } from "./visitorTools/typesUtuls"
 import { SemanticTokensManager, SemanticTokensTypes } from "./visitorTools/sematicTokensManager"
 import { NameGenerator } from "./visitorTools/nameGenerator"
+import { HorizontalGroupDictionary, PagesDictionary } from "./nodes"
 
 const BaseVisitor = parser.getBaseCstVisitorConstructor()
 
@@ -68,8 +69,10 @@ export class Visitor extends BaseVisitor {
 
   // #region pages
 
-  pages(ctx: CstChildrenDictionary): PagesElement {
+  pages(ctx: PagesDictionary): PagesElement {
     const result = new PagesElement()
+
+    this.visit(ctx.properties, { element: result })
 
     result.add("items", this.visitAll(ctx.Items))
 
@@ -99,8 +102,10 @@ export class Visitor extends BaseVisitor {
 
   // #region groups
 
-  horizontalGroup(ctx: CstChildrenDictionary): HorizontalGroupElement {
+  horizontalGroup(ctx: HorizontalGroupDictionary): HorizontalGroupElement {
     const result = new HorizontalGroupElement()
+
+    this.visit(ctx.properties, { element: result })
 
     result.add("items", this.visitAll(ctx.Items))
 
