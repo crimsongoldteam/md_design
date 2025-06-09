@@ -354,8 +354,13 @@ export class Visitor extends BaseVisitor {
     const dots = this.joinTokens(ctx.Dots)
     const level = dots ? dots.length : 0
 
-    const button = this.visit(ctx.button as CstNode[], { line: true })
+    if (!ctx.button) {
+      const separator = new ButtonGroupElement()
+      params.manager.addButton(separator, level)
+      return
+    }
 
+    const button = this.visit(ctx.button as CstNode[], { line: true })
     params.manager.addButton(button, level)
   }
 

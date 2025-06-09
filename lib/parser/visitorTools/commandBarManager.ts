@@ -38,7 +38,7 @@ export class CommandBarManager {
     this.defaultGroup = groups[groups.length - 1]
   }
 
-  public addButton(button: ButtonElement, level: number) {
+  public addButton(button: ButtonElement | ButtonGroupElement, level: number) {
     this.hierarchy.set(button, level)
   }
 
@@ -84,6 +84,8 @@ export class CommandBarManager {
     if (!parent) {
       return
     }
-    parent.switchToSubmenu()
+    if (parent instanceof ButtonElement) {
+      parent.switchToSubmenu()
+    }
   }
 }
