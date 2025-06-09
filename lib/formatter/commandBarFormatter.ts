@@ -81,6 +81,7 @@ export class CommandBarFormatter implements IFormatter<CommandBarElement> {
   private formatMenuLine(result: string[], element: ButtonElement | ButtonGroupElement, level: number): void {
     if (element.elementKind === "ГруппаКнопок") {
       result.push(this.getTextWithLevel(GROUP_INDICATOR, level))
+      this.formatMenuLineSubitems(result, element, level + 1)
       return
     }
 
@@ -93,8 +94,8 @@ export class CommandBarFormatter implements IFormatter<CommandBarElement> {
     }
   }
 
-  private formatMenuLineSubitems(result: string[], element: ButtonElement, level: number): void {
-    const items = element.getAllButtons()
+  private formatMenuLineSubitems(result: string[], element: ButtonElement | ButtonGroupElement, level: number): void {
+    const items = element.items
     for (const item of items) {
       this.formatMenuLine(result, item, level)
     }

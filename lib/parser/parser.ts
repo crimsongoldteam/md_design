@@ -79,6 +79,7 @@ export class Parser extends CstParser {
   private readonly column = this.RULE("column", () => {
     this.SUBRULE(this.indents)
     this.choice(
+      1,
       () => {
         this.SUBRULE(this.horizontalGroup)
       },
@@ -173,6 +174,7 @@ export class Parser extends CstParser {
 
   private readonly field = this.RULE("field", () => {
     this.choice(
+      1,
       () => {
         this.SUBRULE(this.propertyLine)
       },
@@ -201,7 +203,7 @@ export class Parser extends CstParser {
     let choices = t.inlineTypesTokens.map((item) => () => {
       this.CONSUME(item)
     })
-    this.choice(...choices)
+    this.choice(1, ...choices)
   }
 
   // #endregion
@@ -256,7 +258,15 @@ export class Parser extends CstParser {
     this.OPTION(() => {
       this.CONSUME(t.Dots)
     })
-    this.SUBRULE(this.button)
+    this.choice(
+      2,
+      () => {
+        this.CONSUME(t.Dash, { LABEL: "commandBarSeparator" })
+      },
+      () => {
+        this.SUBRULE(this.button)
+      }
+    )
   })
 
   // #endregion
@@ -333,6 +343,7 @@ export class Parser extends CstParser {
     this.aligment("left")
 
     this.choice(
+      1,
       () => {
         this.CONSUME(t.CheckboxChecked)
       },
@@ -368,6 +379,7 @@ export class Parser extends CstParser {
     })
 
     this.choice(
+      1,
       () => {
         this.CONSUME(t.CheckboxChecked)
       },
@@ -409,6 +421,7 @@ export class Parser extends CstParser {
 
   private readonly tableCell = this.RULE("tableCell", () => {
     this.choice(
+      1,
       () => {
         this.SUBRULE(this.tableSeparatorCell)
       },
@@ -437,6 +450,7 @@ export class Parser extends CstParser {
 
     this.OPTION2(() => {
       this.choice(
+        1,
         () => {
           this.CONSUME(t.CheckboxChecked)
         },
@@ -533,11 +547,11 @@ export class Parser extends CstParser {
   }
 
   // https://github.com/bia-technologies/yaxunit-editor
-  private choice(...tokens: (() => any)[]) {
+  private choice(idx = 1, ...tokens: (() => any)[]) {
     const items = tokens.map((t) => {
       return { ALT: t }
     })
-    this.OR(items)
+    this.or(idx, items)
   }
 
   // https://github.com/bia-technologies/yaxunit-editor
