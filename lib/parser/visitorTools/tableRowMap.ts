@@ -43,11 +43,16 @@ export class TableRowMap {
     if (!item.hasCheckbox && item.value.trim() == "") {
       return
     }
+
     if (this.headerColumnIndex == 0) {
       this.currentLevel = level
     }
 
     let column = this.headerMap.getCellAt(this.headerRowIndex, this.headerColumnIndex)
+    if (!column) {
+      return
+    }
+
     item.uuidColumn = column.uuid
     item.uuidCheckbox = column.uuidCheckbox
 

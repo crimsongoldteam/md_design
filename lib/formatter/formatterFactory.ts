@@ -28,9 +28,9 @@ import { PagesFormatter } from "./pagesFormatter"
 import { CommandBarFormatter } from "./commandBarFormatter"
 import { ButtonFormatter } from "./buttonFormatter"
 import { ButtonGroupFormatter } from "./buttonGroupFormatter"
-import { TableFormatter } from "./tableFormatter"
-import { TableCellFormatter } from "./tableCellFormatter"
-import { TableColumnFormatter } from "./tableColumnFormatter"
+import { TableFormatter } from "./table/tableFormatter"
+import { TableCellFormatter } from "./table/tableCellFormatter"
+import { TableColumnFormatter } from "./table/tableColumnFormatter"
 
 export class FormFormatterFactory {
   private static readonly formatters = new Map<typeof BaseFormElement, new () => IFormatter<BaseFormElement>>()

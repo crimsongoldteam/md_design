@@ -12,15 +12,26 @@ export class TableHeaderMap {
   private currentRow: TableHeaderElementExt[] = []
   public columns: TableColumnElement[] = []
 
+  private isShortLeft: boolean = false
+
   constructor(table: TableElement) {
     this.table = table
   }
 
   public addElement(item: TableHeaderElementExt): void {
+    if (this.isFirstEmptyColumn(item) && (this.map.length === 0 || this.isShortLeft)) {
+      this.isShortLeft = true
+      return
+    }
+
     this.currentRow.push(item)
     if (item instanceof TableColumnElement && !this.columns.includes(item)) {
       this.columns.push(item)
     }
+  }
+
+  private isFirstEmptyColumn(item: TableHeaderElementExt): boolean {
+    return this.currentRow.length === 0 && this.isEmpty(item)
   }
 
   public getColumns(): TableColumnElement[] {

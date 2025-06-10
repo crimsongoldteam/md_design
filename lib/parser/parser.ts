@@ -44,11 +44,13 @@ export class Parser extends CstParser {
             },
             ALT: () => {
               this.SUBRULE1(this.formHeader)
+              isFirst = false
             },
           },
           {
             ALT: () => {
               this.SUBRULE(this.row)
+              isFirst = false
             },
           },
         ])
@@ -413,9 +415,9 @@ export class Parser extends CstParser {
 
   private readonly tableLine = this.RULE("tableLine", () => {
     this.CONSUME(t.TableType)
-    this.OPTION(() => {
-      this.CONSUME1(t.VBar)
-    })
+    // this.OPTION(() => {
+    //   this.CONSUME1(t.VBar)
+    // })
     this.binaryExpression(this.tableCell, t.VBar)
   })
 

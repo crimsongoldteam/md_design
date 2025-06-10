@@ -1,8 +1,8 @@
-import * as t from "../parser/lexer"
+import * as t from "../../parser/lexer"
 
-import { TableColumnElement } from "../parser/visitorTools/formElements"
-import { IFormatter } from "./formFormatter"
-import { PropertiesFormatter } from "./propertiesFormatter"
+import { TableColumnElement } from "../../parser/visitorTools/formElements"
+import { IFormatter } from "../formFormatter"
+import { PropertiesFormatter } from "../propertiesFormatter"
 
 export class TableColumnFormatter implements IFormatter<TableColumnElement> {
   private readonly groupSymbol = t.Dash.LABEL
