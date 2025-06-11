@@ -7,31 +7,85 @@ import {
 } from "./formElements"
 
 export class TableHeaderMap {
-  public map: TableHeaderElementExt[][] = []
+  private map: TableHeaderElementExt[][] = []
+  private readonly columns: TableColumnElement[] = []
   private readonly table: TableElement
+
   private currentRow: TableHeaderElementExt[] = []
-  public columns: TableColumnElement[] = []
+
+  private currentRowIndex: number = 0
+  private currentColumnIndex: number = 0
 
   private isShortLeft: boolean = false
+  private isFirstColumn: boolean = true
 
   constructor(table: TableElement) {
     this.table = table
   }
 
   public addElement(item: TableHeaderElementExt): void {
-    if (this.isFirstEmptyColumn(item) && (this.map.length === 0 || this.isShortLeft)) {
-      this.isShortLeft = true
-      return
-    }
+    this.checkShortLeft(item)
+
+    const isSkipableColumn = this.isShortLeft && this.onFirstColumn() && this.isEmpty(item)
+    this.isFirstColumn = false
+
+    if (isSkipableColumn) return
 
     this.currentRow.push(item)
     if (item instanceof TableColumnElement && !this.columns.includes(item)) {
       this.columns.push(item)
     }
+
+    this.nextColumn()
   }
 
-  private isFirstEmptyColumn(item: TableHeaderElementExt): boolean {
-    return this.currentRow.length === 0 && this.isEmpty(item)
+  public rollHeaderRow(): void {
+    this.currentRowIndex++
+    if (this.currentRowIndex >= this.map.length) {
+      this.currentRowIndex = 0
+    }
+
+    this.resetColumnsCounter()
+  }
+  public resetColumnsCounter(): void {
+    this.currentRow = []
+    this.currentColumnIndex = 0
+    this.isFirstColumn = true
+  }
+
+  public getLastRowColumn(): TableColumnElement {
+    return this.map[this.map.length - 1][this.currentColumnIndex] as TableColumnElement
+  }
+
+  public getCurrentColumn(): TableColumnElement {
+    return this.map[this.currentRowIndex][this.currentColumnIndex] as TableColumnElement
+  }
+
+  public onFirstRow(): boolean {
+    return this.currentRowIndex == 0
+  }
+
+  public onFirstColumn(): boolean {
+    return this.isFirstColumn
+  }
+
+  public nextColumn(): void {
+    this.isFirstColumn = false
+    this.currentColumnIndex++
+  }
+
+  public isSkipableColumn(): boolean {
+    return this.isShortLeft && this.currentColumnIndex == 0
+  }
+
+  private checkShortLeft(item: TableHeaderElementExt): void {
+    if (this.isShortLeft) return
+
+    if (!this.onFirstRow()) return
+    if (!this.onFirstColumn()) return
+    if (!this.isEmpty(item)) return
+
+    this.isShortLeft = true
   }
 
   public getColumns(): TableColumnElement[] {
@@ -41,15 +95,13 @@ export class TableHeaderMap {
   public addRow(): void {
     this.map.push(this.currentRow)
 
-    this.currentRow = []
+    this.currentRowIndex++
+
+    this.resetColumnsCounter()
   }
 
   public getRowsCount(): number {
     return this.map.length
-  }
-
-  public getCellAt(row: number, col: number): TableColumnElement {
-    return this.map[row][col] as TableColumnElement
   }
 
   public done(): void {
@@ -61,6 +113,9 @@ export class TableHeaderMap {
     }
 
     this.collapse()
+
+    this.currentRowIndex = 0
+    this.currentColumnIndex = 0
   }
 
   private fillAbove(cell: TableHeaderElementExt, toRow: number, col: number): void {

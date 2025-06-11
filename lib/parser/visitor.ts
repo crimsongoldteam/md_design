@@ -15,7 +15,6 @@ import {
   TableCellElement,
   TableColumnGroupElement,
   TableHeaderElement,
-  ElementLocation,
   PagesElement,
   PageElement,
   HorizontalGroupElement,
@@ -126,7 +125,7 @@ export class Visitor extends BaseVisitor {
 
     result.add("items", this.visitAll(ctx.Items as CstNode[]))
 
-    this.addChildLocation(result.items, result)
+    // this.addChildLocation(result.items, result)
 
     let headerTokens = [...(groupHeader.children.GroupHeaderText ?? []), ...(groupHeader.children.Hash ?? [])]
     this.semanticTokensManager.add(SemanticTokensTypes.VerticalGroupHeader, headerTokens, result)
@@ -334,7 +333,7 @@ export class Visitor extends BaseVisitor {
     this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.RAngle, result)
     this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.ButtonGroup, result)
 
-    this.addChildLocation(result.items, result)
+    // this.addChildLocation(result.items, result)
 
     return result
   }
@@ -431,18 +430,15 @@ export class Visitor extends BaseVisitor {
 
     if (rowType == TableRowType.Header) {
       this.tableHeaderNode(ctx, { manager: params.manager })
-      params.manager.nextColumn()
       return
     }
 
     if (rowType == TableRowType.Separator) {
       this.tableSeparatorNode(ctx, { manager: params.manager })
-      params.manager.nextColumn()
       return
     }
 
     this.tableCellNode(ctx, { manager: params.manager })
-    params.manager.nextColumn()
   }
 
   tableHeaderNode(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
@@ -484,16 +480,15 @@ export class Visitor extends BaseVisitor {
   }
 
   tableSeparatorNode(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
-    if (params.manager.isEmptyNode(ctx)) {
-      return
-    }
+    const column = params.manager.addSeparator(ctx)
+    if (!column) return
+
+    if (!ctx.tableSeparatorCell || ctx.tableSeparatorCell.length == 0) return
 
     const data = (ctx.tableSeparatorCell[0] as CstNode).children
 
     const hasLeft = !!data.leftColon
     const hasRight = !!data.rightColon
-
-    const column = params.manager.getHeaderLastRowCell()
 
     if (hasLeft && !hasRight) {
       this.setProperty(column, "ГоризонтальноеПоложение", "Лево")
@@ -692,44 +687,44 @@ export class Visitor extends BaseVisitor {
       .trim()
   }
 
-  private addChildLocation(childs: BaseFormElement[], result: BaseFormElement) {
-    childs.forEach((item) => {
-      for (let [key, value] of item.location) {
-        this.consumeLocationInResult(result, key, value.left, value.right)
-      }
-    })
-  }
+  // private addChildLocation(childs: BaseFormElement[], result: BaseFormElement) {
+  //   childs.forEach((item) => {
+  //     for (let [key, value] of item.location) {
+  //       this.consumeLocationInResult(result, key, value.left, value.right)
+  //     }
+  //   })
+  // }
 
-  private consumeLocation(tokens: IToken[], result: BaseFormElement): void {
-    if (!tokens) {
-      return
-    }
+  // private consumeLocation(tokens: IToken[], result: BaseFormElement): void {
+  //   if (!tokens) {
+  //     return
+  //   }
 
-    tokens.forEach((token) => {
-      this.consumeLocationInResult(
-        result,
-        token.startLine as number,
-        token.startColumn as number,
-        token.endColumn as number
-      )
-    })
-  }
+  //   tokens.forEach((token) => {
+  //     this.consumeLocationInResult(
+  //       result,
+  //       token.startLine as number,
+  //       token.startColumn as number,
+  //       token.endColumn as number
+  //     )
+  //   })
+  // }
 
-  private consumeLocationInResult(
-    result: BaseFormElement,
-    startLine: number,
-    startColumn: number,
-    endColumn: number
-  ): void {
-    let row = result.location.get(startLine)
-    if (!row) {
-      result.location.set(startLine, new ElementLocation(startColumn, endColumn))
-    } else if (endColumn > row.right) {
-      row.right = endColumn
-    } else {
-      row.left = startColumn
-    }
-  }
+  // private consumeLocationInResult(
+  //   result: BaseFormElement,
+  //   startLine: number,
+  //   startColumn: number,
+  //   endColumn: number
+  // ): void {
+  //   let row = result.location.get(startLine)
+  //   if (!row) {
+  //     result.location.set(startLine, new ElementLocation(startColumn, endColumn))
+  //   } else if (endColumn > row.right) {
+  //     row.right = endColumn
+  //   } else {
+  //     row.left = startColumn
+  //   }
+  // }
 
   // #endregion
 }

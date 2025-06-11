@@ -1,5 +1,5 @@
 import { TableHeaderElement, TableColumnGroupElement, TableCellAlignment } from "../../parser/visitorTools/formElements"
-import { BaseTableFormatterCell } from "./BaseTableFormatterCell"
+import { BaseTableFormatterCell } from "./baseTableFormatterCell"
 import { FormFormatterFactory } from "../formatterFactory"
 import { FormatterUtils } from "../formatterUtils"
 import { TableFormatterRowCell } from "./tableFormatterRowCell"
@@ -9,18 +9,17 @@ export class TableFormatterColumn extends BaseTableFormatterCell {
   private readonly rowIndex: number = 0
   private readonly rowCompactIndex: number = 0
   private readonly MIN_COLUMN_WIDTH: number = 5
-  private length: number = 0
+  private calculatedLength: number = 0
 
-  private colSpan: number
-  private readonly columns: TableFormColumn[] = []
+  private colSpan: number = 1
+  private readonly columns: TableFormatterColumn[] = []
   private readonly cells: TableFormatterRowCell[] = []
 
-  constructor(element: TableHeaderElement, parent: TableFormColumn | undefined = undefined) {
+  constructor(element: TableHeaderElement, parent: TableFormatterColumn | undefined = undefined) {
     super()
     this.element = element
     this.value = FormFormatterFactory.getFormatter(element).format(element).join("")
-    this.length = Math.max(this.MIN_COLUMN_WIDTH, this.value.length)
-    this.colSpan = 0
+    this.calculatedLength = Math.max(this.MIN_COLUMN_WIDTH, this.value.length + this.columns.length)
 
     if (!parent) {
       return
@@ -67,26 +66,26 @@ export class TableFormatterColumn extends BaseTableFormatterCell {
   }
 
   public addCell(cell: TableFormatterRowCell) {
-    this.length = Math.max(this.length, cell.getLength())
+    this.calculatedLength = Math.max(this.calculatedLength, cell.getLength())
     this.cells.push(cell)
   }
 
   public getCalulatedLength(): number {
-    return this.length
+    return this.calculatedLength
   }
 
   public setCalulatedLength(length: number): void {
-    this.length = length
+    this.calculatedLength = length
   }
 
   public calculateMaxLength(): void {
     let childrenLength = 0
     for (const cell of this.columns) {
       cell.calculateMaxLength()
-      childrenLength += cell.getLength()
+      childrenLength += cell.getCalulatedLength()
     }
 
-    this.length = Math.max(this.length, childrenLength)
+    this.calculatedLength = Math.max(this.calculatedLength, childrenLength)
   }
 
   public calculateLength(): void {

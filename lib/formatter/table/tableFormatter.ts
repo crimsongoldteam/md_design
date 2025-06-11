@@ -5,7 +5,7 @@ import { FormFormatterFactory } from "../formatterFactory"
 import { IFormatter } from "../formFormatter"
 import { TableFormatterColumn } from "./tableFormatterColumn"
 import { TableFormatterRowCell } from "./tableFormatterRowCell"
-import { TableFormatterSeparator } from "./TableFormatterSeparator"
+import { TableFormatterSeparator } from "./tableFormatterSeparator"
 
 type TableHeaderRow = TableFormatterColumn[]
 
@@ -68,6 +68,8 @@ export class TableFormatter implements IFormatter<TableElement> {
     const rowData = parent.getRowIndices()
 
     this.addToHeader(header, parent, rowData.rowIndex)
+    this.fillHeaderRows(header, rowData.rowIndex)
+
     if (!parent.isColumnGroup()) {
       this.addToHeader(compactHeader, parent, rowData.rowCompactIndex)
     }
@@ -82,8 +84,6 @@ export class TableFormatter implements IFormatter<TableElement> {
   private addToHeader(table: TableHeaderRow[], current: TableFormatterColumn, level: number) {
     const currentRow = this.getOrCreateHeaderRow(table, level)
     currentRow.push(current)
-
-    this.fillHeaderRows(table, level)
   }
 
   private getOrCreateHeaderRow(table: TableHeaderRow[], level: number): TableHeaderRow {
@@ -184,8 +184,9 @@ export class TableFormatter implements IFormatter<TableElement> {
     }
   }
 
-  private calculateLength(compactHeader: TableHeaderRow[]) {
-    for (const cell of compactHeader[0]) {
+  private calculateLength(header: TableHeaderRow[]) {
+    const firstRow = header[0]
+    for (const cell of firstRow) {
       cell.calculateMaxLength()
       cell.calculateLength()
     }

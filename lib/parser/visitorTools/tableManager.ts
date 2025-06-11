@@ -5,7 +5,6 @@ import {
   TableCellElement,
   TableColumnElement,
   TableElement,
-  TableHeaderElement,
   TableHeaderElementExt,
   TypeDescription,
 } from "./formElements"
@@ -23,7 +22,7 @@ export class TableManager {
   private readonly headerMap: TableHeaderMap
   private readonly rowMap: TableRowMap
 
-  private columnIndex: number = 0
+  // private columnIndex: number = 0
 
   private currentRowType: TableRowType = TableRowType.Header
 
@@ -37,15 +36,7 @@ export class TableManager {
     return this.tableElement
   }
 
-  public nextColumn(): void {
-    this.columnIndex++
-    this.rowMap.setColumnIndex(this.columnIndex)
-  }
-
   public nextRow() {
-    this.columnIndex = 0
-    this.rowMap.setColumnIndex(this.columnIndex)
-
     if (this.currentRowType == TableRowType.Header) {
       this.headerMap.addRow()
       return
@@ -62,14 +53,19 @@ export class TableManager {
   public addHeaderElement(item: TableHeaderElementExt): void {
     this.headerMap.addElement(item)
   }
+  public addSeparator(ctx: CstChildrenDictionary): TableColumnElement | undefined {
+    const isEmpty = this.isEmptyNode(ctx)
+    if (this.headerMap.isSkipableColumn() && isEmpty) return
+
+    const column = this.headerMap.getLastRowColumn()
+
+    this.headerMap.nextColumn()
+
+    return column
+  }
 
   public addRowElement(item: TableCellElement, level: number): void {
     this.rowMap.addElement(item, level)
-  }
-
-  public getHeaderLastRowCell(): TableHeaderElement {
-    const rowIndex = this.headerMap.getRowsCount() - 1
-    return this.headerMap.getCellAt(rowIndex, this.columnIndex)
   }
 
   public getRowType(): TableRowType {
@@ -91,6 +87,10 @@ export class TableManager {
       this.currentRowType = TableRowType.Separator
       this.doneHeader()
     }
+  }
+
+  public isEmptyNode(ctx: CstChildrenDictionary): boolean {
+    return !this.isSeparatorNode(ctx) && !this.isCellNode(ctx)
   }
 
   public defineColumnsTypeDescription(): void {
@@ -182,10 +182,6 @@ export class TableManager {
     }
     let tableDataCell = tableDataCells[0] as CstNode
     return Object.values(tableDataCell.children).length > 0
-  }
-
-  public isEmptyNode(ctx: CstChildrenDictionary): boolean {
-    return !this.isSeparatorNode(ctx) && !this.isCellNode(ctx)
   }
 
   private doneHeader() {

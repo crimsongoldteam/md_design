@@ -10,8 +10,6 @@ export class TableRowMap {
   private readonly headerMap: TableHeaderMap
   private readonly headerCells: Map<TableColumnElement, TableCellElement[]> = new Map()
 
-  private headerRowIndex: number = 0
-  private headerColumnIndex: number = 0
   private currentLevel: number = 0
 
   constructor(table: TableElement, headerMap: TableHeaderMap) {
@@ -20,12 +18,10 @@ export class TableRowMap {
     this.hierarchy = new HierarchyManager("rows", (item) => this.getDefaultParent(item))
   }
 
-  public setColumnIndex(index: number): void {
-    this.headerColumnIndex = index
-  }
-
   public addRow(): void {
-    if (this.headerRowIndex == 0) {
+    this.headerMap.rollHeaderRow()
+
+    if (this.headerMap.onFirstRow()) {
       this.hierarchy.set(this.currentRow, this.currentLevel)
       this.currentRow = new TableRowElement()
     }
@@ -34,21 +30,23 @@ export class TableRowMap {
       this.table.type = "Дерево"
       this.table.typeDescription.types = ["ДеревоЗначений"]
     }
-
-    this.headerColumnIndex = 0
-    this.rollHeaderRow()
   }
 
   public addElement(item: TableCellElement, level: number): void {
-    if (!item.hasCheckbox && item.value.trim() == "") {
+    const isEmpty = !item.hasCheckbox && item.value.trim() == ""
+
+    if (this.headerMap.isSkipableColumn() && isEmpty) return
+
+    if (isEmpty) {
+      this.headerMap.nextColumn()
       return
     }
 
-    if (this.headerColumnIndex == 0) {
+    if (this.headerMap.onFirstColumn()) {
       this.currentLevel = level
     }
 
-    let column = this.headerMap.getCellAt(this.headerRowIndex, this.headerColumnIndex)
+    const column = this.headerMap.getCurrentColumn()
     if (!column) {
       return
     }
@@ -65,6 +63,8 @@ export class TableRowMap {
     }
 
     this.currentRow.items.set(column.uuid, item)
+
+    this.headerMap.nextColumn()
   }
 
   public getHeaderCells(): Map<TableColumnElement, TableCellElement[]> {
@@ -76,16 +76,11 @@ export class TableRowMap {
     for (let column of columns) {
       this.headerCells.set(column, [])
     }
+    this.headerMap.resetColumnsCounter()
   }
 
   private getDefaultParent(item: TableRowElement): TableRowElement {
     this.table.add("rows", [item])
     return item
-  }
-  private rollHeaderRow(): void {
-    this.headerRowIndex++
-    if (this.headerRowIndex >= this.headerMap.getRowsCount()) {
-      this.headerRowIndex = 0
-    }
   }
 }
