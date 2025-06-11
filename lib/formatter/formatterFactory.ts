@@ -8,6 +8,7 @@ import {
   HorizontalGroupElement,
   InputElement,
   LabelElement,
+  OneLineGroupElement,
   PageElement,
   PagesElement,
   TableCellElement,
@@ -31,6 +32,7 @@ import { ButtonGroupFormatter } from "./buttonGroupFormatter"
 import { TableFormatter } from "./table/tableFormatter"
 import { TableCellFormatter } from "./table/tableCellFormatter"
 import { TableColumnFormatter } from "./table/tableColumnFormatter"
+import { OneLineGroupFormatter } from "./oneLineGroupFormatter"
 
 export class FormFormatterFactory {
   private static readonly formatters = new Map<typeof BaseFormElement, new () => IFormatter<BaseFormElement>>()
@@ -51,6 +53,7 @@ export class FormFormatterFactory {
     this.registerFormatter(TableColumnElement, TableColumnFormatter)
     this.registerFormatter(TableColumnGroupElement, TableColumnFormatter)
     this.registerFormatter(TableCellElement, TableCellFormatter)
+    this.registerFormatter(OneLineGroupElement, OneLineGroupFormatter)
   }
 
   public static registerFormatter(

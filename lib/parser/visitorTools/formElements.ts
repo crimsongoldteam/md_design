@@ -84,6 +84,15 @@ export abstract class BaseFormElement {
     return undefined
   }
 
+  public getAlignment(): TableCellAlignment {
+    const alignment = this.getPropertyCaseInsensitive("ГоризонтальноеПоложение")
+    if (!alignment) {
+      return TableCellAlignment.Left
+    }
+
+    return alignment as TableCellAlignment
+  }
+
   /**
    * Преобразует строку в PascalCase формат
    * @param input - Входная строка для преобразования
@@ -122,6 +131,17 @@ export class FormElement extends BaseFormElement {
 
   @Expose({ name: "Элементы" })
   public items: BaseFormElement[] = []
+
+  public childrenFields = ["items"]
+}
+
+export class OneLineGroupElement extends BaseFormElement {
+  public type = "ОднострочнаяГруппа"
+  public elementType = "ГруппаФормы"
+  public elementKind = "ОбычнаяГруппа"
+
+  @Expose({ name: "Элементы" })
+  public readonly items: BaseFormElement[] = []
 
   public childrenFields = ["items"]
 }
@@ -265,7 +285,7 @@ export class ButtonElement extends BaseFormElement {
         continue
       }
 
-      buttons.push(...(item as ButtonGroupElement).getAllButtons())
+      buttons.push(...item.getAllButtons())
     }
 
     return buttons
@@ -332,15 +352,6 @@ export class TableColumnGroupElement extends BaseFormElement {
   public getBaseElementName(): string {
     return "ГруппаКолонок" + super.getBaseElementName("")
   }
-
-  public getAlignment(): TableCellAlignment {
-    const alignment = this.getPropertyCaseInsensitive("ГоризонтальноеПоложение")
-    if (!alignment) {
-      return TableCellAlignment.Left
-    }
-
-    return alignment as TableCellAlignment
-  }
 }
 
 export class TableColumnElement extends BaseFormElement {
@@ -370,15 +381,6 @@ export class TableColumnElement extends BaseFormElement {
 
   public getBaseElementName(): string {
     return "Колонка" + super.getBaseElementName("")
-  }
-
-  public getAlignment(): TableCellAlignment {
-    const alignment = this.getPropertyCaseInsensitive("ГоризонтальноеПоложение")
-    if (!alignment) {
-      return TableCellAlignment.Left
-    }
-
-    return alignment as TableCellAlignment
   }
 }
 

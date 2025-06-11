@@ -58,6 +58,14 @@ export class VerticalGroupNode extends TreeNode {
     }
   }
 }
+
+export class OneLineGroupNode extends TreeNode {
+  item = {
+    name: "oneLineGroup",
+    children: { Items: [], Properties: [] },
+  }
+}
+
 export class PagesNode extends TreeNode {
   item = {
     name: "pages",

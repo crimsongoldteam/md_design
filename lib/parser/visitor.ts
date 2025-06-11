@@ -20,6 +20,7 @@ import {
   HorizontalGroupElement,
   VerticalGroupElement,
   TypeDescription,
+  OneLineGroupElement,
 } from "./visitorTools/formElements"
 import { CommandBarManager } from "./visitorTools/commandBarManager"
 import { TableManager, TableRowType } from "./visitorTools/tableManager"
@@ -163,6 +164,18 @@ export class Visitor extends BaseVisitor {
     if (currentBehavior) {
       this.setProperty(verticalGroup, "Поведение", currentBehavior)
     }
+  }
+
+  oneLineGroup(ctx: CstChildrenDictionary): OneLineGroupElement {
+    const result = new OneLineGroupElement()
+
+    this.visit(ctx.properties as CstNode[], { element: result })
+
+    result.add("items", this.visitAll(ctx.Items as CstNode[]))
+
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties, result)
+
+    return result
   }
 
   // #endregion
@@ -686,45 +699,6 @@ export class Visitor extends BaseVisitor {
       .join("")
       .trim()
   }
-
-  // private addChildLocation(childs: BaseFormElement[], result: BaseFormElement) {
-  //   childs.forEach((item) => {
-  //     for (let [key, value] of item.location) {
-  //       this.consumeLocationInResult(result, key, value.left, value.right)
-  //     }
-  //   })
-  // }
-
-  // private consumeLocation(tokens: IToken[], result: BaseFormElement): void {
-  //   if (!tokens) {
-  //     return
-  //   }
-
-  //   tokens.forEach((token) => {
-  //     this.consumeLocationInResult(
-  //       result,
-  //       token.startLine as number,
-  //       token.startColumn as number,
-  //       token.endColumn as number
-  //     )
-  //   })
-  // }
-
-  // private consumeLocationInResult(
-  //   result: BaseFormElement,
-  //   startLine: number,
-  //   startColumn: number,
-  //   endColumn: number
-  // ): void {
-  //   let row = result.location.get(startLine)
-  //   if (!row) {
-  //     result.location.set(startLine, new ElementLocation(startColumn, endColumn))
-  //   } else if (endColumn > row.right) {
-  //     row.right = endColumn
-  //   } else {
-  //     row.left = startColumn
-  //   }
-  // }
 
   // #endregion
 }

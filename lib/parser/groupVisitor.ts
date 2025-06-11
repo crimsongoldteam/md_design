@@ -44,8 +44,11 @@ export class GroupVisitor extends BaseVisitor {
   }
 
   inline(ctx: CstChildrenDictionary, params: any): void {
-    let tokens = this.visit(ctx.inlineItem as CstNode[]) ?? ([] as IToken[])
-    this.groupMap.addTokens(tokens, params.indent)
+    let inlineGroupTokens: IToken[][] = []
+    for (const item of ctx.inlineItem as CstNode[]) {
+      inlineGroupTokens.push(this.visit(item) ?? ([] as IToken[]))
+    }
+    this.groupMap.addTokens(inlineGroupTokens, params.indent)
   }
 
   inlineItem(ctx: CstChildrenDictionary): CstElement[] {

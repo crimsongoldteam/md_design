@@ -10,6 +10,7 @@ import {
   HorizontalGroupNode,
   VerticalGroupNode,
   ContainerNode,
+  OneLineGroupNode,
 } from "./groupMapNodes"
 import { FieldNode, PropertiesNode } from "./nodes"
 
@@ -70,18 +71,36 @@ export class GroupMap {
     }
   }
 
-  public addTokens(tokens: IToken[], indent: number): void {
+  public addTokens(tokensGroups: IToken[][], indent: number): void {
     const containerInfo = this.getContainerAtIndent(indent)
-    const contentNode = this.getCreateContentNode(containerInfo.node)
 
-    if (tokens.length) {
-      const typeToken = this.detector.getTypeToken(tokens)
-      this.addTokenToContentNode(contentNode, typeToken)
+    if (tokensGroups.length == 1) {
+      const contentNode = this.getCreateContentNode(containerInfo.node)
 
-      tokens.forEach((token) => this.addTokenToContentNode(contentNode, token))
+      this.addContent(contentNode, tokensGroups[0])
+      this.addToNextLine(containerInfo.node)
+      return
     }
 
-    this.addToNextLine(containerInfo.node)
+    this.addOneLineGroup(containerInfo, tokensGroups, indent)
+  }
+
+  private addContent(contentNode: ContentNode, tokens: IToken[]): void {
+    if (!tokens.length) return
+
+    const typeToken = this.detector.getTypeToken(tokens)
+    this.addTokenToContentNode(contentNode, typeToken)
+
+    tokens.forEach((token) => this.addTokenToContentNode(contentNode, token))
+  }
+
+  private addOneLineGroup(containerInfo: ContainerInfo, tokensGroups: IToken[][], indent: number): void {
+    const group = new OneLineGroupNode(indent, containerInfo.node)
+
+    for (const tokenGroup of tokensGroups) {
+      const contentNode = this.createContentNode(group)
+      this.addContent(contentNode, tokenGroup)
+    }
   }
 
   public next(): void {
@@ -302,12 +321,12 @@ export class GroupMap {
     if (item.name == "field") {
       const field = item as FieldNode
       const firstChild = this.getFirstChild(field)
-      firstChild.children.properties = properties as PropertiesNode[]
+      firstChild.children.properties = properties
 
       return
     }
 
-    item.children.properties = properties as PropertiesNode[]
+    item.children.properties = properties
   }
 
   private getFirstChild(item: CstNode): CstNode {

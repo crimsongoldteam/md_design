@@ -415,9 +415,6 @@ export class Parser extends CstParser {
 
   private readonly tableLine = this.RULE("tableLine", () => {
     this.CONSUME(t.TableType)
-    // this.OPTION(() => {
-    //   this.CONSUME1(t.VBar)
-    // })
     this.binaryExpression(this.tableCell, t.VBar)
   })
 
@@ -459,7 +456,6 @@ export class Parser extends CstParser {
         () => {
           this.CONSUME(t.CheckboxUnchecked)
         }
-        // EMPTY_ALT
       )
     })
 
