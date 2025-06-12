@@ -11,6 +11,7 @@ import {
   VerticalGroupNode,
   ContainerNode,
   OneLineGroupNode,
+  EditorContainerNode,
 } from "./groupMapNodes"
 import { FieldNode, PropertiesNode } from "./nodes"
 
@@ -24,7 +25,7 @@ class ContainerInfo {
 }
 
 export class GroupMap {
-  private readonly root: FormNode
+  private readonly root: FormNode | EditorContainerNode
 
   private readonly currentLineContainters: ContainerNode[] = []
   private readonly nextLineContentainers: ContainerNode[] = []
@@ -35,8 +36,8 @@ export class GroupMap {
   private readonly detector: Detector = new Detector()
   private isGroupLine: boolean = false
 
-  constructor(parser: Parser, formHeader: CstNode[] | undefined) {
-    this.root = this.createFormNode(formHeader)
+  constructor(parser: Parser, rootNode: FormNode | EditorContainerNode) {
+    this.root = rootNode
     this.parser = parser
     this.currentLineContainters = [this.root]
   }
@@ -141,14 +142,6 @@ export class GroupMap {
 
   // #endregion
 
-  // #region form
-
-  private createFormNode(formHeader: CstNode[] | undefined): FormNode {
-    return new FormNode(formHeader)
-  }
-
-  // #endregion
-
   // #region page
 
   private getCreatePagesNode(containerInfo: ContainerInfo): PagesNode {
@@ -182,11 +175,11 @@ export class GroupMap {
   // #endregion
 
   private isContainerNode(item: TreeNode): boolean {
-    return this.isFormNode(item) || this.isPageNode(item) || this.isVerticalGroupNode(item)
+    return this.isRootNode(item) || this.isPageNode(item) || this.isVerticalGroupNode(item)
   }
 
-  private isFormNode(item: TreeNode): boolean {
-    return item instanceof FormNode
+  private isRootNode(item: TreeNode): boolean {
+    return item instanceof FormNode || item instanceof EditorContainerNode
   }
 
   private isPageNode(item: TreeNode): boolean {
@@ -218,7 +211,7 @@ export class GroupMap {
   private getBaseFirstColumnContainer(item: ContainerNode): VerticalGroupNode | FormNode {
     let currentItem: TreeNode = item
 
-    while (!this.isFormNode(currentItem) && !this.isVerticalGroupNode(currentItem)) {
+    while (!this.isRootNode(currentItem) && !this.isVerticalGroupNode(currentItem)) {
       currentItem = currentItem.parent
     }
 
@@ -245,7 +238,7 @@ export class GroupMap {
     while (resultIndent > indent) {
       let currentParent = result.node.parent
 
-      if (this.isFormNode(currentParent)) {
+      if (this.isRootNode(currentParent)) {
         break
       }
 

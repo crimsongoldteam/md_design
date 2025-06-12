@@ -21,6 +21,7 @@ import {
   VerticalGroupElement,
   TypeDescription,
   OneLineGroupElement,
+  EditorContainerElement,
 } from "./visitorTools/formElements"
 import { CommandBarManager } from "./visitorTools/commandBarManager"
 import { TableManager, TableRowType } from "./visitorTools/tableManager"
@@ -40,6 +41,14 @@ export class Visitor extends BaseVisitor {
     this.semanticTokensManager = semanticTokensManager
   }
   // #region form
+
+  editorContainer(ctx: CstChildrenDictionary): EditorContainerElement {
+    const result = new EditorContainerElement()
+
+    result.add("items", this.visitAll(ctx.Items as CstNode[]))
+
+    return result
+  }
 
   form(ctx: CstChildrenDictionary): FormElement {
     this.nameGenerator.reset()
@@ -126,7 +135,7 @@ export class Visitor extends BaseVisitor {
 
     result.add("items", this.visitAll(ctx.Items as CstNode[]))
 
-    // this.addChildLocation(result.items, result)
+    result.defineElementName(this.nameGenerator)
 
     let headerTokens = [...(groupHeader.children.GroupHeaderText ?? []), ...(groupHeader.children.Hash ?? [])]
     this.semanticTokensManager.add(SemanticTokensTypes.VerticalGroupHeader, headerTokens, result)

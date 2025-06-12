@@ -1,15 +1,17 @@
-import { editor as monacoEditor } from "monaco-editor-core"
-import { CodeModel } from "./codeModel"
+import * as monaco from "monaco-editor-core"
+import { AbstractModel } from "./abstractModel"
 import { BaseFormElement } from "./parser/visitorTools/formElements"
 
 export class EditorWrapper {
-  private readonly editor: monacoEditor.IStandaloneCodeEditor
-  private readonly model: CodeModel
+  private readonly editor: monaco.editor.IStandaloneCodeEditor
+  private readonly model: AbstractModel<any>
+  private readonly languageSelector: string
+  private readonly decorationsCollection: monaco.editor.IEditorDecorationsCollection
+  private skipNextTrigger: boolean = false
 
-  decorationsCollection: monacoEditor.IEditorDecorationsCollection
-
-  constructor(container: HTMLElement) {
-    this.model = new CodeModel()
+  constructor(container: HTMLElement, model: AbstractModel<any>, languageSelector: string) {
+    this.model = model
+    this.languageSelector = languageSelector
 
     this.editor = this.createEditor(container)
     this.decorationsCollection = this.editor.createDecorationsCollection([])
@@ -26,14 +28,22 @@ export class EditorWrapper {
     throw new Error("onChangeContent is not implemented")
   }
 
-  public readonly onChangeCurrentElement: (() => void) | undefined
-
-  public updateGroup(groupEditorCurrentElement: string, semanticTree: any) {
-    this.model.updateVerticalGroup(groupEditorCurrentElement, semanticTree)
+  public onSelectGroup: (groupId: string) => void = () => {
+    throw new Error("onSelectGroup is not implemented")
   }
 
-  public getElementByName(elementName: string): BaseFormElement {
-    return this.model.getElementByName(elementName)
+  public readonly onChangeCurrentElement: (() => void) | undefined
+
+  // public updateGroup(groupUuid: string, semanticTree: any) {
+  //   this.model.updateVerticalGroup(groupUuid, semanticTree)
+  // }
+
+  getEditorModel(): monaco.editor.ITextModel {
+    return this.editor.getModel() as monaco.editor.ITextModel
+  }
+
+  public getElementByUuid(elementUuid: string): BaseFormElement | undefined {
+    return this.model.getElementByUuid(elementUuid)
   }
 
   public getSemanicTree(): BaseFormElement {
@@ -59,9 +69,9 @@ export class EditorWrapper {
     })
   }
 
-  private createEditor(container: HTMLElement): monacoEditor.IStandaloneCodeEditor {
-    return monacoEditor.create(container, {
-      language: "plaintext",
+  private createEditor(container: HTMLElement): monaco.editor.IStandaloneCodeEditor {
+    const editor = monaco.editor.create(container, {
+      language: this.languageSelector,
       minimap: { enabled: false },
       unicodeHighlight: {
         ambiguousCharacters: false,
@@ -77,7 +87,10 @@ export class EditorWrapper {
       contextmenu: true,
       insertSpaces: true,
       tabSize: 2,
+      folding: false,
     })
+
+    return editor
   }
 
   private handleResize(): void {
@@ -85,20 +98,31 @@ export class EditorWrapper {
   }
 
   private onChangeModelContent(content: string): void {
+    this.skipNextTrigger = true
     this.editor.setValue(content)
+    this.refreshDecorations()
   }
 
   private onChangeEditorContent() {
+    if (this.skipNextTrigger) {
+      this.skipNextTrigger = false
+      return
+    }
+
     const text = this.editor.getValue()
     this.model.setText(text)
 
-    const decorations = this.model.getDecorations()
-    this.decorationsCollection.set(decorations)
+    this.refreshDecorations()
 
     this.onChangeContent(this.model.getSemanicTree())
   }
 
-  private onDidChangeCursorSelection(e: monacoEditor.ICursorSelectionChangedEvent) {
+  private refreshDecorations() {
+    const decorations = this.model.getDecorations()
+    this.decorationsCollection.set(decorations)
+  }
+
+  private onDidChangeCursorSelection(e: monaco.editor.ICursorSelectionChangedEvent) {
     this.model.setCursor(e.selection.startLineNumber, e.selection.startColumn)
     this.onChangeCurrentElement?.()
   }

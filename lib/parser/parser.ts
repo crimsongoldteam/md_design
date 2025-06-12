@@ -7,8 +7,12 @@ export class Parser extends CstParser {
     this.performSelfAnalysis()
   }
 
-  public parse() {
+  public parseForm(): CstNode {
     return this.form()
+  }
+
+  public parseGroupEditorContainer(): CstNode {
+    return this.editorContainer()
   }
 
   public parseFields(tokens: IToken[]): CstNode[] {
@@ -21,6 +25,32 @@ export class Parser extends CstParser {
   }
 
   // #region form
+
+  private readonly editorContainer = this.RULE("editorContainer", () => {
+    let isEnd = false
+    this.MANY({
+      GATE: () => {
+        return !isEnd
+      },
+      DEF: () => {
+        this.OR([
+          {
+            IGNORE_AMBIGUITIES: true,
+            ALT: () => {
+              isEnd = true
+              this.CONSUME3(EOF)
+            },
+          },
+
+          {
+            ALT: () => {
+              this.SUBRULE(this.row)
+            },
+          },
+        ])
+      },
+    })
+  })
 
   private readonly form = this.RULE("form", () => {
     let isFirst = true

@@ -33,6 +33,14 @@ export class FormNode extends TreeNode {
     }
   }
 }
+
+export class EditorContainerNode extends TreeNode {
+  item = {
+    name: "editorContainer",
+    children: { Items: [], Properties: [] },
+  }
+}
+
 export class HorizontalGroupNode extends TreeNode {
   item = {
     name: "horizontalGroup",
@@ -109,4 +117,4 @@ export class ContentNode extends TreeNode {
   }
 }
 
-export type ContainerNode = FormNode | PageNode | VerticalGroupNode
+export type ContainerNode = FormNode | PageNode | VerticalGroupNode | EditorContainerNode

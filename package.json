@@ -33,6 +33,7 @@
     "performance-polyfill": "^0.0.3",
     "reflect-metadata": "^0.2.2",
     "rollup": "^4.41.1",
+    "split.js": "^1.6.5",
     "uuid": "^11.1.0"
   }
 }

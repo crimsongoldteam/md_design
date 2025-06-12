@@ -4,6 +4,7 @@ import {
   ButtonGroupElement,
   CheckboxElement,
   CommandBarElement,
+  EditorContainerElement,
   FormElement,
   HorizontalGroupElement,
   InputElement,
@@ -33,6 +34,7 @@ import { TableFormatter } from "./table/tableFormatter"
 import { TableCellFormatter } from "./table/tableCellFormatter"
 import { TableColumnFormatter } from "./table/tableColumnFormatter"
 import { OneLineGroupFormatter } from "./oneLineGroupFormatter"
+import { EditorContainerFormatter } from "./editorContainerFormatter"
 
 export class FormFormatterFactory {
   private static readonly formatters = new Map<typeof BaseFormElement, new () => IFormatter<BaseFormElement>>()
@@ -54,6 +56,7 @@ export class FormFormatterFactory {
     this.registerFormatter(TableColumnGroupElement, TableColumnFormatter)
     this.registerFormatter(TableCellElement, TableCellFormatter)
     this.registerFormatter(OneLineGroupElement, OneLineGroupFormatter)
+    this.registerFormatter(EditorContainerElement, EditorContainerFormatter)
   }
 
   public static registerFormatter(

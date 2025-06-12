@@ -39,6 +39,7 @@ class SemanticToken {
 
 export class SemanticTokensManager {
   private rows: Array<SemanticToken>[] = []
+  private linkTokens: Array<SemanticToken> = []
 
   public reset(): void {
     this.rows = []
@@ -53,6 +54,8 @@ export class SemanticTokensManager {
   }
 
   public prepare(): void {
+    this.linkTokens = []
+
     for (const row of this.rows) {
       if (!row || row.length === 0) {
         continue
@@ -65,44 +68,8 @@ export class SemanticTokensManager {
       }
 
       this.concatTokens(row)
+      this.fillLinkTokens(row)
     }
-  }
-
-  private sortTokens(row: SemanticToken[]) {
-    row.sort((a, b) => a.startColumn - b.startColumn)
-  }
-
-  private concatTokens(row: SemanticToken[]) {
-    let i = 1
-    while (i < row.length) {
-      const prevToken = row[i - 1]
-      const currentToken = row[i]
-
-      if (prevToken.element === currentToken.element && prevToken.type === currentToken.type) {
-        prevToken.endColumn = currentToken.endColumn
-        prevToken.endColumnPayload = currentToken.endColumnPayload
-
-        row.splice(i, 1)
-        continue
-      }
-
-      // Если между токенами есть промежуток, корректируем конец предыдущего
-      if (currentToken.startColumn > prevToken.endColumn + 1) {
-        prevToken.endColumn = currentToken.startColumn - 1
-        // Не изменяем endColumnPayload, так как это пробелы между разными токенами
-      }
-      i++
-    }
-  }
-
-  private readonly decorationOptions: {
-    [key in SemanticTokensTypes]?: monaco.editor.IModelDeltaDecoration["options"]
-  } = {
-    [SemanticTokensTypes.InputValue]: { inlineClassName: "edit-input-value-decoration" },
-    [SemanticTokensTypes.Button]: { inlineClassName: "edit-button-decoration" },
-    [SemanticTokensTypes.VerticalGroupHeader]: { inlineClassName: "edit-group-header-decoration" },
-    [SemanticTokensTypes.PageHeader]: { inlineClassName: "edit-page-header-decoration" },
-    [SemanticTokensTypes.Properties]: { inlineClassName: "edit-properties-decoration" },
   }
 
   public getDecorations(): monaco.editor.IModelDeltaDecoration[] {
@@ -133,6 +100,68 @@ export class SemanticTokensManager {
     }
 
     return result
+  }
+
+  public getLinks(): monaco.languages.ILinksList {
+    return {
+      links: this.linkTokens.map((token) => ({
+        range: {
+          startLineNumber: token.startLine,
+          startColumn: token.startColumnPayload,
+          endLineNumber: token.startLine,
+          endColumn: token.endColumnPayload,
+        },
+      })),
+    }
+  }
+
+  public getAtPosition(line: number, column: number): SemanticToken | undefined {
+    return this.rows[line - 1]?.find((token) => token.startColumn <= column && token.endColumn >= column)
+  }
+
+  private sortTokens(row: SemanticToken[]) {
+    row.sort((a, b) => a.startColumn - b.startColumn)
+  }
+
+  private concatTokens(row: SemanticToken[]) {
+    let i = 1
+    while (i < row.length) {
+      const prevToken = row[i - 1]
+      const currentToken = row[i]
+
+      if (prevToken.element === currentToken.element && prevToken.type === currentToken.type) {
+        prevToken.endColumn = currentToken.endColumn
+        prevToken.endColumnPayload = currentToken.endColumnPayload
+
+        row.splice(i, 1)
+        continue
+      }
+
+      // Если между токенами есть промежуток, корректируем конец предыдущего
+      if (currentToken.startColumn > prevToken.endColumn + 1) {
+        prevToken.endColumn = currentToken.startColumn - 1
+        // Не изменяем endColumnPayload, так как это пробелы между разными токенами
+      }
+      i++
+    }
+  }
+
+  private fillLinkTokens(row: SemanticToken[]) {
+    for (const token of row) {
+      if (token.type !== SemanticTokensTypes.VerticalGroupHeader) continue
+
+      this.linkTokens.push(token)
+    }
+  }
+
+  private readonly decorationOptions: {
+    [key in SemanticTokensTypes]?: monaco.editor.IModelDeltaDecoration["options"]
+  } = {
+    [SemanticTokensTypes.InputValue]: { inlineClassName: "edit-input-value-decoration" },
+    [SemanticTokensTypes.Button]: { inlineClassName: "edit-button-decoration" },
+    [SemanticTokensTypes.VerticalGroupHeader]: { inlineClassName: "edit-group-header-decoration" },
+    [SemanticTokensTypes.PageHeader]: { inlineClassName: "edit-page-header-decoration" },
+    [SemanticTokensTypes.Properties]: { inlineClassName: "edit-properties-decoration" },
   }
 
   private addTokens(ctx: CstElement[], type: SemanticTokensTypes, element: BaseFormElement, exclude: string[] = []) {

@@ -6,7 +6,7 @@ import { IFormatter } from "./formFormatter"
 import { FormFormatterFactory } from "./formatterFactory"
 
 export class VerticalGroupFormatter implements IFormatter<VerticalGroupElement> {
-  public format(element: VerticalGroupElement, params: { addIndent: boolean }): string[] {
+  public format(element: VerticalGroupElement, params: { addIndent: boolean } = { addIndent: false }): string[] {
     const indent = params.addIndent ? "  " : ""
     let textLines: string[] = []
     const header = this.getHeader(element, params.addIndent)

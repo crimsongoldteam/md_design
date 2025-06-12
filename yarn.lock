@@ -2566,6 +2566,7 @@ __metadata:
     reflect-metadata: "npm:^0.2.2"
     resize-observer-polyfill: "npm:^1.5.1"
     rollup: "npm:^4.41.1"
+    split.js: "npm:^1.6.5"
     terser: "npm:^5.37.0"
     typescript: "npm:~5.8.3"
     uuid: "npm:^11.1.0"
@@ -3265,6 +3266,13 @@ __metadata:
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
   checksum: 10c0/ab55398007c5e5532957cb0beee2368529618ac0ab372d789806f5718123cc4367d57de3904b4e6a4170eb5a0b0f41373066d02ca0735a0c4d75c7d328d3e011
+  languageName: node
+  linkType: hard
+
+"split.js@npm:^1.6.5":
+  version: 1.6.5
+  resolution: "split.js@npm:1.6.5"
+  checksum: 10c0/aff3985b838cee93bca712ba178e6be0928760ade1292fd0b38eb5e4da0130341f183a530bde58e85a3cd4d747b68aaacbd381b73552639f5b9773b5d0a7d4e9
   languageName: node
   linkType: hard
 

@@ -163,7 +163,13 @@ export class VerticalGroupElement extends BaseFormElement {
   public elementKind = "ОбычнаяГруппа"
 
   @Expose({ name: "Элементы" })
-  public readonly items: PageElement[] = []
+  public readonly items: BaseFormElement[] = []
+
+  public childrenFields = ["items"]
+}
+
+export class EditorContainerElement extends BaseFormElement {
+  public readonly items: BaseFormElement[] = []
 
   public childrenFields = ["items"]
 }
