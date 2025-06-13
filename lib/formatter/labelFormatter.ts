@@ -1,4 +1,4 @@
-import { LabelElement } from "../parser/visitorTools/formElements"
+import { LabelElement } from "../elements/labelElement"
 import { PropertiesFormatter } from "./propertiesFormatter"
 import { IFormatter } from "./formFormatter"
 import { FormatterUtils } from "./formatterUtils"

@@ -1,33 +1,20 @@
-// import "./polyfill.js"
-// import { CodeModel } from "./codeModel"
-// // import { EditorManager } from "./editor"
-// import { EnterpriseConnector } from "./enterpriseConnector.js"
+import "./polyfill.js"
 
-// let model = new CodeModel()
-// let connector = new EnterpriseConnector()
+import { Application } from "./application.js"
+import { EnterpriseConnector } from "./enterpriseConnector.js"
+import Split from "split.js"
 
-// model.on("CSTChange", () => {
-//   connector.changeCST({
-//     text: model.getText(),
-//     semanticsTree: model.getProduction(),
-//     selectionHierarchy: model.getSelectionHierarchy(),
-//   })
-// })
+const application = new Application(
+  document.getElementById("container-up") as HTMLElement,
+  document.getElementById("container-down") as HTMLElement
+)
 
-// model.on("PositionChange", () => {
-//   const location = model.getCursor()
-//   connector.changeSelectionHierarchy({
-//     line: location.line,
-//     column: location.column,
-//     selectionHierarchy: model.getSelectionHierarchy(),
-//   })
-// })
+Split(["#container-up", "#container-down"], {
+  direction: "vertical",
+})
 
-// let editor = new EditorManager(model)
+const connector = new EnterpriseConnector(application)
 
-// ;(window as any).getEditorText = () => {
-//   return editor.getEditorText()
-// }
-// ;(window as any).setEditorText = (text: string) => {
-//   editor.setEditorText(text)
-// }
+;(window as any).formatText = connector.formatText.bind(connector)
+;(window as any).setText = connector.setText.bind(connector)
+;(window as any).insertText = connector.insertText.bind(connector)

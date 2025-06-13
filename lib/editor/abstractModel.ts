@@ -1,22 +1,28 @@
 import { instanceToPlain } from "class-transformer"
-import { GroupVisitor } from "./parser/groupVisitor"
-import { lexer } from "./parser/lexer"
-import { parser } from "./parser/parser"
-import { Visitor } from "./parser/visitor"
-import { BaseFormElement, FormElement } from "./parser/visitorTools/formElements"
-import { SemanticTokensManager } from "./parser/visitorTools/sematicTokensManager"
-import { FormFormatterFactory } from "./formatter/formatterFactory"
+import { GroupVisitor } from "../parser/groupVisitor"
+import { lexer } from "../parser/lexer"
+import { parser } from "../parser/parser"
+import { Visitor } from "../parser/visitor"
+import { SemanticTokensManager } from "../parser/visitorTools/sematicTokensManager"
+import { FormFormatterFactory } from "../formatter/formatterFactory"
 import * as monaco from "monaco-editor-core"
 import { CstNode } from "chevrotain"
+import { BaseElement, CstPath } from "../elements/baseElement"
+import { FormElement } from "../elements/formElement"
+import { TableContainerElement } from "../elements/tableContainerElement"
+import { VerticalGroupElement } from "../elements/verticalGroupElement"
+import { PageElement } from "../elements/pageElement"
+import { EditorContainerElement } from "../elements/editorContainerElement"
+import { TableElement } from "../elements/tableElement"
 
-export abstract class AbstractModel<T extends BaseFormElement> {
+export abstract class AbstractModel<T extends BaseElement> {
   private readonly semanticTokensManager: SemanticTokensManager = new SemanticTokensManager()
 
   private readonly visitor: Visitor
   private readonly groupVisitor: GroupVisitor
   private text: string = ""
 
-  private readonly elementMap: Map<string, BaseFormElement> = new Map()
+  private readonly elementMap: Map<string, BaseElement> = new Map()
   private hierarchy: string[] = []
   private line: number = 0
   private column: number = 0
@@ -31,12 +37,10 @@ export abstract class AbstractModel<T extends BaseFormElement> {
   public abstract onChangeContent: (content: string) => void
   protected abstract parse(): CstNode
 
-  public format(silent: boolean = false): void {
+  public format(): void {
     const formatted = FormFormatterFactory.getFormatter(this.cst).format(this.cst)
     this.setText(formatted.join("\n"))
-    // if (!silent) {
     this.onChangeContent(this.getText())
-    // }
   }
 
   public setSemanicTree(element: T) {
@@ -48,15 +52,40 @@ export abstract class AbstractModel<T extends BaseFormElement> {
     return this.cst
   }
 
-  getCurrentElement(): BaseFormElement | undefined {
+  getCurrentElement(): BaseElement | undefined {
     const token = this.semanticTokensManager.getAtPosition(this.line, this.column)
     if (!token) return undefined
 
     return token.element
   }
 
-  public getElementByUuid(uuid: string): BaseFormElement | undefined {
-    return this.elementMap.get(uuid)
+  getCurrentTableContainerElement(): TableContainerElement | undefined {
+    let element = this.getCurrentElement()
+    while (element) {
+      if (
+        element instanceof FormElement ||
+        element instanceof PageElement ||
+        element instanceof VerticalGroupElement ||
+        element instanceof EditorContainerElement
+      ) {
+        return element as TableContainerElement
+      }
+      element = element.parent
+    }
+    return undefined
+  }
+
+  getCurrentTableElement(): TableElement | undefined {
+    let element = this.getCurrentElement()
+    while (element) {
+      if (element instanceof TableElement) return element
+      element = element.parent
+    }
+    return undefined
+  }
+
+  findElementByCstPath(path: CstPath): BaseElement | undefined {
+    return this.cst.findElementByCstPath(path)
   }
 
   public setText(text: string): void {
@@ -87,11 +116,6 @@ export abstract class AbstractModel<T extends BaseFormElement> {
   public setCursor(line: number, column: number): void {
     this.line = line
     this.column = column
-
-    // this.hierarchy = []
-    // this.addElementAtLocation(this.hierarchy, this.cst, line, column)
-
-    // this.emit("PositionChange", this.hierarchy)
   }
 
   public getProduction(): any {
@@ -101,30 +125,6 @@ export abstract class AbstractModel<T extends BaseFormElement> {
   public getSelectionHierarchy(): string[] {
     return this.hierarchy
   }
-
-  // private addElementAtLocation(result: string[], currentItem: BaseFormElement, row: number, column: number): boolean {
-  //   const currentRow = currentItem.location.get(row)
-  //   if (!currentRow) {
-  //     return false
-  //   }
-
-  //   if (column < currentRow.left || column > currentRow.right) {
-  //     return false
-  //   }
-
-  //   result.push(currentItem.uuid)
-
-  //   for (let childrenField of currentItem.childrenFields) {
-  //     let items = (currentItem as any)[childrenField]
-  //     for (let subItem of items) {
-  //       if (this.addElementAtLocation(result, subItem, row, column)) {
-  //         return true
-  //       }
-  //     }
-  //   }
-
-  //   return true
-  // }
 
   private build(): void {
     this.elementMap.clear()
@@ -142,9 +142,9 @@ export abstract class AbstractModel<T extends BaseFormElement> {
     this.fillElementMap(this.cst)
   }
 
-  private fillElementMap(element: BaseFormElement) {
-    this.elementMap.set(element.uuid, element)
-    for (let childrenField of element.childrenFields) {
+  private fillElementMap(element: BaseElement) {
+    this.elementMap.set(element.id, element)
+    for (let childrenField of (element.constructor as typeof BaseElement).childrenFields) {
       let items = (element as any)[childrenField]
       for (let subItem of items) {
         this.fillElementMap(subItem)

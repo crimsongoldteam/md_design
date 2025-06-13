@@ -1,7 +1,10 @@
 import { CstNode } from "chevrotain"
 import { AbstractModel } from "./abstractModel"
-import { EditorContainerElement, FormElement, VerticalGroupElement } from "./parser/visitorTools/formElements"
-import { parser } from "./parser/parser"
+import { parser } from "../parser/parser"
+import { FormElement } from "../elements/formElement"
+import { EditorContainerElement } from "../elements/editorContainerElement"
+import { VerticalGroupElement } from "../elements/verticalGroupElement"
+import { CstPath } from "../elements/baseElement"
 
 export class FormModel extends AbstractModel<FormElement> {
   constructor() {
@@ -12,13 +15,13 @@ export class FormModel extends AbstractModel<FormElement> {
     throw new Error("onChangeContent is not implemented")
   }
 
-  public updateVerticalGroup(groupId: string, containerElement: EditorContainerElement) {
-    const element = this.getElementByUuid(groupId)
+  public updateVerticalGroup(groupPath: CstPath, containerElement: EditorContainerElement) {
+    const element = this.findElementByCstPath(groupPath)
     if (element && element instanceof VerticalGroupElement) {
       element.items.length = 0
       element.items.push(...containerElement.items)
     }
-    this.format(true)
+    this.format()
   }
 
   protected override parse(): CstNode {

@@ -1,23 +1,3 @@
-import {
-  BaseFormElement,
-  ButtonElement,
-  ButtonGroupElement,
-  CheckboxElement,
-  CommandBarElement,
-  EditorContainerElement,
-  FormElement,
-  HorizontalGroupElement,
-  InputElement,
-  LabelElement,
-  OneLineGroupElement,
-  PageElement,
-  PagesElement,
-  TableCellElement,
-  TableColumnElement,
-  TableColumnGroupElement,
-  TableElement,
-  VerticalGroupElement,
-} from "../parser/visitorTools/formElements"
 import { FormFormatter, IFormatter } from "./formFormatter"
 import { InputFormatter } from "./inputFormatter"
 import { LabelFormatter } from "./labelFormatter"
@@ -35,9 +15,27 @@ import { TableCellFormatter } from "./table/tableCellFormatter"
 import { TableColumnFormatter } from "./table/tableColumnFormatter"
 import { OneLineGroupFormatter } from "./oneLineGroupFormatter"
 import { EditorContainerFormatter } from "./editorContainerFormatter"
+import { BaseElement } from "../elements/baseElement"
+import { FormElement } from "../elements/formElement"
+import { InputElement } from "../elements/inputElement"
+import { LabelElement } from "../elements/labelElement"
+import { HorizontalGroupElement } from "../elements/horizontalGroupElement"
+import { VerticalGroupElement } from "../elements/verticalGroupElement"
+import { CheckboxElement } from "../elements/checkboxElement"
+import { PagesElement } from "../elements/pagesElement"
+import { PageElement } from "../elements/pageElement"
+import { CommandBarElement } from "../elements/commandBarElement"
+import { ButtonElement } from "../elements/buttonElement"
+import { ButtonGroupElement } from "../elements/buttonGroupElement"
+import { TableElement } from "../elements/tableElement"
+import { TableColumnElement } from "../elements/tableColumnElement"
+import { TableColumnGroupElement } from "../elements/tableColumnGroupElement"
+import { TableCellElement } from "../elements/tableCellElement"
+import { OneLineGroupElement } from "../elements/oneLineGroupElement"
+import { EditorContainerElement } from "../elements/editorContainerElement"
 
 export class FormFormatterFactory {
-  private static readonly formatters = new Map<typeof BaseFormElement, new () => IFormatter<BaseFormElement>>()
+  private static readonly formatters = new Map<typeof BaseElement, new () => IFormatter<BaseElement>>()
 
   public static initialize(): void {
     this.registerFormatter(FormElement, FormFormatter)
@@ -60,14 +58,14 @@ export class FormFormatterFactory {
   }
 
   public static registerFormatter(
-    elementKind: typeof BaseFormElement,
-    formatterCtor: new () => IFormatter<BaseFormElement>
+    elementKind: typeof BaseElement,
+    formatterCtor: new () => IFormatter<BaseElement>
   ): void {
     this.formatters.set(elementKind, formatterCtor)
   }
 
-  public static getFormatter(element: BaseFormElement): IFormatter<BaseFormElement> {
-    const FormatterCtor = this.formatters.get(element.constructor as typeof BaseFormElement)
+  public static getFormatter(element: BaseElement): IFormatter<BaseElement> {
+    const FormatterCtor = this.formatters.get(element.constructor as typeof BaseElement)
     if (!FormatterCtor) {
       throw new Error(`Formatter for ${element.constructor.name} not found`)
     }

@@ -1,10 +1,9 @@
-import {
-  TableColumnElement,
-  TableColumnGroupElement,
-  TableElement,
-  TableEmptyElement,
-  TableHeaderElementExt,
-} from "./formElements"
+import { ElementListType } from "@/elements/baseElement"
+import { TableColumnElement } from "@/elements/tableColumnElement"
+import { TableColumnGroupElement } from "@/elements/tableColumnGroupElement"
+import { TableElement } from "@/elements/tableElement"
+import { TableEmptyElement } from "@/elements/tableEmptyElement"
+import { TableHeaderElementExt } from "@/elements/tableHeaderElement"
 
 export class TableHeaderMap {
   private map: TableHeaderElementExt[][] = []
@@ -138,7 +137,7 @@ export class TableHeaderMap {
       return
     }
 
-    let field = parent instanceof TableElement ? "columns" : "items"
+    let field = parent instanceof TableElement ? ElementListType.Columns : ElementListType.Items
     parent.add(field, [item])
   }
 

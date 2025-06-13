@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "ES2018",
     "module": "CommonJS",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "sourceMap": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -23,10 +27,18 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "@/*": ["./lib/*"],
-      "@assets/*": ["./assets/*"]
+      "@/*": [
+        "./lib/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ]
     }
   },
-  "include": ["lib"],
-  "exclude": ["/lib/playground/*"]
+  "include": [
+    "lib"
+  ],
+  "exclude": [
+    "/lib/playground/*"
+  ]
 }

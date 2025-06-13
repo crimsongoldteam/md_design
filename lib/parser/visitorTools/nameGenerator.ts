@@ -1,9 +1,9 @@
-import { BaseFormElement } from "./formElements"
+import { BaseElement } from "./formElements"
 
 export class NameGenerator {
   private readonly usedNames: Set<string> = new Set()
 
-  public generateName(element: BaseFormElement): string {
+  public generateName(element: BaseElement): string {
     let baseName = element.getBaseElementName()
     let candidateName = baseName
     let counter = 1

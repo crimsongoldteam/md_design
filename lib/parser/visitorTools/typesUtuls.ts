@@ -1,5 +1,5 @@
 import { isValid, parse } from "date-fns"
-import { DateFractions, TypeDescription } from "./formElements"
+import { DateFractions, TypeDescription } from "@/elements/typeDescription"
 
 export class TypesUtils {
   public static getTypeByContent(content: string | undefined): TypeDescription {

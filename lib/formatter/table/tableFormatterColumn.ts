@@ -1,4 +1,6 @@
-import { TableHeaderElement, TableColumnGroupElement, TableCellAlignment } from "../../parser/visitorTools/formElements"
+import { TableHeaderElement } from "@/elements/tableHeaderElement"
+import { TableColumnGroupElement } from "@/elements/tableColumnGroupElement"
+import { TableCellAlignment } from "@/elements/baseElement"
 import { BaseTableFormatterCell } from "./baseTableFormatterCell"
 import { FormFormatterFactory } from "../formatterFactory"
 import { FormatterUtils } from "../formatterUtils"

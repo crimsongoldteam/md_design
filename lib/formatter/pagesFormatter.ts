@@ -1,6 +1,5 @@
-import { PagesElement } from "@/parser/visitorTools/formElements"
+import { PagesElement } from "../elements/pagesElement"
 import { IFormatter } from "./formFormatter"
-import { PropertiesFormatter } from "./propertiesFormatter"
 import { FormFormatterFactory } from "./formatterFactory"
 
 export class PagesFormatter implements IFormatter<PagesElement> {

@@ -1,6 +1,7 @@
+import { ButtonElement } from "../elements/buttonElement"
+import { ButtonGroupElement } from "../elements/buttonGroupElement"
+import { CommandBarElement } from "../elements/commandBarElement"
 import * as t from "../parser/lexer"
-
-import { ButtonElement, ButtonGroupElement, CommandBarElement } from "../parser/visitorTools/formElements"
 import { FormFormatterFactory } from "./formatterFactory"
 import { FormatterUtils } from "./formatterUtils"
 import { IFormatter } from "./formFormatter"

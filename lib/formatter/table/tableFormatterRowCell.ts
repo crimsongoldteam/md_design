@@ -1,5 +1,5 @@
-import { TableCellElement } from "../../parser/visitorTools/formElements"
-import { BaseTableFormatterCell } from "./BaseTableFormatterCell"
+import { TableCellElement } from "../elements/tableCellElement"
+import { BaseTableFormatterCell } from "./baseTableFormatterCell"
 import { FormFormatterFactory } from "../formatterFactory"
 import { TableCellFormatter } from "./tableCellFormatter"
 import { TableFormatterColumn } from "./tableFormatterColumn"

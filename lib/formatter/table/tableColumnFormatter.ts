@@ -1,6 +1,6 @@
+import { TableColumnElement } from "../elements/tableColumnElement"
 import * as t from "../../parser/lexer"
 
-import { TableColumnElement } from "../../parser/visitorTools/formElements"
 import { IFormatter } from "../formFormatter"
 import { PropertiesFormatter } from "../propertiesFormatter"
 

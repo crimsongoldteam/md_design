@@ -1,6 +1,5 @@
+import { VerticalGroupElement } from "../elements/verticalGroupElement"
 import * as t from "../parser/lexer"
-
-import { VerticalGroupElement } from "../parser/visitorTools/formElements"
 import { PropertiesFormatter } from "./propertiesFormatter"
 import { IFormatter } from "./formFormatter"
 import { FormFormatterFactory } from "./formatterFactory"

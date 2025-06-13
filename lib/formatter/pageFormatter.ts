@@ -1,6 +1,5 @@
+import { PageElement } from "../elements/pageElement"
 import * as t from "../parser/lexer"
-
-import { PageElement } from "../parser/visitorTools/formElements"
 import { FormFormatterFactory } from "./formatterFactory"
 import { IFormatter } from "./formFormatter"
 import { PropertiesFormatter } from "./propertiesFormatter"

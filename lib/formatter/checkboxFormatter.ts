@@ -1,4 +1,4 @@
-import { CheckboxElement } from "../parser/visitorTools/formElements"
+import { CheckboxElement } from "../elements/checkboxElement"
 import { FormFormatterFactory } from "./formatterFactory"
 import { IFormatter } from "./formFormatter"
 import { FormatterUtils } from "./formatterUtils"

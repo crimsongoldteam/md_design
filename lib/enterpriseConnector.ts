@@ -1,7 +1,35 @@
-import { BaseFormElement } from "./parser/visitorTools/formElements"
+import { Application } from "./application"
+import { BaseElement } from "./parser/visitorTools/formElements"
 
 export class EnterpriseConnector {
-  public changeSelectionHierarchy(params: { line: number; column: number; selectionHierarchy: string[] }): void {
+  private readonly application: Application
+
+  constructor(application: Application) {
+    this.application = application
+    this.application.onChangeContent = this.onChangeContent.bind(this)
+  }
+
+  public formatText(): void {
+    this.application.formatText()
+  }
+
+  public setText(text: string): void {
+    this.application.setText(text)
+  }
+
+  public insertText(text: string): void {
+    this.application.insertText(text)
+  }
+
+  private onChangeContent(): void {
+    this.changeCST({
+      text: this.application.getText(),
+      semanticsTree: this.application.getProduction(),
+      selectionHierarchy: [],
+    })
+  }
+
+  private changeSelectionHierarchy(params: { line: number; column: number; selectionHierarchy: string[] }): void {
     const result = {
       line: params.line,
       column: params.column,
@@ -10,7 +38,7 @@ export class EnterpriseConnector {
     this.sendEvent("EVENT_CHANGE_CURSOR_SELECTION", result)
   }
 
-  public changeCST(params: { text: string; semanticsTree: BaseFormElement; selectionHierarchy: string[] }): void {
+  private changeCST(params: { text: string; semanticsTree: BaseElement; selectionHierarchy: string[] }): void {
     const result = {
       text: params.text,
       semanticsTree: JSON.stringify(params.semanticsTree, null, 2),

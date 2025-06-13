@@ -1,8 +1,8 @@
+import { BaseElement } from "../elements/baseElement"
 import * as t from "../parser/lexer"
-import { BaseFormElement } from "@/parser/visitorTools/formElements"
 
 export class FormatterUtils {
-  public static getAlignmentAtLeft(element: BaseFormElement): string {
+  public static getAlignmentAtLeft(element: BaseElement): string {
     if (
       element.properties["ГоризонтальноеПоложениеВГруппе"] === "Центр" ||
       element.properties["ГоризонтальноеПоложениеВГруппе"] === "Право"
@@ -17,7 +17,7 @@ export class FormatterUtils {
     return ""
   }
 
-  public static getAlignmentAtRight(element: BaseFormElement): string {
+  public static getAlignmentAtRight(element: BaseElement): string {
     if (element.properties["ГоризонтальноеПоложениеВГруппе"] === "Центр") {
       return " " + t.LArrow.LABEL
     }
@@ -29,12 +29,12 @@ export class FormatterUtils {
     return ""
   }
 
-  public static excludeStretchProperties(excludeProperties: string[], element: BaseFormElement): void {
+  public static excludeStretchProperties(excludeProperties: string[], element: BaseElement): void {
     if (!this.isStretch(element)) return
 
     excludeProperties.push("РастягиватьПоГоризонтали")
   }
-  private static isStretch(element: BaseFormElement): boolean {
+  private static isStretch(element: BaseElement): boolean {
     return element.properties["РастягиватьПоГоризонтали"] && !element.properties["ГоризонтальноеПоложениеВГруппе"]
   }
 

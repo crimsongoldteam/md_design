@@ -1,4 +1,7 @@
-import { ButtonGroupElement, ButtonElement, CommandBarElement } from "./formElements"
+import { ElementListType } from "@/elements/baseElement"
+import { ButtonElement } from "@/elements/buttonElement"
+import { ButtonGroupElement } from "@/elements/buttonGroupElement"
+import { CommandBarElement } from "@/elements/commandBarElement"
 import { HierarchyManager } from "./hierarchyManager"
 
 export class CommandBarManager {
@@ -29,7 +32,7 @@ export class CommandBarManager {
     }
 
     if (groups.length == 1) {
-      this.defaultGroup.add("items", groups[0].items)
+      this.defaultGroup.add(ElementListType.Items, groups[0].items)
 
       return
     }

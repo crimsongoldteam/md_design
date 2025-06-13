@@ -753,16 +753,6 @@
 											<LocationInCommandBar>InCommandBar</LocationInCommandBar>
 											<ExtendedTooltip name="РедакторТаблицыРасширеннаяПодсказка" id="118"/>
 										</Button>
-										<Button name="РедакторГрупп" id="152">
-											<Type>CommandBarButton</Type>
-											<CommandName>Form.Command.РедакторГрупп</CommandName>
-											<Picture>
-												<xr:Abs>Picture.png</xr:Abs>
-												<xr:LoadTransparent>false</xr:LoadTransparent>
-											</Picture>
-											<LocationInCommandBar>InCommandBar</LocationInCommandBar>
-											<ExtendedTooltip name="РедакторГруппРасширеннаяПодсказка" id="153"/>
-										</Button>
 										<Button name="ДобавитьКартинку" id="105">
 											<Type>CommandBarButton</Type>
 											<Representation>Picture</Representation>
@@ -882,124 +872,6 @@
 								<Event name="OnClick">РедакторПриНажатии</Event>
 							</Events>
 						</HTMLDocumentField>
-					</ChildItems>
-				</UsualGroup>
-				<UsualGroup name="ГруппаРедакторГрупп" id="154">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Группа редактор групп</v8:content>
-						</v8:item>
-					</Title>
-					<HorizontalStretch>true</HorizontalStretch>
-					<VerticalStretch>true</VerticalStretch>
-					<Group>Vertical</Group>
-					<Representation>None</Representation>
-					<ShowTitle>false</ShowTitle>
-					<ExtendedTooltip name="ГруппаРедакторГруппРасширеннаяПодсказка" id="155"/>
-					<ChildItems>
-						<Table name="ТаблицаГруппы" id="156">
-							<Representation>List</Representation>
-							<AutoMaxHeight>false</AutoMaxHeight>
-							<MaxHeight>3</MaxHeight>
-							<Header>false</Header>
-							<HorizontalLines>false</HorizontalLines>
-							<VerticalLines>false</VerticalLines>
-							<AutoInsertNewRow>true</AutoInsertNewRow>
-							<EnableStartDrag>true</EnableStartDrag>
-							<EnableDrag>true</EnableDrag>
-							<DataPath>ТаблицаГруппы</DataPath>
-							<SearchStringLocation>None</SearchStringLocation>
-							<ViewStatusLocation>None</ViewStatusLocation>
-							<SearchControlLocation>None</SearchControlLocation>
-							<RowFilter xsi:nil="true"/>
-							<ContextMenu name="ТаблицаГруппыКонтекстноеМеню" id="157"/>
-							<AutoCommandBar name="ТаблицаГруппыКоманднаяПанель" id="158">
-								<Autofill>false</Autofill>
-								<ChildItems>
-									<Button name="ТаблицаГруппыВРедактор" id="172">
-										<Type>CommandBarButton</Type>
-										<CommandName>Form.Command.ВРедактор</CommandName>
-										<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
-										<ExtendedTooltip name="ТаблицаГруппыВРедакторРасширеннаяПодсказка" id="173"/>
-									</Button>
-									<Button name="ТаблицаГруппыДобавить" id="174">
-										<Type>CommandBarButton</Type>
-										<CommandName>Form.Item.ТаблицаГруппы.StandardCommand.Add</CommandName>
-										<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
-										<ExtendedTooltip name="ТаблицаГруппыДобавитьРасширеннаяПодсказка" id="175"/>
-									</Button>
-									<ButtonGroup name="ТаблицаГруппыПорядок" id="182">
-										<Title>
-											<v8:item>
-												<v8:lang>ru</v8:lang>
-												<v8:content>Таблица группы порядок</v8:content>
-											</v8:item>
-										</Title>
-										<ToolTip>
-											<v8:item>
-												<v8:lang>ru</v8:lang>
-												<v8:content>Таблица группы порядок</v8:content>
-											</v8:item>
-										</ToolTip>
-										<ExtendedTooltip name="ТаблицаГруппыПорядокРасширеннаяПодсказка" id="183"/>
-										<ChildItems>
-											<Button name="ТаблицаГруппыПереместитьВверх" id="178">
-												<Type>CommandBarButton</Type>
-												<CommandName>Form.Item.ТаблицаГруппы.StandardCommand.MoveUp</CommandName>
-												<ExtendedTooltip name="ТаблицаГруппыПереместитьВверхРасширеннаяПодсказка" id="179"/>
-											</Button>
-											<Button name="ТаблицаГруппыПереместитьВниз" id="180">
-												<Type>CommandBarButton</Type>
-												<CommandName>Form.Item.ТаблицаГруппы.StandardCommand.MoveDown</CommandName>
-												<ExtendedTooltip name="ТаблицаГруппыПереместитьВнизРасширеннаяПодсказка" id="181"/>
-											</Button>
-										</ChildItems>
-									</ButtonGroup>
-								</ChildItems>
-							</AutoCommandBar>
-							<ExtendedTooltip name="ТаблицаГруппыРасширеннаяПодсказка" id="159"/>
-							<SearchStringAddition name="ТаблицаГруппыСтрокаПоиска" id="160">
-								<AdditionSource>
-									<Item>ТаблицаГруппы</Item>
-									<Type>SearchStringRepresentation</Type>
-								</AdditionSource>
-								<ContextMenu name="ТаблицаГруппыСтрокаПоискаКонтекстноеМеню" id="161"/>
-								<ExtendedTooltip name="ТаблицаГруппыСтрокаПоискаРасширеннаяПодсказка" id="162"/>
-							</SearchStringAddition>
-							<ViewStatusAddition name="ТаблицаГруппыСостояниеПросмотра" id="163">
-								<AdditionSource>
-									<Item>ТаблицаГруппы</Item>
-									<Type>ViewStatusRepresentation</Type>
-								</AdditionSource>
-								<ContextMenu name="ТаблицаГруппыСостояниеПросмотраКонтекстноеМеню" id="164"/>
-								<ExtendedTooltip name="ТаблицаГруппыСостояниеПросмотраРасширеннаяПодсказка" id="165"/>
-							</ViewStatusAddition>
-							<SearchControlAddition name="ТаблицаГруппыУправлениеПоиском" id="166">
-								<AdditionSource>
-									<Item>ТаблицаГруппы</Item>
-									<Type>SearchControl</Type>
-								</AdditionSource>
-								<ContextMenu name="ТаблицаГруппыУправлениеПоискомКонтекстноеМеню" id="167"/>
-								<ExtendedTooltip name="ТаблицаГруппыУправлениеПоискомРасширеннаяПодсказка" id="168"/>
-							</SearchControlAddition>
-							<Events>
-								<Event name="Selection">ТаблицаГруппыВыбор</Event>
-								<Event name="BeforeAddRow">ТаблицаГруппыПередНачаломДобавления</Event>
-								<Event name="OnActivateRow">ТаблицаГруппыПриАктивизацииСтроки</Event>
-								<Event name="OnStartEdit">ТаблицаГруппыПриНачалеРедактирования</Event>
-								<Event name="OnChange">ТаблицаГруппыПриИзменении</Event>
-							</Events>
-							<ChildItems>
-								<InputField name="ТаблицаГруппыЗаголовок" id="169">
-									<DataPath>ТаблицаГруппы.Заголовок</DataPath>
-									<EditMode>EnterOnInput</EditMode>
-									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-									<ContextMenu name="ТаблицаГруппыЗаголовокКонтекстноеМеню" id="170"/>
-									<ExtendedTooltip name="ТаблицаГруппыЗаголовокРасширеннаяПодсказка" id="171"/>
-								</InputField>
-							</ChildItems>
-						</Table>
 					</ChildItems>
 				</UsualGroup>
 				<UsualGroup name="ГруппаПодвал" id="466">
@@ -2779,10 +2651,6 @@
 				</v8:item>
 			</ToolTip>
 			<Shortcut>Ctrl+Alt+F</Shortcut>
-			<Picture>
-				<xr:Ref>StdPicture.ExternalDataSourceFunction</xr:Ref>
-				<xr:LoadTransparent>true</xr:LoadTransparent>
-			</Picture>
 			<Action>Форматировать</Action>
 		</Command>
 		<Command name="ПостроитьФорму" id="5">
@@ -2941,26 +2809,6 @@
 				</v8:item>
 			</ToolTip>
 			<Action>ДобавитьЦвет</Action>
-		</Command>
-		<Command name="РедакторГрупп" id="12">
-			<Title>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Редактор групп</v8:content>
-				</v8:item>
-			</Title>
-			<ToolTip>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Редактор групп</v8:content>
-				</v8:item>
-			</ToolTip>
-			<Picture>
-				<xr:Ref>StdPicture.LevelDown</xr:Ref>
-				<xr:LoadTransparent>true</xr:LoadTransparent>
-			</Picture>
-			<Action>РедакторГрупп</Action>
-			<Representation>Picture</Representation>
 		</Command>
 		<Command name="ВРедактор" id="13">
 			<Title>

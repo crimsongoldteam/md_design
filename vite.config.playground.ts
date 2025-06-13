@@ -24,7 +24,7 @@ export default defineConfig((api) => {
     plugins: [viteSingleFile()],
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./src"),
+        "@": path.resolve(__dirname, "./lib"),
         "@assets": path.resolve(__dirname, "./assets"),
       },
     },

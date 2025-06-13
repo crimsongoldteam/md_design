@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "@ungap/global-this": "^0.4.4",
+    "@ungap/trim-end": "^0.2.0",
+    "@ungap/trim-start": "^0.2.0",
     "@ungap/weakrefs": "^0.2.0",
     "@vitejs/plugin-legacy": "^6.1.1",
     "chevrotain": "^11.0.3",

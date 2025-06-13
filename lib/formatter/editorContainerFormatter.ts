@@ -1,4 +1,5 @@
-import { EditorContainerElement } from "../parser/visitorTools/formElements"
+import { EditorContainerElement } from "../elements/editorContainerElement"
+import trimEnd from "@ungap/trim-end"
 import { FormFormatterFactory } from "./formatterFactory"
 import { IFormatter } from "./formFormatter"
 
@@ -7,8 +8,14 @@ export class EditorContainerFormatter implements IFormatter<EditorContainerEleme
     const result: string[] = []
 
     for (const item of element.items) {
-      result.push(...FormFormatterFactory.getFormatter(item).format(item))
+      const formatted = FormFormatterFactory.getFormatter(item).format(item)
+      result.push(...formatted)
     }
+
+    result.forEach((item, index) => {
+      result[index] = trimEnd.call(item, "")
+    })
+
     return result
   }
 }

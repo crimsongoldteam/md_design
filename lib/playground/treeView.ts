@@ -1,4 +1,5 @@
-import { FormElement } from "../parser/visitorTools/formElements"
+import { BaseElement } from "@/elements/baseElement"
+import { FormElement } from "../elements/formElement"
 import editorWorker from "monaco-editor-core/esm/vs/editor/editor.worker?worker"
 ;(self as any).MonacoEnvironment = {
   getWorker(): Worker {
@@ -30,24 +31,24 @@ export class TreeView {
     this.cstToTree(this.container, this.cst)
   }
 
-  private cstToTree(currentHTMLElement: HTMLElement, cst: FormElement): void {
+  private cstToTree(currentHTMLElement: HTMLElement, cst: BaseElement): void {
     const details = currentHTMLElement
       .appendChild(document.createElement("ul"))
       .appendChild(document.createElement("li"))
       .appendChild(document.createElement("details"))
     details.setAttribute("open", "")
 
-    let caption = cst.uuid
+    let caption = cst.id
     caption = caption + " " + JSON.stringify(cst.properties)
 
     const summary = details.appendChild(document.createElement("summary"))
     summary.textContent = caption
 
-    if (this.hierarchy.find((item) => item === cst.uuid)) {
+    if (this.hierarchy.find((item) => item === cst.id)) {
       summary.setAttribute("class", "tree-selected")
     }
 
-    for (let childrenField of cst.childrenFields) {
+    for (let childrenField of cst.getChildrenFields()) {
       let items = (cst as any)[childrenField]
       for (let subItem of items) {
         this.cstToTree(details, subItem)

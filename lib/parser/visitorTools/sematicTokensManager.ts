@@ -1,6 +1,8 @@
 import { CstElement, CstNode, IToken } from "chevrotain"
-import { BaseFormElement } from "./formElements"
+import { BaseElement } from "./formElements"
 import * as monaco from "monaco-editor-core"
+import trimStart from "@ungap/trim-start"
+import trimEnd from "@ungap/trim-end"
 
 export enum SemanticTokensTypes {
   FormHeader,
@@ -29,9 +31,9 @@ class SemanticToken {
   public startColumnPayload: number = Number.MAX_SAFE_INTEGER
   public endColumnPayload: number = 0
 
-  public element: BaseFormElement
+  public element: BaseElement
   public type: SemanticTokensTypes
-  constructor(type: SemanticTokensTypes, element: BaseFormElement) {
+  constructor(type: SemanticTokensTypes, element: BaseElement) {
     this.type = type
     this.element = element
   }
@@ -45,7 +47,7 @@ export class SemanticTokensManager {
     this.rows = []
   }
 
-  public add(type: SemanticTokensTypes, ctx: CstElement[], element: BaseFormElement, exclude: string[] = []) {
+  public add(type: SemanticTokensTypes, ctx: CstElement[], element: BaseElement, exclude: string[] = []) {
     if (!ctx || ctx.length === 0) {
       return
     }
@@ -105,6 +107,7 @@ export class SemanticTokensManager {
   public getLinks(): monaco.languages.ILinksList {
     return {
       links: this.linkTokens.map((token) => ({
+        tooltip: "Редактировать группу",
         range: {
           startLineNumber: token.startLine,
           startColumn: token.startColumnPayload,
@@ -164,7 +167,7 @@ export class SemanticTokensManager {
     [SemanticTokensTypes.Properties]: { inlineClassName: "edit-properties-decoration" },
   }
 
-  private addTokens(ctx: CstElement[], type: SemanticTokensTypes, element: BaseFormElement, exclude: string[] = []) {
+  private addTokens(ctx: CstElement[], type: SemanticTokensTypes, element: BaseElement, exclude: string[] = []) {
     for (let node of ctx) {
       if ((node as CstNode).children) {
         for (const [key, value] of Object.entries((node as CstNode).children)) {
@@ -180,15 +183,15 @@ export class SemanticTokensManager {
     }
   }
 
-  private addToken(type: SemanticTokensTypes, element: BaseFormElement, token: IToken) {
+  private addToken(type: SemanticTokensTypes, element: BaseElement, token: IToken) {
     const semanticToken: SemanticToken = new SemanticToken(type, element)
     semanticToken.startLine = token.startLine ?? 0
     semanticToken.startColumn = token.startColumn ?? 0
     semanticToken.endColumn = token.endColumn ?? 0
 
     const image = token.image
-    const leadingSpaceLength = image.length - this.getTrimmedStart(image).length
-    const trailingSpaceLength = image.length - this.getTrimmedEnd(image).length
+    const leadingSpaceLength = image.length - trimStart.call(image, "").length
+    const trailingSpaceLength = image.length - trimEnd.call(image, "").length
 
     semanticToken.startColumnPayload = semanticToken.startColumn + leadingSpaceLength
     semanticToken.endColumnPayload = semanticToken.endColumn - trailingSpaceLength + 1
@@ -197,25 +200,5 @@ export class SemanticTokensManager {
       this.rows[semanticToken.startLine - 1] = []
     }
     this.rows[semanticToken.startLine - 1].push(semanticToken)
-  }
-
-  /**
-   * Возвращает строку с обрезанными ведущими пробелами.
-   * Поддерживает как `trimStart()`, так и устаревший `trimLeft()`.
-   */
-  private getTrimmedStart(str: string): string {
-    if (typeof str.trimStart === "function") return str.trimStart()
-    if (typeof str.trimLeft === "function") return str.trimLeft() // NOSONAR
-    return str.replace(/^\s+/, "")
-  }
-
-  /**
-   * Возвращает строку с обрезанными завершающими пробелами.
-   * Поддерживает как `trimEnd()`, так и устаревший `trimRight()`.
-   */
-  private getTrimmedEnd(str: string): string {
-    if (typeof str.trimEnd === "function") return str.trimEnd()
-    if (typeof str.trimRight === "function") return str.trimRight() // NOSONAR
-    return str.replace(/\s+$/, "")
   }
 }

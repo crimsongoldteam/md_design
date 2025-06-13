@@ -1,5 +1,5 @@
+import { ButtonElement } from "../elements/buttonElement"
 import * as t from "../parser/lexer"
-import { ButtonElement } from "../parser/visitorTools/formElements"
 import { FormFormatterFactory } from "./formatterFactory"
 import { IFormatter } from "./formFormatter"
 

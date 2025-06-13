@@ -1,4 +1,4 @@
-import { TableCellAlignment } from "../../parser/visitorTools/formElements"
+import { TableCellAlignment } from "@/elements/baseElement"
 import { ITableFormatterCell } from "./tableFormatter"
 
 export abstract class BaseTableFormatterCell implements ITableFormatterCell {

@@ -1,5 +1,5 @@
+import { InputElement } from "../elements/inputElement"
 import * as t from "../parser/lexer"
-import { InputElement } from "../parser/visitorTools/formElements"
 import { IFormatter } from "./formFormatter"
 import { FormFormatterFactory } from "./formatterFactory"
 import { FormatterUtils } from "./formatterUtils"

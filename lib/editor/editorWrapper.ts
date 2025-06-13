@@ -1,6 +1,6 @@
 import * as monaco from "monaco-editor-core"
 import { AbstractModel } from "./abstractModel"
-import { BaseFormElement } from "./parser/visitorTools/formElements"
+import { BaseElement } from "../elements/baseElement"
 
 export class EditorWrapper {
   private readonly editor: monaco.editor.IStandaloneCodeEditor
@@ -14,43 +14,35 @@ export class EditorWrapper {
     this.languageSelector = languageSelector
 
     this.editor = this.createEditor(container)
-    this.decorationsCollection = this.editor.createDecorationsCollection([])
     this.editor.onDidChangeCursorSelection(this.onDidChangeCursorSelection.bind(this))
-
     this.editor.onDidChangeModelContent(this.onChangeEditorContent.bind(this))
 
     this.model.onChangeContent = this.onChangeModelContent.bind(this)
 
+    this.decorationsCollection = this.editor.createDecorationsCollection([])
+
     window.addEventListener("resize", this.handleResize.bind(this))
   }
 
-  public onChangeContent: (semanticTree: BaseFormElement) => void = () => {
+  getModel(): AbstractModel<any> {
+    return this.model
+  }
+
+  public onChangeContent: (semanticTree: BaseElement) => void = () => {
     throw new Error("onChangeContent is not implemented")
   }
 
-  public onSelectGroup: (groupId: string) => void = () => {
-    throw new Error("onSelectGroup is not implemented")
-  }
-
   public readonly onChangeCurrentElement: (() => void) | undefined
-
-  // public updateGroup(groupUuid: string, semanticTree: any) {
-  //   this.model.updateVerticalGroup(groupUuid, semanticTree)
-  // }
 
   getEditorModel(): monaco.editor.ITextModel {
     return this.editor.getModel() as monaco.editor.ITextModel
   }
 
-  public getElementByUuid(elementUuid: string): BaseFormElement | undefined {
-    return this.model.getElementByUuid(elementUuid)
-  }
-
-  public getSemanicTree(): BaseFormElement {
+  public getSemanicTree(): BaseElement {
     return this.model.getSemanicTree()
   }
 
-  public setSemanicTree(element: BaseFormElement): void {
+  public setSemanicTree(element: BaseElement): void {
     this.model.setSemanicTree(element)
   }
 
@@ -60,6 +52,22 @@ export class EditorWrapper {
 
   public setText(text: string): void {
     this.editor.setValue(text)
+  }
+
+  public insertText(text: string): void {
+    const position = this.model.getCursor()
+    const range = {
+      startLineNumber: position.line,
+      startColumn: position.column,
+      endLineNumber: position.line,
+      endColumn: position.column,
+    }
+
+    this.editor.executeEdits("insertText", [{ range: range, text: text }])
+  }
+
+  public format(): void {
+    this.model.format()
   }
 
   public setPosition(lineNumber: number, column: number): void {

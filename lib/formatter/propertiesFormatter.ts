@@ -1,8 +1,9 @@
-import { BaseFormElement, TypeDescription, DateFractions } from "../parser/visitorTools/formElements"
+import { BaseElement } from "../elements/baseElement"
+import { TypeDescription, DateFractions } from "../elements/typeDescription"
 import { IFormatter } from "./formFormatter"
 
-export class PropertiesFormatter implements IFormatter<BaseFormElement> {
-  public format(element: BaseFormElement, params?: { excludeProperties: string[] }): string[] {
+export class PropertiesFormatter implements IFormatter<BaseElement> {
+  public format(element: BaseElement, params?: { excludeProperties: string[] }): string[] {
     const template = "%1 = %2"
     const resultArray: string[] = []
 

@@ -1715,6 +1715,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ungap/trim-end@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@ungap/trim-end@npm:0.2.0"
+  checksum: 10c0/2b61e32e70391fde80f9e9adbd42cf75b05484653496833c549b669d76f5011cd5e8fbc0f4741f173a7b855dad89e856e9ec4de5475ee7792a18fc6ac6d909b1
+  languageName: node
+  linkType: hard
+
+"@ungap/trim-start@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@ungap/trim-start@npm:0.2.0"
+  checksum: 10c0/040f8f7101aed4968c08c120cef9a64c4fb3dd9876ca7adb5d448c8267fe3fd849b72e0746818e57b735ccd66b4be5469823aaea1c9dd1572003c1f7bd94b80c
+  languageName: node
+  linkType: hard
+
 "@ungap/weakrefs@npm:^0.2.0":
   version: 0.2.0
   resolution: "@ungap/weakrefs@npm:0.2.0"
@@ -2554,6 +2568,8 @@ __metadata:
   dependencies:
     "@types/node": "npm:^22.15.21"
     "@ungap/global-this": "npm:^0.4.4"
+    "@ungap/trim-end": "npm:^0.2.0"
+    "@ungap/trim-start": "npm:^0.2.0"
     "@ungap/weakrefs": "npm:^0.2.0"
     "@vitejs/plugin-legacy": "npm:^6.1.1"
     chevrotain: "npm:^11.0.3"

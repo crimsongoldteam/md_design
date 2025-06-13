@@ -1,5 +1,5 @@
-import { TableCellAlignment } from "../../parser/visitorTools/formElements"
-import { BaseTableFormatterCell } from "./BaseTableFormatterCell"
+import { TableCellAlignment } from "@/elements/baseElement"
+import { BaseTableFormatterCell } from "./baseTableFormatterCell"
 import { TableFormatterColumn } from "./tableFormatterColumn"
 
 export class TableFormatterSeparator extends BaseTableFormatterCell {

@@ -1,6 +1,5 @@
+import { HorizontalGroupElement } from "../elements/horizontalGroupElement"
 import * as t from "../parser/lexer"
-
-import { HorizontalGroupElement } from "../parser/visitorTools/formElements"
 import { IFormatter } from "./formFormatter"
 import { FormFormatterFactory } from "./formatterFactory"
 

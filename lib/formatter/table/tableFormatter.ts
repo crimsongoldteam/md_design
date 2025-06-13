@@ -1,6 +1,10 @@
-import * as t from "../../parser/lexer"
+import * as t from "@/parser/lexer"
 
-import { TableColumnElement, TableElement, TableRowElement } from "../../parser/visitorTools/formElements"
+import { TableColumnElement } from "@/elements/tableColumnElement"
+import { TableElement } from "@/elements/tableElement"
+import { TableRowElement } from "@/elements/tableRowElement"
+import { TableColumnGroupElement } from "@/elements/tableColumnGroupElement"
+
 import { FormFormatterFactory } from "../formatterFactory"
 import { IFormatter } from "../formFormatter"
 import { TableFormatterColumn } from "./tableFormatterColumn"
@@ -50,7 +54,7 @@ export class TableFormatter implements IFormatter<TableElement> {
 
     const queue: TableFormatterColumn[] = []
 
-    root.columns.forEach((child) => {
+    root.columns.forEach((child: TableColumnElement | TableColumnGroupElement) => {
       queue.push(new TableFormatterColumn(child))
     })
 
@@ -74,7 +78,7 @@ export class TableFormatter implements IFormatter<TableElement> {
       this.addToHeader(compactHeader, parent, rowData.rowCompactIndex)
     }
 
-    node.items.forEach((child) => {
+    node.items.forEach((child: TableColumnElement | TableColumnGroupElement) => {
       const childCell = new TableFormatterColumn(child, parent)
 
       queue.push(childCell)

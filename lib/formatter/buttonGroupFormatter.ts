@@ -1,5 +1,5 @@
+import { ButtonGroupElement } from "../elements/buttonGroupElement"
 import * as t from "../parser/lexer"
-import { ButtonGroupElement } from "../parser/visitorTools/formElements"
 import { IFormatter } from "./formFormatter"
 
 export class ButtonGroupFormatter implements IFormatter<ButtonGroupElement> {

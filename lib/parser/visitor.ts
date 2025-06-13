@@ -1,34 +1,32 @@
 import { CstChildrenDictionary, CstElement, CstNode, IToken } from "chevrotain"
 import { parser } from "./parser"
-import {
-  FormElement,
-  InputElement,
-  CheckboxElement,
-  CommandBarElement,
-  ButtonElement,
-  ButtonGroupElement,
-  TableElement,
-  TableColumnElement,
-  BaseFormElement,
-  LabelElement,
-  TableEmptyElement,
-  TableCellElement,
-  TableColumnGroupElement,
-  TableHeaderElement,
-  PagesElement,
-  PageElement,
-  HorizontalGroupElement,
-  VerticalGroupElement,
-  TypeDescription,
-  OneLineGroupElement,
-  EditorContainerElement,
-} from "./visitorTools/formElements"
 import { CommandBarManager } from "./visitorTools/commandBarManager"
 import { TableManager, TableRowType } from "./visitorTools/tableManager"
 import { TypesUtils } from "./visitorTools/typesUtuls"
 import { SemanticTokensManager, SemanticTokensTypes } from "./visitorTools/sematicTokensManager"
 import { NameGenerator } from "./visitorTools/nameGenerator"
 import { HorizontalGroupDictionary, PagesDictionary } from "./nodes"
+import { BaseElement, ElementListType } from "../elements/baseElement"
+import { FormElement } from "../elements/formElement"
+import { InputElement } from "../elements/inputElement"
+import { LabelElement } from "../elements/labelElement"
+import { HorizontalGroupElement } from "../elements/horizontalGroupElement"
+import { VerticalGroupElement } from "../elements/verticalGroupElement"
+import { CheckboxElement } from "../elements/checkboxElement"
+import { PagesElement } from "../elements/pagesElement"
+import { PageElement } from "../elements/pageElement"
+import { CommandBarElement } from "../elements/commandBarElement"
+import { ButtonElement } from "../elements/buttonElement"
+import { ButtonGroupElement } from "../elements/buttonGroupElement"
+import { TableElement } from "../elements/tableElement"
+import { TableColumnElement } from "../elements/tableColumnElement"
+import { TableColumnGroupElement } from "../elements/tableColumnGroupElement"
+import { TableCellElement } from "../elements/tableCellElement"
+import { OneLineGroupElement } from "../elements/oneLineGroupElement"
+import { EditorContainerElement } from "../elements/editorContainerElement"
+import { TableEmptyElement } from "../elements/tableEmptyElement"
+import { TableHeaderElement } from "../elements/tableHeaderElement"
+import { TypeDescription } from "../elements/typeDescription"
 
 const BaseVisitor = parser.getBaseCstVisitorConstructor()
 
@@ -45,7 +43,8 @@ export class Visitor extends BaseVisitor {
   editorContainer(ctx: CstChildrenDictionary): EditorContainerElement {
     const result = new EditorContainerElement()
 
-    result.add("items", this.visitAll(ctx.Items as CstNode[]))
+    result.add(ElementListType.Items, this.visitAll(ctx.Items as CstNode[]))
+    this.semanticTokensManager.prepare()
 
     return result
   }
@@ -54,12 +53,11 @@ export class Visitor extends BaseVisitor {
     this.nameGenerator.reset()
     const result = new FormElement()
 
-    result.add("items", this.visitAll(ctx.Items as CstNode[]))
+    result.add(ElementListType.Items, this.visitAll(ctx.Items as CstNode[]))
 
     this.visit(ctx.formHeader as CstNode[], { element: result })
 
     this.semanticTokensManager.add(SemanticTokensTypes.FormHeader, ctx.formHeader as CstNode[], result, ["properties"])
-
     this.semanticTokensManager.prepare()
 
     return result
@@ -83,7 +81,7 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties, { element: result })
 
-    result.add("items", this.visitAll(ctx.Items))
+    result.add(ElementListType.Items, this.visitAll(ctx.Items))
 
     return result
   }
@@ -98,7 +96,7 @@ export class Visitor extends BaseVisitor {
 
     this.visit(pageHeader.children.properties as CstNode[], { element: result })
 
-    result.add("items", this.visitAll(ctx.Items as CstNode[]))
+    result.add(ElementListType.Items, this.visitAll(ctx.Items as CstNode[]))
 
     let headerTokens = [...(pageHeader.children.PageHeaderText ?? []), ...(pageHeader.children.Slash ?? [])]
     this.semanticTokensManager.add(SemanticTokensTypes.PageHeader, headerTokens, result)
@@ -116,7 +114,7 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties, { element: result })
 
-    result.add("items", this.visitAll(ctx.Items))
+    result.add(ElementListType.Items, this.visitAll(ctx.Items))
 
     return result
   }
@@ -133,7 +131,7 @@ export class Visitor extends BaseVisitor {
 
     this.visit(groupHeader.children.properties as CstNode[], { element: result })
 
-    result.add("items", this.visitAll(ctx.Items as CstNode[]))
+    result.add(ElementListType.Items, this.visitAll(ctx.Items as CstNode[]))
 
     result.defineElementName(this.nameGenerator)
 
@@ -180,7 +178,7 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
-    result.add("items", this.visitAll(ctx.Items as CstNode[]))
+    result.add(ElementListType.Items, this.visitAll(ctx.Items as CstNode[]))
 
     this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties, result)
 
@@ -191,7 +189,7 @@ export class Visitor extends BaseVisitor {
 
   // #region field
 
-  field(ctx: CstChildrenDictionary): BaseFormElement {
+  field(ctx: CstChildrenDictionary): BaseElement {
     const firstKey = Object.keys(ctx)[0]
     const firstValue = ctx[firstKey as keyof typeof ctx]
     return this.visit(firstValue as CstNode[])
@@ -364,7 +362,7 @@ export class Visitor extends BaseVisitor {
     const result = new ButtonGroupElement()
     result.defineElementName(this.nameGenerator)
 
-    result.add("items", this.visitAll(ctx.button, { line: false }))
+    result.add(ElementListType.Items, this.visitAll(ctx.button, { line: false }))
 
     this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.VBar as CstNode[], result)
 
@@ -604,7 +602,7 @@ export class Visitor extends BaseVisitor {
     return this.joinTokens(ctx.PropertiesValueOptionText)
   }
 
-  private setProperty(element: BaseFormElement, key: string, value: string | number | boolean | undefined) {
+  private setProperty(element: BaseElement, key: string, value: string | number | boolean | undefined) {
     const properties = element.properties
     const lowerKey = key.toLowerCase()
 
@@ -670,7 +668,7 @@ export class Visitor extends BaseVisitor {
 
   // #region utils
 
-  private setAligment(ctx: CstChildrenDictionary, element: BaseFormElement): void {
+  private setAligment(ctx: CstChildrenDictionary, element: BaseElement): void {
     //-> *
     if (ctx.leftArrowRight) {
       //-> * <-

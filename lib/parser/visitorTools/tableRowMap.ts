@@ -1,6 +1,10 @@
-import { TableCellElement, TableColumnElement, TableElement, TableRowElement } from "./formElements"
+import { TableCellElement } from "@/elements/tableCellElement"
+import { TableColumnElement } from "@/elements/tableColumnElement"
+import { TableElement } from "@/elements/tableElement"
+import { TableRowElement } from "@/elements/tableRowElement"
 import { HierarchyManager } from "./hierarchyManager"
 import { TableHeaderMap } from "./tableHeaderMap"
+import { ElementListType } from "@/elements/baseElement"
 
 export class TableRowMap {
   private readonly hierarchy: HierarchyManager
@@ -51,8 +55,8 @@ export class TableRowMap {
       return
     }
 
-    item.uuidColumn = column.uuid
-    item.uuidCheckbox = column.uuidCheckbox
+    item.uuidColumn = column.id
+    item.uuidCheckbox = column.idCheckbox
 
     if (item.hasCheckbox) {
       column.hasCheckbox = true
@@ -62,7 +66,7 @@ export class TableRowMap {
       column.hasValue = true
     }
 
-    this.currentRow.items.set(column.uuid, item)
+    this.currentRow.items.set(column.id, item)
 
     this.headerMap.nextColumn()
   }
@@ -80,7 +84,7 @@ export class TableRowMap {
   }
 
   private getDefaultParent(item: TableRowElement): TableRowElement {
-    this.table.add("rows", [item])
+    this.table.add(ElementListType.Rows, [item])
     return item
   }
 }

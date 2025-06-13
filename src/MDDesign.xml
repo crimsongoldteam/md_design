@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MetaDataObject xmlns="http://v8.1c.ru/8.3/MDClasses" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:cmi="http://v8.1c.ru/8.2/managed-application/cmi" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xpr="http://v8.1c.ru/8.3/xcf/predef" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.20">
-	<ExternalDataProcessor uuid="71c2a97c-2307-4b3c-995f-408a7178925b">
+	<ExternalDataProcessor uuid="8e7386c1-80ab-44db-8f77-611e79ac1a88">
 		<InternalInfo>
 			<xr:ContainedObject>
 				<xr:ClassId>c3831ec8-d8d5-4f93-8a22-f9bfae07327f</xr:ClassId>
-				<xr:ObjectId>dd4b65cc-e796-4e8e-82f8-6a89ef91c132</xr:ObjectId>
+				<xr:ObjectId>5b0660de-0e53-466f-a59a-f5eecd0df123</xr:ObjectId>
 			</xr:ContainedObject>
 			<xr:GeneratedType name="ExternalDataProcessorObject.Накидка" category="Object">
-				<xr:TypeId>4ab74d39-9a7d-4a4e-90bb-bbb63b152d5b</xr:TypeId>
-				<xr:ValueId>bada6a03-6460-4654-92e2-4770efbb551e</xr:ValueId>
+				<xr:TypeId>c3fcbcd5-11f1-4c3c-98bc-bb744b704f57</xr:TypeId>
+				<xr:ValueId>5bc6b139-8578-42ed-9525-ff47972f0892</xr:ValueId>
 			</xr:GeneratedType>
 		</InternalInfo>
 		<Properties>
@@ -40,7 +40,6 @@
 			<Form>ФормаНастройка</Form>
 			<Form>ФормаПросмотр</Form>
 			<Form>ФормаРедактированияТаблицы</Form>
-			<Form>Форматтер</Form>
 			<Form>УдалитьФормаВыбораТипа</Form>
 			<Form>БиблиотекаJS</Form>
 			<Form>ФормаВыбораЦвета</Form>

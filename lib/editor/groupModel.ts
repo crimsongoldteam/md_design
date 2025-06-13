@@ -1,7 +1,7 @@
 import { CstNode } from "chevrotain"
 import { AbstractModel } from "./abstractModel"
-import { EditorContainerElement } from "./parser/visitorTools/formElements"
-import { parser } from "./parser/parser"
+import { parser } from "../parser/parser"
+import { EditorContainerElement } from "../elements/editorContainerElement"
 
 export class GroupModel extends AbstractModel<EditorContainerElement> {
   constructor() {
