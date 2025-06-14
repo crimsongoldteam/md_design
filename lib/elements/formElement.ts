@@ -11,4 +11,8 @@ export class FormElement extends BaseElementWithoutAttributes {
   public items: BaseElement[] = []
 
   public static readonly childrenFields = [ElementListType.Items]
+
+  protected get defaultId(): string {
+    return "Форма"
+  }
 }

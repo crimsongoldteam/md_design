@@ -13,6 +13,6 @@ export class VerticalGroupElement extends BaseElementWithoutAttributes {
   public static readonly childrenFields = [ElementListType.Items]
 
   protected get defaultId(): string {
-    return "Группа"
+    return "ВертикальнаяГруппа"
   }
 }

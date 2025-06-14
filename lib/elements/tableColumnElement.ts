@@ -41,7 +41,7 @@ export class TableColumnElement extends BaseElement {
   @Expose({ name: "УИДФлажок", groups: ["production"] })
   public idCheckbox: string = ""
 
-  @Expose({ name: "ИмяРеквизитаФлажок", groups: ["production"] })
+  @Expose({ name: "УИДАтрибутаФлажок", groups: ["production"] })
   public attributeCheckbox: string = ""
 
   @Expose({ name: "УИДГруппаВместе", groups: ["production"] })

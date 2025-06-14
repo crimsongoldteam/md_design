@@ -64,6 +64,8 @@ export class Visitor extends BaseVisitor {
     this.semanticTokensManager.add(SemanticTokensTypes.FormHeader, ctx.formHeader as CstNode[], result, ["properties"])
     this.semanticTokensManager.prepare()
 
+    this.nameGenerator.add(result)
+
     this.nameGenerator.generate()
     return result
   }
@@ -88,6 +90,8 @@ export class Visitor extends BaseVisitor {
 
     result.add(ElementListType.Items, this.visitAll(ctx.Items))
 
+    this.nameGenerator.add(result)
+
     return result
   }
 
@@ -107,6 +111,8 @@ export class Visitor extends BaseVisitor {
     this.semanticTokensManager.add(SemanticTokensTypes.PageHeader, headerTokens, result)
     this.semanticTokensManager.add(SemanticTokensTypes.Properties, pageHeader.children.properties, result)
 
+    this.nameGenerator.add(result)
+
     return result
   }
 
@@ -120,6 +126,8 @@ export class Visitor extends BaseVisitor {
     this.visit(ctx.properties, { element: result })
 
     result.add(ElementListType.Items, this.visitAll(ctx.Items))
+
+    this.nameGenerator.add(result)
 
     return result
   }
@@ -688,6 +696,7 @@ export class Visitor extends BaseVisitor {
     //  * ->
     if (ctx.rightArrowRight) {
       this.setProperty(element, "РастягиватьПоГоризонтали", true)
+      this.setProperty(element, "АвтоМаксимальнаяШирина", false)
     }
   }
 

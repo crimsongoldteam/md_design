@@ -11,12 +11,9 @@ export enum IdGeneratorType {
   TableHorizontalGroupElement = "horizontalGroupElementId",
 }
 
-// type IdGeneratorAttributesType = IdGeneratorType.Attribute | IdGeneratorType.TableCheckboxAttibute
-
 export interface IdGeneratorRequest {
   parent: BaseElement | undefined
   type: IdGeneratorType
-  // id: string,
   generator: IdGenerator
 }
 

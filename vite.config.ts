@@ -42,8 +42,9 @@ export default defineConfig((api) => {
   }
   return {
     build: {
-      minify: !isDev,
-      sourcemap: isDev,
+      minify: false,
+      sourcemap: true,
+
       outDir: "temp",
       target: "es2018",
     },
