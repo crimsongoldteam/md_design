@@ -1,11 +1,16 @@
 import { Expose } from "class-transformer"
-import { BaseElement, ElementListType } from "./baseElement"
+import { ElementListType } from "./baseElement"
 import { PageElement } from "./pageElement"
+import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
 
-export class PagesElement extends BaseElement {
+export class PagesElement extends BaseElementWithoutAttributes {
   public type = "Страницы"
   public elementType = "ГруппаФормы"
   public elementKind = "Страницы"
+
+  protected get defaultId(): string {
+    return "Страницы"
+  }
 
   @Expose({ name: "Элементы" })
   public readonly items: PageElement[] = []

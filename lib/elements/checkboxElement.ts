@@ -1,8 +1,8 @@
 import { Expose } from "class-transformer"
-import { BaseElement } from "./baseElement"
 import { TypeDescription } from "./typeDescription"
+import { BaseElementWithAttributes } from "./baseElementWithAttributes "
 
-export class CheckboxElement extends BaseElement {
+export class CheckboxElement extends BaseElementWithAttributes {
   public type = "ПолеФлажка"
   public elementType = "ПолеФормы"
   public elementKind = "ПолеФлажка"
@@ -13,7 +13,7 @@ export class CheckboxElement extends BaseElement {
   @Expose({ name: "ОписаниеТипов" })
   public typeDescription: TypeDescription = new TypeDescription("Булево")
 
-  public getBaseElementName(): string {
-    return super.getBaseElementName("Флажок")
+  protected get defaultId(): string {
+    return "Флажок"
   }
 }

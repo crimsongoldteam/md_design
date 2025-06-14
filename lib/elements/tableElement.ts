@@ -1,11 +1,12 @@
 import { Expose } from "class-transformer"
-import { BaseElement, ElementListType } from "./baseElement"
+import { ElementListType } from "./baseElement"
 import { TableColumnElement } from "./tableColumnElement"
 import { TableColumnGroupElement } from "./tableColumnGroupElement"
 import { TableRowElement } from "./tableRowElement.ts"
 import { TypeDescription } from "./typeDescription"
+import { BaseElementWithAttributes } from "./baseElementWithAttributes .ts"
 
-export class TableElement extends BaseElement {
+export class TableElement extends BaseElementWithAttributes {
   public type = "Таблица"
   public elementType = "ТаблицаФормы"
   public elementKind = "БезВида"
@@ -21,7 +22,7 @@ export class TableElement extends BaseElement {
 
   public static readonly childrenFields = [ElementListType.Columns, ElementListType.Rows]
 
-  public getBaseElementName(): string {
-    return this.type + super.getBaseElementName("")
+  protected get defaultId(): string {
+    return this.type
   }
 }

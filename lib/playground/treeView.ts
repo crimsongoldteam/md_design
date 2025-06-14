@@ -38,13 +38,13 @@ export class TreeView {
       .appendChild(document.createElement("details"))
     details.setAttribute("open", "")
 
-    let caption = cst.id
+    let caption = cst.elementId
     caption = caption + " " + JSON.stringify(cst.properties)
 
     const summary = details.appendChild(document.createElement("summary"))
     summary.textContent = caption
 
-    if (this.hierarchy.find((item) => item === cst.id)) {
+    if (this.hierarchy.find((item) => item === cst.elementId)) {
       summary.setAttribute("class", "tree-selected")
     }
 

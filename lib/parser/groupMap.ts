@@ -314,7 +314,10 @@ export class GroupMap {
     if (item.name == "field") {
       const field = item as FieldNode
       const firstChild = this.getFirstChild(field)
-      firstChild.children.properties = properties
+      if (!firstChild.children.properties) {
+        firstChild.children.properties = []
+      }
+      firstChild.children.properties.push(...properties)
 
       return
     }

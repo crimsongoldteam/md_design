@@ -1,11 +1,16 @@
 import { Expose } from "class-transformer"
-import { BaseElement, ElementListType } from "./baseElement"
+import { ElementListType } from "./baseElement"
 import { ButtonGroupElement } from "./buttonGroupElement"
+import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
 
-export class ButtonElement extends BaseElement {
+export class ButtonElement extends BaseElementWithoutAttributes {
   public type = "КнопкаФормы"
   public elementType = "КнопкаФормы"
   public elementKind = "БезВида"
+
+  protected get defaultId(): string {
+    return this.type === "Подменю" ? "Подменю" : "Кнопка"
+  }
 
   @Expose({ name: "Элементы" })
   public readonly items: (ButtonElement | ButtonGroupElement)[] = []
@@ -24,7 +29,7 @@ export class ButtonElement extends BaseElement {
         buttons.push(item)
         continue
       }
-      buttons.push(...(item as ButtonGroupElement).getAllButtons())
+      buttons.push(...item.getAllButtons())
     }
     return buttons
   }

@@ -1,8 +1,9 @@
 import { Expose } from "class-transformer"
-import { BaseElement, ElementListType } from "./baseElement"
+import { ElementListType } from "./baseElement"
 import { TableColumnElement } from "./tableColumnElement"
+import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
 
-export class TableColumnGroupElement extends BaseElement {
+export class TableColumnGroupElement extends BaseElementWithoutAttributes {
   public type = "ГруппаКолонокТаблицы"
   public elementType = "ГруппаФормы"
   public elementKind = "ГруппаКолонок"
@@ -12,7 +13,7 @@ export class TableColumnGroupElement extends BaseElement {
 
   public static readonly childrenFields = [ElementListType.Items]
 
-  public getBaseElementName(): string {
-    return "ГруппаКолонок" + super.getBaseElementName("")
+  protected get defaultId(): string {
+    return "ГруппаКолонок"
   }
 }

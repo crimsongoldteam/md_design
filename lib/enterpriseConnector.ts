@@ -1,5 +1,5 @@
 import { Application } from "./application"
-import { BaseElement } from "./parser/visitorTools/formElements"
+import { BaseElement } from "./elements/baseElement"
 
 export class EnterpriseConnector {
   private readonly application: Application

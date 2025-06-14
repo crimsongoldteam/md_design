@@ -143,7 +143,7 @@ export abstract class AbstractModel<T extends BaseElement> {
   }
 
   private fillElementMap(element: BaseElement) {
-    this.elementMap.set(element.id, element)
+    this.elementMap.set(element.elementId, element)
     for (let childrenField of (element.constructor as typeof BaseElement).childrenFields) {
       let items = (element as any)[childrenField]
       for (let subItem of items) {

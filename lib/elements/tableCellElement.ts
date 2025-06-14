@@ -1,5 +1,6 @@
 import { Expose } from "class-transformer"
 import { BaseElement } from "./baseElement"
+import { IdGeneratorRequest, IdGeneratorQueueInboxItem } from "@/parser/visitorTools/idGenerator"
 
 export class TableCellElement extends BaseElement {
   public type = "ЯчейкаТаблицы"
@@ -21,5 +22,12 @@ export class TableCellElement extends BaseElement {
 
   public isEmpty(): boolean {
     return this.value.trim() == ""
+  }
+
+  public getIdTemplate(_request: IdGeneratorRequest): string {
+    return ""
+  }
+  public getIdGeneratorQueue(): IdGeneratorQueueInboxItem[] {
+    return []
   }
 }

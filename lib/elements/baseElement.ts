@@ -1,6 +1,6 @@
 import { Exclude, Expose } from "class-transformer"
 import "reflect-metadata"
-import { NameGenerator } from "../parser/visitorTools/nameGenerator"
+import { IdGeneratorQueueInboxItem, IdGeneratorRequest } from "../parser/visitorTools/idGenerator"
 import { CstPathHelper } from "./cstPathHelper"
 
 export type CstPath = Array<{ type: any; parentIndex: number; parentList: ElementListType }>
@@ -31,7 +31,7 @@ export abstract class BaseElement {
   public properties: { [key: string]: any } = {}
 
   @Expose({ name: "УИД", groups: ["production"] })
-  public id: string = ""
+  public elementId: string = ""
 
   @Expose({ name: "НеизвестныеСвойства", groups: ["production"] })
   public unknownProperties: string[] = []
@@ -76,19 +76,7 @@ export abstract class BaseElement {
     return CstPathHelper.findElementByCstPath(this, path)
   }
 
-  public defineElementName(nameGenerator: NameGenerator) {
-    this.id = nameGenerator.generateName(this)
-  }
-
-  public getBaseElementName(fallback: string = this.type): string {
-    let text =
-      this.toPascalCase(this.getPropertyCaseInsensitive("Имя"), fallback) ??
-      this.toPascalCase(this.getPropertyCaseInsensitive("Заголовок"), fallback) ??
-      fallback
-    return text
-  }
-
-  protected getPropertyCaseInsensitive(key: string): any {
+  public getProperty(key: string): any {
     const lowerKey = key.toLowerCase()
     for (const propKey in this.properties) {
       if (propKey.toLowerCase() === lowerKey) {
@@ -99,7 +87,7 @@ export abstract class BaseElement {
   }
 
   public getAlignment(): TableCellAlignment {
-    const alignment = this.getPropertyCaseInsensitive("ГоризонтальноеПоложение")
+    const alignment = this.getProperty("ГоризонтальноеПоложение")
     if (!alignment) {
       return TableCellAlignment.Left
     }
@@ -111,33 +99,7 @@ export abstract class BaseElement {
     return (this.constructor as any).childrenFields
   }
 
-  /**
-   * Преобразует строку в PascalCase формат
-   * @param input - Входная строка для преобразования
-   * @param prefixIfStartsWithDigit - Префикс, если строка начинается с цифры
-   * @returns Строка в PascalCase формате
-   */
-  private toPascalCase(input: string | undefined, prefixIfStartsWithDigit: string): string | undefined {
-    if (!input || typeof input !== "string") return undefined
+  public abstract getIdTemplate(request: IdGeneratorRequest): string
 
-    const withNumberReplaced = input.replace(/№/g, "Номер")
-
-    const cleaned = withNumberReplaced.replace(/[^a-zA-Zа-яА-Я0-9_ \t]/g, "")
-
-    if (!cleaned) {
-      return undefined
-    }
-
-    const parts = cleaned.split(/[ \t]+/).filter(Boolean)
-
-    if (parts.length === 0) return undefined
-
-    let result = parts.map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase()).join("")
-
-    if (/^\d/.test(cleaned)) {
-      result = prefixIfStartsWithDigit + result
-    }
-
-    return result
-  }
+  public abstract getIdGeneratorQueue(): IdGeneratorQueueInboxItem[]
 }

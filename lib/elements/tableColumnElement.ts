@@ -1,53 +1,198 @@
 import { Expose } from "class-transformer"
-import { v4 as uuid } from "uuid"
 import { BaseElement, ElementListType } from "./baseElement"
 import { TypeDescription } from "./typeDescription"
 import { TableColumnGroupElement } from "./tableColumnGroupElement"
+import { IdGeneratorType, IdGeneratorQueueInboxItem, IdGeneratorRequest } from "@/parser/visitorTools/idGenerator"
+import { TableElement } from "./tableElement"
+import { IdFormatter, IdFormatterRule } from "@/parser/visitorTools/idFormatter"
 
 export class TableColumnElement extends BaseElement {
   public type = "КолонкаТаблицы"
   public elementType = "ПолеФормы"
   public elementKind = "ПолеВвода"
 
+  @Expose({ name: "УИДАтрибута", groups: ["production"] })
+  public attributeId: string = ""
+
   @Expose({ name: "ОписаниеТипов" })
   public typeDescription: TypeDescription = new TypeDescription()
-
-  @Expose({ name: "ЕстьФлажок" })
-  public hasCheckbox: boolean = false
 
   @Expose({ name: "ЕстьЗначение" })
   public hasValue: boolean = false
 
   @Expose({ name: "ЕстьГруппаВместе" })
-  public hasCheckboxGroup: boolean = false
+  public get needCheckboxGroup(): boolean {
+    return this.hasCheckbox && this.hasValue
+  }
 
   @Expose({ name: "ЕстьВертикальнаяГруппа" })
-  public hasVerticalGroup: boolean = false
+  public get needVerticalGroup(): boolean {
+    return this.items.length > 0
+  }
 
   @Expose({ name: "ЕстьГоризонтальнаяГруппа" })
-  public hasHorizontalGroup: boolean = false
+  public get needHorizontalGroup(): boolean {
+    return this.items.length > 1
+  }
 
-  @Expose({ name: "Колонки" })
-  public items: (TableColumnElement | TableColumnGroupElement)[] = []
+  @Expose({ name: "ЕстьФлажок" })
+  public hasCheckbox: boolean = false
 
   @Expose({ name: "УИДФлажок", groups: ["production"] })
-  public idCheckbox: string = uuid()
+  public idCheckbox: string = ""
+
+  @Expose({ name: "ИмяРеквизитаФлажок", groups: ["production"] })
+  public attributeCheckbox: string = ""
 
   @Expose({ name: "УИДГруппаВместе", groups: ["production"] })
-  public idCheckboxGroup: string = uuid()
+  public idCheckboxGroup: string = ""
 
   @Expose({ name: "УИДВертикальнаяГруппа", groups: ["production"] })
-  public idVerticalGroup: string = uuid()
+  public idVerticalGroup: string = ""
 
   @Expose({ name: "УИДГоризонтальнаяГруппа", groups: ["production"] })
-  public idHorizontalGroup: string = uuid()
+  public idHorizontalGroup: string = ""
 
   @Expose({ name: "ОписаниеТиповФлажок" })
   public typeDescriptionCheckbox: TypeDescription = new TypeDescription("Булево")
 
+  @Expose({ name: "Колонки" })
+  public items: (TableColumnElement | TableColumnGroupElement)[] = []
+
+  private readonly table: TableElement
+
+  constructor(table: TableElement) {
+    super()
+    this.table = table
+  }
+
+  public getTable(): TableElement {
+    return this.table
+  }
+
   public static readonly childrenFields = [ElementListType.Items]
 
-  public getBaseElementName(): string {
-    return "Колонка" + super.getBaseElementName("")
+  public getIdGeneratorQueue(): IdGeneratorQueueInboxItem[] {
+    const highPriority: boolean = this.getProperty("Путь") !== undefined || this.getProperty("Имя") !== undefined
+
+    let result: IdGeneratorQueueInboxItem[] = []
+    if (this.hasValue) {
+      result.push({ type: IdGeneratorType.Attribute, highPriority: highPriority, parent: this.getTable() })
+      result.push({ type: IdGeneratorType.Element, highPriority: highPriority })
+    }
+
+    if (this.hasCheckbox) {
+      result.push({ type: IdGeneratorType.TableCheckboxAttibute, highPriority: highPriority, parent: this.getTable() })
+      result.push({ type: IdGeneratorType.TableCheckboxElement, highPriority: highPriority })
+    }
+
+    if (this.needCheckboxGroup) {
+      result.push({ type: IdGeneratorType.TableCheckboxGroupElement, highPriority: highPriority })
+    }
+
+    if (this.needVerticalGroup) {
+      result.push({ type: IdGeneratorType.TableVerticalGroupElement, highPriority: highPriority })
+    }
+
+    if (this.needHorizontalGroup) {
+      result.push({ type: IdGeneratorType.TableHorizontalGroupElement, highPriority: highPriority })
+    }
+
+    return result
+  }
+
+  public getIdTemplate(request: IdGeneratorRequest): string {
+    if (request.type === IdGeneratorType.Attribute) {
+      return this.getAttributeIdTemplate()
+    }
+    if (request.type === IdGeneratorType.Element) {
+      return this.getElementIdTemplate()
+    }
+
+    if (request.type === IdGeneratorType.TableCheckboxAttibute) {
+      return this.getTableCheckboxAttributeIdTemplate()
+    }
+
+    if (request.type === IdGeneratorType.TableCheckboxElement) {
+      return this.getTableCheckboxElementIdTemplate()
+    }
+
+    if (request.type === IdGeneratorType.TableCheckboxGroupElement) {
+      return this.getTableCheckboxGroupElementIdTemplate()
+    }
+
+    if (request.type === IdGeneratorType.TableVerticalGroupElement) {
+      return this.getTableVerticalGroupElementIdTemplate()
+    }
+
+    if (request.type === IdGeneratorType.TableHorizontalGroupElement) {
+      return this.getTableHorizontalGroupElementIdTemplate()
+    }
+
+    throw new Error("Unknown request type")
+  }
+
+  private getAttributeIdTemplate(): string {
+    const rules: IdFormatterRule[] = [{ property: "Путь" }, { property: "Имя" }, { property: "Заголовок" }]
+    return IdFormatter.format(this, rules) ?? "Колонка"
+  }
+
+  private getElementIdTemplate(): string {
+    const tableId = this.table.elementId
+    return this.getBaseElementIdTemplate(tableId)
+  }
+
+  getTableCheckboxAttributeIdTemplate(): string {
+    const tableId = this.table.elementId
+
+    const prefix = "Флажок"
+
+    const rules: IdFormatterRule[] = [{ property: "ПутьФлажок" }]
+
+    if (this.hasValue) {
+      rules.push({ property: "ИмяФлажок" })
+      rules.push({ property: "Путь", prefix: prefix })
+      rules.push({ property: "Заголовок", prefix: prefix })
+    } else {
+      rules.push({ property: "Путь" })
+      rules.push({ property: "ИмяФлажок" })
+      rules.push({ property: "Заголовок" })
+    }
+
+    return tableId + (IdFormatter.format(this, rules) ?? prefix)
+  }
+
+  getTableCheckboxElementIdTemplate(): string {
+    const tableId = this.table.elementId
+
+    const rules: IdFormatterRule[] = [{ property: "ИмяФлажок" }]
+    let result = IdFormatter.format(this, rules)
+    if (result) {
+      return result
+    }
+
+    return tableId + this.idCheckbox
+  }
+
+  getTableCheckboxGroupElementIdTemplate(): string {
+    return this.getBaseElementIdTemplate("ГруппаВместе")
+  }
+
+  getTableVerticalGroupElementIdTemplate(): string {
+    return this.getBaseElementIdTemplate("ГруппаВертикальная")
+  }
+
+  getTableHorizontalGroupElementIdTemplate(): string {
+    return this.getBaseElementIdTemplate("ГруппаГоризонтальная")
+  }
+
+  private getBaseElementIdTemplate(prefix: string): string {
+    const rules: IdFormatterRule[] = [{ property: "Имя" }]
+    let result = IdFormatter.format(this, rules)
+    if (result) {
+      return result
+    }
+
+    return prefix + this.attributeId
   }
 }

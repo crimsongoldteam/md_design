@@ -1,8 +1,9 @@
 import { Expose } from "class-transformer"
-import { BaseElement, ElementListType } from "./baseElement"
+import { ElementListType } from "./baseElement"
 import { ButtonElement } from "./buttonElement"
+import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
 
-export class ButtonGroupElement extends BaseElement {
+export class ButtonGroupElement extends BaseElementWithoutAttributes {
   public type = "ГруппаКнопок"
   public elementType = "ГруппаФормы"
   public elementKind = "ГруппаКнопок"
@@ -12,11 +13,11 @@ export class ButtonGroupElement extends BaseElement {
 
   public static readonly childrenFields = [ElementListType.Items]
 
-  public getBaseElementName(): string {
-    return this.type + super.getBaseElementName("")
-  }
-
   public getAllButtons(): (ButtonElement | ButtonGroupElement)[] {
     return [this, ...this.items]
+  }
+
+  protected get defaultId(): string {
+    return "Группа"
   }
 }

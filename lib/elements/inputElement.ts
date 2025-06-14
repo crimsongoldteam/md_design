@@ -1,9 +1,8 @@
 import { Expose } from "class-transformer"
-import { BaseElement } from "./baseElement"
 import { TypeDescription } from "./typeDescription"
-import { NameGenerator } from "../parser/visitorTools/nameGenerator"
+import { BaseElementWithAttributes } from "./baseElementWithAttributes "
 
-export class InputElement extends BaseElement {
+export class InputElement extends BaseElementWithAttributes {
   public type = "ПолеВвода"
   public elementType = "ПолеФормы"
   public elementKind = "ПолеВвода"
@@ -17,11 +16,7 @@ export class InputElement extends BaseElement {
   @Expose({ name: "ОписаниеТипов" })
   public typeDescription: TypeDescription = new TypeDescription()
 
-  public getBaseElementName(): string {
-    return super.getBaseElementName("ПолеВвода")
-  }
-
-  public defineDataAttributeName(nameGenerator: NameGenerator) {
-    this.dataAttribute = nameGenerator.generateName(this)
+  protected get defaultId(): string {
+    return "ПолеВвода"
   }
 }

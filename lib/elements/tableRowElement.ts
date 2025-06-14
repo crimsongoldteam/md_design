@@ -15,6 +15,6 @@ export class TableRowElement extends BaseElement {
   public static readonly childrenFields = [ElementListType.Rows]
 
   public getByColumn(column: TableColumnElement): TableCellElement | undefined {
-    return this.items.get(column.id)
+    return this.items.get(column.elementId)
   }
 }

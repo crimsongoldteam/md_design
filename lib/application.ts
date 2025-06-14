@@ -6,8 +6,8 @@ import { GroupModel } from "./editor/groupModel"
 
 import { AbstractModel } from "./editor/abstractModel"
 import { BaseElement, CstPath } from "./elements/baseElement"
-import { EditorContainerElement } from "./elements/EditorContainerElement"
-import { VerticalGroupElement } from "./elements/VerticalGroupElement"
+import { EditorContainerElement } from "./elements/editorContainerElement"
+import { VerticalGroupElement } from "./elements/verticalGroupElement"
 import { TableElement } from "./elements/tableElement"
 
 interface IApplication {

@@ -4,7 +4,7 @@ import { CommandBarManager } from "./visitorTools/commandBarManager"
 import { TableManager, TableRowType } from "./visitorTools/tableManager"
 import { TypesUtils } from "./visitorTools/typesUtuls"
 import { SemanticTokensManager, SemanticTokensTypes } from "./visitorTools/sematicTokensManager"
-import { NameGenerator } from "./visitorTools/nameGenerator"
+import { IdGenerator } from "./visitorTools/idGenerator"
 import { HorizontalGroupDictionary, PagesDictionary } from "./nodes"
 import { BaseElement, ElementListType } from "../elements/baseElement"
 import { FormElement } from "../elements/formElement"
@@ -32,7 +32,7 @@ const BaseVisitor = parser.getBaseCstVisitorConstructor()
 
 export class Visitor extends BaseVisitor {
   private readonly semanticTokensManager: SemanticTokensManager = new SemanticTokensManager()
-  private readonly nameGenerator: NameGenerator = new NameGenerator()
+  private readonly nameGenerator: IdGenerator = new IdGenerator()
 
   constructor(semanticTokensManager: SemanticTokensManager, ...args: any) {
     super(args)
@@ -41,10 +41,14 @@ export class Visitor extends BaseVisitor {
   // #region form
 
   editorContainer(ctx: CstChildrenDictionary): EditorContainerElement {
+    this.nameGenerator.reset()
+
     const result = new EditorContainerElement()
 
     result.add(ElementListType.Items, this.visitAll(ctx.Items as CstNode[]))
     this.semanticTokensManager.prepare()
+
+    this.nameGenerator.generate()
 
     return result
   }
@@ -60,6 +64,7 @@ export class Visitor extends BaseVisitor {
     this.semanticTokensManager.add(SemanticTokensTypes.FormHeader, ctx.formHeader as CstNode[], result, ["properties"])
     this.semanticTokensManager.prepare()
 
+    this.nameGenerator.generate()
     return result
   }
 
@@ -133,7 +138,7 @@ export class Visitor extends BaseVisitor {
 
     result.add(ElementListType.Items, this.visitAll(ctx.Items as CstNode[]))
 
-    result.defineElementName(this.nameGenerator)
+    this.nameGenerator.add(result)
 
     let headerTokens = [...(groupHeader.children.GroupHeaderText ?? []), ...(groupHeader.children.Hash ?? [])]
     this.semanticTokensManager.add(SemanticTokensTypes.VerticalGroupHeader, headerTokens, result)
@@ -209,7 +214,7 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
-    result.defineElementName(this.nameGenerator)
+    this.nameGenerator.add(result)
 
     this.semanticTokensManager.add(SemanticTokensTypes.LableHeader, ctx.LabelContent as CstNode[], result)
     this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties as CstNode[], result)
@@ -248,7 +253,7 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
-    result.defineElementName(this.nameGenerator)
+    this.nameGenerator.add(result)
 
     this.semanticTokensManager.add(SemanticTokensTypes.InputHeader, ctx.InputHeader as CstNode[], result)
     let inputValueTokens = [...(ctx.InputValue ?? []), ...(ctx.InputModifiers ?? [])]
@@ -315,7 +320,7 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
-    result.defineElementName(this.nameGenerator)
+    this.nameGenerator.add(result)
 
     let checkboxTokens = [
       ...(ctx.CheckboxChecked ?? []),
@@ -340,7 +345,7 @@ export class Visitor extends BaseVisitor {
     this.setAligment(ctx, result)
 
     this.visit(ctx.properties as CstNode[], { element: result })
-    result.defineElementName(this.nameGenerator)
+    this.nameGenerator.add(result)
 
     let items = this.visitAll(ctx.buttonGroup)
 
@@ -360,7 +365,7 @@ export class Visitor extends BaseVisitor {
 
   buttonGroup(ctx: CstChildrenDictionary): ButtonGroupElement {
     const result = new ButtonGroupElement()
-    result.defineElementName(this.nameGenerator)
+    this.nameGenerator.add(result)
 
     result.add(ElementListType.Items, this.visitAll(ctx.button, { line: false }))
 
@@ -405,7 +410,7 @@ export class Visitor extends BaseVisitor {
     }
 
     this.visit(ctx.properties as CstNode[], { element: result })
-    result.defineElementName(this.nameGenerator)
+    this.nameGenerator.add(result)
 
     this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties as CstNode[], result)
 
@@ -422,7 +427,7 @@ export class Visitor extends BaseVisitor {
 
   table(ctx: CstChildrenDictionary): TableElement {
     const result = new TableElement()
-    result.defineElementName(this.nameGenerator)
+    this.nameGenerator.add(result)
 
     const manager = new TableManager(result)
 
@@ -477,7 +482,7 @@ export class Visitor extends BaseVisitor {
   tableColumnNode(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
     const data = (ctx.tableDataCell[0] as CstNode).children
 
-    let result: TableHeaderElement = new TableColumnElement()
+    let result: TableHeaderElement = new TableColumnElement(params.manager.getTableElement())
 
     let content = this.joinTokens(data.TableCell)
     const isColumnGroup = /^-+.*-+$/.test(content ?? "")
@@ -491,7 +496,7 @@ export class Visitor extends BaseVisitor {
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
-    result.defineElementName(this.nameGenerator)
+    this.nameGenerator.add(result)
 
     params.manager.addHeaderElement(result)
 
