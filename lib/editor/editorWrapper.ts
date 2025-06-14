@@ -89,6 +89,7 @@ export class EditorWrapper {
       scrollBeyondLastLine: false,
       selectionHighlight: false,
       renderLineHighlight: "none",
+      occurrencesHighlight: false,
       // @ts-expect-error
       renderIndentGuides: false,
       lineNumbers: "off",

@@ -12,6 +12,8 @@
 .edit-input-value-decoration {
   border-left: 1px solid #bebebe;
   border-top: 1px solid #bebebe;
+  margin-left: -1px;
+  margin-top: -1px;
   border-bottom: none;
   border-right: none;
   border-radius: 2px;
@@ -24,15 +26,14 @@
 
 .edit-button-decoration {
   border: 1px solid #d6d6d6;
-  border-radius: 3px;
+  border-radius: 2px;
+  margin: -1px;
   bottom: 0px;
-  /* padding-left: 1px; */
   padding-top: 1px;
-  /* padding-right: 1px; */
   padding-bottom: 0px;
-  background: -webkit-linear-gradient(top, white, white 50%, rgba(0, 0, 0, 0.07));
-  background: linear-gradient(to bottom, white, white 50%, rgba(0, 0, 0, 0.07));
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), white 70%, rgba(220, 220, 220, 100));
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 70%, rgba(220, 220, 220, 100));
+  box-shadow: 0 1px 0 #0000005c;
 }
 
 .gutter {
