@@ -1,4 +1,4 @@
-import { Expose } from "class-transformer"
+import { Exclude, Expose } from "class-transformer"
 import { BaseElement, ElementListType } from "./baseElement"
 import { TypeDescription } from "./typeDescription"
 import { TableColumnGroupElement } from "./tableColumnGroupElement"
@@ -59,15 +59,12 @@ export class TableColumnElement extends BaseElement {
   @Expose({ name: "Колонки" })
   public items: (TableColumnElement | TableColumnGroupElement)[] = []
 
+  @Exclude()
   private readonly table: TableElement
 
   constructor(table: TableElement) {
     super()
     this.table = table
-  }
-
-  public getTable(): TableElement {
-    return this.table
   }
 
   public static readonly childrenFields = [ElementListType.Items]
@@ -77,12 +74,12 @@ export class TableColumnElement extends BaseElement {
 
     let result: IdGeneratorQueueInboxItem[] = []
     if (this.hasValue) {
-      result.push({ type: IdGeneratorType.Attribute, highPriority: highPriority, parent: this.getTable() })
+      result.push({ type: IdGeneratorType.Attribute, highPriority: highPriority, parent: this.table })
       result.push({ type: IdGeneratorType.Element, highPriority: highPriority })
     }
 
     if (this.hasCheckbox) {
-      result.push({ type: IdGeneratorType.TableCheckboxAttibute, highPriority: highPriority, parent: this.getTable() })
+      result.push({ type: IdGeneratorType.TableCheckboxAttibute, highPriority: highPriority, parent: this.table })
       result.push({ type: IdGeneratorType.TableCheckboxElement, highPriority: highPriority })
     }
 
