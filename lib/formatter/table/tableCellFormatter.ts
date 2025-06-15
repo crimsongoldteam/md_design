@@ -1,4 +1,4 @@
-import { TableCellElement } from "../elements/tableCellElement"
+import { TableCellElement } from "@/elements/tableCellElement"
 import { FormatterUtils } from "../formatterUtils"
 import { IFormatter } from "../formFormatter"
 

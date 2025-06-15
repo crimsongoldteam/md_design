@@ -5,6 +5,19 @@ import { FormElement } from "../elements/formElement"
 import { EditorContainerElement } from "../elements/editorContainerElement"
 import { VerticalGroupElement } from "../elements/verticalGroupElement"
 import { CstPath } from "../elements/baseElement"
+import { InputElement } from "@/elements/inputElement"
+import { CheckboxElement } from "@/elements/checkboxElement"
+import { FormatterUtils } from "@/formatter/formatterUtils"
+import { TableElement } from "@/elements/tableElement"
+
+export interface TableValueData {
+  items: TableValueData[]
+  data: { [key: string]: string | boolean | number }
+}
+
+export class ValueData {
+  [key: string]: string | boolean | number | TableValueData
+}
 
 export class FormModel extends AbstractModel<FormElement> {
   constructor() {
@@ -22,6 +35,38 @@ export class FormModel extends AbstractModel<FormElement> {
       element.items.push(...containerElement.items)
     }
     this.format()
+  }
+
+  public setValues(data: ValueData): void {
+    for (const key in data) {
+      const value = data[key]
+      this.setValue(key, value)
+    }
+    this.format()
+  }
+
+  public setValue(key: string, value: string | boolean | number | Date | TableValueData): void {
+    const element = this.elementMap.get(key)
+    if (!element) {
+      return
+    }
+
+    const isPrimitive =
+      typeof value === "string" || typeof value === "number" || typeof value === "boolean" || value instanceof Date
+
+    if (element instanceof InputElement && isPrimitive) {
+      element.value = FormatterUtils.formatValue(value, element.typeDescription)
+      return
+    }
+
+    if (element instanceof CheckboxElement && typeof value === "boolean") {
+      element.value = value
+      return
+    }
+
+    if (element instanceof TableElement) {
+      element.setValues(value as TableValueData)
+    }
   }
 
   protected override parse(): CstNode {

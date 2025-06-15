@@ -16,4 +16,15 @@ export class TableColumnGroupElement extends BaseElementWithoutAttributes {
   protected get defaultId(): string {
     return "ГруппаКолонок"
   }
+
+  public getAllColumns(): TableColumnElement[] {
+    const columns: TableColumnElement[] = []
+    for (const column of this.items) {
+      if (column instanceof TableColumnElement) {
+        columns.push(column)
+      }
+      columns.push(...column.getAllColumns())
+    }
+    return columns
+  }
 }

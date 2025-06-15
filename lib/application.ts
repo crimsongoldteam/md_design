@@ -1,7 +1,7 @@
 import * as monaco from "monaco-editor-core"
 
 import { EditorWrapper } from "./editor/editorWrapper"
-import { FormModel } from "./editor/formModel"
+import { FormModel, ValueData } from "./editor/formModel"
 import { GroupModel } from "./editor/groupModel"
 
 import { AbstractModel } from "./editor/abstractModel"
@@ -73,6 +73,10 @@ export class Application implements IApplication {
 
   public setText(text: string): void {
     this.mainEditor.setText(text)
+  }
+
+  public setValues(data: ValueData): void {
+    this.mainModel.setValues(data)
   }
 
   public setCurrentGroup(group: BaseElement | undefined): void {

@@ -5,6 +5,12 @@ import { IdGeneratorRequest, IdGeneratorQueueInboxItem } from "@/parser/visitorT
 export class TableCellElement extends BaseElement {
   public type = "ЯчейкаТаблицы"
 
+  @Expose({ name: "НаборСвойств" })
+  public properties: { [key: string]: any } = {}
+
+  @Expose({ name: "НеизвестныеСвойства", groups: ["production"] })
+  public unknownProperties: string[] = []
+
   @Expose({ name: "Значение" })
   public value: string = ""
 
@@ -13,12 +19,6 @@ export class TableCellElement extends BaseElement {
 
   @Expose({ name: "ЗначениеФлажка" })
   public valueCheckbox: boolean = false
-
-  @Expose({ name: "УИДКолонки" })
-  public uuidColumn: string = ""
-
-  @Expose({ name: "УИДКолонкиФлажок" })
-  public uuidCheckbox: string = ""
 
   public isEmpty(): boolean {
     return this.value.trim() == ""

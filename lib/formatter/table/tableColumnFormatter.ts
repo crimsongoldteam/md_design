@@ -1,4 +1,4 @@
-import { TableColumnElement } from "../elements/tableColumnElement"
+import { TableColumnElement } from "@/elements/tableColumnElement"
 import * as t from "../../parser/lexer"
 
 import { IFormatter } from "../formFormatter"

@@ -1,8 +1,8 @@
-import { TableCellElement } from "../elements/tableCellElement"
 import { BaseTableFormatterCell } from "./baseTableFormatterCell"
 import { FormFormatterFactory } from "../formatterFactory"
 import { TableCellFormatter } from "./tableCellFormatter"
 import { TableFormatterColumn } from "./tableFormatterColumn"
+import { TableCellElement } from "@/elements/tableCellElement"
 
 export class TableFormatterRowCell extends BaseTableFormatterCell {
   private readonly column: TableFormatterColumn

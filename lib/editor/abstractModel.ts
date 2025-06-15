@@ -22,7 +22,7 @@ export abstract class AbstractModel<T extends BaseElement> {
   private readonly groupVisitor: GroupVisitor
   private text: string = ""
 
-  private readonly elementMap: Map<string, BaseElement> = new Map()
+  protected readonly elementMap: Map<string, BaseElement> = new Map()
   private hierarchy: string[] = []
   private line: number = 0
   private column: number = 0
@@ -135,7 +135,6 @@ export abstract class AbstractModel<T extends BaseElement> {
 
     this.semanticTokensManager.reset()
 
-    // const groupsAST = parser.parseForm()
     const groupsAST = this.parse()
     const fullAST = this.groupVisitor.visit(groupsAST)
     this.cst = this.visitor.visit(fullAST)

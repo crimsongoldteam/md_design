@@ -1,7 +1,37 @@
 import { BaseElement } from "../elements/baseElement"
 import * as t from "../parser/lexer"
+import { DateFractions, TypeDescription } from "@/elements/typeDescription"
+import { format as fnsFormat } from "date-fns"
 
 export class FormatterUtils {
+  public static formatValue(value: string | boolean | number | Date, typeDescription: TypeDescription): string {
+    if (typeof value === "number") {
+      return this.formatNumber(value, typeDescription)
+    }
+
+    if (value instanceof Date) {
+      return this.formatDate(value, typeDescription)
+    }
+
+    return value.toString()
+  }
+
+  private static formatNumber(value: number, typeDescription: TypeDescription): string {
+    return value.toFixed(typeDescription.fractionDigits)
+  }
+
+  private static formatDate(value: Date, typeDescription: TypeDescription): string {
+    if (typeDescription.dateFractions == DateFractions.Date) {
+      return fnsFormat(value, "dd.MM.yyyy")
+    }
+
+    if (typeDescription.dateFractions == DateFractions.Time) {
+      return fnsFormat(value, "HH:mm:ss")
+    }
+
+    return fnsFormat(value, "dd.MM.yyyy HH:mm:ss")
+  }
+
   public static getAlignmentAtLeft(element: BaseElement): string {
     if (
       element.properties["ГоризонтальноеПоложениеВГруппе"] === "Центр" ||
@@ -34,6 +64,7 @@ export class FormatterUtils {
 
     excludeProperties.push("РастягиватьПоГоризонтали")
   }
+
   private static isStretch(element: BaseElement): boolean {
     return element.properties["РастягиватьПоГоризонтали"] && !element.properties["ГоризонтальноеПоложениеВГруппе"]
   }

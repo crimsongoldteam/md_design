@@ -40,7 +40,7 @@ export abstract class BaseElement {
   public propertyTypes: {} = {}
 
   @Exclude()
-  public parent: BaseElement = this
+  public parent: BaseElement | undefined = undefined
 
   @Exclude()
   public parentList: ElementListType | undefined

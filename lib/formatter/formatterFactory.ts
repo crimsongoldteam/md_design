@@ -28,11 +28,11 @@ import { CommandBarElement } from "../elements/commandBarElement"
 import { ButtonElement } from "../elements/buttonElement"
 import { ButtonGroupElement } from "../elements/buttonGroupElement"
 import { TableElement } from "../elements/tableElement"
-import { TableColumnElement } from "../elements/tableColumnElement"
-import { TableColumnGroupElement } from "../elements/tableColumnGroupElement"
-import { TableCellElement } from "../elements/tableCellElement"
-import { OneLineGroupElement } from "../elements/oneLineGroupElement"
-import { EditorContainerElement } from "../elements/editorContainerElement"
+import { TableColumnGroupElement } from "@/elements/tableColumnGroupElement"
+import { TableCellElement } from "@/elements/tableCellElement"
+import { OneLineGroupElement } from "@/elements/oneLineGroupElement"
+import { EditorContainerElement } from "@/elements/editorContainerElement"
+import { TableColumnElement } from "@/elements/tableColumnElement"
 
 export class FormFormatterFactory {
   private static readonly formatters = new Map<typeof BaseElement, new () => IFormatter<BaseElement>>()

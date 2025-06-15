@@ -490,7 +490,8 @@ export class Visitor extends BaseVisitor {
   tableColumnNode(ctx: CstChildrenDictionary, params: { manager: TableManager }): void {
     const data = (ctx.tableDataCell[0] as CstNode).children
 
-    let result: TableHeaderElement = new TableColumnElement(params.manager.getTableElement())
+    let result: TableHeaderElement = new TableColumnElement()
+    result.table = params.manager.getTableElement()
 
     let content = this.joinTokens(data.TableCell)
     const isColumnGroup = /^-+.*-+$/.test(content ?? "")

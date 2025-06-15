@@ -39,19 +39,19 @@ export class TableColumnElement extends BaseElement {
   public hasCheckbox: boolean = false
 
   @Expose({ name: "УИДФлажок", groups: ["production"] })
-  public idCheckbox: string = ""
+  public checkboxElementId: string = ""
 
   @Expose({ name: "УИДАтрибутаФлажок", groups: ["production"] })
-  public attributeCheckbox: string = ""
+  public attributeCheckboxId: string = ""
 
   @Expose({ name: "УИДГруппаВместе", groups: ["production"] })
-  public idCheckboxGroup: string = ""
+  public checkboxGroupElementId: string = ""
 
   @Expose({ name: "УИДВертикальнаяГруппа", groups: ["production"] })
-  public idVerticalGroup: string = ""
+  public verticalGroupElementId: string = ""
 
   @Expose({ name: "УИДГоризонтальнаяГруппа", groups: ["production"] })
-  public idHorizontalGroup: string = ""
+  public horizontalGroupElementId: string = ""
 
   @Expose({ name: "ОписаниеТиповФлажок" })
   public typeDescriptionCheckbox: TypeDescription = new TypeDescription("Булево")
@@ -60,16 +60,26 @@ export class TableColumnElement extends BaseElement {
   public items: (TableColumnElement | TableColumnGroupElement)[] = []
 
   @Exclude()
-  private readonly table: TableElement
-
-  constructor(table: TableElement) {
-    super()
-    this.table = table
-  }
+  public table: TableElement | undefined = undefined
 
   public static readonly childrenFields = [ElementListType.Items]
 
+  public getAllColumns(): TableColumnElement[] {
+    const columns: TableColumnElement[] = []
+    for (const column of this.items) {
+      if (column instanceof TableColumnElement) {
+        columns.push(column)
+      }
+      columns.push(...column.getAllColumns())
+    }
+    return columns
+  }
+
   public getIdGeneratorQueue(): IdGeneratorQueueInboxItem[] {
+    if (!this.table) {
+      throw new Error("Table is not set")
+    }
+
     const highPriority: boolean = this.getProperty("Путь") !== undefined || this.getProperty("Имя") !== undefined
 
     let result: IdGeneratorQueueInboxItem[] = []
@@ -135,11 +145,19 @@ export class TableColumnElement extends BaseElement {
   }
 
   private getElementIdTemplate(): string {
+    if (!this.table) {
+      throw new Error("Table is not set")
+    }
+
     const tableId = this.table.elementId
     return this.getBaseElementIdTemplate(tableId)
   }
 
   getTableCheckboxAttributeIdTemplate(): string {
+    if (!this.table) {
+      throw new Error("Table is not set")
+    }
+
     const tableId = this.table.elementId
 
     const prefix = "Флажок"
@@ -160,6 +178,10 @@ export class TableColumnElement extends BaseElement {
   }
 
   getTableCheckboxElementIdTemplate(): string {
+    if (!this.table) {
+      throw new Error("Table is not set")
+    }
+
     const tableId = this.table.elementId
 
     const rules: IdFormatterRule[] = [{ property: "ИмяФлажок" }]
@@ -168,7 +190,7 @@ export class TableColumnElement extends BaseElement {
       return result
     }
 
-    return tableId + this.idCheckbox
+    return tableId + this.checkboxElementId
   }
 
   getTableCheckboxGroupElementIdTemplate(): string {

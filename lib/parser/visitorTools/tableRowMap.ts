@@ -55,9 +55,6 @@ export class TableRowMap {
       return
     }
 
-    item.uuidColumn = column.elementId
-    item.uuidCheckbox = column.idCheckbox
-
     if (item.hasCheckbox) {
       column.hasCheckbox = true
     }
@@ -66,7 +63,7 @@ export class TableRowMap {
       column.hasValue = true
     }
 
-    this.currentRow.items.set(column.elementId, item)
+    this.currentRow.items.set(column, item)
 
     this.headerMap.nextColumn()
   }

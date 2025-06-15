@@ -1,5 +1,7 @@
+import { plainToInstance } from "class-transformer"
 import { Application } from "./application"
 import { BaseElement } from "./elements/baseElement"
+import { ValueData } from "./editor/formModel"
 
 export class EnterpriseConnector {
   private readonly application: Application
@@ -19,6 +21,12 @@ export class EnterpriseConnector {
 
   public insertText(text: string): void {
     this.application.insertText(text)
+  }
+
+  public setValues(plainText: string): void {
+    const plainObject = JSON.parse(plainText)
+    const data: ValueData = plainToInstance(ValueData, plainObject)
+    this.application.setValues(data)
   }
 
   private onChangeContent(): void {

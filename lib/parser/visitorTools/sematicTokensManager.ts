@@ -1,5 +1,5 @@
 import { CstElement, CstNode, IToken } from "chevrotain"
-import { BaseElement } from "./formElements"
+import { BaseElement } from "@/elements/baseElement"
 import * as monaco from "monaco-editor-core"
 import trimStart from "@ungap/trim-start"
 import trimEnd from "@ungap/trim-end"
