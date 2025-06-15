@@ -42,7 +42,7 @@ export class TableColumnElement extends BaseElement {
   public checkboxElementId: string = ""
 
   @Expose({ name: "УИДАтрибутаФлажок", groups: ["production"] })
-  public attributeCheckboxId: string = ""
+  public checkboxAttributeId: string = ""
 
   @Expose({ name: "УИДГруппаВместе", groups: ["production"] })
   public checkboxGroupElementId: string = ""

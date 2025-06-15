@@ -3,7 +3,7 @@ import { IdNumberDistributor } from "./idNumberDistributor"
 
 export enum IdGeneratorType {
   Attribute = "attributeId",
-  TableCheckboxAttibute = "attributeCheckboxId",
+  TableCheckboxAttibute = "checkboxAttributeId",
   Element = "elementId",
   TableCheckboxElement = "checkboxElementId",
   TableCheckboxGroupElement = "checkboxGroupElementId",

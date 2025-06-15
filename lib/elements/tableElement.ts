@@ -76,8 +76,8 @@ export class TableElement extends BaseElementWithAttributes {
       row.items.set(column, cell)
     }
 
-    if (column.hasCheckbox && valueData.data[column.attributeCheckboxId]) {
-      cell.valueCheckbox = valueData.data[column.attributeCheckboxId] as boolean
+    if (column.hasCheckbox && valueData.data[column.checkboxAttributeId]) {
+      cell.valueCheckbox = valueData.data[column.checkboxAttributeId] as boolean
     }
 
     if (column.hasValue && valueData.data[column.attributeId]) {
