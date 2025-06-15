@@ -9,6 +9,8 @@ import { BaseElement, CstPath } from "./elements/baseElement"
 import { EditorContainerElement } from "./elements/editorContainerElement"
 import { VerticalGroupElement } from "./elements/verticalGroupElement"
 import { TableElement } from "./elements/tableElement"
+import { GroupEditorWrapper } from "./editor/groupEditorWrapper"
+import Split, { Instance } from "split.js"
 
 interface IApplication {
   onChangeContent: (semanticTree: BaseElement) => void
@@ -25,7 +27,9 @@ export class Application implements IApplication {
   private readonly mainEditor: EditorWrapper
   private readonly groupEditor: EditorWrapper
   private readonly mainModel: FormModel
+  private readonly mainEditorContainer: HTMLElement
   private readonly groupModel: GroupModel
+  private readonly splitter: Instance
 
   private groupPath: CstPath | undefined
   private readonly groupEditorContainer: HTMLElement
@@ -33,12 +37,13 @@ export class Application implements IApplication {
 
   constructor(mainEditorContainer: HTMLElement, groupEditorContainer: HTMLElement) {
     this.mainModel = new FormModel()
-    this.mainEditor = new EditorWrapper(mainEditorContainer, this.mainModel, "plaintext")
+    this.mainEditorContainer = mainEditorContainer
+    this.mainEditor = new EditorWrapper(mainEditorContainer, this.mainModel)
     this.mainEditor.onChangeContent = this.onChangeMainEditorContent.bind(this)
 
     this.groupEditorContainer = groupEditorContainer
     this.groupModel = new GroupModel()
-    this.groupEditor = new EditorWrapper(groupEditorContainer, this.groupModel, "plaintext")
+    this.groupEditor = new GroupEditorWrapper(groupEditorContainer, this.groupModel)
     this.groupEditor.onChangeContent = this.onChangeGroupEditorContent.bind(this)
 
     monaco.languages.registerLinkProvider("plaintext", {
@@ -47,6 +52,8 @@ export class Application implements IApplication {
     })
 
     this.currentEditor = this.mainEditor
+
+    this.splitter = this.initSplitter()
 
     this.setCurrentGroup(undefined)
   }
@@ -85,12 +92,25 @@ export class Application implements IApplication {
       this.groupPath = group.getCstPath()
     }
 
+    const gutter = document.getElementsByClassName("gutter-vertical")[0] as HTMLElement
     this.groupEditorContainer.style.display = group ? "block" : "none"
+
+    if (!group) {
+      this.mainEditorContainer.classList.add("up-container-full-size")
+    } else {
+      this.mainEditorContainer.classList.remove("up-container-full-size")
+    }
+
+    gutter.style.display = group ? "block" : "none"
   }
 
   private selectGroup(group: BaseElement | undefined): void {
     this.setCurrentGroup(group)
     this.updateGroupEditorByMainEditor()
+  }
+
+  public closeGroupEditor(): void {
+    this.setCurrentGroup(undefined)
   }
 
   private onChangeMainEditorContent(_semanticTree: BaseElement): void {
@@ -175,5 +195,29 @@ export class Application implements IApplication {
     if (!element) return undefined
 
     return element.properties
+  }
+
+  private onCloseGroupButtonClick(e: Event): void {
+    e.stopPropagation()
+    this.closeGroupEditor()
+  }
+
+  private initSplitter(): Instance {
+    return Split(["#container-up", "#container-down"], {
+      direction: "vertical",
+      gutterSize: 15,
+      gutter: (_index, direction) => {
+        const gutter = document.createElement("div")
+        gutter.className = `gutter gutter-${direction}`
+
+        const closeBtn = document.createElement("div")
+        closeBtn.className = "group-editor-close-button"
+        closeBtn.innerHTML = "×"
+        closeBtn.onclick = this.onCloseGroupButtonClick.bind(this)
+
+        gutter.appendChild(closeBtn)
+        return gutter
+      },
+    })
   }
 }

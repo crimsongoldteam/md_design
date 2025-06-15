@@ -3,15 +3,13 @@ import { AbstractModel } from "./abstractModel"
 import { BaseElement } from "../elements/baseElement"
 
 export class EditorWrapper {
-  private readonly editor: monaco.editor.IStandaloneCodeEditor
+  protected readonly editor: monaco.editor.IStandaloneCodeEditor
   private readonly model: AbstractModel<any>
-  private readonly languageSelector: string
   private readonly decorationsCollection: monaco.editor.IEditorDecorationsCollection
   private skipNextTrigger: boolean = false
 
-  constructor(container: HTMLElement, model: AbstractModel<any>, languageSelector: string) {
+  constructor(container: HTMLElement, model: AbstractModel<any>) {
     this.model = model
-    this.languageSelector = languageSelector
 
     this.editor = this.createEditor(container)
     this.editor.onDidChangeCursorSelection(this.onDidChangeCursorSelection.bind(this))
@@ -79,7 +77,7 @@ export class EditorWrapper {
 
   private createEditor(container: HTMLElement): monaco.editor.IStandaloneCodeEditor {
     const editor = monaco.editor.create(container, {
-      language: this.languageSelector,
+      language: "plaintext",
       minimap: { enabled: false },
       unicodeHighlight: {
         ambiguousCharacters: false,

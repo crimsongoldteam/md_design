@@ -2,16 +2,11 @@ import "./polyfill.js"
 
 import { Application } from "./application.js"
 import { EnterpriseConnector } from "./enterpriseConnector.js"
-import Split from "split.js"
 
 const application = new Application(
   document.getElementById("container-up") as HTMLElement,
   document.getElementById("container-down") as HTMLElement
 )
-
-Split(["#container-up", "#container-down"], {
-  direction: "vertical",
-})
 
 const connector = new EnterpriseConnector(application)
 
