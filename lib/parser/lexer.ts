@@ -173,6 +173,7 @@ export const LCurly = keyword(
   LabelContent,
   InputValue,
   InputModifiers,
+  CheckboxHeader,
   Button,
   Picture,
   TableCell,

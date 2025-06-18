@@ -12,16 +12,16 @@ export class CheckboxFormatter implements IFormatter<CheckboxElement> {
     const propertiesFormatter = FormFormatterFactory.getPropertiesFormatter()
     const properties = propertiesFormatter.format(element, { excludeProperties })
 
-    let header = element.properties["Заголовок"]
+    let header = element.getProperty("Заголовок") as string
 
     let result = FormatterUtils.getAlignmentAtLeft(element)
 
     result += FormatterUtils.getCheckboxString(
       header,
       true,
-      element.properties["ВидФлажка"],
+      element.getProperty("ВидФлажка") as string,
       element.value,
-      element.properties["ПоложениеЗаголовка"]
+      element.getProperty("ПоложениеЗаголовка") as string
     )
 
     result += properties.join("")

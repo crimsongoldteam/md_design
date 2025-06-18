@@ -23,7 +23,6 @@ export abstract class AbstractModel<T extends BaseElement> {
   private text: string = ""
 
   protected readonly elementMap: Map<string, BaseElement> = new Map()
-  private hierarchy: string[] = []
   private line: number = 0
   private column: number = 0
 
@@ -52,14 +51,14 @@ export abstract class AbstractModel<T extends BaseElement> {
     return this.cst
   }
 
-  getCurrentElement(): BaseElement | undefined {
+  public getCurrentElement(): BaseElement | undefined {
     const token = this.semanticTokensManager.getAtPosition(this.line, this.column)
     if (!token) return undefined
 
     return token.element
   }
 
-  getCurrentTableContainerElement(): TableContainerElement | undefined {
+  public getCurrentTableContainerElement(): TableContainerElement | undefined {
     let element = this.getCurrentElement()
     while (element) {
       if (
@@ -120,10 +119,6 @@ export abstract class AbstractModel<T extends BaseElement> {
 
   public getProduction(): any {
     return instanceToPlain(this.cst, { groups: ["production"] })
-  }
-
-  public getSelectionHierarchy(): string[] {
-    return this.hierarchy
   }
 
   private build(): void {

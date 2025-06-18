@@ -30,7 +30,9 @@ export class EditorWrapper {
     throw new Error("onChangeContent is not implemented")
   }
 
-  public readonly onChangeCurrentElement: (() => void) | undefined
+  public onChangeCurrentElement: (currentElement: BaseElement | undefined) => void = () => {
+    throw new Error("onChangeCurrentElement is not implemented")
+  }
 
   getEditorModel(): monaco.editor.ITextModel {
     return this.editor.getModel() as monaco.editor.ITextModel
@@ -131,6 +133,6 @@ export class EditorWrapper {
 
   private onDidChangeCursorSelection(e: monaco.editor.ICursorSelectionChangedEvent) {
     this.model.setCursor(e.selection.startLineNumber, e.selection.startColumn)
-    this.onChangeCurrentElement?.()
+    this.onChangeCurrentElement?.(this.model.getCurrentElement())
   }
 }

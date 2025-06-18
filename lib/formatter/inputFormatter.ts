@@ -48,12 +48,8 @@ export class InputFormatter implements IFormatter<InputElement> {
   }
 
   private isMultiline(element: InputElement): boolean {
-    return (
-      element.properties["МногострочныйРежим"] &&
-      element.properties["МногострочныйРежим"] === "true" &&
-      element.properties["Высота"] &&
-      element.properties["Высота"] > 1
-    )
+    const height = element.getProperty("Высота") as number
+    return element.getProperty("МногострочныйРежим") === true && height > 1
   }
 
   private getMultilineString(element: InputElement, headerLength: number, valueLength: number): string {
@@ -62,7 +58,7 @@ export class InputFormatter implements IFormatter<InputElement> {
     }
 
     const underline = t.Underscore.LABEL as string
-    const height = element.properties["Высота"]
+    const height = element.getProperty("Высота") as number
 
     let multilineString = "\n" + " ".repeat(headerLength) + underline.repeat(valueLength)
     for (let i = 2; i <= height; i++) {

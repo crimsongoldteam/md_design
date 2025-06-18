@@ -17,6 +17,17 @@ export enum TableCellAlignment {
   Right = "Право",
 }
 
+type ProperyPrimitiveValue = string | boolean | number
+type PropertyValue = ProperyPrimitiveValue | ProperyPrimitiveValue[]
+
+export class ElementsProperies {
+  [id: string]: ProperiesData
+}
+
+export class ProperiesData {
+  [name: string]: PropertyValue
+}
+
 export abstract class BaseElement {
   @Expose({ name: "Тип" })
   public type: string = ""
@@ -28,7 +39,7 @@ export abstract class BaseElement {
   public elementKind: string = ""
 
   @Expose({ name: "НаборСвойств" })
-  public properties: { [key: string]: any } = {}
+  public properties: ProperiesData = {}
 
   @Expose({ name: "УИД", groups: ["production"] })
   public elementId: string = ""
@@ -76,7 +87,7 @@ export abstract class BaseElement {
     return CstPathHelper.findElementByCstPath(this, path)
   }
 
-  public getProperty(key: string): any {
+  public getProperty(key: string): PropertyValue | undefined {
     const lowerKey = key.toLowerCase()
     for (const propKey in this.properties) {
       if (propKey.toLowerCase() === lowerKey) {

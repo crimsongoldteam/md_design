@@ -8,7 +8,7 @@ export interface IdFormatterRule {
 export class IdFormatter {
   public static format(element: BaseElement, rules: IdFormatterRule[]): string | undefined {
     for (const rule of rules) {
-      const value = element.getProperty(rule.property)
+      const value = element.getProperty(rule.property) as string | undefined
 
       if (!value) continue
 

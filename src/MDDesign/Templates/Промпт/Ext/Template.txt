@@ -85,27 +85,27 @@ Instead of a checkbox, you can use a toggle switch. Use any symbols separated by
 ## Groups
 
 ```
-#Заголовок группы 1   #Заголовок группы 2
-Элемент группы 1      +   Элемент группы 2
+#Заголовок группы 1 #Заголовок группы 2
+  Элемент группы 1  +Элемент группы 2
 ```
 
 Groups allow you to line up elements on the form one below the other and separate them by columns.
 
 ```
 #Флажки        #Поля ввода
-[ ] Флажок 1   +   Поле ввода 1:
-[ ] Флажок 2   +   Поле ввода 2:
-[ ] Флажок 3   +   Поле ввода 3:
+  [ ] Флажок 1 +Поле ввода 1:
+  [ ] Флажок 2 +Поле ввода 2:
+  [ ] Флажок 3 +Поле ввода 3:
 ```
 
 You can add nested groups.
 
 ```
 #                  #
-Дата: 01.01.2025   +   Контрагент: Иванов__С
-Номер: 1           +   Договор: №1__С
-                   +   #Остаток на 01.01   #Остаток на 01.02
-                   +   Сумма: 100          +   Сумма: 200
+  Дата: 01.01.2025 +Контрагент: Иванов__С
+  Номер: 1         +Договор: №1__С
+                   +#Остаток на 01.01   #Остаток на 01.02
+                   +  Сумма: 100        +Сумма: 200
 ```
 
 
@@ -138,9 +138,9 @@ If you need to arrange multiple items on a single line, use a single-line group.
 ## Pages
 ```text
 /Страница 1
-    Элемент 1
+  Элемент 1
 /Страница 2
-    Элемент 2
+  Элемент 2
 ```
 Adds pages to the form. Items within pages are separated by a tab character.
 Nested pages are permitted.

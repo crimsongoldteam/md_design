@@ -4,7 +4,7 @@ import { parser } from "../parser/parser"
 import { FormElement } from "../elements/formElement"
 import { EditorContainerElement } from "../elements/editorContainerElement"
 import { VerticalGroupElement } from "../elements/verticalGroupElement"
-import { CstPath } from "../elements/baseElement"
+import { CstPath, ElementsProperies } from "../elements/baseElement"
 import { InputElement } from "@/elements/inputElement"
 import { CheckboxElement } from "@/elements/checkboxElement"
 import { FormatterUtils } from "@/formatter/formatterUtils"
@@ -33,6 +33,27 @@ export class FormModel extends AbstractModel<FormElement> {
     if (element && element instanceof VerticalGroupElement) {
       element.items.length = 0
       element.items.push(...containerElement.items)
+    }
+    this.format()
+  }
+
+  public setProperties(data: ElementsProperies): void {
+    for (const key in data) {
+      const element = this.elementMap.get(key)
+      if (!element) {
+        continue
+      }
+
+      const properties = data[key]
+
+      for (const propertyKey in properties) {
+        const value = properties[propertyKey]
+        if (!value) {
+          delete element.properties[propertyKey]
+          continue
+        }
+        element.properties[propertyKey] = value
+      }
     }
     this.format()
   }

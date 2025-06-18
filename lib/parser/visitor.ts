@@ -626,6 +626,11 @@ export class Visitor extends BaseVisitor {
       }
     }
 
+    if (value === undefined) {
+      delete properties[key]
+      return
+    }
+
     properties[key] = value
   }
 

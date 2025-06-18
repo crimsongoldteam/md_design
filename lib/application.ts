@@ -5,12 +5,11 @@ import { FormModel, ValueData } from "./editor/formModel"
 import { GroupModel } from "./editor/groupModel"
 
 import { AbstractModel } from "./editor/abstractModel"
-import { BaseElement, CstPath } from "./elements/baseElement"
+import { BaseElement, CstPath, ElementsProperies } from "./elements/baseElement"
 import { EditorContainerElement } from "./elements/editorContainerElement"
 import { VerticalGroupElement } from "./elements/verticalGroupElement"
 import { TableElement } from "./elements/tableElement"
-import { GroupEditorWrapper } from "./editor/groupEditorWrapper"
-import Split, { Instance } from "split.js"
+import Split from "split.js"
 
 interface IApplication {
   onChangeContent: (semanticTree: BaseElement) => void
@@ -29,7 +28,6 @@ export class Application implements IApplication {
   private readonly mainModel: FormModel
   private readonly mainEditorContainer: HTMLElement
   private readonly groupModel: GroupModel
-  private readonly splitter: Instance
 
   private groupPath: CstPath | undefined
   private readonly groupEditorContainer: HTMLElement
@@ -40,11 +38,13 @@ export class Application implements IApplication {
     this.mainEditorContainer = mainEditorContainer
     this.mainEditor = new EditorWrapper(mainEditorContainer, this.mainModel)
     this.mainEditor.onChangeContent = this.onChangeMainEditorContent.bind(this)
+    this.mainEditor.onChangeCurrentElement = this.onChangeMainEditorCurrentElement.bind(this)
 
     this.groupEditorContainer = groupEditorContainer
     this.groupModel = new GroupModel()
-    this.groupEditor = new GroupEditorWrapper(groupEditorContainer, this.groupModel)
+    this.groupEditor = new EditorWrapper(groupEditorContainer, this.groupModel)
     this.groupEditor.onChangeContent = this.onChangeGroupEditorContent.bind(this)
+    this.groupEditor.onChangeCurrentElement = this.onChangeGroupEditorCurrentElement.bind(this)
 
     monaco.languages.registerLinkProvider("plaintext", {
       provideLinks: this.provideLinks.bind(this),
@@ -53,13 +53,17 @@ export class Application implements IApplication {
 
     this.currentEditor = this.mainEditor
 
-    this.splitter = this.initSplitter()
+    this.initSplitter()
 
     this.setCurrentGroup(undefined)
   }
 
   public onChangeContent: (semanticTree: BaseElement) => void = () => {
     throw new Error("onChangeContent is not implemented")
+  }
+
+  public onChangeCurrentElement: (currentElement: BaseElement | undefined) => void = () => {
+    throw new Error("onChangeCurrentElement is not implemented")
   }
 
   public insertText(text: string): void {
@@ -84,6 +88,10 @@ export class Application implements IApplication {
 
   public setValues(data: ValueData): void {
     this.mainModel.setValues(data)
+  }
+
+  public setProperties(data: ElementsProperies): void {
+    this.mainModel.setProperties(data)
   }
 
   public setCurrentGroup(group: BaseElement | undefined): void {
@@ -126,6 +134,14 @@ export class Application implements IApplication {
     this.updateMainEditorByGroupEditor()
 
     this.onChangeContent(this.mainEditor.getSemanicTree())
+  }
+
+  private onChangeMainEditorCurrentElement(currentElement: BaseElement | undefined): void {
+    this.onChangeCurrentElement(currentElement)
+  }
+
+  private onChangeGroupEditorCurrentElement(currentElement: BaseElement | undefined): void {
+    this.onChangeCurrentElement(currentElement)
   }
 
   private isGroupEditorEnabled(): boolean {
@@ -202,8 +218,8 @@ export class Application implements IApplication {
     this.closeGroupEditor()
   }
 
-  private initSplitter(): Instance {
-    return Split(["#container-up", "#container-down"], {
+  private initSplitter(): void {
+    Split(["#container-up", "#container-down"], {
       direction: "vertical",
       gutterSize: 15,
       gutter: (_index, direction) => {

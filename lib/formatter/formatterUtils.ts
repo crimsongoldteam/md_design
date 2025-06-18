@@ -66,7 +66,7 @@ export class FormatterUtils {
   }
 
   private static isStretch(element: BaseElement): boolean {
-    return element.properties["РастягиватьПоГоризонтали"] && !element.properties["ГоризонтальноеПоложениеВГруппе"]
+    return element.getProperty("РастягиватьПоГоризонтали") === true
   }
 
   public static getCheckboxString(

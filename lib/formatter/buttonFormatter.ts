@@ -20,9 +20,9 @@ export class ButtonFormatter implements IFormatter<ButtonElement> {
   }
 
   private getCaption(element: ButtonElement, isMenu = false): string {
-    let textPicture: string | undefined = element.properties["Картинка"]
-    let textTitle = element.properties["Заголовок"]
-    const picturePosition = element.properties["ПоложениеКартинки"] ?? "Лево"
+    let textPicture: string | undefined = element.getProperty("Картинка") as string | undefined
+    let textTitle = element.getProperty("Заголовок") as string | undefined
+    const picturePosition = element.getProperty("ПоложениеКартинки") ?? "Лево"
 
     if (textPicture) {
       textPicture = "@" + textPicture
@@ -33,7 +33,7 @@ export class ButtonFormatter implements IFormatter<ButtonElement> {
     }
 
     if (textPicture === undefined) {
-      return textTitle
+      return textTitle ?? ""
     }
 
     if (picturePosition === "Лево") {

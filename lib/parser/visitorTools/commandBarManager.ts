@@ -66,8 +66,15 @@ export class CommandBarManager {
   }
 
   private getKey(button: ButtonElement): string {
-    const title = button.properties["Заголовок"]?.toLowerCase() ?? ""
-    const image = button.properties["Картинка"]?.toLowerCase() ?? ""
+    let title = button.getProperty("Заголовок") as string | undefined
+    let image = button.getProperty("Картинка") as string | undefined
+
+    if (!title && !image) {
+      return ""
+    }
+
+    title = title?.toLowerCase() ?? ""
+    image = image?.toLowerCase() ?? ""
     return title + "@" + image
   }
 
