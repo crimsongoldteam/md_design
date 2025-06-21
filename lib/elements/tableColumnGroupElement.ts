@@ -1,7 +1,8 @@
-import { Expose } from "class-transformer"
-import { ElementListType } from "./baseElement"
+import { Expose, Type } from "class-transformer"
+import { BaseElement, ElementListType } from "./baseElement"
 import { TableColumnElement } from "./tableColumnElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
+import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
 
 export class TableColumnGroupElement extends BaseElementWithoutAttributes {
   public type = "ГруппаКолонокТаблицы"
@@ -9,6 +10,7 @@ export class TableColumnGroupElement extends BaseElementWithoutAttributes {
   public elementKind = "ГруппаКолонок"
 
   @Expose({ name: "Элементы" })
+  @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
   public items: (TableColumnElement | TableColumnGroupElement)[] = []
 
   public static readonly childrenFields = [ElementListType.Items]
@@ -28,3 +30,5 @@ export class TableColumnGroupElement extends BaseElementWithoutAttributes {
     return columns
   }
 }
+
+PlainToClassDiscriminator.addClass(TableColumnGroupElement, "ГруппаКолонокТаблицы")

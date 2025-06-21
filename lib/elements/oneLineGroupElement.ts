@@ -1,6 +1,8 @@
-import { Expose } from "class-transformer"
+import { Expose, Transform, Type } from "class-transformer"
 import { BaseElement } from "./baseElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
+import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
+import { PlainToClassTransformer } from "../importer/plaintToClassTransformer"
 
 export class OneLineGroupElement extends BaseElementWithoutAttributes {
   public type = "ОднострочнаяГруппа"
@@ -12,7 +14,11 @@ export class OneLineGroupElement extends BaseElementWithoutAttributes {
   }
 
   @Expose({ name: "Элементы" })
-  public readonly items: BaseElement[] = []
+  @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
+  @Transform(PlainToClassTransformer.transform)
+  public items: BaseElement[] = []
 
   public childrenFields = ["items"]
 }
+
+PlainToClassDiscriminator.addClass(OneLineGroupElement, "ОднострочнаяГруппа")

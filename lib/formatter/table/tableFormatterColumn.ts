@@ -1,13 +1,13 @@
-import { TableHeaderElement } from "@/elements/tableHeaderElement"
 import { TableColumnGroupElement } from "@/elements/tableColumnGroupElement"
 import { TableCellAlignment } from "@/elements/baseElement"
 import { BaseTableFormatterCell } from "./baseTableFormatterCell"
 import { FormFormatterFactory } from "../formatterFactory"
 import { FormatterUtils } from "../formatterUtils"
 import { TableFormatterRowCell } from "./tableFormatterRowCell"
+import { TableHeaderElement, TableHeaderElementExt } from "@/elements/tableElement"
 
 export class TableFormatterColumn extends BaseTableFormatterCell {
-  private readonly element: TableHeaderElement
+  private readonly element: TableHeaderElementExt
   private readonly rowIndex: number = 0
   private readonly rowCompactIndex: number = 0
   private readonly MIN_COLUMN_WIDTH: number = 5
@@ -48,7 +48,7 @@ export class TableFormatterColumn extends BaseTableFormatterCell {
   }
 
   public getElement(): TableHeaderElement {
-    return this.element
+    return this.element as TableHeaderElement
   }
 
   public getColSpan(): number {

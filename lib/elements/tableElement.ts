@@ -1,5 +1,5 @@
-import { Expose } from "class-transformer"
-import { ElementListType } from "./baseElement"
+import { Expose, Transform, Type } from "class-transformer"
+import { BaseElement, ElementListType } from "./baseElement"
 import { TableColumnElement } from "./tableColumnElement"
 import { TableColumnGroupElement } from "./tableColumnGroupElement"
 import { TableRowElement } from "./tableRowElement.ts"
@@ -8,6 +8,12 @@ import { BaseElementWithAttributes } from "./baseElementWithAttributes .ts"
 import { TableCellElement } from "./tableCellElement.ts"
 import { TableValueData } from "@/editor/formModel.ts"
 import { FormatterUtils } from "@/formatter/formatterUtils.ts"
+import { TableEmptyElement } from "./tableEmptyElement.ts"
+import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator.ts"
+import { PlainToClassTransformer } from "../importer/plaintToClassTransformer.ts"
+
+export type TableHeaderElement = TableColumnGroupElement | TableColumnElement
+export type TableHeaderElementExt = TableColumnGroupElement | TableColumnElement | TableEmptyElement
 
 export class TableElement extends BaseElementWithAttributes {
   public type = "Таблица"
@@ -15,9 +21,11 @@ export class TableElement extends BaseElementWithAttributes {
   public elementKind = "БезВида"
 
   @Expose({ name: "Колонки" })
-  public readonly columns: (TableColumnElement | TableColumnGroupElement)[] = []
+  @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
+  @Transform(PlainToClassTransformer.transform)
+  public columns: (TableColumnElement | TableColumnGroupElement)[] = []
 
-  @Expose({ name: "Строки" })
+  @Expose({ name: "Строки", toPlainOnly: true })
   public readonly rows: TableRowElement[] = []
 
   @Expose({ name: "ОписаниеТипов" })
@@ -38,6 +46,11 @@ export class TableElement extends BaseElementWithAttributes {
       columns.push(...column.getAllColumns())
     }
     return columns
+  }
+
+  public getColumnByAttributeId(attributeId: string): TableColumnElement | undefined {
+    const columns = this.getAllColumns()
+    return columns.find((column) => column.attributeId === attributeId)
   }
 
   public setValues(value: TableValueData): void {
@@ -85,3 +98,5 @@ export class TableElement extends BaseElementWithAttributes {
     }
   }
 }
+
+PlainToClassDiscriminator.addClass(TableElement, "Таблица")

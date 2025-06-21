@@ -1,6 +1,8 @@
-import { Expose } from "class-transformer"
+import { Expose, Transform, Type } from "class-transformer"
 import { BaseElement, ElementListType } from "./baseElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
+import { PlainToClassDiscriminator } from "../importer/plainToClassDiscriminator"
+import { PlainToClassTransformer } from "../importer/plaintToClassTransformer"
 
 export class VerticalGroupElement extends BaseElementWithoutAttributes {
   public type = "ВертикальнаяГруппа"
@@ -8,7 +10,9 @@ export class VerticalGroupElement extends BaseElementWithoutAttributes {
   public elementKind = "ОбычнаяГруппа"
 
   @Expose({ name: "Элементы" })
-  public readonly items: BaseElement[] = []
+  @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
+  @Transform(PlainToClassTransformer.transform)
+  public items: BaseElement[] = []
 
   public static readonly childrenFields = [ElementListType.Items]
 
@@ -16,3 +20,5 @@ export class VerticalGroupElement extends BaseElementWithoutAttributes {
     return "ВертикальнаяГруппа"
   }
 }
+
+PlainToClassDiscriminator.addClass(VerticalGroupElement, "ВертикальнаяГруппа")

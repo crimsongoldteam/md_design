@@ -1,6 +1,7 @@
 import { Expose } from "class-transformer"
 import { TypeDescription } from "./typeDescription"
 import { BaseElementWithAttributes } from "./baseElementWithAttributes "
+import { PlainToClassDiscriminator } from "../importer/plainToClassDiscriminator"
 
 export class InputElement extends BaseElementWithAttributes {
   public type = "ПолеВвода"
@@ -20,3 +21,5 @@ export class InputElement extends BaseElementWithAttributes {
     return "ПолеВвода"
   }
 }
+
+PlainToClassDiscriminator.addClass(InputElement, "ПолеВвода")

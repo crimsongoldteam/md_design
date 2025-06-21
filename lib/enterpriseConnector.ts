@@ -30,6 +30,10 @@ export class EnterpriseConnector {
     this.application.setProperties(data)
   }
 
+  // public updateElement(): void {
+  //   this.application.updateElement()
+  // }
+
   public setValues(plainText: string): void {
     const plainObject = JSON.parse(plainText)
     const data: ValueData = plainToInstance(ValueData, plainObject)

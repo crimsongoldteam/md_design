@@ -1,9 +1,8 @@
 import { ElementListType } from "@/elements/baseElement"
 import { TableColumnElement } from "@/elements/tableColumnElement"
 import { TableColumnGroupElement } from "@/elements/tableColumnGroupElement"
-import { TableElement } from "@/elements/tableElement"
+import { TableElement, TableHeaderElementExt } from "@/elements/tableElement"
 import { TableEmptyElement } from "@/elements/tableEmptyElement"
-import { TableHeaderElementExt } from "@/elements/tableHeaderElement"
 
 export class TableHeaderMap {
   private map: TableHeaderElementExt[][] = []

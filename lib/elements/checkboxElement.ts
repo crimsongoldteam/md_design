@@ -1,6 +1,7 @@
 import { Expose } from "class-transformer"
 import { TypeDescription } from "./typeDescription"
 import { BaseElementWithAttributes } from "./baseElementWithAttributes "
+import { PlainToClassDiscriminator } from "../importer/plainToClassDiscriminator"
 
 export class CheckboxElement extends BaseElementWithAttributes {
   public type = "ПолеФлажка"
@@ -17,3 +18,5 @@ export class CheckboxElement extends BaseElementWithAttributes {
     return "Флажок"
   }
 }
+
+PlainToClassDiscriminator.addClass(CheckboxElement, "ПолеФлажка")

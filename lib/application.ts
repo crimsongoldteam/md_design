@@ -10,6 +10,8 @@ import { EditorContainerElement } from "./elements/editorContainerElement"
 import { VerticalGroupElement } from "./elements/verticalGroupElement"
 import { TableElement } from "./elements/tableElement"
 import Split from "split.js"
+import { Importer } from "./importer/importer"
+import { instanceToPlain } from "class-transformer"
 
 interface IApplication {
   onChangeContent: (semanticTree: BaseElement) => void
@@ -94,6 +96,10 @@ export class Application implements IApplication {
     this.mainModel.setProperties(data)
   }
 
+  public updateElement(text: string): void {
+    const data = Importer.import(text)
+  }
+
   public setCurrentGroup(group: BaseElement | undefined): void {
     this.groupPath = undefined
     if (group) {
@@ -125,6 +131,10 @@ export class Application implements IApplication {
     this.currentEditor = this.mainEditor
 
     this.updateGroupEditorByMainEditor()
+
+    const prod = this.getProduction()
+    const plain = instanceToPlain(prod, { groups: ["production"] })
+    console.log(JSON.stringify(plain, null, 2))
 
     this.onChangeContent(this.mainEditor.getSemanicTree())
   }

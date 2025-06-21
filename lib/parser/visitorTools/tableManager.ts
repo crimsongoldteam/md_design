@@ -3,10 +3,9 @@ import { TableHeaderMap } from "./tableHeaderMap"
 
 import { TableRowMap } from "./tableRowMap"
 import { TypesUtils } from "./typesUtuls"
-import { TableElement } from "@/elements/tableElement"
+import { TableElement, TableHeaderElementExt } from "@/elements/tableElement"
 import { TableCellElement } from "@/elements/tableCellElement"
 import { TableColumnElement } from "@/elements/tableColumnElement"
-import { TableHeaderElementExt } from "@/elements/tableHeaderElement"
 import { TypeDescription, DateFractions } from "@/elements/typeDescription"
 
 export enum TableRowType {

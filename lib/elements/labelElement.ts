@@ -1,4 +1,5 @@
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
+import { PlainToClassDiscriminator } from "../importer/plainToClassDiscriminator"
 
 export class LabelElement extends BaseElementWithoutAttributes {
   public type = "Надпись"
@@ -9,3 +10,5 @@ export class LabelElement extends BaseElementWithoutAttributes {
     return "Надпись"
   }
 }
+
+PlainToClassDiscriminator.addClass(LabelElement, "Надпись")

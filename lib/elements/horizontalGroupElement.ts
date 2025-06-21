@@ -1,7 +1,7 @@
-import { Expose } from "class-transformer"
-import { ElementListType } from "./baseElement"
-import { VerticalGroupElement } from "./verticalGroupElement"
+import { Expose, Type } from "class-transformer"
+import { BaseElement, ElementListType } from "./baseElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
+import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
 
 export class HorizontalGroupElement extends BaseElementWithoutAttributes {
   public type = "ГоризонтальнаяГруппа"
@@ -13,7 +13,10 @@ export class HorizontalGroupElement extends BaseElementWithoutAttributes {
   }
 
   @Expose({ name: "Элементы" })
-  public readonly items: VerticalGroupElement[] = []
+  @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
+  public items: BaseElement[] = []
 
   public static readonly childrenFields = [ElementListType.Items]
 }
+
+PlainToClassDiscriminator.addClass(HorizontalGroupElement, "ГоризонтальнаяГруппа")

@@ -1,6 +1,7 @@
 import { Expose } from "class-transformer"
 import { BaseElement } from "./baseElement"
 import { IdGeneratorRequest, IdGeneratorQueueInboxItem } from "@/parser/visitorTools/idGenerator"
+import { PlainToClassDiscriminator } from "../importer/plainToClassDiscriminator"
 
 export class TableCellElement extends BaseElement {
   public type = "ЯчейкаТаблицы"
@@ -31,3 +32,5 @@ export class TableCellElement extends BaseElement {
     return []
   }
 }
+
+PlainToClassDiscriminator.addClass(TableCellElement, "ЯчейкаТаблицы")

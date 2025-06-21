@@ -1,7 +1,8 @@
-import { Expose } from "class-transformer"
-import { ElementListType } from "./baseElement"
+import { Expose, Type } from "class-transformer"
+import { BaseElement, ElementListType } from "./baseElement"
 import { ButtonElement } from "./buttonElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
+import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
 
 export class ButtonGroupElement extends BaseElementWithoutAttributes {
   public type = "ГруппаКнопок"
@@ -9,7 +10,8 @@ export class ButtonGroupElement extends BaseElementWithoutAttributes {
   public elementKind = "ГруппаКнопок"
 
   @Expose({ name: "Элементы" })
-  public readonly items: ButtonElement[] = []
+  @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
+  public items: ButtonElement[] = []
 
   public static readonly childrenFields = [ElementListType.Items]
 
@@ -21,3 +23,5 @@ export class ButtonGroupElement extends BaseElementWithoutAttributes {
     return "Группа"
   }
 }
+
+PlainToClassDiscriminator.addClass(ButtonGroupElement, "ГруппаКнопок")

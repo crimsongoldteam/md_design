@@ -1,5 +1,6 @@
 import { IdGeneratorRequest, IdGeneratorQueueInboxItem } from "@/parser/visitorTools/idGenerator"
 import { BaseElement, ElementListType } from "./baseElement"
+import { PlainToClassDiscriminator } from "../importer/plainToClassDiscriminator"
 
 export class EditorContainerElement extends BaseElement {
   public readonly items: BaseElement[] = []
@@ -13,3 +14,5 @@ export class EditorContainerElement extends BaseElement {
     return []
   }
 }
+
+PlainToClassDiscriminator.addClass(EditorContainerElement, "КонтейнерРедактора")

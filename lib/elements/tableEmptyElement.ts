@@ -1,5 +1,6 @@
 import { IdGeneratorQueueInboxItem, IdGeneratorRequest } from "@/parser/visitorTools/idGenerator"
 import { BaseElement } from "./baseElement"
+import { PlainToClassDiscriminator } from "../importer/plainToClassDiscriminator"
 
 export class TableEmptyElement extends BaseElement {
   public type = "ПустойЭлементТаблицы"
@@ -11,3 +12,5 @@ export class TableEmptyElement extends BaseElement {
     return []
   }
 }
+
+PlainToClassDiscriminator.addClass(TableEmptyElement, "ПустойЭлементТаблицы")

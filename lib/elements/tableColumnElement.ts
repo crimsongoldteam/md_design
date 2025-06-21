@@ -1,10 +1,11 @@
-import { Exclude, Expose } from "class-transformer"
+import { Exclude, Expose, Type } from "class-transformer"
 import { BaseElement, ElementListType } from "./baseElement"
 import { TypeDescription } from "./typeDescription"
 import { TableColumnGroupElement } from "./tableColumnGroupElement"
 import { IdGeneratorType, IdGeneratorQueueInboxItem, IdGeneratorRequest } from "@/parser/visitorTools/idGenerator"
 import { TableElement } from "./tableElement"
 import { IdFormatter, IdFormatterRule } from "@/parser/visitorTools/idFormatter"
+import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
 
 export class TableColumnElement extends BaseElement {
   public type = "КолонкаТаблицы"
@@ -57,6 +58,7 @@ export class TableColumnElement extends BaseElement {
   public typeDescriptionCheckbox: TypeDescription = new TypeDescription("Булево")
 
   @Expose({ name: "Колонки" })
+  @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
   public items: (TableColumnElement | TableColumnGroupElement)[] = []
 
   @Exclude()
@@ -215,3 +217,5 @@ export class TableColumnElement extends BaseElement {
     return prefix + this.attributeId
   }
 }
+
+PlainToClassDiscriminator.addClass(TableColumnElement, "КолонкаТаблицы")

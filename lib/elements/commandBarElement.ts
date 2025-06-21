@@ -1,8 +1,9 @@
-import { Expose } from "class-transformer"
+import { Expose, Type } from "class-transformer"
 import { BaseElement, ElementListType } from "./baseElement"
 import { ButtonElement } from "./buttonElement"
 import { ButtonGroupElement } from "./buttonGroupElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
+import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
 
 export class CommandBarElement extends BaseElementWithoutAttributes {
   public type = "КоманднаяПанель"
@@ -14,6 +15,7 @@ export class CommandBarElement extends BaseElementWithoutAttributes {
   }
 
   @Expose({ name: "Элементы" })
+  @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
   public items: (BaseElement | ButtonGroupElement)[] = []
 
   public static readonly childrenFields = [ElementListType.Items]
@@ -30,3 +32,5 @@ export class CommandBarElement extends BaseElementWithoutAttributes {
     return buttons
   }
 }
+
+PlainToClassDiscriminator.addClass(CommandBarElement, "КоманднаяПанель")

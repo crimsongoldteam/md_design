@@ -1,4 +1,4 @@
-import { Exclude, Expose } from "class-transformer"
+import { Expose } from "class-transformer"
 import "reflect-metadata"
 import { IdGeneratorQueueInboxItem, IdGeneratorRequest } from "../parser/visitorTools/idGenerator"
 import { CstPathHelper } from "./cstPathHelper"
@@ -44,16 +44,14 @@ export abstract class BaseElement {
   @Expose({ name: "УИД", groups: ["production"] })
   public elementId: string = ""
 
-  @Expose({ name: "НеизвестныеСвойства", groups: ["production"] })
+  @Expose({ name: "НеизвестныеСвойства", groups: ["production"], toPlainOnly: true })
   public unknownProperties: string[] = []
 
-  @Expose({ name: "ТипыСвойств", groups: ["production"] })
+  @Expose({ name: "ТипыСвойств", groups: ["production"], toPlainOnly: true })
   public propertyTypes: {} = {}
 
-  @Exclude()
   public parent: BaseElement | undefined = undefined
 
-  @Exclude()
   public parentList: ElementListType | undefined
 
   public static readonly childrenFields: ElementListType[] = []

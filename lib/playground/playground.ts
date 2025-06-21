@@ -24,3 +24,4 @@ application.onChangeContent = (semanticTree: BaseElement) => {
   const data: ValueData = plainToInstance(ValueData, plainObject)
   application.setValues(data)
 }
+;(window as any).application = application
