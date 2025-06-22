@@ -13,14 +13,16 @@ export class TableColumnElement extends BaseElement {
   public elementType = "ПолеФормы"
   public elementKind = "ПолеВвода"
 
+  private _hasValue: boolean = false
+
+  protected static aligmentProperty: string = "ГоризонтальноеПоложение"
+
   @Expose({ name: "УИДАтрибута", groups: ["production"] })
   public attributeId: string = ""
 
   @Expose({ name: "ОписаниеТипов" })
   @Type(() => TypeDescription)
   public typeDescription: TypeDescription = new TypeDescription()
-
-  public _hasValue: boolean = false
 
   @Expose({ name: "ЕстьЗначение" })
   public get hasValue(): boolean {

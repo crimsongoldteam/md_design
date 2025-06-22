@@ -11,6 +11,7 @@ import { BaseElement } from "../elements/baseElement"
 import { CstPath } from "@/elements/cstPathHelper"
 import { FormElement } from "../elements/formElement"
 import { TableElement } from "../elements/tableElement"
+import { ElementPathData } from "@/application"
 
 export abstract class AbstractModel<T extends BaseElement> {
   private readonly semanticTokensManager: SemanticTokensManager = new SemanticTokensManager()
@@ -53,6 +54,12 @@ export abstract class AbstractModel<T extends BaseElement> {
     if (!token) return this.cst
 
     return token.element
+  }
+
+  public getCurrentElementPathData(): ElementPathData {
+    const element = this.getCurrentElement()
+    const path = element.getCstPath()
+    return new ElementPathData(element, path, false)
   }
 
   public getNearestContainer(current: BaseElement): BaseElement {

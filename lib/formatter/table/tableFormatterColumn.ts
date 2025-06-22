@@ -1,5 +1,5 @@
 import { TableColumnGroupElement } from "@/elements/tableColumnGroupElement"
-import { TableCellAlignment } from "@/elements/baseElement"
+import { PropertyAlignment } from "@/elements/baseElement"
 import { BaseTableFormatterCell } from "./baseTableFormatterCell"
 import { FormFormatterFactory } from "../formatterFactory"
 import { FormatterUtils } from "../formatterUtils"
@@ -36,8 +36,8 @@ export class TableFormatterColumn extends BaseTableFormatterCell {
     parent.columns.push(this)
   }
 
-  public getAlignment(): TableCellAlignment {
-    return this.element.getAlignment()
+  public getAlignment(): PropertyAlignment {
+    return this.element.alignment
   }
 
   public popValue(): string {

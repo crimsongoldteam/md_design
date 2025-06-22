@@ -10,7 +10,7 @@ export enum ElementListType {
   Rows = "rows",
 }
 
-export enum TableCellAlignment {
+export enum PropertyAlignment {
   Left = "Лево",
   Center = "Центр",
   Right = "Право",
@@ -20,6 +20,8 @@ export type ProperyPrimitiveValue = string | boolean | number
 export type PropertyValue = ProperyPrimitiveValue | ProperyPrimitiveValue[]
 
 export abstract class BaseElement {
+  protected static aligmentProperty: string = "ГоризонтальноеПоложениеВГруппе"
+
   @Expose({ name: "Тип" })
   public type: string = ""
 
@@ -109,13 +111,32 @@ export abstract class BaseElement {
     return undefined
   }
 
-  public getAlignment(): TableCellAlignment {
-    const alignment = this.getProperty("ГоризонтальноеПоложение")
-    if (!alignment) {
-      return TableCellAlignment.Left
+  public setProperty(key: string, value: PropertyValue | undefined) {
+    const properties = this.properties
+    const lowerKey = key.toLowerCase()
+
+    for (const prop in properties) {
+      if (prop.toLowerCase() === lowerKey) {
+        properties.delete(prop)
+      }
     }
 
-    return alignment as TableCellAlignment
+    if (value === undefined) return
+
+    properties.set(key, value)
+  }
+
+  public get alignment(): PropertyAlignment {
+    const alignment = this.getProperty((this.constructor as any).aligmentProperty)
+    if (!alignment) {
+      return PropertyAlignment.Left
+    }
+
+    return alignment as PropertyAlignment
+  }
+
+  public set alignment(alignment: PropertyAlignment) {
+    this.setProperty((this.constructor as any).aligmentProperty, alignment)
   }
 
   public getChildrenFields(): ElementListType[] {

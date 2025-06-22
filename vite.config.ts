@@ -3,7 +3,7 @@ import { viteSingleFile } from "vite-plugin-singlefile"
 import monacoEditorPlugin from "vite-plugin-monaco-editor"
 import replaceGlobalThis from "./vite-build-plugins/replace"
 import zipPack from "vite-plugin-zip-pack"
-import path from "path"
+import * as path from "path"
 
 export default defineConfig((api) => {
   const isDev = api.mode === "development"

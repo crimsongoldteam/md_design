@@ -6,7 +6,7 @@ import { TypesUtils } from "./visitorTools/typesUtuls"
 import { SemanticTokensManager, SemanticTokensTypes } from "./visitorTools/sematicTokensManager"
 import { IdGenerator } from "./visitorTools/idGenerator"
 import { HorizontalGroupDictionary, PagesDictionary } from "./nodes"
-import { BaseElement, ElementListType, PropertyValue } from "../elements/baseElement"
+import { BaseElement, ElementListType, PropertyAlignment, PropertyValue } from "../elements/baseElement"
 import { FormElement } from "../elements/formElement"
 import { InputElement } from "../elements/inputElement"
 import { LabelElement } from "../elements/labelElement"
@@ -497,10 +497,10 @@ export class Visitor extends BaseVisitor {
 
     if (isColumnGroup) {
       result = new TableColumnGroupElement()
-      content = content?.slice(1, -1)
+      content = content?.slice(1, -1).trim()
     }
 
-    this.setProperty(result, "Заголовок", content)
+    this.setProperty(result, "Заголовок", content?.trim())
 
     this.visit(ctx.properties as CstNode[], { element: result })
 
@@ -524,17 +524,17 @@ export class Visitor extends BaseVisitor {
     const hasRight = !!data.rightColon
 
     if (hasLeft && !hasRight) {
-      this.setProperty(column, "ГоризонтальноеПоложение", "Лево")
+      column.alignment = PropertyAlignment.Left
       return
     }
 
     if (hasLeft && hasRight) {
-      this.setProperty(column, "ГоризонтальноеПоложение", "Центр")
+      column.alignment = PropertyAlignment.Center
       return
     }
 
     if (!hasLeft && hasRight) {
-      this.setProperty(column, "ГоризонтальноеПоложение", "Право")
+      column.alignment = PropertyAlignment.Right
     }
 
     let tokens = [...(data.leftColon ?? []), ...(data.Dashes ?? []), ...(data.rightColon ?? [])]
@@ -690,10 +690,10 @@ export class Visitor extends BaseVisitor {
     if (ctx.leftArrowRight) {
       //-> * <-
       if (ctx.rightArrowLeft) {
-        this.setProperty(element, "ГоризонтальноеПоложениеВГруппе", "Центр")
+        element.alignment = PropertyAlignment.Center
         return
       }
-      this.setProperty(element, "ГоризонтальноеПоложениеВГруппе", "Право")
+      element.alignment = PropertyAlignment.Right
       return
     }
 

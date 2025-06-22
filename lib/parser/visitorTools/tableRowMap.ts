@@ -60,7 +60,7 @@ export class TableRowMap {
     }
 
     if (item.value || !item.hasCheckbox) {
-      column._hasValue = true
+      column.hasValue = true
     }
 
     this.currentRow.items.set(column, item)

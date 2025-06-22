@@ -1,4 +1,4 @@
-import { TableCellAlignment } from "@/elements/baseElement"
+import { PropertyAlignment } from "@/elements/baseElement"
 import { BaseTableFormatterCell } from "./baseTableFormatterCell"
 import { TableFormatterColumn } from "./tableFormatterColumn"
 
@@ -24,11 +24,11 @@ export class TableFormatterSeparator extends BaseTableFormatterCell {
 
     const alignment = this.column.getAlignment()
 
-    if (alignment === TableCellAlignment.Right) {
+    if (alignment === PropertyAlignment.Right) {
       rightSymbol = ": "
     }
 
-    if (alignment === TableCellAlignment.Center) {
+    if (alignment === PropertyAlignment.Center) {
       leftSymbol = " :"
       rightSymbol = ": "
     }

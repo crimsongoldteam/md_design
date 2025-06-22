@@ -1,4 +1,4 @@
-import { TableCellAlignment } from "@/elements/baseElement"
+import { PropertyAlignment } from "@/elements/baseElement"
 import { ITableFormatterCell } from "./tableFormatter"
 
 export abstract class BaseTableFormatterCell implements ITableFormatterCell {
@@ -12,14 +12,14 @@ export abstract class BaseTableFormatterCell implements ITableFormatterCell {
     return this.value.length
   }
 
-  protected getAlignedValue(alignment: TableCellAlignment): string {
+  protected getAlignedValue(alignment: PropertyAlignment): string {
     const padding = this.getCalulatedLength() - this.getLength()
 
-    if (alignment === TableCellAlignment.Left) {
+    if (alignment === PropertyAlignment.Left) {
       return this.value + " ".repeat(padding)
     }
 
-    if (alignment === TableCellAlignment.Right) {
+    if (alignment === PropertyAlignment.Right) {
       return " ".repeat(padding) + this.value
     }
 

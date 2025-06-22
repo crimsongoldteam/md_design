@@ -10,6 +10,8 @@ export class TableColumnGroupElement extends BaseElementWithoutAttributes {
   public elementType = "ГруппаФормы"
   public elementKind = "ГруппаКолонок"
 
+  protected static aligmentProperty: string = "ГоризонтальноеПоложение"
+
   @Expose({ name: "Колонки" })
   @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
   public items: (TableColumnElement | TableColumnGroupElement)[] = []

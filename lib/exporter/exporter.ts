@@ -2,7 +2,9 @@ import { instanceToPlain } from "class-transformer"
 import { ElementPathData } from "../application"
 
 export class Exporter {
-  public static readonly export = (element: any) => {
+  public static readonly export = (element: any): string | undefined => {
+    if (element === undefined) return undefined
+
     const plainObject = instanceToPlain(element, {
       strategy: "excludeAll",
       groups: ["production"],

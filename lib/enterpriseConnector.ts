@@ -1,4 +1,4 @@
-import { instanceToPlain, plainToInstance } from "class-transformer"
+import { plainToInstance } from "class-transformer"
 import { Application, ElementPathData } from "./application"
 import { BaseElement } from "./elements/baseElement"
 import { ValueData } from "./editor/formModel"
@@ -26,7 +26,7 @@ export class EnterpriseConnector {
     this.application.insertText(text)
   }
 
-  public getNewValue(type: string): string {
+  public getNewValue(type: string): string | undefined {
     const value = this.application.getNewValue(type)
     return Exporter.export(value)
   }
@@ -61,13 +61,9 @@ export class EnterpriseConnector {
     })
   }
 
-  private onChangeCurrentElement(currentElement: BaseElement | undefined): void {
-    const plain = currentElement
-      ? instanceToPlain(currentElement, { groups: ["production"], strategy: "excludeAll" })
-      : undefined
-
+  private onChangeCurrentElement(currentElement: ElementPathData | undefined): void {
     const result = {
-      currentElement: JSON.stringify(plain, null, 2),
+      currentElement: Exporter.export(currentElement),
     }
     this.sendEvent("EVENT_CHANGE_CURRENT_ELEMENT", result)
   }

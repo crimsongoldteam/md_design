@@ -28,16 +28,16 @@ interface IApplication {
 }
 
 export class ElementPathData {
-  @Expose()
+  @Expose({ name: "Элемент" })
   @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
   @Transform(PlainToClassTransformer.transform, { toClassOnly: true })
   public item: BaseElement
 
-  @Expose()
+  @Expose({ name: "Путь" })
   @Type(() => CstPathItem)
   public path: CstPath
 
-  @Expose()
+  @Expose({ name: "ЭтоНовый" })
   public isNew: boolean
 
   constructor(item: BaseElement, path: CstPath, isNew: boolean) {
@@ -87,7 +87,7 @@ export class Application implements IApplication {
     throw new Error("onChangeContent is not implemented")
   }
 
-  public onChangeCurrentElement: (currentElement: BaseElement | undefined) => void = () => {
+  public onChangeCurrentElement: (currentElement: ElementPathData | undefined) => void = () => {
     throw new Error("onChangeCurrentElement is not implemented")
   }
 
@@ -128,6 +128,8 @@ export class Application implements IApplication {
   public getTableData(): ElementPathData {
     let table = this.mainModel.getCurrentTableElement()
     let path: CstPath = []
+
+    const isNew = table === undefined
     if (table) {
       path = table.getCstPath()
     } else {
@@ -136,7 +138,7 @@ export class Application implements IApplication {
       path = element.getCstPath()
     }
 
-    const result = new ElementPathData(table, path, true)
+    const result = new ElementPathData(table, path, isNew)
 
     return result
   }
@@ -196,11 +198,11 @@ export class Application implements IApplication {
     this.onChangeContent(this.mainEditor.getSemanicTree())
   }
 
-  private onChangeMainEditorCurrentElement(currentElement: BaseElement | undefined): void {
+  private onChangeMainEditorCurrentElement(currentElement: ElementPathData | undefined): void {
     this.onChangeCurrentElement(currentElement)
   }
 
-  private onChangeGroupEditorCurrentElement(currentElement: BaseElement | undefined): void {
+  private onChangeGroupEditorCurrentElement(currentElement: ElementPathData | undefined): void {
     this.onChangeCurrentElement(currentElement)
   }
 

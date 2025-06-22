@@ -1,6 +1,6 @@
 import { defineConfig } from "vite"
 import { viteSingleFile } from "vite-plugin-singlefile"
-import path from "path"
+import * as path from "path"
 
 export default defineConfig((api) => {
   const isDev = api.mode === "development"
