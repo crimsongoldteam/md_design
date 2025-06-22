@@ -7,6 +7,7 @@ export class PlainToClassDiscriminator {
       property: "Тип",
       subTypes: [],
     },
+    keepDiscriminatorProperty: true,
   }
 
   public static get discriminatorOptions(): TypeOptions {
@@ -18,7 +19,5 @@ export class PlainToClassDiscriminator {
       value: elementClass,
       name: name,
     })
-
-    console.log(PlainToClassDiscriminator.discriminatorOptions)
   }
 }

@@ -4,11 +4,12 @@ import { parser } from "../parser/parser"
 import { FormElement } from "../elements/formElement"
 import { EditorContainerElement } from "../elements/editorContainerElement"
 import { VerticalGroupElement } from "../elements/verticalGroupElement"
-import { CstPath, ElementsProperies } from "../elements/baseElement"
+import { CstPath } from "@/elements/cstPathHelper"
 import { InputElement } from "@/elements/inputElement"
 import { CheckboxElement } from "@/elements/checkboxElement"
 import { FormatterUtils } from "@/formatter/formatterUtils"
 import { TableElement } from "@/elements/tableElement"
+import { ElementPathData } from "@/application"
 
 export interface TableValueData {
   items: TableValueData[]
@@ -37,25 +38,49 @@ export class FormModel extends AbstractModel<FormElement> {
     this.format()
   }
 
-  public setProperties(data: ElementsProperies): void {
-    for (const key in data) {
-      const element = this.elementMap.get(key)
-      if (!element) {
-        continue
-      }
-
-      const properties = data[key]
-
-      for (const propertyKey in properties) {
-        const value = properties[propertyKey]
-        if (!value) {
-          delete element.properties[propertyKey]
-          continue
-        }
-        element.properties[propertyKey] = value
-      }
+  public createOrUpdateElement(data: ElementPathData) {
+    if (data.isNew) {
+      this.createElement(data)
+    } else {
+      this.updateElement(data)
     }
     this.format()
+  }
+
+  private createElement(data: ElementPathData) {
+    if (data.item instanceof FormElement) throw new Error("FormElement cannot be created")
+
+    const parentPath = this.cst.getInContainerPosition(data.path)
+    const parent = parentPath.parent
+    const list = parent.getList(parentPath.parentList)
+    if (!list) throw new Error("List not found")
+
+    if (parentPath.parentListIndex > list.length) {
+      list.push(data.item)
+    } else {
+      list.splice(parentPath.parentListIndex, 0, data.item)
+    }
+    data.item.parent = parent
+    data.item.parentList = parentPath.parentList
+  }
+
+  private updateElement(data: ElementPathData) {
+    if (data.item instanceof FormElement) {
+      this.cst = data.item
+      return
+    }
+
+    const element = this.cst.getElementPosition(data.item, data.path)
+    if (!element) return
+
+    const parent = element.parent
+
+    const list = parent.getList(element.parentList)
+    if (!list) throw new Error("List not found")
+
+    list[element.parentListIndex] = data.item
+    data.item.parent = parent
+    data.item.parentList = element.parentList
   }
 
   public setValues(data: ValueData): void {

@@ -63,7 +63,7 @@ export class IdGenerator {
         ? this.attributeNameDistributor.getNumberedName(template, item.parent)
         : this.elementNameDistributor.getNumberedName(template)
 
-      item.element[item.type as keyof BaseElement] = numberedName as any
+      ;(item.element as any)[item.type] = numberedName
     }
   }
 

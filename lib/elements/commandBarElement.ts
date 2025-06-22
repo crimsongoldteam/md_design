@@ -4,6 +4,7 @@ import { ButtonElement } from "./buttonElement"
 import { ButtonGroupElement } from "./buttonGroupElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
+import { elementsManager } from "@/elementsManager"
 
 export class CommandBarElement extends BaseElementWithoutAttributes {
   public type = "КоманднаяПанель"
@@ -31,6 +32,12 @@ export class CommandBarElement extends BaseElementWithoutAttributes {
     }
     return buttons
   }
+
+  public get isContainer(): boolean {
+    return false
+  }
 }
 
 PlainToClassDiscriminator.addClass(CommandBarElement, "КоманднаяПанель")
+
+elementsManager.addElement(CommandBarElement, "CommandBarElement", "КоманднаяПанель")

@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
+    "jest": "^30.0.2",
     "path": "^0.12.7",
     "pointer-events-polyfill": "^0.4.4-pre",
     "resize-observer-polyfill": "^1.5.1",

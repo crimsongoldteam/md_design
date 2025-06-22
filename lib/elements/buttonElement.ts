@@ -3,6 +3,7 @@ import { BaseElement, ElementListType } from "./baseElement"
 import { ButtonGroupElement } from "./buttonGroupElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
+import { elementsManager } from "@/elementsManager"
 
 export class ButtonElement extends BaseElementWithoutAttributes {
   public type = "КнопкаФормы"
@@ -35,6 +36,12 @@ export class ButtonElement extends BaseElementWithoutAttributes {
     }
     return buttons
   }
+
+  public get isContainer(): boolean {
+    return false
+  }
 }
 
 PlainToClassDiscriminator.addClass(ButtonElement, "КнопкаФормы")
+
+elementsManager.addElement(ButtonElement, "ButtonElement", "КнопкаФормы")

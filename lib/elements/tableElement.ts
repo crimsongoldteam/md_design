@@ -1,4 +1,4 @@
-import { Expose, Transform, Type } from "class-transformer"
+import { Expose, Type } from "class-transformer"
 import { BaseElement, ElementListType } from "./baseElement"
 import { TableColumnElement } from "./tableColumnElement"
 import { TableColumnGroupElement } from "./tableColumnGroupElement"
@@ -10,7 +10,7 @@ import { TableValueData } from "@/editor/formModel.ts"
 import { FormatterUtils } from "@/formatter/formatterUtils.ts"
 import { TableEmptyElement } from "./tableEmptyElement.ts"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator.ts"
-import { PlainToClassTransformer } from "../importer/plaintToClassTransformer.ts"
+import { elementsManager } from "@/elementsManager"
 
 export type TableHeaderElement = TableColumnGroupElement | TableColumnElement
 export type TableHeaderElementExt = TableColumnGroupElement | TableColumnElement | TableEmptyElement
@@ -22,13 +22,13 @@ export class TableElement extends BaseElementWithAttributes {
 
   @Expose({ name: "Колонки" })
   @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
-  @Transform(PlainToClassTransformer.transform)
   public columns: (TableColumnElement | TableColumnGroupElement)[] = []
 
   @Expose({ name: "Строки", toPlainOnly: true })
   public readonly rows: TableRowElement[] = []
 
   @Expose({ name: "ОписаниеТипов" })
+  @Type(() => TypeDescription)
   public typeDescription: TypeDescription = new TypeDescription("ТаблицаЗначений")
 
   public static readonly childrenFields = [ElementListType.Columns, ElementListType.Rows]
@@ -97,6 +97,13 @@ export class TableElement extends BaseElementWithAttributes {
       cell.value = FormatterUtils.formatValue(valueData.data[column.attributeId], column.typeDescription)
     }
   }
+
+  public get isContainer(): boolean {
+    return false
+  }
 }
 
 PlainToClassDiscriminator.addClass(TableElement, "Таблица")
+PlainToClassDiscriminator.addClass(TableElement, "Дерево")
+
+elementsManager.addElement(TableElement, "TableElement", "Таблица")

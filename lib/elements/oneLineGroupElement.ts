@@ -3,6 +3,7 @@ import { BaseElement } from "./baseElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
 import { PlainToClassTransformer } from "../importer/plaintToClassTransformer"
+import { elementsManager } from "@/elementsManager"
 
 export class OneLineGroupElement extends BaseElementWithoutAttributes {
   public type = "ОднострочнаяГруппа"
@@ -15,10 +16,16 @@ export class OneLineGroupElement extends BaseElementWithoutAttributes {
 
   @Expose({ name: "Элементы" })
   @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
-  @Transform(PlainToClassTransformer.transform)
+  @Transform(PlainToClassTransformer.transform, { toClassOnly: true })
   public items: BaseElement[] = []
 
   public childrenFields = ["items"]
+
+  public get isContainer(): boolean {
+    return false
+  }
 }
 
 PlainToClassDiscriminator.addClass(OneLineGroupElement, "ОднострочнаяГруппа")
+
+elementsManager.addElement(OneLineGroupElement, "OneLineGroupElement", "ОднострочнаяГруппа")

@@ -1,7 +1,9 @@
 import { instanceToPlain, plainToInstance } from "class-transformer"
-import { Application } from "./application"
-import { BaseElement, ElementsProperies } from "./elements/baseElement"
+import { Application, ElementPathData } from "./application"
+import { BaseElement } from "./elements/baseElement"
 import { ValueData } from "./editor/formModel"
+import { Exporter } from "./exporter/exporter"
+import { Importer } from "./importer/importer"
 
 export class EnterpriseConnector {
   private readonly application: Application
@@ -24,15 +26,21 @@ export class EnterpriseConnector {
     this.application.insertText(text)
   }
 
-  public setProperties(plainText: string): void {
-    const plainObject = JSON.parse(plainText)
-    const data: ElementsProperies = plainToInstance(ElementsProperies, plainObject)
-    this.application.setProperties(data)
+  // public setProperties(plainText: string): void {
+  //   const plainObject = JSON.parse(plainText)
+  //   const data: ElementsProperies = plainToInstance(ElementsProperies, plainObject)
+  //   this.application.setProperties(data)
+  // }
+
+  public getTable(): string {
+    const data = this.application.getTableData()
+    return Exporter.exportTableData(data)
   }
 
-  // public updateElement(): void {
-  //   this.application.updateElement()
-  // }
+  public createOrUpdateElement(plainText: string): void {
+    const data: ElementPathData = Importer.import(plainText)
+    this.application.createOrUpdateElement(data)
+  }
 
   public setValues(plainText: string): void {
     const plainObject = JSON.parse(plainText)
@@ -49,7 +57,9 @@ export class EnterpriseConnector {
   }
 
   private onChangeCurrentElement(currentElement: BaseElement | undefined): void {
-    const plain = currentElement ? instanceToPlain(currentElement, { groups: ["production"] }) : undefined
+    const plain = currentElement
+      ? instanceToPlain(currentElement, { groups: ["production"], strategy: "excludeAll" })
+      : undefined
 
     const result = {
       currentElement: JSON.stringify(plain, null, 2),

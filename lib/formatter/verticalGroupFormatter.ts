@@ -47,7 +47,7 @@ export class VerticalGroupFormatter implements IFormatter<VerticalGroupElement> 
 
     let result = (t.Hash.LABEL as string).repeat(level)
 
-    result += element.properties["Заголовок"] ?? ""
+    result += element.properties.get("Заголовок") ?? ""
 
     result += properties
 
@@ -57,8 +57,8 @@ export class VerticalGroupFormatter implements IFormatter<VerticalGroupElement> 
   private getLevelDisplay(element: VerticalGroupElement): { level: number; display: boolean } {
     const result: { level: number; display: boolean } = { level: 1, display: false }
 
-    const display = element.properties["Отображение"]
-    const behavior = element.properties["Поведение"]
+    const display = element.properties.get("Отображение")
+    const behavior = element.properties.get("Поведение")
 
     const levelBehavior = {
       Свертываемая: 5,

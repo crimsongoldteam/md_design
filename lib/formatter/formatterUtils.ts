@@ -34,13 +34,13 @@ export class FormatterUtils {
 
   public static getAlignmentAtLeft(element: BaseElement): string {
     if (
-      element.properties["ГоризонтальноеПоложениеВГруппе"] === "Центр" ||
-      element.properties["ГоризонтальноеПоложениеВГруппе"] === "Право"
+      element.properties.get("ГоризонтальноеПоложениеВГруппе") === "Центр" ||
+      element.properties.get("ГоризонтальноеПоложениеВГруппе") === "Право"
     ) {
       return t.RArrow.LABEL + " "
     }
 
-    if (element.properties["ГоризонтальноеПоложениеВГруппе"] === "Центр") {
+    if (element.properties.get("ГоризонтальноеПоложениеВГруппе") === "Центр") {
       return t.LArrow.LABEL + " "
     }
 
@@ -48,7 +48,7 @@ export class FormatterUtils {
   }
 
   public static getAlignmentAtRight(element: BaseElement): string {
-    if (element.properties["ГоризонтальноеПоложениеВГруппе"] === "Центр") {
+    if (element.properties.get("ГоризонтальноеПоложениеВГруппе") === "Центр") {
       return " " + t.LArrow.LABEL
     }
 

@@ -10,7 +10,7 @@ export class InputFormatter implements IFormatter<InputElement> {
 
     let header: string = FormatterUtils.getAlignmentAtLeft(element)
 
-    header += element.properties["Заголовок"] ?? ""
+    header += element.properties.get("Заголовок") ?? ""
     header += t.Colon.LABEL
 
     let value = ""
@@ -78,7 +78,7 @@ export class InputFormatter implements IFormatter<InputElement> {
     }
 
     return Object.keys(propertyMap)
-      .filter((key) => element.properties[key])
+      .filter((key) => element.properties.get(key) !== undefined)
       .map((key) => propertyMap[key])
       .join("")
   }

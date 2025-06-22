@@ -825,44 +825,6 @@
 											</Button>
 										</ChildItems>
 									</ButtonGroup>
-									<Popup name="КонтекстноеМенюВставить" id="133">
-										<Title>
-											<v8:item>
-												<v8:lang>ru</v8:lang>
-												<v8:content>Вставить символы</v8:content>
-											</v8:item>
-										</Title>
-										<ExtendedTooltip name="КонтекстноеМенюВставитьРасширеннаяПодсказка" id="134"/>
-										<ChildItems>
-											<Button name="ДобавитьПрямыеСкобки" id="109">
-												<Type>CommandBarButton</Type>
-												<Representation>Text</Representation>
-												<SkipOnInput>true</SkipOnInput>
-												<Width>3</Width>
-												<CommandName>Form.Command.ДобавитьПрямыеСкобки</CommandName>
-												<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
-												<ExtendedTooltip name="ДобавитьПрямыеСкобкиРасширеннаяПодсказка" id="110"/>
-											</Button>
-											<Button name="ДобавитьФигурныеСкобки" id="111">
-												<Type>CommandBarButton</Type>
-												<Representation>Text</Representation>
-												<SkipOnInput>true</SkipOnInput>
-												<Width>3</Width>
-												<CommandName>Form.Command.ДобавитьФигурныеСкобки</CommandName>
-												<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
-												<ExtendedTooltip name="ДобавитьФигурныеСкобкиРасширеннаяПодсказка" id="112"/>
-											</Button>
-											<Button name="ДобавитьУгловыеСкобки" id="113">
-												<Type>CommandBarButton</Type>
-												<Representation>Text</Representation>
-												<SkipOnInput>true</SkipOnInput>
-												<Width>3</Width>
-												<CommandName>Form.Command.ДобавитьУгловыеСкобки</CommandName>
-												<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
-												<ExtendedTooltip name="ДобавитьУгловыеСкобкиРасширеннаяПодсказка" id="114"/>
-											</Button>
-										</ChildItems>
-									</Popup>
 								</ChildItems>
 							</ContextMenu>
 							<ExtendedTooltip name="ПолеHTMLРедактораРасширеннаяПодсказка" id="7"/>

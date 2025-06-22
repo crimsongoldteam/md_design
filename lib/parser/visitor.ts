@@ -6,7 +6,7 @@ import { TypesUtils } from "./visitorTools/typesUtuls"
 import { SemanticTokensManager, SemanticTokensTypes } from "./visitorTools/sematicTokensManager"
 import { IdGenerator } from "./visitorTools/idGenerator"
 import { HorizontalGroupDictionary, PagesDictionary } from "./nodes"
-import { BaseElement, ElementListType } from "../elements/baseElement"
+import { BaseElement, ElementListType, PropertyValue } from "../elements/baseElement"
 import { FormElement } from "../elements/formElement"
 import { InputElement } from "../elements/inputElement"
 import { LabelElement } from "../elements/labelElement"
@@ -591,8 +591,7 @@ export class Visitor extends BaseVisitor {
         continue
       }
 
-      let value = property.value.map((info: any) => info.value).join()
-
+      let value = property.value.map((info: any) => info.value)
       this.setProperty(params.element, property.key, value)
     }
   }
@@ -615,22 +614,22 @@ export class Visitor extends BaseVisitor {
     return this.joinTokens(ctx.PropertiesValueOptionText)
   }
 
-  private setProperty(element: BaseElement, key: string, value: string | number | boolean | undefined) {
+  private setProperty(element: BaseElement, key: string, value: PropertyValue | undefined) {
     const properties = element.properties
     const lowerKey = key.toLowerCase()
 
     for (const prop in properties) {
       if (prop.toLowerCase() === lowerKey) {
-        delete properties[prop]
+        properties.delete(prop)
       }
     }
 
     if (value === undefined) {
-      delete properties[key]
+      properties.delete(key)
       return
     }
 
-    properties[key] = value
+    properties.set(key, value)
   }
 
   private getTypeDescription(types: any): TypeDescription {

@@ -3,8 +3,9 @@ import { BaseElement, ElementListType } from "./baseElement"
 import { TableCellElement } from "./tableCellElement"
 import { TableColumnElement } from "./tableColumnElement"
 import { IdGeneratorRequest, IdGeneratorQueueInboxItem } from "@/parser/visitorTools/idGenerator"
-import { TableClassTransformOptions } from "@/importer/elementImportData"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
+import { TableClassTransformOptions } from "@/importer/importer"
+import { elementsManager } from "@/elementsManager"
 
 export class TableRowElement extends BaseElement {
   public type = "СтрокаТаблицы"
@@ -41,7 +42,10 @@ export class TableRowElement extends BaseElement {
     const transformedMap = new Map<string, Record<string, any>>()
 
     params.value.forEach((value: TableCellElement, key: TableColumnElement) => {
-      return transformedMap.set(key.attributeId, instanceToPlain(value))
+      return transformedMap.set(
+        key.attributeId,
+        instanceToPlain(value, { groups: ["production"], strategy: "excludeAll" })
+      )
     })
 
     return transformedMap
@@ -49,17 +53,24 @@ export class TableRowElement extends BaseElement {
 
   private static transformCellsToClass(params: TransformFnParams): Map<TableColumnElement, TableCellElement> {
     const options = params.options as TableClassTransformOptions
+    const values = params.obj["Ячейки"]
     const transformedMap = new Map<TableColumnElement, TableCellElement>()
-    for (const [key, value] of Object.entries(params.value)) {
+    for (const [key, value] of Object.entries(values)) {
       const column = options.columns.find((col) => col.attributeId === key)
       if (!column) {
         continue
       }
-      transformedMap.set(column, plainToInstance(TableCellElement, value))
+      transformedMap.set(column, plainToInstance(TableCellElement, value, { strategy: "excludeAll" }))
     }
 
     return transformedMap
   }
+
+  public get isContainer(): boolean {
+    return false
+  }
 }
 
 PlainToClassDiscriminator.addClass(TableRowElement, "СтрокаТаблицы")
+
+elementsManager.addElement(TableRowElement, "TableRowElement", "СтрокаТаблицы")

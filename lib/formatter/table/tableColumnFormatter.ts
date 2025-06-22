@@ -10,13 +10,13 @@ export class TableColumnFormatter implements IFormatter<TableColumnElement> {
   public format(element: TableColumnElement): string[] {
     const excludeProperties = ["Заголовок"]
 
-    let horizontalPosition = element.properties["ГоризонтальноеПоложение"] ?? "Лево"
+    let horizontalPosition = element.properties.get("ГоризонтальноеПоложение") ?? "Лево"
 
     if (horizontalPosition === "Лево" || element.items.length === 0) {
       excludeProperties.push("ГоризонтальноеПоложение")
     }
 
-    let description = element.properties["Заголовок"] ?? ""
+    let description = element.properties.get("Заголовок") ?? ""
 
     if (element.type === "ГруппаКолонокТаблицы") {
       description = ` ${this.groupSymbol} ${description} ${this.groupSymbol} `

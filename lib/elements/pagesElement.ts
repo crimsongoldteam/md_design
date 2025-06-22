@@ -4,6 +4,7 @@ import { PageElement } from "./pageElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
 import { PlainToClassTransformer } from "../importer/plaintToClassTransformer"
+import { elementsManager } from "@/elementsManager"
 
 export class PagesElement extends BaseElementWithoutAttributes {
   public type = "Страницы"
@@ -16,10 +17,16 @@ export class PagesElement extends BaseElementWithoutAttributes {
 
   @Expose({ name: "Страницы" })
   @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
-  @Transform(PlainToClassTransformer.transform)
+  @Transform(PlainToClassTransformer.transform, { toClassOnly: true })
   public items: PageElement[] = []
 
   public static readonly childrenFields = [ElementListType.Items]
+
+  public get isContainer(): boolean {
+    return false
+  }
 }
 
 PlainToClassDiscriminator.addClass(PagesElement, "Страницы")
+
+elementsManager.addElement(PagesElement, "PagesElement", "Страницы")

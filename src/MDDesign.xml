@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MetaDataObject xmlns="http://v8.1c.ru/8.3/MDClasses" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:cmi="http://v8.1c.ru/8.2/managed-application/cmi" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xpr="http://v8.1c.ru/8.3/xcf/predef" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.20">
-	<ExternalDataProcessor uuid="093da832-3a1a-4003-a84d-998de447c3a9">
+	<ExternalDataProcessor uuid="ccbb00d8-8443-453f-8801-29e242907f58">
 		<InternalInfo>
 			<xr:ContainedObject>
 				<xr:ClassId>c3831ec8-d8d5-4f93-8a22-f9bfae07327f</xr:ClassId>
-				<xr:ObjectId>9e482825-01d8-4128-9c91-2ca275638e13</xr:ObjectId>
+				<xr:ObjectId>ff7cf7a5-2012-46bd-82af-3997f0623298</xr:ObjectId>
 			</xr:ContainedObject>
 			<xr:GeneratedType name="ExternalDataProcessorObject.Накидка" category="Object">
-				<xr:TypeId>80ded975-dc5c-4250-b34b-5f6b0b634838</xr:TypeId>
-				<xr:ValueId>38a51b11-e7c0-47c1-abc6-989726ce9bda</xr:ValueId>
+				<xr:TypeId>77a54e70-9197-4d0a-9802-b23ab3a8e792</xr:TypeId>
+				<xr:ValueId>b71d3126-6dcb-47f3-b660-b33ea432c19b</xr:ValueId>
 			</xr:GeneratedType>
 		</InternalInfo>
 		<Properties>
@@ -25,13 +25,13 @@
 		</Properties>
 		<ChildObjects>
 			<Form>Форма</Form>
+			<Form>ПостроительСхемФормы</Form>
+			<Form>УправлениеСвойствами</Form>
+			<Form>СлужебныеФункции</Form>
+			<Form>Синтаксис</Form>
 			<Form>ФормаГенераторXML</Form>
 			<Form>ГенераторКода</Form>
-			<Form>ПостроительСхемФормы</Form>
 			<Form>РаботаСИИ</Form>
-			<Form>Синтаксис</Form>
-			<Form>СлужебныеФункции</Form>
-			<Form>УправлениеСвойствами</Form>
 			<Form>ФормаВыбораКартинки</Form>
 			<Form>ФормаВыбораОбъектаКонфигурации</Form>
 			<Form>ФормаКода</Form>

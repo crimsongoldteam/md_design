@@ -3,13 +3,14 @@ import { BaseElement, ElementListType } from "./baseElement"
 import { TableColumnElement } from "./tableColumnElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
+import { elementsManager } from "@/elementsManager"
 
 export class TableColumnGroupElement extends BaseElementWithoutAttributes {
   public type = "ГруппаКолонокТаблицы"
   public elementType = "ГруппаФормы"
   public elementKind = "ГруппаКолонок"
 
-  @Expose({ name: "Элементы" })
+  @Expose({ name: "Колонки" })
   @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
   public items: (TableColumnElement | TableColumnGroupElement)[] = []
 
@@ -17,6 +18,10 @@ export class TableColumnGroupElement extends BaseElementWithoutAttributes {
 
   protected get defaultId(): string {
     return "ГруппаКолонок"
+  }
+
+  public get isContainer(): boolean {
+    return false
   }
 
   public getAllColumns(): TableColumnElement[] {
@@ -32,3 +37,5 @@ export class TableColumnGroupElement extends BaseElementWithoutAttributes {
 }
 
 PlainToClassDiscriminator.addClass(TableColumnGroupElement, "ГруппаКолонокТаблицы")
+
+elementsManager.addElement(TableColumnGroupElement, "TableColumnGroupElement", "ГруппаКолонокТаблицы")

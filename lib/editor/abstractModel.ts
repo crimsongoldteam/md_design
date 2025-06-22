@@ -7,12 +7,9 @@ import { SemanticTokensManager } from "../parser/visitorTools/sematicTokensManag
 import { FormFormatterFactory } from "../formatter/formatterFactory"
 import * as monaco from "monaco-editor-core"
 import { CstNode } from "chevrotain"
-import { BaseElement, CstPath } from "../elements/baseElement"
+import { BaseElement } from "../elements/baseElement"
+import { CstPath } from "@/elements/cstPathHelper"
 import { FormElement } from "../elements/formElement"
-import { TableContainerElement } from "../elements/tableContainerElement"
-import { VerticalGroupElement } from "../elements/verticalGroupElement"
-import { PageElement } from "../elements/pageElement"
-import { EditorContainerElement } from "../elements/editorContainerElement"
 import { TableElement } from "../elements/tableElement"
 
 export abstract class AbstractModel<T extends BaseElement> {
@@ -26,7 +23,7 @@ export abstract class AbstractModel<T extends BaseElement> {
   private line: number = 0
   private column: number = 0
 
-  private cst: T = new FormElement() as unknown as T
+  protected cst: T = new FormElement() as unknown as T
 
   constructor() {
     this.visitor = new Visitor(this.semanticTokensManager)
@@ -51,31 +48,27 @@ export abstract class AbstractModel<T extends BaseElement> {
     return this.cst
   }
 
-  public getCurrentElement(): BaseElement | undefined {
+  public getCurrentElement(): BaseElement {
     const token = this.semanticTokensManager.getAtPosition(this.line, this.column)
-    if (!token) return undefined
+    if (!token) return this.cst
 
     return token.element
   }
 
-  public getCurrentTableContainerElement(): TableContainerElement | undefined {
-    let element = this.getCurrentElement()
+  public getNearestContainer(current: BaseElement): BaseElement {
+    let element: BaseElement | undefined = current
     while (element) {
-      if (
-        element instanceof FormElement ||
-        element instanceof PageElement ||
-        element instanceof VerticalGroupElement ||
-        element instanceof EditorContainerElement
-      ) {
-        return element as TableContainerElement
+      if (element.isContainer) {
+        return element
       }
+
       element = element.parent
     }
-    return undefined
+    return this.cst
   }
 
   getCurrentTableElement(): TableElement | undefined {
-    let element = this.getCurrentElement()
+    let element: BaseElement | undefined = this.getCurrentElement()
     while (element) {
       if (element instanceof TableElement) return element
       element = element.parent
@@ -118,7 +111,7 @@ export abstract class AbstractModel<T extends BaseElement> {
   }
 
   public getProduction(): any {
-    return instanceToPlain(this.cst, { groups: ["production"] })
+    return instanceToPlain(this.cst, { groups: ["production"], strategy: "excludeAll" })
   }
 
   private build(): void {

@@ -12,7 +12,7 @@ export class FormFormatter implements IFormatter<FormElement> {
   public format(element: FormElement): string[] {
     const result: string[] = []
 
-    let header = element.properties["Заголовок"]
+    let header = element.properties.get("Заголовок")
 
     const propertiesFormatter = FormFormatterFactory.getPropertiesFormatter()
     const properties = propertiesFormatter

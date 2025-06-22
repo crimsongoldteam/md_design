@@ -5,13 +5,15 @@ import { FormModel, ValueData } from "./editor/formModel"
 import { GroupModel } from "./editor/groupModel"
 
 import { AbstractModel } from "./editor/abstractModel"
-import { BaseElement, CstPath, ElementsProperies } from "./elements/baseElement"
+import { BaseElement } from "./elements/baseElement"
+import { CstPath, CstPathItem } from "./elements/cstPathHelper"
 import { EditorContainerElement } from "./elements/editorContainerElement"
 import { VerticalGroupElement } from "./elements/verticalGroupElement"
-import { TableElement } from "./elements/tableElement"
 import Split from "split.js"
-import { Importer } from "./importer/importer"
-import { instanceToPlain } from "class-transformer"
+import { Expose, Type, Transform } from "class-transformer"
+import { TableElement } from "./elements/tableElement"
+import { PlainToClassTransformer } from "./importer/plaintToClassTransformer"
+import { PlainToClassDiscriminator } from "./importer/plainToClassDiscriminator"
 
 interface IApplication {
   onChangeContent: (semanticTree: BaseElement) => void
@@ -22,6 +24,26 @@ interface IApplication {
   formatText(): void
   getCreateTable(): void
   getCurrentElementProperties(): { [key: string]: any } | undefined
+}
+
+export class ElementPathData {
+  @Expose()
+  @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
+  @Transform(PlainToClassTransformer.transform, { toClassOnly: true })
+  public item: BaseElement
+
+  @Expose()
+  @Type(() => CstPathItem)
+  public path: CstPath
+
+  @Expose()
+  public isNew: boolean
+
+  constructor(item: BaseElement, path: CstPath, isNew: boolean) {
+    this.item = item
+    this.path = path
+    this.isNew = isNew
+  }
 }
 
 export class Application implements IApplication {
@@ -92,12 +114,34 @@ export class Application implements IApplication {
     this.mainModel.setValues(data)
   }
 
-  public setProperties(data: ElementsProperies): void {
-    this.mainModel.setProperties(data)
+  // public setProperties(data: ElementsProperies): void {
+  //   this.mainModel.setProperties(data)
+  // }
+
+  public getCurrentElementData(): ElementPathData {
+    const element = this.mainModel.getCurrentElement()
+    const path = element.getCstPath()
+    return new ElementPathData(element, path, false)
   }
 
-  public updateElement(text: string): void {
-    const data = Importer.import(text)
+  public getTableData(): ElementPathData {
+    let table = this.mainModel.getCurrentTableElement()
+    let path: CstPath = []
+    if (table) {
+      path = table.getCstPath()
+    } else {
+      table = new TableElement()
+      const element = this.mainModel.getCurrentElement()
+      path = element.getCstPath()
+    }
+
+    const result = new ElementPathData(table, path, true)
+
+    return result
+  }
+
+  public createOrUpdateElement(data: ElementPathData): void {
+    this.mainModel.createOrUpdateElement(data)
   }
 
   public setCurrentGroup(group: BaseElement | undefined): void {
@@ -131,10 +175,6 @@ export class Application implements IApplication {
     this.currentEditor = this.mainEditor
 
     this.updateGroupEditorByMainEditor()
-
-    const prod = this.getProduction()
-    const plain = instanceToPlain(prod, { groups: ["production"] })
-    console.log(JSON.stringify(plain, null, 2))
 
     this.onChangeContent(this.mainEditor.getSemanicTree())
   }

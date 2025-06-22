@@ -13,7 +13,7 @@ export class LabelFormatter implements IFormatter<LabelElement> {
     const properties = propertiesFormatter.format(element, { excludeProperties })
 
     let result = FormatterUtils.getAlignmentAtLeft(element)
-    result += element.properties["Заголовок"] ?? ""
+    result += element.properties.get("Заголовок") ?? ""
     result += properties.join("")
     result += FormatterUtils.getAlignmentAtRight(element)
     return [result]

@@ -6,6 +6,7 @@ import { IdGeneratorType, IdGeneratorQueueInboxItem, IdGeneratorRequest } from "
 import { TableElement } from "./tableElement"
 import { IdFormatter, IdFormatterRule } from "@/parser/visitorTools/idFormatter"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
+import { elementsManager } from "@/elementsManager"
 
 export class TableColumnElement extends BaseElement {
   public type = "КолонкаТаблицы"
@@ -16,6 +17,7 @@ export class TableColumnElement extends BaseElement {
   public attributeId: string = ""
 
   @Expose({ name: "ОписаниеТипов" })
+  @Type(() => TypeDescription)
   public typeDescription: TypeDescription = new TypeDescription()
 
   @Expose({ name: "ЕстьЗначение" })
@@ -65,6 +67,10 @@ export class TableColumnElement extends BaseElement {
   public table: TableElement | undefined = undefined
 
   public static readonly childrenFields = [ElementListType.Items]
+
+  public get isContainer(): boolean {
+    return false
+  }
 
   public getAllColumns(): TableColumnElement[] {
     const columns: TableColumnElement[] = []
@@ -219,3 +225,5 @@ export class TableColumnElement extends BaseElement {
 }
 
 PlainToClassDiscriminator.addClass(TableColumnElement, "КолонкаТаблицы")
+
+elementsManager.addElement(TableColumnElement, "TableColumnElement", "КолонкаТаблицы")
