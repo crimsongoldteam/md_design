@@ -282,7 +282,11 @@
 						</v8:item>
 					</Title>
 					<Type>
-						<v8:Type>v8:UUID</v8:Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
 					</Type>
 				</Column>
 				<Column name="ЭтоГруппа" id="5">
@@ -295,6 +299,15 @@
 					<Type>
 						<v8:Type>xs:boolean</v8:Type>
 					</Type>
+				</Column>
+				<Column name="ОписаниеКолонки" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Описание колонки</v8:content>
+						</v8:item>
+					</Title>
+					<Type/>
 				</Column>
 			</Columns>
 		</Attribute>
@@ -349,6 +362,10 @@
 	</Commands>
 	<Parameters>
 		<Parameter name="ОписаниеТаблицы">
+			<Type/>
+			<KeyParameter>true</KeyParameter>
+		</Parameter>
+		<Parameter name="ОписаниеНовойКолонки">
 			<Type/>
 			<KeyParameter>true</KeyParameter>
 		</Parameter>

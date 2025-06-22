@@ -26,6 +26,11 @@ export class EnterpriseConnector {
     this.application.insertText(text)
   }
 
+  public getNewValue(type: string): string {
+    const value = this.application.getNewValue(type)
+    return Exporter.export(value)
+  }
+
   // public setProperties(plainText: string): void {
   //   const plainObject = JSON.parse(plainText)
   //   const data: ElementsProperies = plainToInstance(ElementsProperies, plainObject)

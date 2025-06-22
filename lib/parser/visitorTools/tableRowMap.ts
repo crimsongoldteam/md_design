@@ -59,8 +59,8 @@ export class TableRowMap {
       column.hasCheckbox = true
     }
 
-    if (item.value) {
-      column.hasValue = true
+    if (item.value || !item.hasCheckbox) {
+      column._hasValue = true
     }
 
     this.currentRow.items.set(column, item)

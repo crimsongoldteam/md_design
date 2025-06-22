@@ -14,6 +14,7 @@ import { Expose, Type, Transform } from "class-transformer"
 import { TableElement } from "./elements/tableElement"
 import { PlainToClassTransformer } from "./importer/plaintToClassTransformer"
 import { PlainToClassDiscriminator } from "./importer/plainToClassDiscriminator"
+import { elementsManager } from "./elementsManager"
 
 interface IApplication {
   onChangeContent: (semanticTree: BaseElement) => void
@@ -138,6 +139,15 @@ export class Application implements IApplication {
     const result = new ElementPathData(table, path, true)
 
     return result
+  }
+
+  getNewValue(type: string): BaseElement {
+    const classType: any = elementsManager.getByTypeDescription(type)
+    if (!classType) {
+      throw new Error(`Class type ${type} not found`)
+    }
+
+    return new classType() as BaseElement
   }
 
   public createOrUpdateElement(data: ElementPathData): void {

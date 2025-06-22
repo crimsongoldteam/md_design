@@ -93,7 +93,7 @@ export class TableElement extends BaseElementWithAttributes {
       cell.valueCheckbox = valueData.data[column.checkboxAttributeId] as boolean
     }
 
-    if (column.hasValue && valueData.data[column.attributeId]) {
+    if (column._hasValue && valueData.data[column.attributeId]) {
       cell.value = FormatterUtils.formatValue(valueData.data[column.attributeId], column.typeDescription)
     }
   }

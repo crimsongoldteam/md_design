@@ -20,12 +20,20 @@ export class TableColumnElement extends BaseElement {
   @Type(() => TypeDescription)
   public typeDescription: TypeDescription = new TypeDescription()
 
+  public _hasValue: boolean = false
+
   @Expose({ name: "ЕстьЗначение" })
-  public hasValue: boolean = false
+  public get hasValue(): boolean {
+    return this._hasValue || !this.hasCheckbox
+  }
+
+  public set hasValue(value: boolean) {
+    this._hasValue = value
+  }
 
   @Expose({ name: "ЕстьГруппаВместе" })
   public get needCheckboxGroup(): boolean {
-    return this.hasCheckbox && this.hasValue
+    return this.hasCheckbox && this._hasValue
   }
 
   @Expose({ name: "ЕстьВертикальнаяГруппа" })
@@ -91,7 +99,7 @@ export class TableColumnElement extends BaseElement {
     const highPriority: boolean = this.getProperty("Путь") !== undefined || this.getProperty("Имя") !== undefined
 
     let result: IdGeneratorQueueInboxItem[] = []
-    if (this.hasValue) {
+    if (this._hasValue) {
       result.push({ type: IdGeneratorType.Attribute, highPriority: highPriority, parent: this.table })
       result.push({ type: IdGeneratorType.Element, highPriority: highPriority })
     }
@@ -172,7 +180,7 @@ export class TableColumnElement extends BaseElement {
 
     const rules: IdFormatterRule[] = [{ property: "ПутьФлажок" }]
 
-    if (this.hasValue) {
+    if (this._hasValue) {
       rules.push({ property: "ИмяФлажок" })
       rules.push({ property: "Путь", prefix: prefix })
       rules.push({ property: "Заголовок", prefix: prefix })
