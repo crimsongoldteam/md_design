@@ -191,7 +191,7 @@ export class Application implements IApplication {
   private updateMainEditorByGroupEditor(): void {
     if (!this.isGroupEditorEnabled()) return
 
-    this.mainModel.updateVerticalGroup(this.groupPath as CstPath, this.groupModel.getSemanicTree())
+    // this.mainModel.updateVerticalGroup(this.groupPath as CstPath, this.groupModel.getSemanicTree())
   }
 
   private updateGroupEditorByMainEditor(): void {
