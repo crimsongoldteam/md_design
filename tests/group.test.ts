@@ -1,5 +1,5 @@
 import { expect, test } from "vitest"
-import { formatText, cleanString } from "./utils"
+import { formatText, cleanString, expectFormattedText } from "./utils"
 
 test("Group with two groups", () => {
   const before = `
@@ -10,7 +10,7 @@ test("Group with two groups", () => {
 #Группа 1          #Группа 2
   Элемент группы 1 +Элемент группы 2`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Element before group", () => {
@@ -25,7 +25,7 @@ test("Element before group", () => {
   Элемент группы 1 +Элемент группы 2
 Элемент после группы`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Second group without content", () => {
@@ -37,7 +37,7 @@ test("Second group without content", () => {
 #Группа 1          #Группа 2
   Элемент группы 1 +`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("First group without content", () => {
@@ -49,7 +49,7 @@ test("First group without content", () => {
 #Группа 1 #Группа 2
           +Элемент группы 1`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Allow to pass group", () => {
@@ -61,7 +61,7 @@ test("Allow to pass group", () => {
 #Группа 1          #Группа 2         #Группа 3
   Элемент группы 1 +Элемент группы 2 +`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Define end of group", () => {
@@ -75,7 +75,7 @@ test("Define end of group", () => {
   Элемент группы 1 +Элемент группы 2
 Элемент вне группы`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Set property to vertical group", () => {
@@ -87,7 +87,7 @@ test("Set property to vertical group", () => {
 #Группа 1 {ЦветФона = Красный} #Группа 2
   Элемент группы 1             +Элемент группы 2`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create group without title", () => {
@@ -99,7 +99,7 @@ test("Create group without title", () => {
 #                  #
   Элемент группы 1 +Элемент группы 2`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Set property to horizontal group", () => {
@@ -113,5 +113,41 @@ test("Set property to horizontal group", () => {
 #Группа 1          #Группа 2
   Элемент группы 1 +Элемент группы 2`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
+})
+
+test("Vertical group", () => {
+  const before = `
+#Группа
+  Элемент`
+
+  const after = `
+#Группа
+  Элемент`
+
+  expectFormattedText(before, after)
+})
+test("Vertical group and separate element", () => {
+  const before = `
+#Группа
+Элемент`
+
+  const after = `
+#Группа
+Элемент`
+
+  expectFormattedText(before, after)
+})
+
+test("Ignore empty lines inside vertical group", () => {
+  const before = `
+#Группа
+
+  Элемент`
+
+  const after = `
+#Группа
+  Элемент`
+
+  expectFormattedText(before, after)
 })

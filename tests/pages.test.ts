@@ -1,5 +1,5 @@
-import { expect, test } from "vitest"
-import { cleanString, formatText } from "./utils"
+import { test } from "vitest"
+import { expectFormattedText } from "./utils"
 
 test("Page with two pages", () => {
   const before = `
@@ -14,7 +14,7 @@ test("Page with two pages", () => {
 /Страница 2
   Элемент 2`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Element after page", () => {
@@ -28,7 +28,7 @@ test("Element after page", () => {
   Элемент 1
 Элемент после страниц`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Nested pages", () => {
@@ -42,7 +42,7 @@ test("Nested pages", () => {
   /Страница 2
     Элемент 2`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Vertical group in page", () => {
@@ -56,7 +56,7 @@ test("Vertical group in page", () => {
   #Группа 1
     Реквизит 1`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Horizonatal group in page", () => {
@@ -70,7 +70,7 @@ test("Horizonatal group in page", () => {
   #Группа 1    #Группа 2
     Реквизит 1 +Реквизит 2`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Page in group", () => {
@@ -84,7 +84,7 @@ test("Page in group", () => {
   /Страница 1             +/Страница 2
     Элемент на странице 1 +  Элемент на странице 2`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Page with property", () => {
@@ -96,13 +96,12 @@ test("Page with property", () => {
 /Страница 1 {ЦветФона = Красный}
   Элемент 1`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Ignore empty lines inside page", () => {
   const before = `
 /Страница
-
 
   Элемент 1`
 
@@ -110,7 +109,7 @@ test("Ignore empty lines inside page", () => {
 /Страница
   Элемент 1`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Group in several pages", () => {
@@ -128,5 +127,5 @@ test("Group in several pages", () => {
 /Вкладка 2
   Просто текст`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })

@@ -1,5 +1,4 @@
-import { BaseElement } from "../elements/baseElement"
-import { FormElement } from "../elements/formElement"
+import { BaseElement, FormElement } from "../elements/index"
 import trimEnd from "@ungap/trim-end"
 import * as t from "../parser/lexer"
 import { FormFormatterFactory } from "./formatterFactory"

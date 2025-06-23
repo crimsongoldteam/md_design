@@ -7,25 +7,28 @@ import { SemanticTokensManager, SemanticTokensTypes } from "./visitorTools/semat
 import { IdGenerator } from "./visitorTools/idGenerator"
 import { HorizontalGroupDictionary, PagesDictionary } from "./nodes"
 import { BaseElement, ElementListType, PropertyAlignment, PropertyValue } from "../elements/baseElement"
-import { FormElement } from "../elements/formElement"
-import { InputElement } from "../elements/inputElement"
-import { LabelElement } from "../elements/labelElement"
-import { HorizontalGroupElement } from "../elements/horizontalGroupElement"
-import { VerticalGroupElement } from "../elements/verticalGroupElement"
-import { CheckboxElement } from "../elements/checkboxElement"
-import { PagesElement } from "../elements/pagesElement"
-import { PageElement } from "../elements/pageElement"
-import { CommandBarElement } from "../elements/commandBarElement"
-import { ButtonElement } from "../elements/buttonElement"
-import { ButtonGroupElement } from "../elements/buttonGroupElement"
-import { TableElement, TableHeaderElement } from "../elements/tableElement"
-import { TableColumnElement } from "../elements/tableColumnElement"
-import { TableColumnGroupElement } from "../elements/tableColumnGroupElement"
-import { TableCellElement } from "../elements/tableCellElement"
-import { OneLineGroupElement } from "../elements/oneLineGroupElement"
-import { EditorContainerElement } from "../elements/editorContainerElement"
-import { TableEmptyElement } from "../elements/tableEmptyElement"
-import { TypeDescription } from "../elements/typeDescription"
+import {
+  FormElement,
+  InputElement,
+  LabelElement,
+  HorizontalGroupElement,
+  VerticalGroupElement,
+  CheckboxElement,
+  PagesElement,
+  PageElement,
+  CommandBarElement,
+  ButtonElement,
+  ButtonGroupElement,
+  TableElement,
+  TableHeaderElement,
+  TableColumnElement,
+  TableColumnGroupElement,
+  TableCellElement,
+  OneLineGroupElement,
+  EditorContainerElement,
+  TableEmptyElement,
+  TypeDescription,
+} from "../elements/index"
 
 const BaseVisitor = parser.getBaseCstVisitorConstructor()
 

@@ -25,6 +25,7 @@ export class ButtonElement extends BaseElementWithoutAttributes {
     this.elementType = "ГруппаФормы"
     this.elementKind = "Подменю"
   }
+
   public getAllButtons(): (ButtonElement | ButtonGroupElement)[] {
     const buttons: (ButtonElement | ButtonGroupElement)[] = []
     for (const item of this.items) {
@@ -43,5 +44,6 @@ export class ButtonElement extends BaseElementWithoutAttributes {
 }
 
 PlainToClassDiscriminator.addClass(ButtonElement, "КнопкаФормы")
+PlainToClassDiscriminator.addClass(ButtonElement, "Подменю")
 
 elementsManager.addElement(ButtonElement, "ButtonElement", "КнопкаФормы")

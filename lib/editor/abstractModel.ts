@@ -49,6 +49,14 @@ export abstract class AbstractModel<T extends BaseElement> {
     return this.cst
   }
 
+  public reset() {
+    this.cst = new FormElement() as unknown as T
+    this.elementMap.clear()
+    this.text = ""
+    this.line = 0
+    this.column = 0
+  }
+
   public getCurrentElement(): BaseElement {
     const token = this.semanticTokensManager.getAtPosition(this.line, this.column)
     if (!token) return this.cst

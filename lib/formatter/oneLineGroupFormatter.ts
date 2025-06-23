@@ -1,4 +1,4 @@
-import { OneLineGroupElement } from "../elements/oneLineGroupElement"
+import { OneLineGroupElement } from "@/elements/index"
 import * as t from "../parser/lexer"
 import { IFormatter } from "./formFormatter"
 import { FormFormatterFactory } from "./formatterFactory"

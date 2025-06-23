@@ -1,6 +1,5 @@
 import { Expose, Type } from "class-transformer"
-import { TypeDescription } from "./typeDescription"
-import { BaseElementWithAttributes } from "./baseElementWithAttributes "
+import { TypeDescription, BaseElementWithAttributes } from "./index"
 import { PlainToClassDiscriminator } from "../importer/plainToClassDiscriminator"
 import { elementsManager } from "@/elementsManager"
 

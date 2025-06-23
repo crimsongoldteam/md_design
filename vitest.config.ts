@@ -15,20 +15,20 @@ export default defineConfig({
       provider: "playwright",
       instances: [{ browser: "chromium" }],
     },
-    // coverage: {
-    //   enabled: true,
-    //   provider: "v8",
-    //   exclude: [
-    //     ".yarn/**",
-    //     "temp/**",
-    //     "node_modules/**",
-    //     "tests/**",
-    //     "dist/**",
-    //     "vitest.config.ts",
-    //     "vite.config.ts",
-    //     "vite.config.playground.ts",
-    //   ],
-    // },
+    coverage: {
+      enabled: true,
+      provider: "v8",
+      exclude: [
+        ".yarn/**",
+        "temp/**",
+        "node_modules/**",
+        "tests/**",
+        "dist/**",
+        "vitest.config.ts",
+        "vite.config.ts",
+        "vite.config.playground.ts",
+      ],
+    },
     environment: "jsdom",
     alias: [
       {

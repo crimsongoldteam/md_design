@@ -1,5 +1,5 @@
-import { expect, test } from "vitest"
-import { cleanString, formatText } from "./utils"
+import { test } from "vitest"
+import { expectFormattedText } from "./utils"
 
 test("Create short-format table", () => {
   const before = `
@@ -12,7 +12,7 @@ test("Create short-format table", () => {
 | ---------- | ---------- |
 | Значение 1 | Значение 2 |`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create full-format table", () => {
@@ -26,7 +26,7 @@ test("Create full-format table", () => {
 | ---------- | ---------- |
 | Значение 1 | Значение 2 |`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create table with one column", () => {
@@ -42,7 +42,7 @@ test("Create table with one column", () => {
 | Значение 1 |
 | Значение 2 |`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create table with multi-level rows", () => {
@@ -64,7 +64,7 @@ test("Create table with multi-level rows", () => {
 | Значение 2                     || Значение 4 |
 | Значение 2.1   | Значение 2.2   |            |`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create table with group of columns", () => {
@@ -82,7 +82,7 @@ test("Create table with group of columns", () => {
 | Значение 1.1   | Значение 1.2   |
 | Значение 2.1   | Значение 2.2   |`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create two tables", () => {
@@ -104,7 +104,7 @@ test("Create two tables", () => {
 | ---------- | ---------- |
 | Значение 3 | Значение 4 |`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create table with unchecked checkbox", () => {
@@ -118,7 +118,7 @@ test("Create table with unchecked checkbox", () => {
 | -------------- |
 | [ ] Значение 1 |`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create table with checked checkbox", () => {
@@ -132,5 +132,5 @@ test("Create table with checked checkbox", () => {
 | -------------- |
 | [X] Значение 1 |`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })

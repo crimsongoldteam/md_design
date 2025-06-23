@@ -1,6 +1,9 @@
-import { expect, test } from "vitest"
-import { formatText } from "./utils"
+import { test } from "vitest"
+import { expectFormattedText } from "./utils"
 
 test("Label field with property", () => {
-  expect(formatText("Надпись{ЦветФона=Зеленый}")).toBe("Надпись {ЦветФона = Зеленый}")
+  const before = "Надпись{ЦветФона=Зеленый}"
+  const after = "Надпись {ЦветФона = Зеленый}"
+
+  expectFormattedText(before, after)
 })

@@ -1,11 +1,8 @@
 import { CstNode } from "chevrotain"
 import { AbstractModel } from "./abstractModel"
 import { parser } from "../parser/parser"
-import { FormElement } from "../elements/formElement"
-import { InputElement } from "../elements/inputElement"
-import { CheckboxElement } from "../elements/checkboxElement"
+import { FormElement, InputElement, CheckboxElement, TableElement } from "../elements/index"
 import { FormatterUtils } from "../formatter/formatterUtils"
-import { TableElement } from "../elements/tableElement"
 import { ElementPathData } from "../elementPathData"
 
 export interface TableValueData {
@@ -13,8 +10,8 @@ export interface TableValueData {
   data: { [key: string]: string | boolean | number }
 }
 
-export class ValueData {
-  [key: string]: string | boolean | number | TableValueData
+export interface ValueData {
+  [key: string]: string | boolean | number | Date | TableValueData
 }
 
 export class FormModel extends AbstractModel<FormElement> {

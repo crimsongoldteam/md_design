@@ -1,5 +1,5 @@
 import { expect, test } from "vitest"
-import { cleanString, formatText } from "./utils"
+import { cleanString, formatText, expectFormattedText } from "./utils"
 
 test("Create checkbox with mark", () => {
   const before = `
@@ -9,7 +9,7 @@ test("Create checkbox with mark", () => {
   const after = `
 [X] Флажок`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create checkbox without mark", () => {
@@ -20,7 +20,7 @@ test("Create checkbox without mark", () => {
   const after = `
 [ ] Флажок`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create checkbox-switch with mark", () => {
@@ -31,7 +31,7 @@ test("Create checkbox-switch with mark", () => {
   const after = `
 [ |1] Флажок`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create checkbox-switch without mark", () => {
@@ -42,7 +42,7 @@ test("Create checkbox-switch without mark", () => {
   const after = `
 [0| ] Флажок`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
 
 test("Create checkbox with left header", () => {
@@ -53,5 +53,5 @@ test("Create checkbox with left header", () => {
   const after = `
 Флажок [X]`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })

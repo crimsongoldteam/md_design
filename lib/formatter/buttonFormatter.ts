@@ -1,4 +1,4 @@
-import { ButtonElement } from "../elements/buttonElement"
+import { ButtonElement } from "@/elements/index"
 import * as t from "../parser/lexer"
 import { FormFormatterFactory } from "./formatterFactory"
 import { IFormatter } from "./formFormatter"

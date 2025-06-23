@@ -1,8 +1,6 @@
-import { plainToInstance } from "class-transformer"
 import { Application } from "./application"
 import { ElementPathData } from "./elementPathData"
 import { BaseElement } from "./elements/baseElement"
-import { ValueData } from "./editor/formModel"
 import { Exporter } from "./exporter/exporter"
 import { Importer } from "./importer/importer"
 
@@ -48,11 +46,11 @@ export class EnterpriseConnector {
     this.application.createOrUpdateElement(data)
   }
 
-  public setValues(plainText: string): void {
-    const plainObject = JSON.parse(plainText)
-    const data: ValueData = plainToInstance(ValueData, plainObject)
-    this.application.setValues(data)
-  }
+  // public setValues(plainText: string): void {
+  //   const plainObject = JSON.parse(plainText)
+  //   const data: ValueData = plainToInstance(ValueData, plainObject)
+  //   this.application.setValues(data)
+  // }
 
   private onChangeContent(): void {
     this.changeCST({

@@ -1,8 +1,11 @@
-import { expect, test } from "vitest"
-import { formatText, cleanString } from "./utils"
+import { test } from "vitest"
+import { expectFormattedText } from "./utils"
 
 test("Command bar with two buttons", () => {
-  expect(formatText("<Кнопка 1|Кнопка 2>")).toBe("< Кнопка 1 | Кнопка 2 >")
+  const before = "<Кнопка 1|Кнопка 2>"
+  const after = "< Кнопка 1 | Кнопка 2 >"
+
+  expectFormattedText(before, after)
 })
 
 test("Command bar with menu", () => {
@@ -18,5 +21,5 @@ test("Command bar with menu", () => {
 . Подменю
 . Подменю 2 >`
 
-  expect(formatText(cleanString(before))).toBe(cleanString(after))
+  expectFormattedText(before, after)
 })
