@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
+    "@vitest/coverage-v8": "^3.2.4",
     "jsdom": "^26.1.0",
     "path": "^0.12.7",
     "pointer-events-polyfill": "^0.4.4-pre",

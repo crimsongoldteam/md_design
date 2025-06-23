@@ -9,8 +9,23 @@ export default defineConfig({
     },
   },
   test: {
-    globals: true,
-    coverage: { enabled: false, provider: "v8" },
+    isolate: false,
+
+    // globals: true,
+    coverage: {
+      enabled: true,
+      provider: "v8",
+      exclude: [
+        ".yarn/**",
+        "temp/**",
+        "node_modules/**",
+        "tests/**",
+        "dist/**",
+        "vitest.config.ts",
+        "vite.config.ts",
+        "vite.config.playground.ts",
+      ],
+    },
     environment: "jsdom",
     alias: [
       {
