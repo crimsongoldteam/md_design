@@ -2,14 +2,11 @@ import { CstNode } from "chevrotain"
 import { AbstractModel } from "./abstractModel"
 import { parser } from "../parser/parser"
 import { FormElement } from "../elements/formElement"
-import { EditorContainerElement } from "../elements/editorContainerElement"
-import { VerticalGroupElement } from "../elements/verticalGroupElement"
-import { CstPath } from "@/elements/cstPathHelper"
-import { InputElement } from "@/elements/inputElement"
-import { CheckboxElement } from "@/elements/checkboxElement"
-import { FormatterUtils } from "@/formatter/formatterUtils"
-import { TableElement } from "@/elements/tableElement"
-import { ElementPathData } from "@/application"
+import { InputElement } from "../elements/inputElement"
+import { CheckboxElement } from "../elements/checkboxElement"
+import { FormatterUtils } from "../formatter/formatterUtils"
+import { TableElement } from "../elements/tableElement"
+import { ElementPathData } from "../elementPathData"
 
 export interface TableValueData {
   items: TableValueData[]
@@ -26,17 +23,17 @@ export class FormModel extends AbstractModel<FormElement> {
   }
 
   public onChangeContent: (content: string) => void = () => {
-    throw new Error("onChangeContent is not implemented")
+    // throw new Error("onChangeContent is not implemented")
   }
 
-  public updateVerticalGroup(groupPath: CstPath, containerElement: EditorContainerElement) {
-    const element = this.findElementByCstPath(groupPath)
-    if (element && element instanceof VerticalGroupElement) {
-      element.items.length = 0
-      element.items.push(...containerElement.items)
-    }
-    this.format()
-  }
+  // public updateVerticalGroup(groupPath: CstPath, containerElement: EditorContainerElement) {
+  //   const element = this.findElementByCstPath(groupPath)
+  //   if (element && element instanceof VerticalGroupElement) {
+  //     element.items.length = 0
+  //     element.items.push(...containerElement.items)
+  //   }
+  //   this.format()
+  // }
 
   public createOrUpdateElement(data: ElementPathData) {
     if (data.isNew) {

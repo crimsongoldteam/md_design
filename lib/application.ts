@@ -6,15 +6,13 @@ import { GroupModel } from "./editor/groupModel"
 
 import { AbstractModel } from "./editor/abstractModel"
 import { BaseElement } from "./elements/baseElement"
-import { CstPath, CstPathItem } from "./elements/cstPathHelper"
+import { CstPath } from "./elements/cstPathHelper"
 import { EditorContainerElement } from "./elements/editorContainerElement"
 import { VerticalGroupElement } from "./elements/verticalGroupElement"
 import Split from "split.js"
-import { Expose, Type, Transform } from "class-transformer"
 import { TableElement } from "./elements/tableElement"
-import { PlainToClassTransformer } from "./importer/plaintToClassTransformer"
-import { PlainToClassDiscriminator } from "./importer/plainToClassDiscriminator"
 import { elementsManager } from "./elementsManager"
+import { ElementPathData } from "./elementPathData"
 
 interface IApplication {
   onChangeContent: (semanticTree: BaseElement) => void
@@ -25,26 +23,6 @@ interface IApplication {
   formatText(): void
   getCreateTable(): void
   getCurrentElementProperties(): { [key: string]: any } | undefined
-}
-
-export class ElementPathData {
-  @Expose({ name: "Элемент" })
-  @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
-  @Transform(PlainToClassTransformer.transform, { toClassOnly: true })
-  public item: BaseElement
-
-  @Expose({ name: "Путь" })
-  @Type(() => CstPathItem)
-  public path: CstPath
-
-  @Expose({ name: "ЭтоНовый" })
-  public isNew: boolean
-
-  constructor(item: BaseElement, path: CstPath, isNew: boolean) {
-    this.item = item
-    this.path = path
-    this.isNew = isNew
-  }
 }
 
 export class Application implements IApplication {

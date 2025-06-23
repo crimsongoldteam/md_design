@@ -1,5 +1,6 @@
 import { plainToInstance } from "class-transformer"
-import { Application, ElementPathData } from "./application"
+import { Application } from "./application"
+import { ElementPathData } from "./elementPathData"
 import { BaseElement } from "./elements/baseElement"
 import { ValueData } from "./editor/formModel"
 import { Exporter } from "./exporter/exporter"

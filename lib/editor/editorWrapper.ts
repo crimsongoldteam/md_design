@@ -1,7 +1,7 @@
 import * as monaco from "monaco-editor-core"
 import { AbstractModel } from "./abstractModel"
 import { BaseElement } from "../elements/baseElement"
-import { ElementPathData } from "@/application"
+import { ElementPathData } from "@/elementPathData"
 
 export class EditorWrapper {
   protected readonly editor: monaco.editor.IStandaloneCodeEditor

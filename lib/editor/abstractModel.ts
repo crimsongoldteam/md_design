@@ -5,13 +5,13 @@ import { parser } from "../parser/parser"
 import { Visitor } from "../parser/visitor"
 import { SemanticTokensManager } from "../parser/visitorTools/sematicTokensManager"
 import { FormFormatterFactory } from "../formatter/formatterFactory"
-import * as monaco from "monaco-editor-core"
+// import * as monaco from "monaco-editor-core"
 import { CstNode } from "chevrotain"
 import { BaseElement } from "../elements/baseElement"
-import { CstPath } from "@/elements/cstPathHelper"
+import { CstPath } from "../elements/cstPathHelper"
 import { FormElement } from "../elements/formElement"
 import { TableElement } from "../elements/tableElement"
-import { ElementPathData } from "@/application"
+import { ElementPathData } from "../elementPathData"
 
 export abstract class AbstractModel<T extends BaseElement> {
   private readonly semanticTokensManager: SemanticTokensManager = new SemanticTokensManager()
@@ -108,7 +108,7 @@ export abstract class AbstractModel<T extends BaseElement> {
     return this.semanticTokensManager.getDecorations()
   }
 
-  public getLinks(): monaco.languages.ILinksList {
+  public getLinks(): any {
     return this.semanticTokensManager.getLinks()
   }
 

@@ -25,7 +25,6 @@ export default defineConfig((api) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./lib"),
-        "@assets": path.resolve(__dirname, "./assets"),
       },
     },
     server: {

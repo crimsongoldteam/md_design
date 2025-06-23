@@ -1,6 +1,6 @@
 import { CstElement, CstNode, IToken } from "chevrotain"
 import { BaseElement } from "@/elements/baseElement"
-import * as monaco from "monaco-editor-core"
+// import * as monaco from "monaco-editor-core"
 import trimStart from "@ungap/trim-start"
 import trimEnd from "@ungap/trim-end"
 
@@ -74,8 +74,8 @@ export class SemanticTokensManager {
     }
   }
 
-  public getDecorations(): monaco.editor.IModelDeltaDecoration[] {
-    const result: monaco.editor.IModelDeltaDecoration[] = []
+  public getDecorations(): any[] {
+    const result: any[] = []
 
     for (const row of this.rows) {
       if (!row) {
@@ -88,7 +88,7 @@ export class SemanticTokensManager {
           continue
         }
 
-        const item: monaco.editor.IModelDeltaDecoration = {
+        const item: any = {
           options: options,
           range: {
             startLineNumber: token.startLine,
@@ -104,7 +104,7 @@ export class SemanticTokensManager {
     return result
   }
 
-  public getLinks(): monaco.languages.ILinksList {
+  public getLinks(): any {
     return {
       links: this.linkTokens.map((token) => ({
         tooltip: "Редактировать группу",
@@ -158,7 +158,7 @@ export class SemanticTokensManager {
   }
 
   private readonly decorationOptions: {
-    [key in SemanticTokensTypes]?: monaco.editor.IModelDeltaDecoration["options"]
+    [key in SemanticTokensTypes]?: any
   } = {
     [SemanticTokensTypes.InputValue]: { inlineClassName: "edit-input-value-decoration" },
     [SemanticTokensTypes.Button]: { inlineClassName: "edit-button-decoration" },

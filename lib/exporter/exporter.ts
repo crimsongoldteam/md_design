@@ -1,5 +1,5 @@
 import { instanceToPlain } from "class-transformer"
-import { ElementPathData } from "../application"
+import { ElementPathData } from "@/elementPathData"
 
 export class Exporter {
   public static readonly export = (element: any): string | undefined => {

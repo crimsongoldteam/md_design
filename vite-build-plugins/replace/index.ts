@@ -1,4 +1,4 @@
-import fs from "node:fs/promises"
+import { readFile, writeFile } from "node:fs/promises"
 import { Plugin } from "vite"
 
 export default function replaceContentPlugin(): Plugin {
@@ -7,10 +7,10 @@ export default function replaceContentPlugin(): Plugin {
     async closeBundle() {
       const buildDir = "temp/monacoeditorwork"
       const path = buildDir + "/editor.worker.bundle.js"
-      let content: string = await fs.readFile(path, { encoding: "utf8" })
-      content = content.replaceAll("globalThis", "self")
+      let content: string = await readFile(path, { encoding: "utf8" })
+      content = content.replace(/globalThis/g, "self")
 
-      await fs.writeFile(path, content)
+      await writeFile(path, content)
     },
   }
 }

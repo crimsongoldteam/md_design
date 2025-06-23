@@ -8,11 +8,12 @@
     "dev-playground": "vite --open playground.html",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "build-playground": "tsc && vite build --config vite.config.playground.js"
+    "build-playground": "tsc && vite build --config vite.config.playground.js",
+    "test": "vitest"
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
-    "jest": "^30.0.2",
+    "jsdom": "^26.1.0",
     "path": "^0.12.7",
     "pointer-events-polyfill": "^0.4.4-pre",
     "resize-observer-polyfill": "^1.5.1",
@@ -21,14 +22,15 @@
     "vite": "^6.3.5",
     "vite-plugin-monaco-editor": "^1.1.0",
     "vite-plugin-singlefile": "^2.1.0",
-    "vite-plugin-zip-pack": "^1.2.4"
+    "vite-plugin-zip-pack": "^1.2.4",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "@ungap/global-this": "^0.4.4",
     "@ungap/trim-end": "^0.2.0",
     "@ungap/trim-start": "^0.2.0",
     "@ungap/weakrefs": "^0.2.0",
-    "@vitejs/plugin-legacy": "^6.1.1",
     "chevrotain": "^11.0.3",
     "class-transformer": "^0.5.1",
     "date-fns": "^4.1.0",

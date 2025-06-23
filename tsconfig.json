@@ -3,7 +3,7 @@
     "target": "ES2018",
     "module": "CommonJS",
     "lib": [
-      "ESNext",
+      "ES2018",
       "DOM",
       "DOM.Iterable"
     ],
@@ -39,6 +39,6 @@
     "lib"
   ],
   "exclude": [
-    "/lib/playground/*"
-  ]
+    "tests"
+  ],
 }

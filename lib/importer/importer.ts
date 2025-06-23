@@ -1,6 +1,6 @@
 import { ClassTransformOptions, plainToInstance } from "class-transformer"
 import { TableColumnElement } from "@/elements/tableColumnElement"
-import { ElementPathData } from "../application"
+import { ElementPathData } from "../elementPathData"
 
 export interface TableClassTransformOptions extends ClassTransformOptions {
   columns: TableColumnElement[]
