@@ -10,13 +10,13 @@ export class PlainToClassTransformer {
       for (let index = 0; index < params.value.length; index++) {
         const element = params.value[index]
         if (!this.isTable(element)) continue
-        this.transformTable(element, params.obj[params.key][index])
+        this.transformTable(element, params.obj["Элементы"][index])
       }
       return params.value
     }
     if (!this.isTable(params.value)) return params.value
 
-    this.transformTable(params.value, params.obj[params.key])
+    this.transformTable(params.value, params.obj["Элементы"])
 
     return params.value
   }

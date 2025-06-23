@@ -22,8 +22,8 @@ export const expectFormattedText = (before: string, after: string) => {
 
   expect(formModel.getText()).toBe(cleanString(after))
 
-  const dataPath = new ElementPathData(formModel.cst, [], false)
-  const json = Exporter.export(dataPath)
+  const dataPath = new ElementPathData(formModel.getSemanicTree(), [], false)
+  const json = Exporter.export(dataPath) as string
   const dataPathImported = Importer.import(json)
 
   formModel.reset()

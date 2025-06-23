@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from "vite"
 import { viteSingleFile } from "vite-plugin-singlefile"
 import monacoEditorPlugin from "vite-plugin-monaco-editor"
@@ -41,6 +42,37 @@ export default defineConfig((api) => {
     ]
   }
   return {
+    test: {
+      isolate: false,
+      // globals: true,
+      environment: "node",
+
+      coverage: {
+        enabled: true,
+        provider: "v8",
+        exclude: [
+          ".yarn/**",
+          "temp/**",
+          "node_modules/**",
+          "tests/**",
+          "dist/**",
+          "vitest.config.ts",
+          "vite.config.ts",
+          "vite.config.playground.ts",
+        ],
+      },
+      // alias: [
+      //   {
+      //     find: /^monaco-editor-core$/,
+      //     replacement: path.resolve(__dirname, "./node_modules/monaco-editor-core/esm/vs/editor/editor.api"),
+      //   },
+      //   {
+      //     find: "@/",
+      //     replacement: path.resolve(__dirname, "./lib/"),
+      //   },
+      // ],
+    },
+
     build: {
       minify: !isDev,
       sourcemap: isDev,

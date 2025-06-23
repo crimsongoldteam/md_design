@@ -11,11 +11,11 @@ export class InputFormatter implements IFormatter<InputElement> {
     let header: string = FormatterUtils.getAlignmentAtLeft(element)
 
     header += element.properties.get("Заголовок") ?? ""
-    header += t.Colon.LABEL
+    header += t.Colon.LABEL + " "
 
     let value = ""
     if (element.value) {
-      value = " " + element.value
+      value = element.value
     }
 
     const modificators = this.getModificators(element)
@@ -35,12 +35,17 @@ export class InputFormatter implements IFormatter<InputElement> {
 
     FormatterUtils.excludeStretchProperties(excludeProperties, element)
 
+    if (this.isMultiline(element)) {
+      excludeProperties.push("Высота")
+      excludeProperties.push("МногострочныйРежим")
+    }
+
     const propertiesFormatter = FormFormatterFactory.getPropertiesFormatter()
     const properties = propertiesFormatter.format(element, {
       excludeProperties: excludeProperties,
     })
 
-    let result = header + value + properties + FormatterUtils.getAlignmentAtRight(element)
+    let result = header + value + properties.join("") + FormatterUtils.getAlignmentAtRight(element)
 
     result += this.getMultilineString(element, header.length, value.length)
 
@@ -60,10 +65,8 @@ export class InputFormatter implements IFormatter<InputElement> {
     const underline = t.Underscore.LABEL as string
     const height = element.getProperty("Высота") as number
 
-    let multilineString = "\n" + " ".repeat(headerLength) + underline.repeat(valueLength)
-    for (let i = 2; i <= height; i++) {
-      multilineString += multilineString + "\n"
-    }
+    let multilineStringTemplate = "\n" + " ".repeat(headerLength) + underline.repeat(valueLength)
+    let multilineString = multilineStringTemplate.repeat(height - 1)
 
     return multilineString
   }

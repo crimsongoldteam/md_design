@@ -45,7 +45,7 @@ export class PropertiesFormatter implements IFormatter<BaseElement> {
     if (resultArray.length === 0) {
       return undefined
     }
-    return "{" + resultArray.join("; ") + "}"
+    return "{" + resultArray.sort().join("; ") + "}"
   }
 
   private formatTypeDescription(typeDescription: TypeDescription): string {
@@ -80,7 +80,7 @@ export class PropertiesFormatter implements IFormatter<BaseElement> {
       return ""
     }
 
-    return " {" + result.join(", ") + "}"
+    return result.sort().join(", ")
   }
 
   private getFormatNumber(typeDescription: TypeDescription, type: string, forFormatter: boolean): string | undefined {

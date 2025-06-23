@@ -19,7 +19,7 @@ export class TableColumnFormatter implements IFormatter<TableColumnElement> {
     let description = element.properties.get("Заголовок") ?? ""
 
     if (element.type === "ГруппаКолонокТаблицы") {
-      description = ` ${this.groupSymbol} ${description} ${this.groupSymbol} `
+      description = `${this.groupSymbol} ${description} ${this.groupSymbol}`
     }
 
     const propertiesFormatter = new PropertiesFormatter()

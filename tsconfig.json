@@ -2,11 +2,7 @@
   "compilerOptions": {
     "target": "ES2018",
     "module": "CommonJS",
-    "lib": [
-      "ES2018",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2018", "DOM", "DOM.Iterable"],
     "sourceMap": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -27,18 +23,10 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "@/*": [
-        "./lib/*"
-      ],
-      "@assets/*": [
-        "./assets/*"
-      ]
+      "@/*": ["./lib/*"],
+      "@assets/*": ["./assets/*"]
     }
   },
-  "include": [
-    "lib"
-  ],
-  "exclude": [
-    "tests"
-  ],
+  "include": ["lib", "tests"],
+  "exclude": ["node_modules", "dist"]
 }

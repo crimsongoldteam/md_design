@@ -17,7 +17,7 @@ test("Input field with properties", () => {
 
 test("Input field with type declaration", () => {
   const before = "Поле:10.50{Тип=Число(15,2),Строка(100),Булево,Дата(Время)}"
-  const after = "Поле: 10.50 { Тип = Число(15,2), Строка(100), Булево, Дата(Время) }"
+  const after = "Поле: 10.50 {Тип = Булево, Дата(Время), Строка(100), Число(15, 2)}"
 
   expectFormattedText(before, after)
 })
@@ -26,7 +26,7 @@ test("Mulitline input field", () => {
   const before = `
 Поле:Значение
 ___
-Поле:Значение`
+___`
 
   const after = `
 Поле: Значение

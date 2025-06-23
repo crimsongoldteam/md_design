@@ -1,4 +1,4 @@
-import { Expose, instanceToPlain, plainToInstance, Transform, TransformFnParams, Type } from "class-transformer"
+import { Expose, plainToInstance, Transform, TransformFnParams, Type } from "class-transformer"
 import { BaseElement, ElementListType } from "./baseElement"
 import { TableCellElement } from "./tableCellElement"
 import { TableColumnElement } from "./tableColumnElement"
@@ -11,9 +11,12 @@ export class TableRowElement extends BaseElement {
   public type = "СтрокаТаблицы"
 
   @Expose({ name: "Ячейки" })
+  @Type(() => TableCellElement)
   @Transform(TableRowElement.transformCellsToPlain, { toPlainOnly: true })
   @Transform(TableRowElement.transformCellsToClass, { toClassOnly: true })
   public readonly items: Map<TableColumnElement, TableCellElement> = new Map()
+
+  public itemsDescription: Map<string, any> = new Map()
 
   @Expose({ name: "Строки" })
   @Type(() => TableRowElement)
@@ -38,15 +41,12 @@ export class TableRowElement extends BaseElement {
 
   private static transformCellsToPlain(params: {
     value: Map<TableColumnElement, TableCellElement>
-  }): Map<string, Record<string, any>> {
-    const transformedMap = new Map<string, Record<string, any>>()
+  }): Map<string, TableCellElement> {
+    const transformedMap = new Map<string, TableCellElement>()
 
-    params.value.forEach((value: TableCellElement, key: TableColumnElement) => {
-      return transformedMap.set(
-        key.attributeId,
-        instanceToPlain(value, { groups: ["production"], strategy: "excludeAll" })
-      )
-    })
+    for (const [key, value] of params.value.entries()) {
+      transformedMap.set(key.attributeId, value)
+    }
 
     return transformedMap
   }

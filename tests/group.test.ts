@@ -1,5 +1,5 @@
-import { expect, test } from "vitest"
-import { formatText, cleanString, expectFormattedText } from "./utils"
+import { test } from "vitest"
+import { expectFormattedText } from "./utils"
 
 test("Group with two groups", () => {
   const before = `
@@ -104,7 +104,7 @@ test("Create group without title", () => {
 
 test("Set property to horizontal group", () => {
   const before = `
-{ЦветФона = Красный}
+{ЦветФона=Красный}
 #Группа 1 #Группа 2
 Элемент группы 1 + Элемент группы 2`
 
