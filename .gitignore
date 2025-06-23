@@ -26,5 +26,6 @@ dist-ssr
 .yarn
 dst/*.epf
 temp
+coverage
 
 .vscode/

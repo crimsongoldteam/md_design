@@ -7,7 +7,7 @@ export class PagesFormatter implements IFormatter<PagesElement> {
     const result: string[] = []
 
     const propertiesFormatter = FormFormatterFactory.getPropertiesFormatter()
-    const properties = propertiesFormatter.format(element)
+    const properties = propertiesFormatter.formatSingleLine(element)
 
     if (properties.length > 0) {
       result.push(...properties)

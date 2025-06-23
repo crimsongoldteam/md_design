@@ -8,7 +8,7 @@ export class OneLineGroupFormatter implements IFormatter<OneLineGroupElement> {
     const separator = " " + (t.Ampersand.LABEL as string) + " "
 
     const propertiesFormatter = FormFormatterFactory.getPropertiesFormatter()
-    const properties = propertiesFormatter.format(element)
+    const properties = propertiesFormatter.formatSingleLine(element)
 
     let result: string[] = []
     result.push(...properties)

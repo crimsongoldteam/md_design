@@ -102,28 +102,24 @@ export abstract class BaseElement {
   }
 
   public getProperty(key: string): PropertyValue | undefined {
-    const lowerKey = key.toLowerCase()
-    for (const propKey in this.properties) {
-      if (propKey.toLowerCase() === lowerKey) {
-        return this.properties.get(propKey)
-      }
-    }
-    return undefined
+    const existingKey = this.getNormalizedKey(key)
+    return existingKey ? this.properties.get(existingKey) : undefined
   }
 
   public setProperty(key: string, value: PropertyValue | undefined) {
     const properties = this.properties
-    const lowerKey = key.toLowerCase()
-
-    for (const prop in properties) {
-      if (prop.toLowerCase() === lowerKey) {
-        properties.delete(prop)
-      }
+    const existingKey = this.getNormalizedKey(key)
+    if (existingKey) {
+      properties.delete(existingKey)
     }
 
     if (value === undefined) return
 
     properties.set(key, value)
+  }
+
+  private getNormalizedKey(key: string): string | undefined {
+    return Array.from(this.properties.keys()).find((existingKey) => existingKey.toLowerCase() === key.toLowerCase())
   }
 
   public get alignment(): PropertyAlignment {

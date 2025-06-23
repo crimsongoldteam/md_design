@@ -16,7 +16,7 @@ export class CommandBarFormatter implements IFormatter<CommandBarElement> {
     FormatterUtils.excludeStretchProperties(excludeProperties, element)
 
     const propertiesFormatter = FormFormatterFactory.getPropertiesFormatter()
-    const properties = propertiesFormatter.format(element, { excludeProperties })
+    const properties = propertiesFormatter.formatSingleLine(element, { excludeProperties })
 
     const buttons = element.getAllButtons()
     const { firstLineText, hasMenu } = this.formatFirstLine(buttons)
@@ -65,7 +65,7 @@ export class CommandBarFormatter implements IFormatter<CommandBarElement> {
     element: CommandBarElement,
     properties: string[]
   ): string[] {
-    const result: string[] = [firstLineText]
+    const result: string[] = [t.LAngle.LABEL + " " + firstLineText]
 
     for (const button of buttons) {
       if (button.elementKind === "Подменю") {

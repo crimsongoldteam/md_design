@@ -27,7 +27,7 @@ export class TableFormatter implements IFormatter<TableElement> {
     let result: string[] = []
 
     const propertiesFormatter = FormFormatterFactory.getPropertiesFormatter()
-    const properties = propertiesFormatter.format(element)
+    const properties = propertiesFormatter.formatSingleLine(element)
     if (properties.length > 0) {
       result.push(properties.join(""))
     }

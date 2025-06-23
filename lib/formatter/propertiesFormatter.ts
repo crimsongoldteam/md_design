@@ -3,7 +3,19 @@ import { TypeDescription, DateFractions } from "../elements/typeDescription"
 import { IFormatter } from "./formFormatter"
 
 export class PropertiesFormatter implements IFormatter<BaseElement> {
+  public formatSingleLine(element: BaseElement, params?: { excludeProperties: string[] }): string[] {
+    const result = this.formatProperties(element, params)
+    return result ? [result] : []
+  }
+
   public format(element: BaseElement, params?: { excludeProperties: string[] }): string[] {
+    const result = this.formatProperties(element, params)
+    return result ? [" " + result] : []
+  }
+
+  private formatProperties(element: BaseElement, params?: { excludeProperties: string[] }): string | undefined {
+    const lowerExcludeProperties: string[] = params?.excludeProperties.map((prop) => prop.toLowerCase()) ?? []
+
     const template = "%1 = %2"
     const resultArray: string[] = []
 
@@ -15,8 +27,8 @@ export class PropertiesFormatter implements IFormatter<BaseElement> {
       }
     }
 
-    for (const [key, value] of Object.entries(element.properties)) {
-      if (params?.excludeProperties.includes(key)) {
+    for (const [key, value] of element.properties.entries()) {
+      if (lowerExcludeProperties.includes(key.toLowerCase())) {
         continue
       }
       let formattedValue = ""
@@ -31,9 +43,9 @@ export class PropertiesFormatter implements IFormatter<BaseElement> {
     }
 
     if (resultArray.length === 0) {
-      return []
+      return undefined
     }
-    return [" {" + resultArray.join("; ") + "}"]
+    return "{" + resultArray.join("; ") + "}"
   }
 
   private formatTypeDescription(typeDescription: TypeDescription): string {

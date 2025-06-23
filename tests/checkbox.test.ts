@@ -29,7 +29,7 @@ test("Create checkbox-switch with mark", () => {
 `
 
   const after = `
-[|1] Флажок`
+[ |1] Флажок`
 
   expect(formatText(cleanString(before))).toBe(cleanString(after))
 })
@@ -40,7 +40,7 @@ test("Create checkbox-switch without mark", () => {
 `
 
   const after = `
-[0|] Флажок`
+[0| ] Флажок`
 
   expect(formatText(cleanString(before))).toBe(cleanString(after))
 })

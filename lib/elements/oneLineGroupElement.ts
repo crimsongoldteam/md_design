@@ -1,5 +1,5 @@
 import { Expose, Transform, Type } from "class-transformer"
-import { BaseElement } from "./baseElement"
+import { BaseElement, ElementListType } from "./baseElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
 import { PlainToClassTransformer } from "../importer/plaintToClassTransformer"
@@ -19,7 +19,7 @@ export class OneLineGroupElement extends BaseElementWithoutAttributes {
   @Transform(PlainToClassTransformer.transform, { toClassOnly: true })
   public items: BaseElement[] = []
 
-  public childrenFields = ["items"]
+  public static readonly childrenFields = [ElementListType.Items]
 
   public get isContainer(): boolean {
     return false
