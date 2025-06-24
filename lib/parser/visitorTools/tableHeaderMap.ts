@@ -1,4 +1,4 @@
-import { ElementListType } from "@/elements/baseElement"
+import { ElementListType } from "@/elements/types"
 import { TableColumnElement } from "@/elements/tableColumnElement"
 import { TableColumnGroupElement } from "@/elements/tableColumnGroupElement"
 import { TableElement, TableHeaderElementExt } from "@/elements/tableElement"

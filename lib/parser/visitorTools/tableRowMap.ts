@@ -4,7 +4,7 @@ import { TableElement } from "@/elements/tableElement"
 import { TableRowElement } from "@/elements/tableRowElement"
 import { HierarchyManager } from "./hierarchyManager"
 import { TableHeaderMap } from "./tableHeaderMap"
-import { ElementListType } from "@/elements/baseElement"
+import { ElementListType } from "@/elements/types"
 
 export class TableRowMap {
   private readonly hierarchy: HierarchyManager

@@ -4,7 +4,8 @@ import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
 import { PlainToClassTransformer } from "../importer/plaintToClassTransformer"
 import { elementsManager } from "@/elementsManager"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
-import { BaseElement, ElementListType } from "./baseElement"
+import { BaseElement } from "./baseElement"
+import { ElementListType } from "./types"
 
 export class FormElement extends BaseElementWithoutAttributes {
   public type = "Форма"

@@ -4,7 +4,7 @@ import { FormFormatterFactory } from "./formatterFactory"
 import { IFormatter } from "./formFormatter"
 
 export class ButtonFormatter implements IFormatter<ButtonElement> {
-  public format(element: ButtonElement): string[] {
+  public format(element: ButtonElement, isMenu = false): string[] {
     if (element.elementKind === "ГруппаКнопок") {
       return [" " + (t.VBar.LABEL as string)]
     }
@@ -14,7 +14,7 @@ export class ButtonFormatter implements IFormatter<ButtonElement> {
     const propertiesFormatter = FormFormatterFactory.getPropertiesFormatter()
     const properties = propertiesFormatter.format(element, { excludeProperties })
 
-    const result = this.getCaption(element) + properties
+    const result = this.getCaption(element, isMenu) + properties
 
     return [result]
   }
@@ -34,6 +34,10 @@ export class ButtonFormatter implements IFormatter<ButtonElement> {
 
     if (textPicture === undefined) {
       return textTitle ?? ""
+    }
+
+    if (textTitle === undefined) {
+      return textPicture
     }
 
     if (picturePosition === "Лево") {

@@ -63,8 +63,7 @@ test("Create unchecked checkbox with left header", () => {
 
 test("Create unchecked switch with left header", () => {
   const before = `
-Флажок [v|]
-`
+Флажок [v|]`
   const after = `
 Флажок [0| ]`
 
@@ -73,10 +72,10 @@ test("Create unchecked switch with left header", () => {
 
 test("Create checked switch with left header", () => {
   const before = `
-Флажок [|v]
-`
+Флажок [|v]`
+
   const after = `
-Флажок [|1]`
+Флажок [ |1]`
 
   expectFormattedText(before, after)
 })

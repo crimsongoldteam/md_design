@@ -1,5 +1,6 @@
 import { Expose, plainToInstance, Transform, TransformFnParams, Type } from "class-transformer"
-import { BaseElement, ElementListType } from "./baseElement"
+import { BaseElement } from "./baseElement"
+import { ElementListType } from "./types"
 import { TableCellElement } from "./tableCellElement"
 import { TableColumnElement } from "./tableColumnElement"
 import { IdGeneratorRequest, IdGeneratorQueueInboxItem } from "@/parser/visitorTools/idGenerator"

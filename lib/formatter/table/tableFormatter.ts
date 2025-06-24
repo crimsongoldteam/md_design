@@ -1,24 +1,16 @@
 import * as t from "@/parser/lexer"
 
 import { TableColumnElement } from "@/elements/tableColumnElement"
-import { TableElement } from "@/elements/tableElement"
+import { TableElement, TableHeaderElement } from "@/elements/tableElement"
 import { TableRowElement } from "@/elements/tableRowElement"
-import { TableColumnGroupElement } from "@/elements/tableColumnGroupElement"
-
 import { FormFormatterFactory } from "../formatterFactory"
 import { IFormatter } from "../formFormatter"
-import { TableFormatterColumn } from "./tableFormatterColumn"
+import { TableFormatterColumn, TableHeaderRow } from "./tableFormatterColumn"
 import { TableFormatterRowCell } from "./tableFormatterRowCell"
 import { TableFormatterSeparator } from "./tableFormatterSeparator"
-
-type TableHeaderRow = TableFormatterColumn[]
-
-export interface ITableFormatterCell {
-  getColSpan(): number
-  getLength(): number
-  getCalulatedLength(): number
-  popValue(): string
-}
+import { TreeToTableConverter } from "./tableToTreeConverter"
+import { ConvertableTreeNode, ITableFormatterCell } from "./interfaces"
+import { TableCellElement } from "@/elements"
 
 export class TableFormatter implements IFormatter<TableElement> {
   private readonly rowSeparator: string = t.VBar.LABEL as string
@@ -32,7 +24,11 @@ export class TableFormatter implements IFormatter<TableElement> {
       result.push(properties.join(""))
     }
 
-    const { header, compactHeader } = this.getHeaderTable(element)
+    const columns: TableHeaderRow = element.columns.map((column: TableHeaderElement) => this.getFormatterColumn(column))
+
+    const header = this.getHeaderTable(columns)
+    const compactHeader = this.getHeaderTable(columns, this.compactHeaderFilter)
+
     const table: ITableFormatterCell[][] = []
 
     this.addHeaderRows(table, header)
@@ -46,72 +42,29 @@ export class TableFormatter implements IFormatter<TableElement> {
     return result
   }
 
-  private getHeaderTable(root: TableElement): { header: TableHeaderRow[]; compactHeader: TableHeaderRow[] } {
-    const header: TableHeaderRow[] = []
-    const compactHeader: TableHeaderRow[] = []
+  private compactHeaderFilter(item: ConvertableTreeNode): boolean {
+    return !(item as TableFormatterColumn).isColumnGroup()
+  }
 
-    if (root.columns.length === 0) return { header: header, compactHeader: header }
-
-    const queue: TableFormatterColumn[] = []
-
-    root.columns.forEach((child: TableColumnElement | TableColumnGroupElement) => {
-      queue.push(new TableFormatterColumn(child))
+  private getFormatterColumn(column: TableHeaderElement): TableFormatterColumn {
+    const result = new TableFormatterColumn(column)
+    column.items.forEach((child: TableHeaderElement) => {
+      result.add(this.getFormatterColumn(child))
     })
-
-    while (queue.length > 0) {
-      this.proceedQueue(queue, header, compactHeader)
-    }
-
-    return { header: header, compactHeader: compactHeader }
-  }
-
-  private proceedQueue(queue: TableFormatterColumn[], header: TableHeaderRow[], compactHeader: TableHeaderRow[]) {
-    const parent = queue.shift()!
-    const node = parent.getElement()
-
-    const rowData = parent.getRowIndices()
-
-    this.addToHeader(header, parent, rowData.rowIndex)
-    this.fillHeaderRows(header, rowData.rowIndex)
-
-    if (!parent.isColumnGroup()) {
-      this.addToHeader(compactHeader, parent, rowData.rowCompactIndex)
-    }
-
-    node.items.forEach((child: TableColumnElement | TableColumnGroupElement) => {
-      const childCell = new TableFormatterColumn(child, parent)
-
-      queue.push(childCell)
-    })
-  }
-
-  private addToHeader(table: TableHeaderRow[], current: TableFormatterColumn, level: number) {
-    const currentRow = this.getOrCreateHeaderRow(table, level)
-    currentRow.push(current)
-  }
-
-  private getOrCreateHeaderRow(table: TableHeaderRow[], level: number): TableHeaderRow {
-    if (table.length > level) {
-      return table[level]
-    }
-
-    if (level === 0) {
-      const result: TableHeaderRow = []
-      table.push(result)
-      return result
-    }
-
-    const previousRow = table[level - 1]
-    const result: TableHeaderRow = previousRow.slice(0, -1)
-    table.push(result)
     return result
   }
 
-  private fillHeaderRows(table: TableHeaderRow[], level: number) {
-    for (const prevLevel of table.slice(0, level)) {
-      const lastCell = prevLevel[prevLevel.length - 1]
-      lastCell.incColSpan(table[level].length - prevLevel.length)
-    }
+  private getHeaderTable(
+    columns: TableHeaderRow,
+    filter?: ((item: ConvertableTreeNode) => boolean) | undefined
+  ): TableHeaderRow[] {
+    const converter = new TreeToTableConverter(filter)
+
+    columns.forEach((child: TableFormatterColumn) => {
+      converter.add(child)
+    })
+
+    return converter.table as TableHeaderRow[]
   }
 
   private addHeaderRows(table: ITableFormatterCell[][], headers: TableHeaderRow[]): void {
@@ -134,7 +87,7 @@ export class TableFormatter implements IFormatter<TableElement> {
 
   private addBodyRows(
     result: ITableFormatterCell[][],
-    compactHeader: TableHeaderRow[],
+    compactHeader: TableFormatterColumn[][],
     rows: TableRowElement[],
     level: number = 0
   ) {
@@ -145,10 +98,11 @@ export class TableFormatter implements IFormatter<TableElement> {
 
   private addBodyRow(
     result: ITableFormatterCell[][],
-    compactHeader: TableHeaderRow[],
+    compactHeader: TableFormatterColumn[][],
     row: TableRowElement,
     level: number
   ) {
+    const cellsCache: Map<TableCellElement, TableFormatterRowCell> = new Map()
     for (const headerRow of compactHeader) {
       const currentRow: ITableFormatterCell[] = []
 
@@ -157,7 +111,12 @@ export class TableFormatter implements IFormatter<TableElement> {
         const cellElement = row.getByColumn(column.getElement() as TableColumnElement)
         if (!cellElement) continue
 
-        const cell = new TableFormatterRowCell(cellElement, column, isFirst, level)
+        let cell = cellsCache.get(cellElement)
+        if (!cell) {
+          cell = new TableFormatterRowCell(cellElement, column, isFirst, level)
+          cellsCache.set(cellElement, cell)
+        }
+
         currentRow.push(cell)
 
         isFirst = false
@@ -170,25 +129,38 @@ export class TableFormatter implements IFormatter<TableElement> {
 
   private renderTable(rows: ITableFormatterCell[][]): string[] {
     const result: string[] = []
+    const used: ITableFormatterCell[] = []
     for (const row of rows) {
+      const usedInRow: ITableFormatterCell[] = []
       const currentRow: string[] = []
       for (const cell of row) {
-        currentRow.push(cell.popValue())
-        this.addSpanCells(cell, currentRow)
+        currentRow.push(this.getCellValue(cell, used, usedInRow))
+        usedInRow.push(cell)
       }
       result.push(this.rowSeparator + currentRow.join(this.rowSeparator) + this.rowSeparator)
+      used.push(...usedInRow)
     }
 
     return result
   }
 
-  private addSpanCells(cell: ITableFormatterCell, currentRow: string[]) {
-    for (let col = 1; col < cell.getColSpan(); col++) {
-      currentRow.push("")
+  private getCellValue(
+    cell: ITableFormatterCell,
+    used: ITableFormatterCell[],
+    usedInRow: ITableFormatterCell[]
+  ): string {
+    if (usedInRow.includes(cell)) {
+      return ""
     }
+
+    if (used.includes(cell)) {
+      return cell.getEmptyValue()
+    }
+
+    return cell.getValue()
   }
 
-  private calculateLength(header: TableHeaderRow[]) {
+  private calculateLength(header: TableFormatterColumn[][]) {
     const firstRow = header[0]
     for (const cell of firstRow) {
       cell.calculateMaxLength()

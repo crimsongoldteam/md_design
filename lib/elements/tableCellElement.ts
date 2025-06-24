@@ -1,5 +1,6 @@
 import { Expose, Transform } from "class-transformer"
-import { BaseElement, PropertyValue } from "./baseElement"
+import { BaseElement } from "./baseElement"
+import { PropertyValue } from "./types"
 import { IdGeneratorRequest, IdGeneratorQueueInboxItem } from "@/parser/visitorTools/idGenerator"
 import { PlainToClassDiscriminator } from "../importer/plainToClassDiscriminator"
 import { elementsManager } from "@/elementsManager"

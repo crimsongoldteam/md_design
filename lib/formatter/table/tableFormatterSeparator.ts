@@ -1,24 +1,23 @@
-import { PropertyAlignment } from "@/elements/baseElement"
-import { BaseTableFormatterCell } from "./baseTableFormatterCell"
+import { PropertyAlignment } from "@/elements/types"
 import { TableFormatterColumn } from "./tableFormatterColumn"
+import { ITableFormatterCell } from "./interfaces"
 
-export class TableFormatterSeparator extends BaseTableFormatterCell {
+export class TableFormatterSeparator implements ITableFormatterCell {
   private readonly column: TableFormatterColumn
 
   constructor(column: TableFormatterColumn) {
-    super()
     this.column = column
   }
 
-  public getColSpan(): number {
-    return this.column.getColSpan()
+  public getLength(): number {
+    return this.column.getLength()
   }
 
   public getCalulatedLength(): number {
     return this.column.getCalulatedLength()
   }
 
-  public popValue(): string {
+  public getValue(): string {
     let leftSymbol = " "
     let rightSymbol = " "
 
@@ -38,5 +37,9 @@ export class TableFormatterSeparator extends BaseTableFormatterCell {
     const separator = leftSymbol + "-".repeat(padding) + rightSymbol
 
     return separator
+  }
+
+  getEmptyValue(): string {
+    throw new Error("Method not implemented.")
   }
 }

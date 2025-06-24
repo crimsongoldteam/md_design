@@ -1,5 +1,6 @@
 import { Expose, Type } from "class-transformer"
-import { BaseElement, ElementListType } from "./baseElement"
+import { BaseElement } from "./baseElement"
+import { ElementListType } from "./types.ts"
 import { TableColumnElement } from "./tableColumnElement"
 import { TableColumnGroupElement } from "./tableColumnGroupElement"
 import { TableRowElement } from "./tableRowElement.ts"

@@ -1,70 +1,54 @@
 import { TableColumnGroupElement } from "@/elements/tableColumnGroupElement"
-import { PropertyAlignment } from "@/elements/baseElement"
-import { BaseTableFormatterCell } from "./baseTableFormatterCell"
+import { PropertyAlignment } from "@/elements/types"
 import { FormFormatterFactory } from "../formatterFactory"
 import { FormatterUtils } from "../formatterUtils"
 import { TableFormatterRowCell } from "./tableFormatterRowCell"
 import { TableHeaderElement, TableHeaderElementExt } from "@/elements/tableElement"
+import { ConvertableTreeNode, ITableFormatterCell } from "./interfaces"
+import { CellTextAligner } from "./cellTextAligner"
 
-export class TableFormatterColumn extends BaseTableFormatterCell {
+export type TableHeaderRow = TableFormatterColumn[]
+
+export class TableFormatterColumn implements ITableFormatterCell, ConvertableTreeNode {
   private readonly element: TableHeaderElementExt
-  private readonly rowIndex: number = 0
-  private readonly rowCompactIndex: number = 0
   private readonly MIN_COLUMN_WIDTH: number = 5
   private calculatedLength: number = 0
-
-  private colSpan: number = 1
-  private readonly columns: TableFormatterColumn[] = []
+  public readonly items: TableFormatterColumn[] = []
   private readonly cells: TableFormatterRowCell[] = []
+  private readonly value: string = ""
 
-  constructor(element: TableHeaderElement, parent: TableFormatterColumn | undefined = undefined) {
-    super()
+  constructor(element: TableHeaderElement) {
     this.element = element
     this.value = FormFormatterFactory.getFormatter(element).format(element).join("")
-    this.calculatedLength = Math.max(this.MIN_COLUMN_WIDTH, this.value.length + this.columns.length)
+    this.calculatedLength = Math.max(this.MIN_COLUMN_WIDTH, this.value.length + this.items.length)
+  }
 
-    if (!parent) {
-      return
-    }
-
-    const rowData = parent.getRowIndices()
-
-    this.rowIndex = rowData.rowIndex + 1
-    const delta = parent.isColumnGroup() ? 0 : 1
-    this.rowCompactIndex = rowData.rowCompactIndex + delta
-
-    parent.columns.push(this)
+  public getLength(): number {
+    return this.value.length
   }
 
   public getAlignment(): PropertyAlignment {
     return this.element.alignment
   }
 
-  public popValue(): string {
-    const result = this.getAlignedValue(this.getAlignment())
+  public getValue(): string {
+    return CellTextAligner.alignText(this.value, this.getCalulatedLength(), this.getAlignment())
+  }
 
-    this.value = ""
-    return result
+  public getEmptyValue(): string {
+    return CellTextAligner.alignText("", this.getCalulatedLength(), this.getAlignment())
   }
 
   public getElement(): TableHeaderElement {
     return this.element as TableHeaderElement
   }
 
-  public getColSpan(): number {
-    return this.colSpan
-  }
-
-  public incColSpan(count: number): void {
-    this.colSpan += count
-  }
-
-  public getRowIndices(): { rowIndex: number; rowCompactIndex: number } {
-    return { rowIndex: this.rowIndex, rowCompactIndex: this.rowCompactIndex }
-  }
-
   public isColumnGroup(): boolean {
     return this.element instanceof TableColumnGroupElement
+  }
+
+  public add(column: TableFormatterColumn): void {
+    this.items.push(column)
   }
 
   public addCell(cell: TableFormatterRowCell) {
@@ -82,7 +66,7 @@ export class TableFormatterColumn extends BaseTableFormatterCell {
 
   public calculateMaxLength(): void {
     let childrenLength = 0
-    for (const cell of this.columns) {
+    for (const cell of this.items) {
       cell.calculateMaxLength()
       childrenLength += cell.getCalulatedLength()
     }
@@ -91,12 +75,12 @@ export class TableFormatterColumn extends BaseTableFormatterCell {
   }
 
   public calculateLength(): void {
-    const columnLengths: number[] = this.columns.map((cell) => cell.getCalulatedLength())
+    const columnLengths: number[] = this.items.map((cell) => cell.getCalulatedLength())
 
     const distributedLengths = FormatterUtils.distributeNumberWithAlignment(this.getCalulatedLength(), columnLengths)
 
-    for (let i = 0; i < this.columns.length; i++) {
-      const column = this.columns[i]
+    for (let i = 0; i < this.items.length; i++) {
+      const column = this.items[i]
       column.setCalulatedLength(distributedLengths[i])
       column.calculateLength()
     }

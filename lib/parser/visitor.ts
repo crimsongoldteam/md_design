@@ -6,7 +6,8 @@ import { TypesUtils } from "./visitorTools/typesUtuls"
 import { SemanticTokensManager, SemanticTokensTypes } from "./visitorTools/sematicTokensManager"
 import { IdGenerator } from "./visitorTools/idGenerator"
 import { HorizontalGroupDictionary, PagesDictionary } from "./nodes"
-import { BaseElement, ElementListType, PropertyAlignment, PropertyValue } from "../elements/baseElement"
+import { BaseElement } from "../elements/baseElement"
+import { ElementListType, PropertyAlignment, PropertyValue } from "@/elements/types"
 import {
   FormElement,
   InputElement,
@@ -368,8 +369,6 @@ export class Visitor extends BaseVisitor {
     this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.RAngle, result)
     this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.ButtonGroup, result)
 
-    // this.addChildLocation(result.items, result)
-
     return result
   }
 
@@ -402,7 +401,9 @@ export class Visitor extends BaseVisitor {
     const result = new ButtonElement()
 
     let header = this.joinTokens(ctx.Button)
-    this.setProperty(result, "Заголовок", header)
+    if (header) {
+      this.setProperty(result, "Заголовок", header)
+    }
 
     if (ctx.leftPicture) {
       let picture = this.joinTokens(ctx.leftPicture)

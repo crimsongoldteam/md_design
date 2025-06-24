@@ -1,5 +1,6 @@
 import { Expose, Transform, Type } from "class-transformer"
-import { BaseElement, ElementListType } from "./baseElement"
+import { BaseElement } from "./baseElement"
+import { ElementListType } from "./types"
 import { PageElement } from "./pageElement"
 import { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"

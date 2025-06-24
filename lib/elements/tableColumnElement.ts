@@ -1,5 +1,6 @@
 import { Exclude, Expose, Type } from "class-transformer"
-import { BaseElement, ElementListType } from "./baseElement"
+import { BaseElement } from "./baseElement"
+import { ElementListType } from "./types"
 import { TypeDescription } from "./typeDescription"
 import { TableColumnGroupElement } from "./tableColumnGroupElement"
 import { IdGeneratorType, IdGeneratorQueueInboxItem, IdGeneratorRequest } from "@/parser/visitorTools/idGenerator"

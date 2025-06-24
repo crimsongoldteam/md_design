@@ -1,14 +1,15 @@
-import { BaseTableFormatterCell } from "./baseTableFormatterCell"
 import { FormFormatterFactory } from "../formatterFactory"
 import { TableCellFormatter } from "./tableCellFormatter"
 import { TableFormatterColumn } from "./tableFormatterColumn"
 import { TableCellElement } from "@/elements/tableCellElement"
+import { CellTextAligner } from "./cellTextAligner"
+import { ITableFormatterCell } from "./interfaces"
 
-export class TableFormatterRowCell extends BaseTableFormatterCell {
+export class TableFormatterRowCell implements ITableFormatterCell {
   private readonly column: TableFormatterColumn
+  private value: string = ""
 
   constructor(element: TableCellElement, column: TableFormatterColumn, isFirst: boolean, level: number) {
-    super()
     const formatter = FormFormatterFactory.getFormatter(element) as TableCellFormatter
     this.value = formatter.format(element, { isFirst: isFirst, level: level }).join("")
 
@@ -16,18 +17,19 @@ export class TableFormatterRowCell extends BaseTableFormatterCell {
     this.column.addCell(this)
   }
 
-  public getColSpan(): number {
-    return this.column.getColSpan()
+  public getLength(): number {
+    return this.value.length
   }
 
   public getCalulatedLength(): number {
     return this.column.getCalulatedLength()
   }
 
-  public popValue(): string {
-    const result = this.getAlignedValue(this.column.getAlignment())
+  public getValue(): string {
+    return CellTextAligner.alignText(this.value, this.getCalulatedLength(), this.column.getAlignment())
+  }
 
-    this.value = ""
-    return result
+  public getEmptyValue(): string {
+    return CellTextAligner.alignText("", this.getCalulatedLength(), this.column.getAlignment())
   }
 }

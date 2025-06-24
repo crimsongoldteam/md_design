@@ -53,7 +53,13 @@ export class CommandBarFormatter implements IFormatter<CommandBarElement> {
   private formatSingleLine(content: string, element: CommandBarElement, properties: string[]): string {
     let result = FormatterUtils.getAlignmentAtLeft(element)
 
-    result += t.LAngle.LABEL + " " + content + " " + t.RAngle.LABEL + properties.join("")
+    result += t.LAngle.LABEL + " "
+
+    if (content.length > 0) {
+      result += content + " "
+    }
+
+    result += t.RAngle.LABEL + properties.join("")
     result += FormatterUtils.getAlignmentAtRight(element)
 
     return result

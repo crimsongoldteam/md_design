@@ -1,5 +1,6 @@
 import { IdGeneratorRequest, IdGeneratorQueueInboxItem } from "@/parser/visitorTools/idGenerator"
-import { BaseElement, ElementListType } from "./baseElement"
+import { BaseElement } from "./baseElement"
+import { ElementListType } from "./types"
 import { PlainToClassDiscriminator } from "../importer/plainToClassDiscriminator"
 import { elementsManager } from "@/elementsManager"
 

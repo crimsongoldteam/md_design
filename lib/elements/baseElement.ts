@@ -3,21 +3,7 @@ import "reflect-metadata"
 import { IdGeneratorQueueInboxItem, IdGeneratorRequest } from "../parser/visitorTools/idGenerator"
 import { CstElementPosition, CstPath, CstPathHelper } from "./cstPathHelper"
 import { PropertiesTransformer } from "@/importer/propertiesTransformer"
-
-export enum ElementListType {
-  Items = "items",
-  Columns = "columns",
-  Rows = "rows",
-}
-
-export enum PropertyAlignment {
-  Left = "Лево",
-  Center = "Центр",
-  Right = "Право",
-}
-
-export type ProperyPrimitiveValue = string | boolean | number
-export type PropertyValue = ProperyPrimitiveValue | ProperyPrimitiveValue[]
+import { PropertyValue, ElementListType, PropertyAlignment } from "./types"
 
 export abstract class BaseElement {
   protected static aligmentProperty: string = "ГоризонтальноеПоложениеВГруппе"

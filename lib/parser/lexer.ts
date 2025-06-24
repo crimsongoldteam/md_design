@@ -128,7 +128,7 @@ export const CheckboxUnchecked = createToken({
 
 export const SwitchChecked = createToken({
   name: "SwitchChecked",
-  pattern: /\[[ \t]*\|[ \t]*\S[ \t]*\][ \t]/,
+  pattern: /\[[ \t]*\|[ \t]*\S[ \t]*\][ \t]*/,
   label: "[|1]",
   categories: excludeTokens(CheckboxHeader),
 })

@@ -1,4 +1,4 @@
-import { ElementListType } from "@/elements/baseElement"
+import { ElementListType } from "@/elements/types"
 import { ButtonElement } from "@/elements/buttonElement"
 import { ButtonGroupElement } from "@/elements/buttonGroupElement"
 import { CommandBarElement } from "@/elements/commandBarElement"
@@ -75,6 +75,14 @@ export class CommandBarManager {
 
     title = title?.toLowerCase() ?? ""
     image = image?.toLowerCase() ?? ""
+    if (!title && !image) {
+      return ""
+    }
+
+    if (title) {
+      return title
+    }
+
     return title + "@" + image
   }
 
