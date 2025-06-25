@@ -37,20 +37,31 @@ export class GroupVisitor extends BaseVisitor {
   row(ctx: CstChildrenDictionary): void {
     const columns = ctx.column as CstNode[]
 
+    const hasSeparator = this.visit(ctx.EOL as CstNode[]) > 1
+
     this.groupMap.startLine(columns.length > 1)
 
     for (const column of columns) {
-      this.visit(column)
+      this.visit(column, { hasSeparator: hasSeparator })
       this.groupMap.next()
     }
 
     this.groupMap.endLine()
   }
 
-  column(ctx: CstChildrenDictionary): void {
+  EOL(ctx: CstChildrenDictionary): number {
+    if (!ctx.NewLine) {
+      return 0
+    }
+
+    const result = ctx.NewLine.length
+    return result
+  }
+
+  column(ctx: CstChildrenDictionary, params: any): void {
     const indent = this.visit(ctx.indents as CstNode[])
 
-    this.visit(ctx.inline as CstNode[], { indent: indent })
+    this.visit(ctx.inline as CstNode[], { indent: indent, hasSeparator: params.hasSeparator })
     this.visit(ctx.horizontalGroup as CstNode[], { indent: indent })
 
     if (ctx.pageHeader) {
@@ -63,7 +74,7 @@ export class GroupVisitor extends BaseVisitor {
     for (const item of ctx.inlineItem as CstNode[]) {
       inlineGroupTokens.push(this.visit(item) ?? ([] as IToken[]))
     }
-    this.groupMap.addTokens(inlineGroupTokens, params.indent)
+    this.groupMap.addTokens(inlineGroupTokens, params.indent, params.hasSeparator)
   }
 
   inlineItem(ctx: CstChildrenDictionary): CstElement[] {

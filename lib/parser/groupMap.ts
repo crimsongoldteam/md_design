@@ -72,18 +72,26 @@ export class GroupMap {
     }
   }
 
-  public addTokens(tokensGroups: IToken[][], indent: number): void {
+  public addTokens(tokensGroups: IToken[][], indent: number, hasSeparator: boolean): void {
     const containerInfo = this.getContainerAtIndent(indent)
 
-    if (tokensGroups.length == 1) {
-      const contentNode = this.getCreateContentNode(containerInfo.node)
-
-      this.addContent(contentNode, tokensGroups[0])
-      this.addToNextLine(containerInfo.node)
+    if (tokensGroups.length > 1) {
+      this.addOneLineGroup(containerInfo, tokensGroups, indent)
       return
     }
 
-    this.addOneLineGroup(containerInfo, tokensGroups, indent)
+    const contentNode = this.getCreateContentNode(containerInfo.node)
+    const tokenGroup = tokensGroups[0]
+
+    if (tokenGroup.length > 0) {
+      this.addContent(contentNode, tokenGroup)
+    }
+
+    if (hasSeparator || tokenGroup.length === 0) {
+      this.createContentNode(containerInfo.node)
+    }
+
+    this.addToNextLine(containerInfo.node)
   }
 
   private addContent(contentNode: ContentNode, tokens: IToken[]): void {
@@ -336,35 +344,3 @@ export class GroupMap {
 
   // #endregion
 }
-
-// Для страницы
-// Если на этом уровне есть страница - мы берем страницу и ее     родителя
-// Если на этом уровне ничего еще нет - создаем страницу
-
-// Элемента
-// Если на этом уровне есть страница - мы берем страницу
-// Если на этом уровне ничего еще нет - берем нижестоящий
-
-// Если прошлая с группами, а эта с группами
-// Добавляем по порядку
-
-// Если были группы и И сейчас группы - корень первого элемента - первая вертикальная группа
-// Если были группы А сейчас не группы - корень первого элемента - форма
-
-// /Страница
-//   #Группа 1 #Группа2
-//   Элемент
-
-// /Страница
-//   #Группа 1             #Группа2
-//     #Группа 3 #Группа 4 +
-//       /Страница  + +
-//   Элемент +
-
-// /Страница
-//  	#Группа 1 #Группа 2
-// Элемент1 + Элемент 2
-
-// /Страница
-//  	#Группа 1 #Группа 2
-//     Элемент1 + Элемент 2

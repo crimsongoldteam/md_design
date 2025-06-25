@@ -2,6 +2,7 @@ import { BaseElement, FormElement } from "../elements/index"
 import trimEnd from "@ungap/trim-end"
 import * as t from "../parser/lexer"
 import { FormFormatterFactory } from "./formatterFactory"
+import { InlineItemsFormatterUtils } from "./inlineItemsFormatterUtils"
 
 export interface IFormatter<T extends BaseElement> {
   format(element: T, params?: any): string[]
@@ -26,9 +27,7 @@ export class FormFormatter implements IFormatter<FormElement> {
       result.push(header)
     }
 
-    for (const item of element.items) {
-      result.push(...FormFormatterFactory.getFormatter(item).format(item))
-    }
+    result.push(...InlineItemsFormatterUtils.format(element.items))
 
     result.forEach((item, index) => {
       result[index] = trimEnd.call(item, "")

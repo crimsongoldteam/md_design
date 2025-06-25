@@ -1,8 +1,8 @@
 import { PageElement } from "../elements/pageElement"
 import * as t from "../parser/lexer"
-import { FormFormatterFactory } from "./formatterFactory"
 import { IFormatter } from "./formFormatter"
 import { PropertiesFormatter } from "./propertiesFormatter"
+import { InlineItemsFormatterUtils } from "./inlineItemsFormatterUtils"
 
 export class PageFormatter implements IFormatter<PageElement> {
   public format(element: PageElement): string[] {
@@ -12,10 +12,7 @@ export class PageFormatter implements IFormatter<PageElement> {
     const header = this.getHeader(element)
     result.push(header)
 
-    for (const item of element.items) {
-      const text = FormFormatterFactory.getFormatter(item).format(item)
-      result.push(...text.map((line) => indent + line))
-    }
+    result.push(...InlineItemsFormatterUtils.format(element.items, indent))
 
     return result
   }

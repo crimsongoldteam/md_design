@@ -121,7 +121,6 @@ export class Parser extends CstParser {
       () => {
         this.SUBRULE(this.inline)
       }
-      // EMPTY_ALT
     )
   })
 

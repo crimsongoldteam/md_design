@@ -15,24 +15,26 @@ import { TableCellFormatter } from "./table/tableCellFormatter"
 import { TableColumnFormatter } from "./table/tableColumnFormatter"
 import { OneLineGroupFormatter } from "./oneLineGroupFormatter"
 import { EditorContainerFormatter } from "./editorContainerFormatter"
-import { BaseElement } from "../elements/baseElement"
-import { FormElement } from "../elements/formElement"
-import { InputElement } from "../elements/inputElement"
-import { LabelElement } from "../elements/labelElement"
-import { HorizontalGroupElement } from "../elements/horizontalGroupElement"
-import { VerticalGroupElement } from "../elements/verticalGroupElement"
-import { CheckboxElement } from "../elements/checkboxElement"
-import { PagesElement } from "../elements/pagesElement"
-import { PageElement } from "../elements/pageElement"
-import { CommandBarElement } from "../elements/commandBarElement"
-import { ButtonElement } from "../elements/buttonElement"
-import { ButtonGroupElement } from "../elements/buttonGroupElement"
-import { TableElement } from "../elements/tableElement"
-import { TableColumnGroupElement } from "@/elements/tableColumnGroupElement"
-import { TableCellElement } from "@/elements/tableCellElement"
-import { OneLineGroupElement } from "@/elements/oneLineGroupElement"
-import { EditorContainerElement } from "@/elements/editorContainerElement"
-import { TableColumnElement } from "@/elements/tableColumnElement"
+import {
+  BaseElement,
+  FormElement,
+  InputElement,
+  LabelElement,
+  HorizontalGroupElement,
+  VerticalGroupElement,
+  CheckboxElement,
+  PagesElement,
+  PageElement,
+  CommandBarElement,
+  ButtonElement,
+  ButtonGroupElement,
+  TableElement,
+  TableColumnElement,
+  TableColumnGroupElement,
+  TableCellElement,
+  OneLineGroupElement,
+  EditorContainerElement,
+} from "@/elements"
 
 export class FormFormatterFactory {
   private static readonly formatters = new Map<typeof BaseElement, new () => IFormatter<BaseElement>>()

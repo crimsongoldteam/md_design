@@ -197,7 +197,14 @@ export const Semicolon = keyword("Semicolon", ";", PropertiesValueText, Properti
 export const Colon = keyword("Colon", ":", InputHeader, TableCell)
 export const VBar = keyword("VBar", "|", Button, Picture, TableCell, TableCellContinue)
 export const Equals = keyword("Equals", "=", PropertiesNameText)
-export const Plus = keyword("Plus", "+", GroupHeaderText, PageHeaderText, InlineText)
+
+export const Plus = createToken({
+  name: "Plus",
+  pattern: /\+/,
+  label: "+",
+  categories: excludeTokens(GroupHeaderText, PageHeaderText, InlineText),
+})
+
 export const Slash = keyword("Slash", "/", GroupHeaderText, PageHeaderText, InlineText)
 export const Ampersand = keyword("Ampersand", "&", InlineText)
 export const Whitespace = createToken({ name: "Tab", pattern: /[ \t]+/ })
@@ -232,7 +239,7 @@ export const Text = createToken({
 export const NewLine = createToken({
   name: "NewLine",
   pattern: /\n/,
-  line_breaks: true,
+  // line_breaks: true,
 })
 
 // #endregion

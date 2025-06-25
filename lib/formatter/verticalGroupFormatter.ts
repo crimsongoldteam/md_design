@@ -2,7 +2,7 @@ import { VerticalGroupElement } from "../elements/verticalGroupElement"
 import * as t from "../parser/lexer"
 import { PropertiesFormatter } from "./propertiesFormatter"
 import { IFormatter } from "./formFormatter"
-import { FormFormatterFactory } from "./formatterFactory"
+import { InlineItemsFormatterUtils } from "./inlineItemsFormatterUtils"
 
 export class VerticalGroupFormatter implements IFormatter<VerticalGroupElement> {
   public format(element: VerticalGroupElement, params: { addIndent: boolean } = { addIndent: false }): string[] {
@@ -11,10 +11,7 @@ export class VerticalGroupFormatter implements IFormatter<VerticalGroupElement> 
     const header = this.getHeader(element, params.addIndent)
     textLines.push(header)
 
-    for (const item of element.items) {
-      const text = FormFormatterFactory.getFormatter(item).format(item)
-      textLines.push(...text.map((line) => indent + line))
-    }
+    textLines.push(...InlineItemsFormatterUtils.format(element.items, indent))
 
     textLines = this.addSpaces(textLines)
     return textLines

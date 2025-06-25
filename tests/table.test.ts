@@ -107,6 +107,30 @@ test("Create two tables", () => {
   expectFormattedText(before, after)
 })
 
+test("Create two tables inside group", () => {
+  const before = `
+# #
++|Колонка 1| Колонка 2  |
++|---|---|
++|Значение 1|Значение 2|
++
++|Колонка 3|Колонка 4|
++|---|---|
++|Значение 3|Значение 4|`
+
+  const after = `
+# #
+  +| Колонка 1  | Колонка 2  |
+  +| ---------- | ---------- |
+  +| Значение 1 | Значение 2 |
+  +
+  +| Колонка 3  | Колонка 4  |
+  +| ---------- | ---------- |
+  +| Значение 3 | Значение 4 |`
+
+  expectFormattedText(before, after)
+})
+
 test("Create table with unchecked checkbox", () => {
   const before = `
 |Колонка 1|

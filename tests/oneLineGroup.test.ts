@@ -33,3 +33,33 @@ test("One-line group with properties", () => {
 
   expectFormattedText(before, after)
 })
+
+test("Empty group", () => {
+  const before = `
+&`
+
+  const after = `
+&`
+
+  expectFormattedText(before, after)
+})
+
+test("First empty in group", () => {
+  const before = `
+&Элемент`
+
+  const after = `
+Элемент &`
+
+  expectFormattedText(before, after)
+})
+
+test("Second empty in group", () => {
+  const before = `
+Элемент&`
+
+  const after = `
+Элемент &`
+
+  expectFormattedText(before, after)
+})
