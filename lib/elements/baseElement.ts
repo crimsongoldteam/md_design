@@ -4,8 +4,9 @@ import { IdGeneratorQueueInboxItem, IdGeneratorRequest } from "../parser/visitor
 import { CstElementPosition, CstPath, CstPathHelper } from "./cstPathHelper"
 import { PropertiesTransformer } from "@/importer/propertiesTransformer"
 import { PropertyValue, ElementListType, PropertyAlignment } from "./types"
+import { IBaseElement } from "./interfaces"
 
-export abstract class BaseElement {
+export abstract class BaseElement implements IBaseElement {
   protected static aligmentProperty: string = "ГоризонтальноеПоложениеВГруппе"
 
   @Expose({ name: "Тип" })
@@ -32,20 +33,20 @@ export abstract class BaseElement {
 
   public abstract get isContainer(): boolean
 
-  public parent: BaseElement | undefined = undefined
+  public parent: IBaseElement | undefined = undefined
 
   public parentList: ElementListType | undefined
 
   public static readonly childrenFields: ElementListType[] = []
 
-  public getList(listType: ElementListType): Array<BaseElement> | undefined {
+  public getList(listType: ElementListType): Array<IBaseElement> | undefined {
     if (!this.getChildrenFields().includes(listType)) return undefined
 
-    const itemsArray = this[listType as unknown as keyof BaseElement] as Array<BaseElement>
+    const itemsArray = this[listType as unknown as keyof BaseElement] as Array<IBaseElement>
     return itemsArray
   }
 
-  public add(listType: ElementListType, items: BaseElement[]): void {
+  public add(listType: ElementListType, items: IBaseElement[]): void {
     const itemsArray = this.getList(listType)
     if (!itemsArray) {
       throw new Error(`List ${listType} not found in ${this.type}`)
@@ -63,7 +64,35 @@ export abstract class BaseElement {
     return CstPathHelper.getCstPath(this)
   }
 
-  public findElementByCstPath(path: CstPath): BaseElement | undefined {
+  public getElementByElementId(id: string): IBaseElement | undefined {
+    if (this.elementId === id) return this
+
+    for (let listType of this.getChildrenFields()) {
+      const list = this.getList(listType)
+      if (!list) continue
+
+      for (let item of list) {
+        const result = item.getElementByElementId(id)
+        if (result) return result
+      }
+    }
+  }
+
+  public getAllElements(): IBaseElement[] {
+    const result: IBaseElement[] = [this]
+    for (let listType of this.getChildrenFields()) {
+      const list = this.getList(listType)
+      if (!list) continue
+
+      for (let item of list) {
+        result.push(...item.getAllElements())
+      }
+    }
+
+    return result
+  }
+
+  public findElementByCstPath(path: CstPath): IBaseElement | undefined {
     return CstPathHelper.findElementByCstPath(this, path)
   }
 
@@ -71,7 +100,7 @@ export abstract class BaseElement {
     return CstPathHelper.getInContainerPosition(this, path)
   }
 
-  public getElementPosition(element: BaseElement, path: CstPath): CstElementPosition | undefined {
+  public getElementPosition(element: IBaseElement, path: CstPath): CstElementPosition | undefined {
     return CstPathHelper.getElementPosition(this, element, path)
   }
 

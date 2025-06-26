@@ -1,14 +1,15 @@
 import { Expose, Type, Transform } from "class-transformer"
-import { BaseElement } from "./elements/baseElement"
 import { CstPathItem, CstPath } from "./elements/cstPathHelper"
 import { PlainToClassDiscriminator } from "./importer/plainToClassDiscriminator"
 import { PlainToClassTransformer } from "./importer/plaintToClassTransformer"
+import { IBaseElement } from "./elements/interfaces"
+import { BaseElement } from "./elements/baseElement"
 
 export class ElementPathData {
   @Expose({ name: "Элемент" })
   @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
   @Transform(PlainToClassTransformer.transform, { toClassOnly: true })
-  public item: BaseElement
+  public item: IBaseElement
 
   @Expose({ name: "Путь" })
   @Type(() => CstPathItem)
@@ -17,7 +18,7 @@ export class ElementPathData {
   @Expose({ name: "ЭтоНовый" })
   public isNew: boolean
 
-  constructor(item: BaseElement, path: CstPath, isNew: boolean) {
+  constructor(item: IBaseElement, path: CstPath, isNew: boolean) {
     this.item = item
     this.path = path
     this.isNew = isNew

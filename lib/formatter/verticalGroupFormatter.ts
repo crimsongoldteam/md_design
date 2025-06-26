@@ -5,15 +5,22 @@ import { IFormatter } from "./formFormatter"
 import { InlineItemsFormatterUtils } from "./inlineItemsFormatterUtils"
 
 export class VerticalGroupFormatter implements IFormatter<VerticalGroupElement> {
-  public format(element: VerticalGroupElement, params: { addIndent: boolean } = { addIndent: false }): string[] {
-    const indent = params.addIndent ? "  " : ""
+  public format(
+    element: VerticalGroupElement,
+    params: { addIndent: boolean; onlyItems: boolean } = { addIndent: false, onlyItems: false }
+  ): string[] {
+    const indent = params.addIndent && !params.onlyItems ? "  " : ""
     let textLines: string[] = []
-    const header = this.getHeader(element, params.addIndent)
-    textLines.push(header)
+    if (!params.onlyItems) {
+      const header = this.getHeader(element, params.addIndent)
+      textLines.push(header)
+    }
 
     textLines.push(...InlineItemsFormatterUtils.format(element.items, indent))
 
-    textLines = this.addSpaces(textLines)
+    if (!params.onlyItems) {
+      textLines = this.addSpaces(textLines)
+    }
     return textLines
   }
 

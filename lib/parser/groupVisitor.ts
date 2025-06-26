@@ -1,16 +1,20 @@
 import { CstChildrenDictionary, CstElement, CstNode, IToken } from "chevrotain"
-import { parser } from "./parser"
+import { Parser } from "./parser"
 import { GroupMap } from "./groupMap"
 import { EditorContainerNode, FormNode } from "./groupMapNodes"
 
-const BaseVisitor = parser.getBaseCstVisitorConstructor()
+const BaseVisitor = new Parser().getBaseCstVisitorConstructor()
 
 export class GroupVisitor extends BaseVisitor {
-  groupMap: GroupMap = new GroupMap(parser, new FormNode(undefined))
+  groupMap: GroupMap = new GroupMap(new Parser(), new FormNode(undefined))
+
+  constructor(private readonly parser: Parser) {
+    super()
+  }
 
   form(ctx: CstChildrenDictionary): CstNode {
     const rootNode = new FormNode(ctx.formHeader as CstNode[])
-    this.groupMap = new GroupMap(parser, rootNode)
+    this.groupMap = new GroupMap(this.parser, rootNode)
 
     if (ctx.row) {
       for (const row of ctx.row as CstNode[]) {
@@ -23,7 +27,7 @@ export class GroupVisitor extends BaseVisitor {
 
   editorContainer(ctx: CstChildrenDictionary): CstNode {
     const rootNode = new EditorContainerNode()
-    this.groupMap = new GroupMap(parser, rootNode)
+    this.groupMap = new GroupMap(this.parser, rootNode)
 
     if (ctx.row) {
       for (const row of ctx.row as CstNode[]) {
@@ -100,5 +104,3 @@ export class GroupVisitor extends BaseVisitor {
     return result
   }
 }
-
-export const groupVisitor = new GroupVisitor()

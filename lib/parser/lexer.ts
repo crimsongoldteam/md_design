@@ -339,5 +339,3 @@ export const allTokens = [
 ]
 
 // #endregion
-
-export const lexer = new Lexer(allTokens)

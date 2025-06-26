@@ -1,7 +1,8 @@
 import { Expose, TransformFnParams, Transform } from "class-transformer"
-import { BaseElement } from "./baseElement"
 import { ElementListType } from "./types"
 import { elementsManager } from "@/elementsManager"
+import { IBaseElement } from "./interfaces"
+import { BaseElement } from "./baseElement"
 
 /**
  * Path item of element in the CST tree.
@@ -45,7 +46,7 @@ export class CstPathItem {
 }
 
 class CstPathWithElementItem extends CstPathItem {
-  constructor(elementType: any, parentListIndex: number, parentList: ElementListType, public element: BaseElement) {
+  constructor(elementType: any, parentListIndex: number, parentList: ElementListType, public element: IBaseElement) {
     super(elementType, parentListIndex, parentList)
   }
 }
@@ -74,16 +75,16 @@ export class CstElementPosition {
     /**
      * The parent element that contains this element
      */
-    public parent: BaseElement
+    public parent: IBaseElement
   ) {}
 }
 
 export type CstPath = Array<CstPathItem>
 
 export class CstPathHelper {
-  public static getCstPath(element: BaseElement): CstPath {
+  public static getCstPath(element: IBaseElement): CstPath {
     const result: CstPath = []
-    let currentElement: BaseElement | undefined = element
+    let currentElement: IBaseElement | undefined = element
     while (currentElement) {
       if (!currentElement.parent) break
 
@@ -107,8 +108,8 @@ export class CstPathHelper {
   }
 
   public static getElementPosition(
-    root: BaseElement,
-    element: BaseElement,
+    root: IBaseElement,
+    element: IBaseElement,
     path: CstPath
   ): CstElementPosition | undefined {
     const current = this.findElementByCstPath(root, path)
@@ -120,7 +121,7 @@ export class CstPathHelper {
     return new CstElementPosition(lastItem.parentListIndex, lastItem.parentList, current.parent ?? root)
   }
 
-  public static getInContainerPosition(root: BaseElement, path: CstPath): CstElementPosition {
+  public static getInContainerPosition(root: IBaseElement, path: CstPath): CstElementPosition {
     const pathWithElements = this.getCstPathWithElements(root, path)
 
     if (pathWithElements.length === 0) return new CstElementPosition(0, ElementListType.Items, root)
@@ -139,16 +140,19 @@ export class CstPathHelper {
     )
   }
 
-  private static getCstPathWithElements(root: BaseElement, path: CstPath): CstPathWithElements {
+  private static getCstPathWithElements(root: IBaseElement, path: CstPath): CstPathWithElements {
+    if (path.length === 0)
+      return [new CstPathWithElementItem(root.constructor as typeof BaseElement, 0, ElementListType.Items, root)]
+
     const result: CstPathWithElements = []
-    let currentElement: BaseElement | undefined = root
+    let currentElement: IBaseElement | undefined = root
     for (let item of path) {
       if (!currentElement) return []
 
-      const list: Array<BaseElement> | undefined = currentElement.getList(item.parentList)
+      const list: Array<IBaseElement> | undefined = currentElement.getList(item.parentList)
       if (!list) return []
 
-      const element: BaseElement | undefined = list[item.parentListIndex]
+      const element: IBaseElement | undefined = list[item.parentListIndex]
       if (!element) return []
 
       if (element.constructor !== item.elementType) return []
@@ -160,7 +164,7 @@ export class CstPathHelper {
     return result
   }
 
-  public static findElementByCstPath(root: BaseElement, path: CstPath): BaseElement | undefined {
+  public static findElementByCstPath(root: IBaseElement, path: CstPath): IBaseElement | undefined {
     const pathWithElements = this.getCstPathWithElements(root, path)
     if (pathWithElements.length === 0) return undefined
     return pathWithElements[pathWithElements.length - 1].element

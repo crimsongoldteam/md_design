@@ -1,5 +1,5 @@
-import { BaseElement } from "@/elements/baseElement"
 import { IdNumberDistributor } from "./idNumberDistributor"
+import { IBaseElement } from "@/elements/interfaces"
 
 export enum IdGeneratorType {
   Attribute = "attributeId",
@@ -12,29 +12,29 @@ export enum IdGeneratorType {
 }
 
 export interface IdGeneratorRequest {
-  parent: BaseElement | undefined
+  parent: IBaseElement | undefined
   type: IdGeneratorType
   generator: IdGenerator
 }
 
 export interface IdGeneratorQueueInboxItem {
   type: IdGeneratorType
-  parent?: BaseElement
+  parent?: IBaseElement
   highPriority: boolean
 }
 
 export interface IdGeneratorQueueItem extends IdGeneratorQueueInboxItem {
-  element: BaseElement
+  element: IBaseElement
   order: number
 }
 
 export class IdGenerator {
-  private readonly elements: BaseElement[] = []
+  private readonly elements: IBaseElement[] = []
   private readonly queue: IdGeneratorQueueItem[] = []
   private readonly elementNameDistributor: IdNumberDistributor = new IdNumberDistributor()
   private readonly attributeNameDistributor: IdNumberDistributor = new IdNumberDistributor()
 
-  add(element: BaseElement): void {
+  add(element: IBaseElement): void {
     this.elements.push(element)
   }
 

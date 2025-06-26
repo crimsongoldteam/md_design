@@ -1,11 +1,16 @@
-import { Exporter, Importer, ElementPathData, FormModel } from "@/index"
+import { CSTModel } from "@/editor/cstModel"
+import { MainCursorBuilder, MainCursorFormatter } from "@/editor/mainCursor"
+import { ModelCursor } from "@/editor/modelCursor"
+import { Exporter, Importer, ElementPathData } from "@/index"
 import { expect } from "vitest"
 
 export function formatText(input: string): string {
-  const formModel = new FormModel()
-  formModel.setText(input)
-  formModel.format()
-  return formModel.getText()
+  const model = new CSTModel()
+  const mainCursor = new ModelCursor(model, new MainCursorBuilder(), new MainCursorFormatter())
+  model.registerCursor(mainCursor)
+  mainCursor.text = input
+  mainCursor.format()
+  return mainCursor.text
 }
 
 export function cleanString(text: string): string {
@@ -16,17 +21,19 @@ export function cleanString(text: string): string {
 }
 
 export const expectFormattedText = (before: string, after: string) => {
-  const formModel = new FormModel()
-  formModel.setText(cleanString(before))
-  formModel.format()
+  const model = new CSTModel()
+  const mainCursor = new ModelCursor(model, new MainCursorBuilder(), new MainCursorFormatter())
+  model.registerCursor(mainCursor)
+  mainCursor.text = cleanString(before)
+  mainCursor.format()
 
-  expect(formModel.getText()).toBe(cleanString(after))
+  expect(mainCursor.text).toBe(cleanString(after))
 
-  const dataPath = new ElementPathData(formModel.getSemanicTree(), [], false)
+  const dataPath = new ElementPathData(model.cst, [], false)
   const json = Exporter.export(dataPath) as string
   const dataPathImported = Importer.import(json)
 
-  formModel.reset()
-  formModel.createOrUpdateElement(dataPathImported)
-  expect(formModel.getText()).toBe(cleanString(after))
+  // mainCursor.reset()
+  model.createOrUpdateElement(dataPathImported)
+  expect(mainCursor.text).toBe(cleanString(after))
 }

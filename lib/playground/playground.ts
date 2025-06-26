@@ -5,6 +5,7 @@ import { FormElement } from "../elements/formElement"
 import { Application } from "../application.js"
 import { Exporter } from "@/exporter/exporter.js"
 import { Importer } from "@/importer/importer.js"
+import { IBaseElement } from "@/elements/interfaces.js"
 
 const treeViewContainer = document.getElementById("output") as HTMLElement
 
@@ -15,14 +16,8 @@ const application = new Application(
   document.getElementById("container-down") as HTMLElement
 )
 
-application.onChangeContent = (semanticTree: BaseElement) => {
-  treeView.setCST(semanticTree as FormElement)
-}
-
-application.onChangeCurrentElement = () => {
-  const data = application.getCurrentElementData()
-  const result = Exporter.export(data)
-  console.log(result)
+application.onChangeContent = (cst: IBaseElement) => {
+  treeView.setCST(cst as FormElement)
 }
 ;(window as any).setValues = (plainText: string): void => {
   const data = Importer.import(plainText)

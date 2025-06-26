@@ -592,5 +592,3 @@ export class Parser extends CstParser {
 
   // #endregion
 }
-
-export const parser = new Parser()
