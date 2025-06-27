@@ -1617,7 +1617,7 @@ __metadata:
     class-transformer: "npm:^0.5.1"
     date-fns: "npm:^4.1.0"
     jsdom: "npm:^26.1.0"
-    monaco-editor-core: "npm:^0.43"
+    monaco-editor-core: "npm:0.43.0"
     path: "npm:^0.12.7"
     performance-polyfill: "npm:^0.0.3"
     pointer-events-polyfill: "npm:^0.4.4-pre"
@@ -1740,7 +1740,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"monaco-editor-core@npm:^0.43":
+"monaco-editor-core@npm:0.43.0":
   version: 0.43.0
   resolution: "monaco-editor-core@npm:0.43.0"
   checksum: 10c0/d37bba22eec772511c9b70c8e503c98e1bdd2c60150ccf5afd22b5cbdd9de0842805b86b36c324b4ac0ec7f4cbccd27e398bdc8466c0b76bc76a796843593f50

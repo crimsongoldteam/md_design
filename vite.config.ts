@@ -1,52 +1,26 @@
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite"
 import { viteSingleFile } from "vite-plugin-singlefile"
-import monacoEditorPlugin from "vite-plugin-monaco-editor"
-import replaceGlobalThis from "./vite-build-plugins/replace"
 import zipPack from "vite-plugin-zip-pack"
 import * as path from "path"
+import monacoEditorPlugin from "vite-plugin-monaco-editor"
+import { fixHtmlPlugin } from "./vite-build-plugins/fixHtml/fixMonacoPlugin"
+import { replaceContentPlugin } from "./vite-build-plugins/replace"
 
 export default defineConfig((api) => {
-  const isDev = api.mode === "development"
-  // @ts-expect-error
+  // @ts-ignore
   const monacoPlugin = monacoEditorPlugin.default({
     globalAPI: false,
     languageWorkers: ["editorWorkerService"],
   })
 
-  monacoPlugin.transformIndexHtml = (_html) => {
-    const script = `function getDirectoryUrlSimple(fileUrl) {
-        return fileUrl.substring(0, fileUrl.lastIndexOf("/"))
-      }
-      self["MonacoEnvironment"] = (function (paths) {
-        return {
-          globalAPI: false,
-          getWorkerUrl: function (moduleId, label) {
-            var result = paths[label]
-            var currentUrl = String(window.location)
-            result = getDirectoryUrlSimple(currentUrl) + result
-            var js = "/*" + label + '*/importScripts("' + result + '");'
-            var blob = new Blob([js], { type: "application/javascript" })
-            return URL.createObjectURL(blob)
-          },
-        }
-      })({
-        editorWorkerService: "/monacoeditorwork/editor.worker.bundle.js",
-      })`
-    return [
-      {
-        tag: "script",
-        children: script,
-        injectTo: "head-prepend",
-      },
-    ]
-  }
+  fixHtmlPlugin(monacoPlugin)
+
   return {
     test: {
       isolate: false,
-      // globals: true,
+      globals: true,
       environment: "node",
-
       coverage: {
         enabled: true,
         provider: "v8",
@@ -64,8 +38,8 @@ export default defineConfig((api) => {
     },
 
     build: {
-      minify: !isDev,
-      sourcemap: isDev,
+      minify: true,
+      sourcemap: false,
       outDir: "temp",
       target: "es2018",
     },
@@ -76,11 +50,11 @@ export default defineConfig((api) => {
 
     plugins: [
       monacoPlugin,
+      replaceContentPlugin(),
       viteSingleFile({
         removeViteModuleLoader: true,
         deleteInlinedFiles: true,
       }),
-      // replaceGlobalThis(),
       zipPack({ inDir: "temp", outFileName: "../src/MDDesign/Templates/БиблиотекаJS/Ext/Template.bin" }),
     ],
     resolve: {

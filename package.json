@@ -34,7 +34,7 @@
     "chevrotain": "^11.0.3",
     "class-transformer": "^0.5.1",
     "date-fns": "^4.1.0",
-    "monaco-editor-core": "^0.43",
+    "monaco-editor-core": "0.43.0",
     "performance-polyfill": "^0.0.3",
     "reflect-metadata": "^0.2.2",
     "rollup": "^4.41.1",
