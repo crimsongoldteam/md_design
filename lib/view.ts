@@ -7,12 +7,15 @@ import { IView } from "./interfaces"
 export class View implements IView {
   private readonly mainEditor: IEditorWrapper
   private readonly groupEditor: IEditorWrapper
-  private readonly _currentEditor: IEditorWrapper
-  private readonly _currentCursor: IModelCursor
   private readonly mainCursor: IModelCursor
   private readonly groupCursor: IModelCursor
   private readonly mainEditorContainer: HTMLElement
   private readonly groupEditorContainer: HTMLElement
+
+  private mainCursorLinks: monaco.languages.ILink[] = []
+  private groupCursorLinks: monaco.languages.ILink[] = []
+
+  private _currentEditor: IEditorWrapper
 
   constructor(
     mainEditorContainer: HTMLElement,
@@ -33,7 +36,6 @@ export class View implements IView {
     this.groupCursor.onUnregisterCursor = this.onUnregisterGroupCursor.bind(this)
 
     this._currentEditor = this.mainEditor
-    this._currentCursor = this.mainCursor
 
     this.mainEditorContainer = mainEditorContainer
     this.groupEditorContainer = groupEditorContainer
@@ -44,6 +46,8 @@ export class View implements IView {
     })
 
     this.initSplitter()
+
+    this.toggleGroupEditorVisible(false)
   }
 
   public onCloseGroup: () => void = () => {
@@ -59,7 +63,7 @@ export class View implements IView {
   }
 
   get currentCursor(): IModelCursor {
-    return this._currentCursor
+    return this._currentEditor.cursor
   }
 
   public toggleGroupEditorVisible(show: boolean): void {
@@ -80,18 +84,44 @@ export class View implements IView {
     _token: monaco.CancellationToken
   ): monaco.languages.ProviderResult<monaco.languages.ILinksList> {
     if (this.mainEditor.isEditorModel(model)) {
-      return this.mainCursor.links
+      const linksList = this.mainCursor.links
+      this.mainCursorLinks = linksList.links
+      return linksList
     }
 
     if (this.groupEditor.isEditorModel(model)) {
-      return this.groupCursor.links
+      const linksList = this.groupCursor.links
+      this.groupCursorLinks = linksList.links
+      return linksList
     }
 
     return undefined
   }
 
-  private resolveLink(): monaco.languages.ProviderResult<monaco.languages.ILink> {
-    const element = this.mainCursor.getCurrentElementData()
+  private getCursorByLink(link: monaco.languages.ILink): IModelCursor | undefined {
+    if (this.mainCursorLinks.includes(link)) {
+      return this.mainCursor
+    }
+
+    if (this.groupCursorLinks.includes(link)) {
+      return this.groupCursor
+    }
+
+    return undefined
+  }
+
+  private resolveLink(link: monaco.languages.ILink): monaco.languages.ProviderResult<monaco.languages.ILink> {
+    const cursor = this.getCursorByLink(link)
+
+    if (!cursor) {
+      throw new Error("No cursor found")
+    }
+
+    const element = cursor.getElementDataAtPosition({
+      line: link.range.startLineNumber,
+      column: link.range.startColumn,
+    })
+
     if (!element) {
       throw new Error("No element found")
     }
@@ -132,5 +162,7 @@ export class View implements IView {
 
   private onUnregisterGroupCursor(): void {
     this.toggleGroupEditorVisible(false)
+
+    this._currentEditor = this.mainEditor
   }
 }

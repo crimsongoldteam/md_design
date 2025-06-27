@@ -3,21 +3,15 @@ import { IBaseElement } from "./elements/interfaces"
 
 export interface IApplication {
   onChangeContent: (cst: IBaseElement) => void
-  onChangeCurrentElement: (currentElement: IElementPathData | undefined) => void
+  onSelectElement: (currentElement: IElementPathData | undefined) => void
 
   getText(): string
   setText(text: string): void
-
   insertText(text: string): void
-
   formatText(): void
-
   getTableData(): IElementPathData
-
   getNewValue(type: string): IBaseElement
-
   createOrUpdateElement(data: IElementPathData): void
-
   getCst(): IBaseElement
 }
 
@@ -35,4 +29,5 @@ export interface IEnterpriseConnector {
   insertText(text: string): void
   getNewValue(type: string): string | undefined
   createOrUpdateElement(plainText: string): void
+  getTable(): string
 }

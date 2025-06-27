@@ -1,5 +1,5 @@
 import { FormElement } from "@/elements"
-import { IModelCursor, ICSTModel, IElementPathData } from "./interfaces"
+import { IModelCursor, ICSTModel, IElementPathData, IAfterUpdateParams } from "./interfaces"
 import { CstPath, CstPathHelper } from "@/elements/cstPathHelper"
 import { IdGenerator } from "@/parser/visitorTools/idGenerator"
 import { IBaseElement } from "@/elements/interfaces"
@@ -8,7 +8,8 @@ export class CSTModel implements ICSTModel {
   private _cst: FormElement = new FormElement()
 
   private readonly cursors: Set<IModelCursor> = new Set()
-  // private readonly elementMap: Map<string, BaseElement> = new Map()
+
+  public onChangeContent?: (cst: IBaseElement | undefined) => void
 
   get cst(): FormElement {
     return this._cst
@@ -28,21 +29,31 @@ export class CSTModel implements ICSTModel {
     } else {
       this.updateElement(data)
     }
-    this.generateIds()
 
-    this.unregisterDisconnectedCursors()
+    this.afterUpdate({ excludeCursor: source })
 
-    for (let cursor of this.cursors) {
-      if (cursor !== source) {
-        cursor.format()
-      }
-    }
+    this.onChangeContent?.(this.cst)
   }
 
   getPathByElementId(id: string): CstPath | undefined {
     const element = this.cst.getElementByElementId(id)
     if (!element) return undefined
     return CstPathHelper.getCstPath(element)
+  }
+
+  public afterUpdate(params: IAfterUpdateParams): void {
+    this.generateIds()
+    this.unregisterDisconnectedCursors()
+
+    if (params.stopPropagation) return
+    this.updateCursors(params.excludeCursor)
+  }
+
+  public updateCursors(excludeCursor: IModelCursor | undefined): void {
+    for (const cursor of this.cursors) {
+      if (cursor === excludeCursor) continue
+      cursor.format()
+    }
   }
 
   public registerCursor(cursor: IModelCursor): void {
@@ -76,8 +87,8 @@ export class CSTModel implements ICSTModel {
     } else {
       list.splice(parentPath.parentListIndex, 0, data.item)
     }
-    // data.item.parent = parent
-    // data.item.parentList = parentPath.parentList
+    data.item.parent = parent
+    data.item.parentList = parentPath.parentList
   }
 
   private updateElement(data: IElementPathData) {
@@ -95,8 +106,8 @@ export class CSTModel implements ICSTModel {
     if (!list) throw new Error("List not found")
 
     list[element.parentListIndex] = data.item
-    // data.item.parent = parent
-    // data.item.parentList = element.parentList
+    data.item.parent = parent
+    data.item.parentList = element.parentList
   }
 
   private generateIds(): void {
@@ -109,14 +120,4 @@ export class CSTModel implements ICSTModel {
     }
     idGenerator.generate()
   }
-
-  // private fillElementMap(element: BaseElement) {
-  //   this.elementMap.set(element.elementId, element)
-  //   for (let childrenField of (element.constructor as typeof BaseElement).childrenFields) {
-  //     let items = (element as any)[childrenField]
-  //     for (let subItem of items) {
-  //       this.fillElementMap(subItem)
-  //     }
-  //   }
-  // }
 }

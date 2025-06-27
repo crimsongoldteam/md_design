@@ -10,8 +10,16 @@ export interface IElementPathData {
   isNew: boolean
 }
 
+export interface IAfterUpdateParams {
+  excludeCursor?: IModelCursor
+  stopPropagation?: boolean
+}
+
 export interface ICSTModel {
+  onChangeContent?: (cst: IBaseElement | undefined) => void
+
   get cst(): IBaseElement
+  set cst(value: IBaseElement)
 
   getElement(path: CstPath): IBaseElement | undefined
   createOrUpdateElement(data: IElementPathData, source?: IModelCursor): void
@@ -20,9 +28,12 @@ export interface ICSTModel {
 
   registerCursor(cursor: IModelCursor): void
   unregisterCursor(cursor: IModelCursor): void
+  afterUpdate(params: IAfterUpdateParams): void
 }
 
 export interface IEditorWrapper {
+  get cursor(): IModelCursor
+
   insertText(text: string): void
   isEditorModel(model: monaco.editor.ITextModel): boolean
 
@@ -34,13 +45,7 @@ export interface ICursorFormatter {
 }
 
 export interface ICursorBuilder {
-  build(
-    text: string,
-    cursor: IModelCursor
-  ): {
-    element: IBaseElement
-    semanticTokensManager: SemanticTokensManager
-  }
+  build(text: string, cursor: IModelCursor): void
 }
 
 export interface IPosition {
@@ -49,8 +54,9 @@ export interface IPosition {
 }
 
 export interface IModelCursor {
-  getCst(): IBaseElement | undefined
-  setCst(value: IBaseElement): void
+  //#region getters and setters
+
+  get model(): ICSTModel
 
   get path(): CstPath
   set path(value: CstPath)
@@ -61,9 +67,26 @@ export interface IModelCursor {
   get decorations(): any
   get links(): any
 
+  //#endregion getters and setters
+
+  //#region events
+
+  onRegisterCursor?: () => void
+  onUnregisterCursor?: () => void
+  onSelectElement?: (currentElement: IElementPathData | undefined) => void
+  onChangeText?: (text: string) => void
+
+  //#endregion events
+
+  getCst(): IBaseElement | undefined
+  setCst(value: IBaseElement): void
+
+  setSemanticTokensManager(value: SemanticTokensManager): void
+
   setPosition(position: IPosition): void
   getPosition(): IPosition
 
+  getElementDataAtPosition(position: IPosition): IElementPathData
   getCurrentElement(): IBaseElement
   getCurrentElementData(): IElementPathData
 
@@ -71,12 +94,7 @@ export interface IModelCursor {
 
   format(): void
 
-  onChangeContent: (cst: IBaseElement) => void
-
   isConnected(): boolean
-
-  onRegisterCursor?: () => void
-  onUnregisterCursor?: () => void
 }
 
 export interface TableValueData {

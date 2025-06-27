@@ -2,7 +2,6 @@ import { IApplication, IEnterpriseConnector } from "./interfaces"
 import { Exporter } from "./exporter/exporter"
 import { Importer } from "./importer/importer"
 import { IElementPathData } from "./editor/interfaces"
-import { IBaseElement } from "./elements/interfaces"
 
 export class EnterpriseConnector implements IEnterpriseConnector {
   private readonly application: IApplication
@@ -10,7 +9,7 @@ export class EnterpriseConnector implements IEnterpriseConnector {
   constructor(application: IApplication) {
     this.application = application
     this.application.onChangeContent = this.onChangeContent.bind(this)
-    this.application.onChangeCurrentElement = this.onChangeCurrentElement.bind(this)
+    this.application.onSelectElement = this.onSelectElement.bind(this)
   }
 
   public formatText(): void {
@@ -40,7 +39,7 @@ export class EnterpriseConnector implements IEnterpriseConnector {
     this.application.createOrUpdateElement(data)
   }
 
-  private onChangeCurrentElement(currentElement: IElementPathData | undefined): void {
+  private onSelectElement(currentElement: IElementPathData | undefined): void {
     const result = {
       currentElement: Exporter.export(currentElement),
     }
@@ -48,18 +47,10 @@ export class EnterpriseConnector implements IEnterpriseConnector {
   }
 
   private onChangeContent(): void {
-    this.changeCST({
-      text: this.application.getText(),
-      semanticsTree: this.application.getCst(),
-      selectionHierarchy: [],
-    })
-  }
-
-  private changeCST(params: { text: string; semanticsTree: IBaseElement; selectionHierarchy: string[] }): void {
     const result = {
-      text: params.text,
-      semanticsTree: JSON.stringify(params.semanticsTree, null, 2),
-      selectionHierarchy: JSON.stringify(params.selectionHierarchy),
+      text: this.application.getText(),
+      semanticsTree: JSON.stringify(this.application.getCst(), null, 2),
+      selectionHierarchy: JSON.stringify([]),
     }
 
     this.sendEvent("EVENT_CHANGE_CONTENT", result)
@@ -73,33 +64,3 @@ export class EnterpriseConnector implements IEnterpriseConnector {
     dispatchEvent(lastEvent)
   }
 }
-
-// public setValues(plainText: string): void {
-//   const plainObject = JSON.parse(plainText)
-//   const data: ValueData = plainToInstance(ValueData, plainObject)
-//   this.application.setValues(data)
-// }
-
-// private onChangeContent(): void {
-//   this.changeCST({
-//     text: this.application.getText(),
-//     // semanticsTree: this.application.getProduction(),
-//     selectionHierarchy: [],
-//   })
-
-// private onChangeCurrentElement(currentElement: ElementPathData | undefined): void {
-//   const result = {
-//     currentElement: Exporter.export(currentElement),
-//   }
-//   this.sendEvent("EVENT_CHANGE_CURRENT_ELEMENT", result)
-// }
-
-// private changeCST(params: { text: string; semanticsTree: BaseElement; selectionHierarchy: string[] }): void {
-//   const result = {
-//     text: params.text,
-//     semanticsTree: JSON.stringify(params.semanticsTree, null, 2),
-//     selectionHierarchy: JSON.stringify(params.selectionHierarchy),
-//   }
-
-//   this.sendEvent("EVENT_CHANGE_CONTENT", result)
-// }

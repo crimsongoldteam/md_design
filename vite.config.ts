@@ -61,16 +61,6 @@ export default defineConfig((api) => {
           "vite.config.playground.ts",
         ],
       },
-      // alias: [
-      //   {
-      //     find: /^monaco-editor-core$/,
-      //     replacement: path.resolve(__dirname, "./node_modules/monaco-editor-core/esm/vs/editor/editor.api"),
-      //   },
-      //   {
-      //     find: "@/",
-      //     replacement: path.resolve(__dirname, "./lib/"),
-      //   },
-      // ],
     },
 
     build: {
@@ -90,7 +80,7 @@ export default defineConfig((api) => {
         removeViteModuleLoader: true,
         deleteInlinedFiles: true,
       }),
-      replaceGlobalThis(),
+      // replaceGlobalThis(),
       zipPack({ inDir: "temp", outFileName: "../src/MDDesign/Templates/БиблиотекаJS/Ext/Template.bin" }),
     ],
     resolve: {

@@ -2,8 +2,6 @@ import { FormFormatterFactory } from "@/formatter/formatterFactory"
 import { FormElement } from "@/elements/formElement"
 import { CSTGenerator } from "./cstGenerator"
 import { ICursorBuilder, ICursorFormatter, IModelCursor } from "./interfaces"
-import { BaseElement } from "@/elements/baseElement"
-import { SemanticTokensManager } from "@/parser/visitorTools/sematicTokensManager"
 import { VerticalGroupElement } from "@/elements/verticalGroupElement"
 
 export class GroupCursorFormatter implements ICursorFormatter {
@@ -14,25 +12,17 @@ export class GroupCursorFormatter implements ICursorFormatter {
 }
 
 export class GroupCursorBuilder implements ICursorBuilder {
-  public build(
-    text: string,
-    cursor: IModelCursor
-  ): {
-    element: BaseElement
-    semanticTokensManager: SemanticTokensManager
-  } {
+  public build(text: string, cursor: IModelCursor): void {
     const currentGroup = cursor.getCst() as VerticalGroupElement
 
     currentGroup.items = []
 
     const result = CSTGenerator.build(text, "parseGroupEditorContainer")
-    const semanticTokensManager = result.semanticTokensManager
+    cursor.setSemanticTokensManager(result.semanticTokensManager)
 
-    currentGroup.items.push(...(result.element as VerticalGroupElement).items)
-
-    return {
-      element: currentGroup,
-      semanticTokensManager,
+    for (const item of (result.element as VerticalGroupElement).items) {
+      currentGroup.items.push(item)
+      item.parent = currentGroup
     }
   }
 }

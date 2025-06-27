@@ -6,7 +6,7 @@ import { IBaseElement } from "@/elements/interfaces"
 import { ElementPathData } from "@/elementPathData"
 
 export class ModelCursor implements IModelCursor {
-  private readonly model: ICSTModel
+  private readonly _model: ICSTModel
   private _path: CstPath = []
   private _text: string = ""
   private _semanticTokensManager: SemanticTokensManager = new SemanticTokensManager()
@@ -15,24 +15,29 @@ export class ModelCursor implements IModelCursor {
   private _position: IPosition = { line: 0, column: 0 }
 
   constructor(model: ICSTModel, builder: ICursorBuilder, formatter: ICursorFormatter) {
-    this.model = model
+    this._model = model
     this.builder = builder
     this.formatter = formatter
   }
+  // region events
 
   public onRegisterCursor?: () => void
   public onUnregisterCursor?: () => void
+  public onChangeText?: (text: string) => void
+  public onSelectElement?: (currentElement: IElementPathData | undefined) => void
 
-  public onChangeContent: (cst: IBaseElement) => void = () => {
-    // throw new Error("onChangeContent is not implemented")
+  // endregion events
+
+  public setSemanticTokensManager(value: SemanticTokensManager): void {
+    this._semanticTokensManager = value
   }
 
   public getCst(): IBaseElement | undefined {
-    return this.model.getElement(this.path)
+    return this._model.getElement(this.path)
   }
 
   public setCst(value: IBaseElement) {
-    this.model.createOrUpdateElement({
+    this._model.createOrUpdateElement({
       path: this.path,
       item: value,
       isNew: false,
@@ -45,9 +50,15 @@ export class ModelCursor implements IModelCursor {
 
   setPosition(position: IPosition): void {
     this._position = position
+    this.onSelectElement?.(this.getCurrentElementData())
   }
+
   getPosition(): IPosition {
     return this._position
+  }
+
+  get model(): ICSTModel {
+    return this._model
   }
 
   get path(): CstPath {
@@ -64,29 +75,21 @@ export class ModelCursor implements IModelCursor {
   }
 
   set text(text: string) {
-    this._text = text
-    this.build(text)
+    this.setText(text, false)
   }
 
   public getCurrentElement(): IBaseElement {
-    const token = this._semanticTokensManager.getAtPosition(this._position.line, this._position.column)
-    if (!token) {
-      const cst = this.getCst()
-      if (!cst) throw new Error("CST not found")
-      return cst
-    }
-
-    return token.element
+    return this.getElementAtPosition(this._position)
   }
 
-  // public setElementData(data: IElementPathData): void {
-  //   this.path = data.path
-  // }
-
-  getCurrentElementData(): IElementPathData {
-    const element = this.getCurrentElement()
+  getElementDataAtPosition(position: IPosition): IElementPathData {
+    const element = this.getElementAtPosition(position)
     const path = element.getCstPath()
     return new ElementPathData(element, path, false)
+  }
+
+  getCurrentElementData(): IElementPathData {
+    return this.getElementDataAtPosition(this._position)
   }
 
   getCurrentTableElement(): TableElement | undefined {
@@ -101,7 +104,9 @@ export class ModelCursor implements IModelCursor {
   format(): void {
     const cst = this.getCst()
     if (!cst) throw new Error("CST not found")
-    this._text = this.formatter.format(cst)
+
+    const text = this.formatter.format(cst)
+    this.setText(text, true)
   }
 
   get decorations(): any {
@@ -121,19 +126,32 @@ export class ModelCursor implements IModelCursor {
     return undefined
   }
 
-  private build(text: string) {
-    const { element, semanticTokensManager } = this.builder.build(text, this)
+  // region private methods
 
-    this._semanticTokensManager = semanticTokensManager
-    this.model.createOrUpdateElement(
-      {
-        path: this.path,
-        item: element,
-        isNew: false,
-      },
-      this
-    )
+  private setText(text: string, stopPropagation: boolean = false): void {
+    const isChanged = this._text !== text
+    if (!isChanged) return
+
+    this._text = text
+    this.build(text)
+    this.model.afterUpdate({ excludeCursor: this, stopPropagation: stopPropagation })
+
+    this.onChangeText?.(text)
   }
-  //   onChangeContent: (cst: BaseElement) => void
-  //   onUnregisterCursor: () => void
+
+  private build(text: string) {
+    this.builder.build(text, this)
+  }
+
+  private getElementAtPosition(position: IPosition): IBaseElement {
+    const token = this._semanticTokensManager.getAtPosition(position.line, position.column)
+    if (!token) {
+      const cst = this.getCst()
+      if (!cst) throw new Error("CST not found")
+      return cst
+    }
+
+    return token.element
+  }
+  // endregion private methods
 }

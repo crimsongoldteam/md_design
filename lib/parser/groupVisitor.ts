@@ -6,10 +6,11 @@ import { EditorContainerNode, FormNode } from "./groupMapNodes"
 const BaseVisitor = new Parser().getBaseCstVisitorConstructor()
 
 export class GroupVisitor extends BaseVisitor {
-  groupMap: GroupMap = new GroupMap(new Parser(), new FormNode(undefined))
+  private groupMap: GroupMap
 
   constructor(private readonly parser: Parser) {
     super()
+    this.groupMap = new GroupMap(parser, new FormNode(undefined))
   }
 
   form(ctx: CstChildrenDictionary): CstNode {

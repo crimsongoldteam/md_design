@@ -1,11 +1,10 @@
 import "../polyfill.js"
 import { TreeView } from "../playground/treeView"
-import { BaseElement } from "../elements/baseElement"
 import { FormElement } from "../elements/formElement"
 import { Application } from "../application.js"
-import { Exporter } from "@/exporter/exporter.js"
 import { Importer } from "@/importer/importer.js"
 import { IBaseElement } from "@/elements/interfaces.js"
+import { IElementPathData } from "@/editor/interfaces.js"
 
 const treeViewContainer = document.getElementById("output") as HTMLElement
 
@@ -18,6 +17,10 @@ const application = new Application(
 
 application.onChangeContent = (cst: IBaseElement) => {
   treeView.setCST(cst as FormElement)
+}
+
+application.onSelectElement = (_currentElement: IElementPathData | undefined) => {
+  // console.log(currentElement)
 }
 ;(window as any).setValues = (plainText: string): void => {
   const data = Importer.import(plainText)
