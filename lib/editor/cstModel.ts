@@ -31,8 +31,6 @@ export class CSTModel implements ICSTModel {
     }
 
     this.afterUpdate({ excludeCursor: source })
-
-    this.onChangeContent?.(this.cst)
   }
 
   getPathByElementId(id: string): CstPath | undefined {
@@ -45,15 +43,11 @@ export class CSTModel implements ICSTModel {
     this.generateIds()
     this.unregisterDisconnectedCursors()
 
-    if (params.stopPropagation) return
-    this.updateCursors(params.excludeCursor)
-  }
-
-  public updateCursors(excludeCursor: IModelCursor | undefined): void {
-    for (const cursor of this.cursors) {
-      if (cursor === excludeCursor) continue
-      cursor.format()
+    if (!params.stopPropagation) {
+      this.updateCursors(params.excludeCursor)
     }
+
+    this.onChangeContent?.(this.cst)
   }
 
   public registerCursor(cursor: IModelCursor): void {
@@ -64,6 +58,13 @@ export class CSTModel implements ICSTModel {
   public unregisterCursor(cursor: IModelCursor): void {
     this.cursors.delete(cursor)
     cursor.onUnregisterCursor?.()
+  }
+
+  private updateCursors(excludeCursor: IModelCursor | undefined): void {
+    for (const cursor of this.cursors) {
+      if (cursor === excludeCursor) continue
+      cursor.format()
+    }
   }
 
   private unregisterDisconnectedCursors(): void {

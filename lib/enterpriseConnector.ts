@@ -1,7 +1,13 @@
-import { IApplication, IEnterpriseConnector } from "./interfaces"
+import {
+  IApplication,
+  IEnterpriseConnector,
+  IEnterpriseConnectorChangeContentEvent,
+  IEnterpriseConnectorSelectElementEvent,
+} from "./interfaces"
 import { Exporter } from "./exporter/exporter"
 import { Importer } from "./importer/importer"
 import { IElementPathData } from "./editor/interfaces"
+import { IBaseElement } from "./elements/interfaces"
 
 export class EnterpriseConnector implements IEnterpriseConnector {
   private readonly application: IApplication
@@ -40,17 +46,16 @@ export class EnterpriseConnector implements IEnterpriseConnector {
   }
 
   private onSelectElement(currentElement: IElementPathData | undefined): void {
-    const result = {
-      currentElement: Exporter.export(currentElement),
+    const result: IEnterpriseConnectorSelectElementEvent = {
+      element: Exporter.export(currentElement),
     }
-    this.sendEvent("EVENT_CHANGE_CURRENT_ELEMENT", result)
+    this.sendEvent("EVENT_SELECT_ELEMENT", result)
   }
 
-  private onChangeContent(): void {
-    const result = {
+  private onChangeContent(cst: IBaseElement | undefined): void {
+    const result: IEnterpriseConnectorChangeContentEvent = {
       text: this.application.getText(),
-      semanticsTree: JSON.stringify(this.application.getCst(), null, 2),
-      selectionHierarchy: JSON.stringify([]),
+      cst: Exporter.export(cst),
     }
 
     this.sendEvent("EVENT_CHANGE_CONTENT", result)

@@ -15,7 +15,7 @@ const application = new Application(
   document.getElementById("container-down") as HTMLElement
 )
 
-application.onChangeContent = (cst: IBaseElement) => {
+application.onChangeContent = (cst: IBaseElement | undefined) => {
   treeView.setCST(cst as FormElement)
 }
 

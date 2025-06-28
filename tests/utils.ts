@@ -1,6 +1,6 @@
 import { CSTModel } from "@/editor/cstModel"
 import { MainCursorBuilder, MainCursorFormatter } from "@/editor/mainCursor"
-import { ModelCursor } from "@/editor/modelCursor"
+import { ModelCursor } from "@/editor/modelCursorHelpers"
 import { Exporter, Importer, ElementPathData } from "@/index"
 import { expect } from "vitest"
 

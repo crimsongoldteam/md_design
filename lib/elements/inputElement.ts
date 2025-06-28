@@ -8,9 +8,6 @@ export class InputElement extends BaseElementWithAttributes {
   public elementType = "ПолеФормы"
   public elementKind = "ПолеВвода"
 
-  @Expose({ name: "ИмяРеквизита" })
-  public dataAttribute: string = ""
-
   @Expose({ name: "Значение" })
   public value: string = ""
 

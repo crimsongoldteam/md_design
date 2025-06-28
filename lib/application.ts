@@ -2,9 +2,9 @@ import { CstPath } from "./elements/cstPathHelper"
 import { elementsManager } from "./elementsManager"
 import { ElementPathData } from "./elementPathData"
 import { CSTModel } from "./editor/cstModel"
-import { GroupCursorBuilder, GroupCursorFormatter } from "./editor/groupCursor"
+import { GroupCursorBuilder, GroupCursorFormatter } from "./editor/groupCursorHelpers"
 import { MainCursorBuilder, MainCursorFormatter } from "./editor/mainCursor"
-import { ModelCursor } from "./editor/modelCursor"
+import { ModelCursor } from "./editor/modelCursorHelpers"
 import { IApplication, IView } from "./interfaces"
 import { IBaseElement } from "./elements/interfaces"
 import { ICSTModel, IElementPathData, IModelCursor } from "./editor/interfaces"
@@ -20,6 +20,7 @@ export class Application implements IApplication {
 
   constructor(mainEditorContainer: HTMLElement, groupEditorContainer: HTMLElement) {
     this.model = new CSTModel()
+    this.model.onChangeContent = this.onChangeModelContent.bind(this)
 
     this.mainCursor = new ModelCursor(this.model, new MainCursorBuilder(), new MainCursorFormatter())
     this.mainCursor.onSelectElement = this.onSelectElementMainCursor.bind(this)
@@ -34,7 +35,7 @@ export class Application implements IApplication {
   }
   // region events
 
-  public onChangeContent: (cst: IBaseElement) => void = () => {
+  public onChangeContent: (cst: IBaseElement | undefined) => void = () => {
     throw new Error("onChangeContent is not implemented")
   }
 
@@ -115,5 +116,9 @@ export class Application implements IApplication {
   private onSelectGroup(group: IElementPathData): void {
     this.model.registerCursor(this.groupCursor)
     this.groupCursor.path = group.path
+  }
+
+  private onChangeModelContent(cst: IBaseElement | undefined): void {
+    this.onChangeContent(cst)
   }
 }

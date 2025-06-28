@@ -31,3 +31,14 @@ export interface IEnterpriseConnector {
   createOrUpdateElement(plainText: string): void
   getTable(): string
 }
+
+// EVENT_SELECT_ELEMENT
+export interface IEnterpriseConnectorSelectElementEvent {
+  element?: string
+}
+
+//EVENT_CHANGE_CONTENT
+export interface IEnterpriseConnectorChangeContentEvent {
+  text: string
+  cst?: string
+}

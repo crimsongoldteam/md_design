@@ -11,7 +11,13 @@ export default defineConfig((api) => {
   // @ts-ignore
   const monacoPlugin = monacoEditorPlugin.default({
     globalAPI: false,
-    languageWorkers: ["editorWorkerService"],
+    languageWorkers: [],
+    customWorkers: [
+      {
+        label: "editorWorkerService",
+        entry: "monaco-editor-core/esm/vs/editor/editor.worker",
+      },
+    ],
   })
 
   fixHtmlPlugin(monacoPlugin)
@@ -50,11 +56,12 @@ export default defineConfig((api) => {
 
     plugins: [
       monacoPlugin,
-      replaceContentPlugin(),
       viteSingleFile({
         removeViteModuleLoader: true,
         deleteInlinedFiles: true,
       }),
+      replaceContentPlugin(),
+
       zipPack({ inDir: "temp", outFileName: "../src/MDDesign/Templates/БиблиотекаJS/Ext/Template.bin" }),
     ],
     resolve: {
