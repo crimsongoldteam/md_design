@@ -44,8 +44,8 @@ export default defineConfig((api) => {
     },
 
     build: {
-      minify: false,
-      sourcemap: true,
+      minify: true,
+      sourcemap: false,
       outDir: "temp",
       target: "es2018",
     },

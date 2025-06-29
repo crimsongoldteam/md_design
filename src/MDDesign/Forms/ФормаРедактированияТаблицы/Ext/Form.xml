@@ -365,9 +365,5 @@
 			<Type/>
 			<KeyParameter>true</KeyParameter>
 		</Parameter>
-		<Parameter name="ОписаниеНовойКолонки">
-			<Type/>
-			<KeyParameter>true</KeyParameter>
-		</Parameter>
 	</Parameters>
 </Form>

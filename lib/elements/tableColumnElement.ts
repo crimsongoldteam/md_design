@@ -102,7 +102,7 @@ export class TableColumnElement extends BaseElement {
     const highPriority: boolean = this.getProperty("Путь") !== undefined || this.getProperty("Имя") !== undefined
 
     let result: IdGeneratorQueueInboxItem[] = []
-    if (this._hasValue) {
+    if (this.hasValue) {
       result.push({ type: IdGeneratorType.Attribute, highPriority: highPriority, parent: this.table })
       result.push({ type: IdGeneratorType.Element, highPriority: highPriority })
     }
@@ -183,7 +183,7 @@ export class TableColumnElement extends BaseElement {
 
     const rules: IdFormatterRule[] = [{ property: "ПутьФлажок" }]
 
-    if (this._hasValue) {
+    if (this.hasValue) {
       rules.push({ property: "ИмяФлажок" })
       rules.push({ property: "Путь", prefix: prefix })
       rules.push({ property: "Заголовок", prefix: prefix })
@@ -209,7 +209,7 @@ export class TableColumnElement extends BaseElement {
       return result
     }
 
-    return tableId + this.checkboxElementId
+    return tableId + this.checkboxAttributeId
   }
 
   getTableCheckboxGroupElementIdTemplate(): string {

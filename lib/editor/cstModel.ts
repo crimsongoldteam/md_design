@@ -24,7 +24,6 @@ export class CSTModel implements ICSTModel {
   }
 
   createOrUpdateElement(data: IElementPathData, source?: IModelCursor): void {
-    console.log(data)
     if (data.isNew) {
       this.createElement(data)
     } else {
@@ -79,16 +78,14 @@ export class CSTModel implements ICSTModel {
   private createElement(data: IElementPathData) {
     if (data.item instanceof FormElement) throw new Error("FormElement cannot be created")
 
-    const parentPath = this.cst.getInContainerPosition(data.path)
+    const parentPath = this.cst.getContainerForNewElement(data.path)
     const parent = parentPath.parent
     const list = parent.getList(parentPath.parentList)
     if (!list) throw new Error("List not found")
 
-    if (parentPath.parentListIndex > list.length) {
-      list.push(data.item)
-    } else {
-      list.splice(parentPath.parentListIndex, 0, data.item)
-    }
+    const insertIndex = parentPath.parentListIndex + 1
+    list.splice(insertIndex, 0, data.item)
+
     data.item.parent = parent
     data.item.parentList = parentPath.parentList
   }

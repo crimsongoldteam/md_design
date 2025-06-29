@@ -45,8 +45,14 @@ export class CstPathItem {
   }
 }
 
-class CstPathWithElementItem extends CstPathItem {
-  constructor(elementType: any, parentListIndex: number, parentList: ElementListType, public element: IBaseElement) {
+export class CstPathWithElementItem extends CstPathItem {
+  constructor(
+    elementType: any,
+    parentListIndex: number,
+    parentList: ElementListType,
+    public element?: IBaseElement,
+    public parent?: IBaseElement
+  ) {
     super(elementType, parentListIndex, parentList)
   }
 }
@@ -121,13 +127,13 @@ export class CstPathHelper {
     return new CstElementPosition(lastItem.parentListIndex, lastItem.parentList, current.parent ?? root)
   }
 
-  public static getInContainerPosition(root: IBaseElement, path: CstPath): CstElementPosition {
-    const pathWithElements = this.getCstPathWithElements(root, path)
+  public static getContainerForNewElement(root: IBaseElement, path: CstPath): CstElementPosition {
+    const pathWithElements = this.getCstPathWithElements(root, path, true)
 
     if (pathWithElements.length === 0) return new CstElementPosition(0, ElementListType.Items, root)
 
     let index = pathWithElements.length - 1
-    while (index >= 0 && !pathWithElements[index].element.isContainer) {
+    while (index >= 0 && !pathWithElements[index].parent?.isContainer) {
       index--
     }
 
@@ -136,28 +142,40 @@ export class CstPathHelper {
     return new CstElementPosition(
       pathWithElements[index].parentListIndex,
       pathWithElements[index].parentList,
-      pathWithElements[index].element.parent ?? root
+      pathWithElements[index].parent ?? root
     )
   }
 
-  private static getCstPathWithElements(root: IBaseElement, path: CstPath): CstPathWithElements {
+  private static getCstPathWithElements(
+    root: IBaseElement,
+    path: CstPath,
+    forNew: boolean = false
+  ): CstPathWithElements {
     if (path.length === 0)
       return [new CstPathWithElementItem(root.constructor as typeof BaseElement, 0, ElementListType.Items, root)]
 
     const result: CstPathWithElements = []
     let currentElement: IBaseElement | undefined = root
-    for (let item of path) {
+    for (let index = 0; index < path.length; index++) {
+      const item = path[index]
       if (!currentElement) return []
 
       const list: Array<IBaseElement> | undefined = currentElement.getList(item.parentList)
       if (!list) return []
 
-      const element: IBaseElement | undefined = list[item.parentListIndex]
-      if (!element) return []
+      const isNewElementPosition = forNew && index == path.length - 1
 
-      if (element.constructor !== item.elementType) return []
+      let element: IBaseElement | undefined
+      if (!isNewElementPosition) {
+        element = list[item.parentListIndex]
+        if (!element) return []
 
-      result.push(new CstPathWithElementItem(item.elementType, item.parentListIndex, item.parentList, element))
+        if (element.constructor !== item.elementType) return []
+      }
+
+      result.push(
+        new CstPathWithElementItem(item.elementType, item.parentListIndex, item.parentList, element, currentElement)
+      )
       currentElement = element
     }
 

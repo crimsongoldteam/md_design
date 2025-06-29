@@ -103,6 +103,12 @@ export class TableHeaderMap {
   }
 
   public done(): void {
+    if (this.map.length == 0) {
+      const item = new TableColumnElement()
+      this.map.push([item])
+      this.columns.push(item)
+    }
+
     let parentRow: TableHeaderElementExt[] = Array(this.map[0].length)
 
     for (let row = 0; row < this.map.length; row++) {

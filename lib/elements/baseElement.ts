@@ -96,8 +96,8 @@ export abstract class BaseElement implements IBaseElement {
     return CstPathHelper.findElementByCstPath(this, path)
   }
 
-  public getInContainerPosition(path: CstPath): CstElementPosition {
-    return CstPathHelper.getInContainerPosition(this, path)
+  public getContainerForNewElement(path: CstPath): CstElementPosition {
+    return CstPathHelper.getContainerForNewElement(this, path)
   }
 
   public getElementPosition(element: IBaseElement, path: CstPath): CstElementPosition | undefined {

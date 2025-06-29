@@ -164,3 +164,27 @@ test("Create tree", () => {
 
   expectFormattedText(before, after)
 })
+
+test("Create table without data", () => {
+  const before = `
+|Колонка 1|
+|---|`
+
+  const after = `
+| Колонка 1 |
+| --------- |`
+
+  expectFormattedText(before, after)
+})
+
+test("Create table with empty column", () => {
+  const before = `
+|    |
+| --- |`
+
+  const after = `
+|           |
+| --------- |`
+
+  expectFormattedText(before, after)
+})
