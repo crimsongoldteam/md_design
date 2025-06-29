@@ -68,6 +68,8 @@
 ## 📚Документация
 [Полная документация проекта доступна на нашем сайте.](https://crimsongoldteam.github.io/md_design)
 
+Видео демонстрация [YouTube](https://youtu.be/nhJveZRSHao), [VK Video](https://vkvideo.ru/video-227129566_456239051)
+
 ## [![Инфостарт](https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg)](https://infostart.ru/1c/tools/2304023/)
 
 - Обзорная статья: [От слов к формам: разработка интерфейса по текстовому описанию](https://infostart.ru/1c/tools/2304023/).
@@ -100,6 +102,7 @@
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/GorbatkoMD"><img src="https://avatars.githubusercontent.com/u/110474554?v=4?s=100" width="100px;" alt="Максим"/><br /><sub><b>Максим</b></sub></a><br /><a href="#bug-GorbatkoMD" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/thequb1k"><img src="https://avatars.githubusercontent.com/u/177568772?v=4?s=100" width="100px;" alt="Dmitry Baraboy"/><br /><sub><b>Dmitry Baraboy</b></sub></a><br /><a href="#bug-thequb1k" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Untru"><img src="https://avatars.githubusercontent.com/u/60393326?v=4?s=100" width="100px;" alt="Pavel"/><br /><sub><b>Pavel</b></sub></a><br /><a href="#code-Untru" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://telegra.ph/sergsyp-10-03"><img src="https://avatars.githubusercontent.com/u/86959196?v=4?s=100" width="100px;" alt="Sergey Sypachev"/><br /><sub><b>Sergey Sypachev</b></sub></a><br /><a href="#promotion-sergsyp" title="Promotion">📣</a></td>
     </tr>
   </tbody>
 </table>
