@@ -36,6 +36,8 @@ export class PropertiesFormatter implements IFormatter<BaseElement> {
         formattedValue = value.join(", ")
       } else if (typeof value === "string") {
         formattedValue = value.trim()
+      } else if (typeof value === "boolean") {
+        formattedValue = value ? "Да" : "Нет"
       } else {
         formattedValue = String(value)
       }

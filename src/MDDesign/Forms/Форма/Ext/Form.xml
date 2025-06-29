@@ -968,13 +968,7 @@
 										</v8:item>
 									</Title>
 									<TitleFont ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
-									<ToolTip>
-										<v8:item>
-											<v8:lang>ru</v8:lang>
-											<v8:content>Палитра свойств группа значение</v8:content>
-										</v8:item>
-									</ToolTip>
-									<Width>25</Width>
+									<Width>20</Width>
 									<HorizontalStretch>true</HorizontalStretch>
 									<Group>Horizontal</Group>
 									<ShowInHeader>true</ShowInHeader>
@@ -1030,7 +1024,6 @@
 										</InputField>
 										<InputField name="ПалитраСвойствЗначениеЧисло" id="386">
 											<DataPath>ПалитраСвойств.ЗначениеЧисло</DataPath>
-											<EditMode>Directly</EditMode>
 											<ShowInHeader>false</ShowInHeader>
 											<HorizontalStretch>true</HorizontalStretch>
 											<SpinButton>true</SpinButton>
@@ -1481,27 +1474,50 @@
 									<PictureLocation>Right</PictureLocation>
 									<ExtendedTooltip name="ОткрытьДокументациюРасширеннаяПодсказка" id="194"/>
 								</Button>
-								<Button name="ОткрытьТелеграмКанал" id="350">
-									<Type>Hyperlink</Type>
-									<Height>1</Height>
-									<GroupHorizontalAlign>Center</GroupHorizontalAlign>
-									<GroupVerticalAlign>Bottom</GroupVerticalAlign>
-									<CommandName>Form.Command.ОткрытьТелеграмКанал</CommandName>
-									<TextColor>#190E70</TextColor>
-									<Font ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
-									<Picture>
-										<xr:Abs>Picture.png</xr:Abs>
-										<xr:LoadTransparent>false</xr:LoadTransparent>
-									</Picture>
+								<UsualGroup name="ГруппаTelegram" id="514">
 									<Title>
 										<v8:item>
 											<v8:lang>ru</v8:lang>
-											<v8:content>Канал Telegram</v8:content>
+											<v8:content>Группа telegram</v8:content>
 										</v8:item>
 									</Title>
-									<PictureLocation>Left</PictureLocation>
-									<ExtendedTooltip name="ОткрытьТелеграмКаналРасширеннаяПодсказка" id="351"/>
-								</Button>
+									<GroupHorizontalAlign>Center</GroupHorizontalAlign>
+									<Group>AlwaysHorizontal</Group>
+									<Representation>None</Representation>
+									<ShowTitle>false</ShowTitle>
+									<ExtendedTooltip name="ГруппаTelegramРасширеннаяПодсказка" id="515"/>
+									<ChildItems>
+										<Button name="ОткрытьТелеграмКанал" id="350">
+											<Type>Hyperlink</Type>
+											<Height>1</Height>
+											<GroupHorizontalAlign>Center</GroupHorizontalAlign>
+											<GroupVerticalAlign>Center</GroupVerticalAlign>
+											<CommandName>Form.Command.ОткрытьТелеграмКанал</CommandName>
+											<TextColor>#190E70</TextColor>
+											<Font ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
+											<Picture>
+												<xr:Abs>Picture.png</xr:Abs>
+												<xr:LoadTransparent>false</xr:LoadTransparent>
+											</Picture>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Канал</v8:content>
+												</v8:item>
+											</Title>
+											<PictureLocation>Left</PictureLocation>
+											<ExtendedTooltip name="ОткрытьТелеграмКаналРасширеннаяПодсказка" id="351"/>
+										</Button>
+										<Button name="ОткрытьТелеграмЧат" id="516">
+											<Type>Hyperlink</Type>
+											<GroupVerticalAlign>Center</GroupVerticalAlign>
+											<CommandName>Form.Command.ОткрытьТелеграмЧат</CommandName>
+											<TextColor>#190E70</TextColor>
+											<Font ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
+											<ExtendedTooltip name="ОткрытьТелеграмЧатРасширеннаяПодсказка" id="517"/>
+										</Button>
+									</ChildItems>
+								</UsualGroup>
 							</ChildItems>
 						</UsualGroup>
 						<UsualGroup name="ГруппаСправкаПодвал" id="306">
@@ -3031,6 +3047,21 @@
 				</v8:item>
 			</ToolTip>
 			<Action>ПодменюЭкспорт</Action>
+		</Command>
+		<Command name="ОткрытьТелеграмЧат" id="12">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Чат</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Перейти в телеграм-канал t.me/overlay1c</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ОткрытьТелеграмЧат</Action>
 		</Command>
 	</Commands>
 </Form>

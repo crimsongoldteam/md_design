@@ -7,6 +7,7 @@ import { SemanticTokensManager, SemanticTokensTypes } from "./visitorTools/semat
 import { HorizontalGroupDictionary, PagesDictionary } from "./nodes"
 import { BaseElement } from "../elements/baseElement"
 import { ElementListType, PropertyAlignment, PropertyValue } from "@/elements/types"
+import { StringUtils } from "@/utils/stringUtils"
 import {
   FormElement,
   InputElement,
@@ -594,9 +595,16 @@ export class Visitor extends BaseVisitor {
 
   private setProperty(element: BaseElement, key: string, value: PropertyValue | undefined) {
     const properties = element.properties
-    const lowerKey = key.toLowerCase()
 
-    if (!key) {
+    const cleanedKey = StringUtils.clean(key)
+
+    if (!cleanedKey) {
+      return
+    }
+
+    const lowerKey = cleanedKey.toLowerCase()
+
+    if (!lowerKey) {
       return
     }
 
@@ -611,7 +619,7 @@ export class Visitor extends BaseVisitor {
       return
     }
 
-    properties.set(key, value)
+    properties.set(cleanedKey, value)
   }
 
   private getTypeDescription(types: any): TypeDescription {

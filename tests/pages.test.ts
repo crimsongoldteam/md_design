@@ -129,3 +129,17 @@ test("Group in several pages", () => {
 
   expectFormattedText(before, after)
 })
+
+test("One line group in page", () => {
+  const before = `
+/Страница 1
+  Элемент 1 & Элемент 2
+  Элемент 3`
+
+  const after = `
+/Страница 1
+  Элемент 1 & Элемент 2
+  Элемент 3`
+
+  expectFormattedText(before, after)
+})

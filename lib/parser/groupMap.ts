@@ -77,6 +77,8 @@ export class GroupMap {
 
     if (tokensGroups.length > 1) {
       this.addOneLineGroup(containerInfo, tokensGroups, indent)
+
+      this.addToNextLine(containerInfo.node)
       return
     }
 
