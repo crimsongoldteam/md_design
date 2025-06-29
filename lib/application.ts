@@ -85,12 +85,7 @@ export class Application implements IApplication {
   }
 
   getNewValue(type: string): IBaseElement {
-    const classType: any = elementsManager.getByTypeDescription(type)
-    if (!classType) {
-      throw new Error(`Class type ${type} not found`)
-    }
-
-    return new classType() as IBaseElement
+    return elementsManager.getNewValue(type)
   }
 
   public createOrUpdateElement(data: ElementPathData): void {

@@ -5,17 +5,20 @@ import { TableCellElement } from "./tableCellElement"
 import { TableColumnElement } from "./tableColumnElement"
 import { IdGeneratorRequest, IdGeneratorQueueInboxItem } from "@/parser/visitorTools/idGenerator"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
-import { TableClassTransformOptions } from "@/importer/importer"
 import { elementsManager } from "@/elementsManager"
 
 export class TableRowElement extends BaseElement {
   public type = "СтрокаТаблицы"
 
-  @Expose({ name: "Ячейки" })
+  @Expose({ name: "Ячейки", toClassOnly: true })
+  @Type(() => TableCellElement, {})
+  @Transform(TableRowElement.transformCellsToClass, { toClassOnly: true })
+  public itemsImportCache: Map<string, TableCellElement> = new Map()
+
+  @Expose({ name: "Ячейки", toPlainOnly: true })
   @Type(() => TableCellElement)
   @Transform(TableRowElement.transformCellsToPlain, { toPlainOnly: true })
-  @Transform(TableRowElement.transformCellsToClass, { toClassOnly: true })
-  public readonly items: Map<TableColumnElement, TableCellElement> = new Map()
+  public items: Map<TableColumnElement, TableCellElement> = new Map()
 
   public itemsDescription: Map<string, any> = new Map()
 
@@ -40,6 +43,20 @@ export class TableRowElement extends BaseElement {
     return []
   }
 
+  public extractFromCache(columns: TableColumnElement[]): void {
+    this.items = new Map()
+
+    for (const column of columns) {
+      const value = this.itemsImportCache.get(column.attributeId)
+      if (!value) {
+        continue
+      }
+      this.items.set(column, value)
+    }
+
+    this.itemsImportCache.clear()
+  }
+
   private static transformCellsToPlain(params: {
     value: Map<TableColumnElement, TableCellElement>
   }): Map<string, TableCellElement> {
@@ -52,19 +69,13 @@ export class TableRowElement extends BaseElement {
     return transformedMap
   }
 
-  private static transformCellsToClass(params: TransformFnParams): Map<TableColumnElement, TableCellElement> {
-    const options = params.options as TableClassTransformOptions
-    const values = params.obj["Ячейки"]
-    const transformedMap = new Map<TableColumnElement, TableCellElement>()
-    for (const [key, value] of Object.entries(values)) {
-      const column = options.columns.find((col) => col.attributeId === key)
-      if (!column) {
-        continue
-      }
-      transformedMap.set(column, plainToInstance(TableCellElement, value, { strategy: "excludeAll" }))
+  private static transformCellsToClass(params: TransformFnParams): Map<string, TableCellElement> {
+    const cellsObject = params.obj["Ячейки"]
+    const result = new Map<string, TableCellElement>()
+    for (const [key, value] of Object.entries(cellsObject)) {
+      result.set(key, plainToInstance(TableCellElement, value, { strategy: "excludeAll" }))
     }
-
-    return transformedMap
+    return result
   }
 
   public get isContainer(): boolean {

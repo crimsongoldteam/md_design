@@ -26,6 +26,10 @@ export class EnterpriseConnector implements IEnterpriseConnector {
     this.application.setText(text)
   }
 
+  public getText(): string {
+    return this.application.getText()
+  }
+
   public insertText(text: string): void {
     this.application.insertText(text)
   }
@@ -42,6 +46,7 @@ export class EnterpriseConnector implements IEnterpriseConnector {
 
   public createOrUpdateElement(plainText: string): void {
     const data: IElementPathData = Importer.import(plainText)
+    console.log(data)
     this.application.createOrUpdateElement(data)
   }
 

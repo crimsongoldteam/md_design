@@ -26,6 +26,7 @@ export interface IView {
 export interface IEnterpriseConnector {
   formatText(): void
   setText(text: string): void
+  getText(): string
   insertText(text: string): void
   getNewValue(type: string): string | undefined
   createOrUpdateElement(plainText: string): void

@@ -11,7 +11,7 @@ export class HorizontalGroupElement extends BaseElementWithoutAttributes {
   public elementKind = "ОбычнаяГруппа"
 
   protected get defaultId(): string {
-    return "ГоризонтальнаяГруппа"
+    return "Группа"
   }
 
   @Expose({ name: "Элементы" })

@@ -24,6 +24,7 @@ export class CSTModel implements ICSTModel {
   }
 
   createOrUpdateElement(data: IElementPathData, source?: IModelCursor): void {
+    console.log(data)
     if (data.isNew) {
       this.createElement(data)
     } else {

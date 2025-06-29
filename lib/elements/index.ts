@@ -1,6 +1,7 @@
 export { TypeDescription } from "./typeDescription"
 
-export type { PropertyValue, ElementListType, PropertyAlignment } from "./types"
+export type { PropertyValue, PropertyAlignment } from "./types"
+export { ElementListType } from "./types"
 export { BaseElement } from "./baseElement"
 export { BaseElementWithAttributes } from "./baseElementWithAttributes "
 export { BaseElementWithoutAttributes } from "./baseElementWithoutAttributes"

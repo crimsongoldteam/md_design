@@ -226,7 +226,7 @@ export const Dash = createToken({
 export const Dashes = createToken({
   name: "Dashes",
   pattern: /--+[ \t]*/,
-  label: "--",
+  label: "-",
   categories: excludeTokens(FormHeaderText, TableCell),
 })
 

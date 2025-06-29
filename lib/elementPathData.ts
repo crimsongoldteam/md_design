@@ -4,8 +4,9 @@ import { PlainToClassDiscriminator } from "./importer/plainToClassDiscriminator"
 import { PlainToClassTransformer } from "./importer/plaintToClassTransformer"
 import { IBaseElement } from "./elements/interfaces"
 import { BaseElement } from "./elements/baseElement"
+import { IElementPathData } from "./editor/interfaces"
 
-export class ElementPathData {
+export class ElementPathData implements IElementPathData {
   @Expose({ name: "Элемент" })
   @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
   @Transform(PlainToClassTransformer.transform, { toClassOnly: true })

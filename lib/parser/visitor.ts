@@ -565,6 +565,11 @@ export class Visitor extends BaseVisitor {
       }
 
       let value = property.value.map((info: any) => info.value)
+
+      if (Array.isArray(value) && value.length == 1) {
+        value = value[0]
+      }
+
       this.setProperty(params.element, property.key, value)
     }
   }
@@ -590,6 +595,10 @@ export class Visitor extends BaseVisitor {
   private setProperty(element: BaseElement, key: string, value: PropertyValue | undefined) {
     const properties = element.properties
     const lowerKey = key.toLowerCase()
+
+    if (!key) {
+      return
+    }
 
     for (const prop in properties) {
       if (prop.toLowerCase() === lowerKey) {

@@ -19,7 +19,7 @@ export class VerticalGroupElement extends BaseElementWithoutAttributes {
   public static readonly childrenFields = [ElementListType.Items]
 
   protected get defaultId(): string {
-    return "ВертикальнаяГруппа"
+    return "Группа"
   }
 
   public get isContainer(): boolean {

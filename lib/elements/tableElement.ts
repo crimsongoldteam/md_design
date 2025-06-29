@@ -6,9 +6,6 @@ import { TableColumnGroupElement } from "./tableColumnGroupElement"
 import { TableRowElement } from "./tableRowElement.ts"
 import { TypeDescription } from "./typeDescription"
 import { BaseElementWithAttributes } from "./baseElementWithAttributes .ts"
-import { TableCellElement } from "./tableCellElement.ts"
-import { TableValueData } from "@/editor/interfaces.ts"
-import { FormatterUtils } from "@/formatter/formatterUtils.ts"
 import { TableEmptyElement } from "./tableEmptyElement.ts"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator.ts"
 import { elementsManager } from "@/elementsManager"
@@ -25,7 +22,8 @@ export class TableElement extends BaseElementWithAttributes {
   @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
   public columns: (TableColumnElement | TableColumnGroupElement)[] = []
 
-  @Expose({ name: "Строки", toPlainOnly: true })
+  @Expose({ name: "Строки" })
+  @Type(() => TableRowElement)
   public readonly rows: TableRowElement[] = []
 
   @Expose({ name: "ОписаниеТипов" })
@@ -54,53 +52,23 @@ export class TableElement extends BaseElementWithAttributes {
     return columns.find((column) => column.attributeId === attributeId)
   }
 
-  public setValues(value: TableValueData): void {
-    this.updateRows(this.rows, value)
-  }
-
-  private updateRows(rows: TableRowElement[], value: TableValueData): void {
-    let index = 0
-    for (const dataRow of value.items) {
-      let currentRow = rows[index]
-      if (!currentRow) {
-        currentRow = new TableRowElement()
-        rows.push(currentRow)
-      }
-      this.updateRow(currentRow, dataRow)
-      index++
-    }
-
-    rows.splice(index)
-  }
-
-  private updateRow(row: TableRowElement, valueData: TableValueData): void {
+  public afterImport(): void {
     const columns = this.getAllColumns()
-
     for (const column of columns) {
-      this.updateCell(row, column, valueData)
+      column.table = this
     }
-
-    this.updateRows(row.rows, valueData)
-  }
-
-  private updateCell(row: TableRowElement, column: TableColumnElement, valueData: TableValueData) {
-    let cell = row.getByColumn(column)
-    if (!cell) {
-      cell = new TableCellElement()
-      row.items.set(column, cell)
-    }
-
-    if (column.hasCheckbox && valueData.data[column.checkboxAttributeId]) {
-      cell.valueCheckbox = valueData.data[column.checkboxAttributeId] as boolean
-    }
-
-    if (column.hasValue && valueData.data[column.attributeId]) {
-      cell.value = FormatterUtils.formatValue(valueData.data[column.attributeId], column.typeDescription)
-    }
+    this.extractRowsFromCacheHierarchy(columns, this.rows)
   }
 
   public get isContainer(): boolean {
     return false
+  }
+
+  private extractRowsFromCacheHierarchy(columns: TableColumnElement[], rows: TableRowElement[]): void {
+    for (const row of rows) {
+      row.extractFromCache(columns)
+      this.extractRowsFromCacheHierarchy(columns, row.rows)
+    }
   }
 }
 

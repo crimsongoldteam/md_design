@@ -7,7 +7,7 @@ import { ITableFormatterCell } from "./interfaces"
 
 export class TableFormatterRowCell implements ITableFormatterCell {
   private readonly column: TableFormatterColumn
-  private value: string = ""
+  private readonly value: string = ""
 
   constructor(element: TableCellElement, column: TableFormatterColumn, isFirst: boolean, level: number) {
     const formatter = FormFormatterFactory.getFormatter(element) as TableCellFormatter

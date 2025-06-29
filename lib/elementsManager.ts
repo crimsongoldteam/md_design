@@ -1,4 +1,5 @@
 import { BaseElement } from "./elements/baseElement"
+import { IBaseElement } from "./elements/interfaces"
 
 export class ElementsManager {
   private readonly elements: Map<typeof BaseElement, { name: string; typeDescription: string }> = new Map()
@@ -17,6 +18,15 @@ export class ElementsManager {
 
   public getNameByClass(element: typeof BaseElement): string | undefined {
     return this.elements.get(element)?.name
+  }
+
+  public getNewValue(typeDescription: string): IBaseElement {
+    const classType: any = this.getByTypeDescription(typeDescription)
+    if (!classType) {
+      throw new Error(`Class type ${typeDescription} not found`)
+    }
+
+    return new classType() as IBaseElement
   }
 }
 

@@ -16,7 +16,7 @@ export class PagesElement extends BaseElementWithoutAttributes {
     return "Страницы"
   }
 
-  @Expose({ name: "Страницы" })
+  @Expose({ name: "Элементы" })
   @Type(() => BaseElement, PlainToClassDiscriminator.discriminatorOptions)
   @Transform(PlainToClassTransformer.transform, { toClassOnly: true })
   public items: PageElement[] = []

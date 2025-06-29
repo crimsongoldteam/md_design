@@ -18,7 +18,7 @@ export class TableCellFormatter implements IFormatter<TableCellElement> {
       "Право"
     )
 
-    text = text + " " + checkboxText + " "
+    text = " " + text + checkboxText + " "
 
     return [text]
   }
