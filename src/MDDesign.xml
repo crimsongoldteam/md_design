@@ -41,6 +41,7 @@
 			<Form>БиблиотекаJS</Form>
 			<Form>ФормаВыбораЦвета</Form>
 			<Form>ФормаВыбораТипа</Form>
+			<Form>ЗаполнениеСФормы</Form>
 			<Template>HTML</Template>
 			<Template>LICENSE</Template>
 			<Template>Промпт</Template>
