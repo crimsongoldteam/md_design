@@ -343,6 +343,7 @@ export class Visitor extends BaseVisitor {
     this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.LAngle, result)
     this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.RAngle, result)
     this.semanticTokensManager.add(SemanticTokensTypes.CommandBarSeparator, ctx.ButtonGroup, result)
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties as CstNode[], result)
 
     return result
   }
@@ -414,11 +415,15 @@ export class Visitor extends BaseVisitor {
 
     const manager = new TableManager(result)
 
+    this.visit(ctx.properties as CstNode[], { element: result })
+
     for (const line of ctx.tableLine) {
       this.visit(line as CstNode, { manager: manager })
     }
 
     manager.defineColumnsTypeDescription()
+
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties as CstNode[], result)
 
     return result
   }

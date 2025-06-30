@@ -188,3 +188,19 @@ test("Create table with empty column", () => {
 
   expectFormattedText(before, after)
 })
+
+test("Add table properties", () => {
+  const before = `
+{РастягиватьПоВертикали=Истина}
+|Колонка 1 | Колонка 2|
+|--- | --- |
+|Значение 1 | Значение 2|`
+
+  const after = `
+{РастягиватьПоВертикали = Истина}
+| Колонка 1  | Колонка 2  |
+| ---------- | ---------- |
+| Значение 1 | Значение 2 |`
+
+  expectFormattedText(before, after)
+})
