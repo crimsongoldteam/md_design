@@ -264,6 +264,7 @@
 				<ChildItems>
 					<Button name="ДеревоИзмененийЗаполнитьИменаГрупп" id="121">
 						<Type>CommandBarButton</Type>
+						<Visible>false</Visible>
 						<Representation>PictureAndText</Representation>
 						<CommandName>Form.Command.ЗаполнитьИменаГрупп</CommandName>
 						<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>

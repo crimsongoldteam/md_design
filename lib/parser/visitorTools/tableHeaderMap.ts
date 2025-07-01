@@ -6,7 +6,7 @@ import { TableEmptyElement } from "@/elements/tableEmptyElement"
 
 export class TableHeaderMap {
   private map: TableHeaderElementExt[][] = []
-  private readonly columns: TableColumnElement[] = []
+  private columns: TableColumnElement[] = []
   private readonly table: TableElement
 
   private currentRow: TableHeaderElementExt[] = []
@@ -103,8 +103,16 @@ export class TableHeaderMap {
   }
 
   public done(): void {
-    if (this.map.length == 0) {
+    let isEmptyRow = false
+    if (this.map.length == 1) {
+      isEmptyRow = this.map[0].every((cell) => cell instanceof TableEmptyElement)
+    }
+
+    if (this.map.length == 0 || isEmptyRow) {
       const item = new TableColumnElement()
+      item.table = this.table
+      this.map = []
+      this.columns = []
       this.map.push([item])
       this.columns.push(item)
     }

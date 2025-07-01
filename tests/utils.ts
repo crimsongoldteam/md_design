@@ -9,7 +9,7 @@ export function formatText(input: string): string {
   const mainCursor = new ModelCursor(model, new MainCursorBuilder(), new MainCursorFormatter())
   model.registerCursor(mainCursor)
   mainCursor.text = input
-  mainCursor.format()
+  mainCursor.format(false)
   return mainCursor.text
 }
 
@@ -25,7 +25,7 @@ export const expectFormattedText = (before: string, after: string) => {
   const mainCursor = new ModelCursor(model, new MainCursorBuilder(), new MainCursorFormatter())
   model.registerCursor(mainCursor)
   mainCursor.text = cleanString(before)
-  mainCursor.format()
+  mainCursor.format(false)
 
   expect(mainCursor.text).toBe(cleanString(after))
 

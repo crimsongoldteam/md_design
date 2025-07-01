@@ -202,7 +202,8 @@ This can also be used for rows in a table.
 ```
 
 # Example
-## Example incoming request:
+
+## Example Reference (Справочник) incoming request:
 Сделай форму ввода ФИО
 ## Example Output:
 <Записать и закрыть | Записать >

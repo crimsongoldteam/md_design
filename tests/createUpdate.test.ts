@@ -4,14 +4,7 @@ import { ModelCursor, MainCursorBuilder, MainCursorFormatter } from "@/editor"
 import { ElementPathData } from "@/elementPathData"
 import { elementsManager } from "@/elementsManager"
 import { CstPathItem } from "@/elements/cstPathHelper"
-import {
-  ElementListType,
-  HorizontalGroupElement,
-  LabelElement,
-  TableColumnElement,
-  TableElement,
-  VerticalGroupElement,
-} from "@/elements"
+import { ElementListType, HorizontalGroupElement, LabelElement, VerticalGroupElement } from "@/elements"
 import { cleanString } from "./utils"
 
 test("insert new element in empty form", () => {

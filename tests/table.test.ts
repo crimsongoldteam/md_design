@@ -218,3 +218,17 @@ test("Create table with type", () => {
 
   expectFormattedText(before, after)
 })
+
+test("Create table without header", () => {
+  const before = `
+||
+|---|
+|Значение 1|`
+
+  const after = `
+|            |
+| ---------- |
+| Значение 1 |`
+
+  expectFormattedText(before, after)
+})

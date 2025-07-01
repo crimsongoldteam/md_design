@@ -157,15 +157,19 @@ export class TableManager {
   }
 
   private isSeparatorRow(row: CstNode[]): boolean {
+    let isEmptyRow = true
     for (const tableCell of row) {
       if (this.isEmptyNode(tableCell.children)) {
         continue
       }
-      if (!this.isSeparatorNode(tableCell.children)) {
-        return false
+      if (this.isSeparatorNode(tableCell.children)) {
+        isEmptyRow = false
+        continue
       }
+
+      return false
     }
-    return true
+    return !isEmptyRow
   }
 
   private isSeparatorNode(ctx: CstChildrenDictionary): boolean {
