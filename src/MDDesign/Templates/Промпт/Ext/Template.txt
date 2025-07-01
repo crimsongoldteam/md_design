@@ -18,6 +18,8 @@ At the beginning of the prototype description, add a form header. This header wi
 < Кнопка 1 | Кнопка 2>
 ```
 Adds buttons (command bar) to the form.
+Для справочника командная панель содержит кнопки в следующем порядке: <Записать и закрыть | Записать >
+Для документа командная панель содержит кнопки в следующем порядке: <Провести и закрыть | Записать | Провести >
 
 ### Menu
 Add menus to the command bar. Separate buttons visually with `-`. Use the same symbol to separate menu items.
@@ -83,27 +85,27 @@ Instead of a checkbox, you can use a toggle switch. Use any symbols separated by
 ## Groups
 
 ```
-#Заголовок группы 1   #Заголовок группы 2
-Элемент группы 1      +   Элемент группы 2
+#Заголовок группы 1 #Заголовок группы 2
+  Элемент группы 1  +Элемент группы 2
 ```
 
 Groups allow you to line up elements on the form one below the other and separate them by columns.
 
 ```
 #Флажки        #Поля ввода
-[ ] Флажок 1   +   Поле ввода 1:
-[ ] Флажок 2   +   Поле ввода 2:
-[ ] Флажок 3   +   Поле ввода 3:
+  [ ] Флажок 1 +Поле ввода 1:
+  [ ] Флажок 2 +Поле ввода 2:
+  [ ] Флажок 3 +Поле ввода 3:
 ```
 
 You can add nested groups.
 
 ```
 #                  #
-Дата: 01.01.2025   +   Контрагент: Иванов__С
-Номер: 1           +   Договор: №1__С
-                   +   #Остаток на 01.01   #Остаток на 01.02
-                   +   Сумма: 100          +   Сумма: 200
+  Дата: 01.01.2025 +Контрагент: Иванов__С
+  Номер: 1         +Договор: №1__С
+                   +#Остаток на 01.01   #Остаток на 01.02
+                   +  Сумма: 100        +Сумма: 200
 ```
 
 
@@ -136,9 +138,9 @@ If you need to arrange multiple items on a single line, use a single-line group.
 ## Pages
 ```text
 /Страница 1
-    Элемент 1
+  Элемент 1
 /Страница 2
-    Элемент 2
+  Элемент 2
 ```
 Adds pages to the form. Items within pages are separated by a tab character.
 Nested pages are permitted.
@@ -200,10 +202,11 @@ This can also be used for rows in a table.
 ```
 
 # Example
-## Example incoming request:
+
+## Example Reference (Справочник) incoming request:
 Сделай форму ввода ФИО
 ## Example Output:
-<Записать и закрыть | Записать | Закрыть>
+<Записать и закрыть | Записать >
 Фамилия: Иванов
 Имя: Иван
 Отчество: Иванович

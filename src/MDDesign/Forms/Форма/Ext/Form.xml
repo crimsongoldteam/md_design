@@ -753,16 +753,6 @@
 											<LocationInCommandBar>InCommandBar</LocationInCommandBar>
 											<ExtendedTooltip name="РедакторТаблицыРасширеннаяПодсказка" id="118"/>
 										</Button>
-										<Button name="РедакторГрупп" id="152">
-											<Type>CommandBarButton</Type>
-											<CommandName>Form.Command.РедакторГрупп</CommandName>
-											<Picture>
-												<xr:Abs>Picture.png</xr:Abs>
-												<xr:LoadTransparent>false</xr:LoadTransparent>
-											</Picture>
-											<LocationInCommandBar>InCommandBar</LocationInCommandBar>
-											<ExtendedTooltip name="РедакторГруппРасширеннаяПодсказка" id="153"/>
-										</Button>
 										<Button name="ДобавитьКартинку" id="105">
 											<Type>CommandBarButton</Type>
 											<Representation>Picture</Representation>
@@ -815,7 +805,6 @@
 					<ChildItems>
 						<HTMLDocumentField name="ПолеHTMLРедактора" id="5">
 							<DataPath>ПолеHTMLРедактора</DataPath>
-							<Enabled>false</Enabled>
 							<TitleLocation>None</TitleLocation>
 							<Width>10</Width>
 							<ContextMenu name="ПолеHTMLРедактораКонтекстноеМеню" id="6">
@@ -836,44 +825,6 @@
 											</Button>
 										</ChildItems>
 									</ButtonGroup>
-									<Popup name="КонтекстноеМенюВставить" id="133">
-										<Title>
-											<v8:item>
-												<v8:lang>ru</v8:lang>
-												<v8:content>Вставить символы</v8:content>
-											</v8:item>
-										</Title>
-										<ExtendedTooltip name="КонтекстноеМенюВставитьРасширеннаяПодсказка" id="134"/>
-										<ChildItems>
-											<Button name="ДобавитьПрямыеСкобки" id="109">
-												<Type>CommandBarButton</Type>
-												<Representation>Text</Representation>
-												<SkipOnInput>true</SkipOnInput>
-												<Width>3</Width>
-												<CommandName>Form.Command.ДобавитьПрямыеСкобки</CommandName>
-												<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
-												<ExtendedTooltip name="ДобавитьПрямыеСкобкиРасширеннаяПодсказка" id="110"/>
-											</Button>
-											<Button name="ДобавитьФигурныеСкобки" id="111">
-												<Type>CommandBarButton</Type>
-												<Representation>Text</Representation>
-												<SkipOnInput>true</SkipOnInput>
-												<Width>3</Width>
-												<CommandName>Form.Command.ДобавитьФигурныеСкобки</CommandName>
-												<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
-												<ExtendedTooltip name="ДобавитьФигурныеСкобкиРасширеннаяПодсказка" id="112"/>
-											</Button>
-											<Button name="ДобавитьУгловыеСкобки" id="113">
-												<Type>CommandBarButton</Type>
-												<Representation>Text</Representation>
-												<SkipOnInput>true</SkipOnInput>
-												<Width>3</Width>
-												<CommandName>Form.Command.ДобавитьУгловыеСкобки</CommandName>
-												<Font ref="style:NormalTextFont" height="7" kind="StyleItem" scale="100"/>
-												<ExtendedTooltip name="ДобавитьУгловыеСкобкиРасширеннаяПодсказка" id="114"/>
-											</Button>
-										</ChildItems>
-									</Popup>
 								</ChildItems>
 							</ContextMenu>
 							<ExtendedTooltip name="ПолеHTMLРедактораРасширеннаяПодсказка" id="7"/>
@@ -883,124 +834,6 @@
 								<Event name="OnClick">РедакторПриНажатии</Event>
 							</Events>
 						</HTMLDocumentField>
-					</ChildItems>
-				</UsualGroup>
-				<UsualGroup name="ГруппаРедакторГрупп" id="154">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Группа редактор групп</v8:content>
-						</v8:item>
-					</Title>
-					<HorizontalStretch>true</HorizontalStretch>
-					<VerticalStretch>true</VerticalStretch>
-					<Group>Vertical</Group>
-					<Representation>None</Representation>
-					<ShowTitle>false</ShowTitle>
-					<ExtendedTooltip name="ГруппаРедакторГруппРасширеннаяПодсказка" id="155"/>
-					<ChildItems>
-						<Table name="ТаблицаГруппы" id="156">
-							<Representation>List</Representation>
-							<AutoMaxHeight>false</AutoMaxHeight>
-							<MaxHeight>3</MaxHeight>
-							<Header>false</Header>
-							<HorizontalLines>false</HorizontalLines>
-							<VerticalLines>false</VerticalLines>
-							<AutoInsertNewRow>true</AutoInsertNewRow>
-							<EnableStartDrag>true</EnableStartDrag>
-							<EnableDrag>true</EnableDrag>
-							<DataPath>ТаблицаГруппы</DataPath>
-							<SearchStringLocation>None</SearchStringLocation>
-							<ViewStatusLocation>None</ViewStatusLocation>
-							<SearchControlLocation>None</SearchControlLocation>
-							<RowFilter xsi:nil="true"/>
-							<ContextMenu name="ТаблицаГруппыКонтекстноеМеню" id="157"/>
-							<AutoCommandBar name="ТаблицаГруппыКоманднаяПанель" id="158">
-								<Autofill>false</Autofill>
-								<ChildItems>
-									<Button name="ТаблицаГруппыВРедактор" id="172">
-										<Type>CommandBarButton</Type>
-										<CommandName>Form.Command.ВРедактор</CommandName>
-										<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
-										<ExtendedTooltip name="ТаблицаГруппыВРедакторРасширеннаяПодсказка" id="173"/>
-									</Button>
-									<Button name="ТаблицаГруппыДобавить" id="174">
-										<Type>CommandBarButton</Type>
-										<CommandName>Form.Item.ТаблицаГруппы.StandardCommand.Add</CommandName>
-										<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
-										<ExtendedTooltip name="ТаблицаГруппыДобавитьРасширеннаяПодсказка" id="175"/>
-									</Button>
-									<ButtonGroup name="ТаблицаГруппыПорядок" id="182">
-										<Title>
-											<v8:item>
-												<v8:lang>ru</v8:lang>
-												<v8:content>Таблица группы порядок</v8:content>
-											</v8:item>
-										</Title>
-										<ToolTip>
-											<v8:item>
-												<v8:lang>ru</v8:lang>
-												<v8:content>Таблица группы порядок</v8:content>
-											</v8:item>
-										</ToolTip>
-										<ExtendedTooltip name="ТаблицаГруппыПорядокРасширеннаяПодсказка" id="183"/>
-										<ChildItems>
-											<Button name="ТаблицаГруппыПереместитьВверх" id="178">
-												<Type>CommandBarButton</Type>
-												<CommandName>Form.Item.ТаблицаГруппы.StandardCommand.MoveUp</CommandName>
-												<ExtendedTooltip name="ТаблицаГруппыПереместитьВверхРасширеннаяПодсказка" id="179"/>
-											</Button>
-											<Button name="ТаблицаГруппыПереместитьВниз" id="180">
-												<Type>CommandBarButton</Type>
-												<CommandName>Form.Item.ТаблицаГруппы.StandardCommand.MoveDown</CommandName>
-												<ExtendedTooltip name="ТаблицаГруппыПереместитьВнизРасширеннаяПодсказка" id="181"/>
-											</Button>
-										</ChildItems>
-									</ButtonGroup>
-								</ChildItems>
-							</AutoCommandBar>
-							<ExtendedTooltip name="ТаблицаГруппыРасширеннаяПодсказка" id="159"/>
-							<SearchStringAddition name="ТаблицаГруппыСтрокаПоиска" id="160">
-								<AdditionSource>
-									<Item>ТаблицаГруппы</Item>
-									<Type>SearchStringRepresentation</Type>
-								</AdditionSource>
-								<ContextMenu name="ТаблицаГруппыСтрокаПоискаКонтекстноеМеню" id="161"/>
-								<ExtendedTooltip name="ТаблицаГруппыСтрокаПоискаРасширеннаяПодсказка" id="162"/>
-							</SearchStringAddition>
-							<ViewStatusAddition name="ТаблицаГруппыСостояниеПросмотра" id="163">
-								<AdditionSource>
-									<Item>ТаблицаГруппы</Item>
-									<Type>ViewStatusRepresentation</Type>
-								</AdditionSource>
-								<ContextMenu name="ТаблицаГруппыСостояниеПросмотраКонтекстноеМеню" id="164"/>
-								<ExtendedTooltip name="ТаблицаГруппыСостояниеПросмотраРасширеннаяПодсказка" id="165"/>
-							</ViewStatusAddition>
-							<SearchControlAddition name="ТаблицаГруппыУправлениеПоиском" id="166">
-								<AdditionSource>
-									<Item>ТаблицаГруппы</Item>
-									<Type>SearchControl</Type>
-								</AdditionSource>
-								<ContextMenu name="ТаблицаГруппыУправлениеПоискомКонтекстноеМеню" id="167"/>
-								<ExtendedTooltip name="ТаблицаГруппыУправлениеПоискомРасширеннаяПодсказка" id="168"/>
-							</SearchControlAddition>
-							<Events>
-								<Event name="Selection">ТаблицаГруппыВыбор</Event>
-								<Event name="BeforeAddRow">ТаблицаГруппыПередНачаломДобавления</Event>
-								<Event name="OnActivateRow">ТаблицаГруппыПриАктивизацииСтроки</Event>
-								<Event name="OnStartEdit">ТаблицаГруппыПриНачалеРедактирования</Event>
-								<Event name="OnChange">ТаблицаГруппыПриИзменении</Event>
-							</Events>
-							<ChildItems>
-								<InputField name="ТаблицаГруппыЗаголовок" id="169">
-									<DataPath>ТаблицаГруппы.Заголовок</DataPath>
-									<EditMode>EnterOnInput</EditMode>
-									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-									<ContextMenu name="ТаблицаГруппыЗаголовокКонтекстноеМеню" id="170"/>
-									<ExtendedTooltip name="ТаблицаГруппыЗаголовокРасширеннаяПодсказка" id="171"/>
-								</InputField>
-							</ChildItems>
-						</Table>
 					</ChildItems>
 				</UsualGroup>
 				<UsualGroup name="ГруппаПодвал" id="466">
@@ -1135,13 +968,7 @@
 										</v8:item>
 									</Title>
 									<TitleFont ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
-									<ToolTip>
-										<v8:item>
-											<v8:lang>ru</v8:lang>
-											<v8:content>Палитра свойств группа значение</v8:content>
-										</v8:item>
-									</ToolTip>
-									<Width>25</Width>
+									<Width>20</Width>
 									<HorizontalStretch>true</HorizontalStretch>
 									<Group>Horizontal</Group>
 									<ShowInHeader>true</ShowInHeader>
@@ -1169,7 +996,6 @@
 											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 											<AutoChoiceIncomplete>false</AutoChoiceIncomplete>
 											<QuickChoice>false</QuickChoice>
-											<AutoMarkIncomplete>true</AutoMarkIncomplete>
 											<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 											<ContextMenu name="ПалитраСвойствЗначениеСписокКонтекстноеМеню" id="369"/>
 											<ExtendedTooltip name="ПалитраСвойствЗначениеСписокРасширеннаяПодсказка" id="370"/>
@@ -1198,7 +1024,6 @@
 										</InputField>
 										<InputField name="ПалитраСвойствЗначениеЧисло" id="386">
 											<DataPath>ПалитраСвойств.ЗначениеЧисло</DataPath>
-											<EditMode>Directly</EditMode>
 											<ShowInHeader>false</ShowInHeader>
 											<HorizontalStretch>true</HorizontalStretch>
 											<SpinButton>true</SpinButton>
@@ -1221,6 +1046,39 @@
 											<ExtendedTooltip name="ПалитраСвойствЗначениеСтрокаРасширеннаяПодсказка" id="391"/>
 											<Events>
 												<Event name="OnChange">ПалитраСвойствЗначениеСтрокаПриИзменении</Event>
+												<Event name="AutoComplete">ПалитраСвойствЗначениеСтрокаАвтоПодбор</Event>
+												<Event name="StartListChoice">ПалитраСвойствЗначениеСтрокаНачалоВыбораИзСписка</Event>
+											</Events>
+										</InputField>
+										<InputField name="ПалитраСвойствЗначениеСписокЗначений" id="511">
+											<DataPath>ПалитраСвойств.ЗначениеСписокЗначений</DataPath>
+											<EditMode>EnterOnInput</EditMode>
+											<ShowInHeader>false</ShowInHeader>
+											<ShowInFooter>false</ShowInFooter>
+											<DropListButton>false</DropListButton>
+											<ChoiceButton>false</ChoiceButton>
+											<ChoiceButtonRepresentation>ShowInDropList</ChoiceButtonRepresentation>
+											<ClearButton>false</ClearButton>
+											<SpinButton>false</SpinButton>
+											<OpenButton>false</OpenButton>
+											<CreateButton>false</CreateButton>
+											<MultipleValuesTextColor>web:White</MultipleValuesTextColor>
+											<MultipleValuesBackColor>#190E70</MultipleValuesBackColor>
+											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<MultipleValuePictureSize>Small</MultipleValuePictureSize>
+											<MultipleValuePictureShape>Rect</MultipleValuePictureShape>
+											<ShowCheckBoxesInDropList>true</ShowCheckBoxesInDropList>
+											<AutoChoiceIncomplete>false</AutoChoiceIncomplete>
+											<QuickChoice>false</QuickChoice>
+											<AutoMarkIncomplete>false</AutoMarkIncomplete>
+											<ChooseType>false</ChooseType>
+											<ChoiceHistoryOnInput>DontUse</ChoiceHistoryOnInput>
+											<ContextMenu name="ПалитраСвойствЗначениеСписокЗначенийКонтекстноеМеню" id="512"/>
+											<ExtendedTooltip name="ПалитраСвойствЗначениеСписокЗначенийРасширеннаяПодсказка" id="513"/>
+											<Events>
+												<Event name="OnChange">ПалитраСвойствЗначениеСписокЗначенийПриИзменении</Event>
+												<Event name="AutoComplete">ПалитраСвойствЗначениеСписокЗначенийАвтоПодбор</Event>
+												<Event name="StartListChoice">ПалитраСвойствЗначениеСписокЗначенийНачалоВыбораИзСписка</Event>
 											</Events>
 										</InputField>
 									</ChildItems>
@@ -1286,23 +1144,6 @@
 					<ShowTitle>false</ShowTitle>
 					<ExtendedTooltip name="ГруппаПросмотрРасширеннаяПодсказка" id="4"/>
 				</UsualGroup>
-				<HTMLDocumentField name="ПолеHTML" id="312">
-					<DataPath>ПолеHTML</DataPath>
-					<Enabled>false</Enabled>
-					<TitleLocation>None</TitleLocation>
-					<Width>1</Width>
-					<AutoMaxWidth>false</AutoMaxWidth>
-					<Height>1</Height>
-					<AutoMaxHeight>false</AutoMaxHeight>
-					<HorizontalStretch>false</HorizontalStretch>
-					<VerticalStretch>false</VerticalStretch>
-					<BorderColor>style:FormBackColor</BorderColor>
-					<ContextMenu name="ПолеHTMLКонтекстноеМеню" id="313"/>
-					<ExtendedTooltip name="ПолеHTMLРасширеннаяПодсказка" id="314"/>
-					<Events>
-						<Event name="DocumentComplete">ПолеHTMLДокументСформирован</Event>
-					</Events>
-				</HTMLDocumentField>
 				<UsualGroup name="ГруппаСправка" id="204">
 					<Title>
 						<v8:item>
@@ -1559,7 +1400,7 @@
 										<v8:item>
 											<v8:lang>ru</v8:lang>
 											<v8:content>#Заголовок 1 #Заголовок 2
-Элемент 1    + Элемент 2</v8:content>
+  Элемент 1  +Элемент 2</v8:content>
 										</v8:item>
 									</Title>
 									<GroupHorizontalAlign>Center</GroupHorizontalAlign>
@@ -1592,9 +1433,9 @@
 										<v8:item>
 											<v8:lang>ru</v8:lang>
 											<v8:content>/Страница 1
-    Элемент 1
+  Элемент 1
 /Страница 2
-    Элемент 2</v8:content>
+  Элемент 2</v8:content>
 										</v8:item>
 									</Title>
 									<GroupHorizontalAlign>Center</GroupHorizontalAlign>
@@ -1633,27 +1474,50 @@
 									<PictureLocation>Right</PictureLocation>
 									<ExtendedTooltip name="ОткрытьДокументациюРасширеннаяПодсказка" id="194"/>
 								</Button>
-								<Button name="ОткрытьТелеграмКанал" id="350">
-									<Type>Hyperlink</Type>
-									<Height>1</Height>
-									<GroupHorizontalAlign>Center</GroupHorizontalAlign>
-									<GroupVerticalAlign>Bottom</GroupVerticalAlign>
-									<CommandName>Form.Command.ОткрытьТелеграмКанал</CommandName>
-									<TextColor>#190E70</TextColor>
-									<Font ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
-									<Picture>
-										<xr:Abs>Picture.png</xr:Abs>
-										<xr:LoadTransparent>false</xr:LoadTransparent>
-									</Picture>
+								<UsualGroup name="ГруппаTelegram" id="514">
 									<Title>
 										<v8:item>
 											<v8:lang>ru</v8:lang>
-											<v8:content>Канал Telegram</v8:content>
+											<v8:content>Группа telegram</v8:content>
 										</v8:item>
 									</Title>
-									<PictureLocation>Left</PictureLocation>
-									<ExtendedTooltip name="ОткрытьТелеграмКаналРасширеннаяПодсказка" id="351"/>
-								</Button>
+									<GroupHorizontalAlign>Center</GroupHorizontalAlign>
+									<Group>AlwaysHorizontal</Group>
+									<Representation>None</Representation>
+									<ShowTitle>false</ShowTitle>
+									<ExtendedTooltip name="ГруппаTelegramРасширеннаяПодсказка" id="515"/>
+									<ChildItems>
+										<Button name="ОткрытьТелеграмКанал" id="350">
+											<Type>Hyperlink</Type>
+											<Height>1</Height>
+											<GroupHorizontalAlign>Center</GroupHorizontalAlign>
+											<GroupVerticalAlign>Center</GroupVerticalAlign>
+											<CommandName>Form.Command.ОткрытьТелеграмКанал</CommandName>
+											<TextColor>#190E70</TextColor>
+											<Font ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
+											<Picture>
+												<xr:Abs>Picture.png</xr:Abs>
+												<xr:LoadTransparent>false</xr:LoadTransparent>
+											</Picture>
+											<Title>
+												<v8:item>
+													<v8:lang>ru</v8:lang>
+													<v8:content>Канал</v8:content>
+												</v8:item>
+											</Title>
+											<PictureLocation>Left</PictureLocation>
+											<ExtendedTooltip name="ОткрытьТелеграмКаналРасширеннаяПодсказка" id="351"/>
+										</Button>
+										<Button name="ОткрытьТелеграмЧат" id="516">
+											<Type>Hyperlink</Type>
+											<GroupVerticalAlign>Center</GroupVerticalAlign>
+											<CommandName>Form.Command.ОткрытьТелеграмЧат</CommandName>
+											<TextColor>#190E70</TextColor>
+											<Font ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
+											<ExtendedTooltip name="ОткрытьТелеграмЧатРасширеннаяПодсказка" id="517"/>
+										</Button>
+									</ChildItems>
+								</UsualGroup>
 							</ChildItems>
 						</UsualGroup>
 						<UsualGroup name="ГруппаСправкаПодвал" id="306">
@@ -1805,15 +1669,15 @@
 				</v8:StringQualifiers>
 			</Type>
 		</Attribute>
-		<Attribute name="ТаблицаСуществующихРеквизитов" id="4">
+		<Attribute name="ДеревоСуществующихРеквизитов" id="4">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Таблица существующих реквизитов</v8:content>
+					<v8:content>Дерево существующих реквизитов</v8:content>
 				</v8:item>
 			</Title>
 			<Type>
-				<v8:Type>v8:ValueTable</v8:Type>
+				<v8:Type>v8:ValueTree</v8:Type>
 			</Type>
 			<Columns>
 				<Column name="ИмяРеквизита" id="1">
@@ -1846,15 +1710,19 @@
 						</v8:StringQualifiers>
 					</Type>
 				</Column>
-				<Column name="УИД" id="3">
+				<Column name="ИмяРеквизитаБезПрефикса" id="4">
 					<Title>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>УИД</v8:content>
+							<v8:content>Имя реквизита без префикса</v8:content>
 						</v8:item>
 					</Title>
 					<Type>
-						<v8:Type>xs:boolean</v8:Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
 					</Type>
 				</Column>
 			</Columns>
@@ -2362,6 +2230,17 @@
 						</v8:StringQualifiers>
 					</Type>
 				</Column>
+				<Column name="ЗначениеСписокЗначений" id="15">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Значение список</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>v8:ValueListType</v8:Type>
+					</Type>
+				</Column>
 			</Columns>
 		</Attribute>
 		<Attribute name="ПолеHTMLРедактора" id="23">
@@ -2702,6 +2581,26 @@
 					</dcscor:item>
 				</dcsset:appearance>
 			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>ПалитраСвойствЗначениеСписокЗначений</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ПалитраСвойств.Категория</dcsset:left>
+						<dcsset:comparisonType>NotEqual</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:string">СписокЗначений</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Видимость</dcscor:parameter>
+						<dcscor:value xsi:type="xs:boolean">false</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
 		</ConditionalAppearance>
 	</Attributes>
 	<Commands>
@@ -2734,10 +2633,6 @@
 				</v8:item>
 			</ToolTip>
 			<Shortcut>Ctrl+Alt+F</Shortcut>
-			<Picture>
-				<xr:Ref>StdPicture.ExternalDataSourceFunction</xr:Ref>
-				<xr:LoadTransparent>true</xr:LoadTransparent>
-			</Picture>
 			<Action>Форматировать</Action>
 		</Command>
 		<Command name="ПостроитьФорму" id="5">
@@ -2897,26 +2792,6 @@
 			</ToolTip>
 			<Action>ДобавитьЦвет</Action>
 		</Command>
-		<Command name="РедакторГрупп" id="12">
-			<Title>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Редактор групп</v8:content>
-				</v8:item>
-			</Title>
-			<ToolTip>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Редактор групп</v8:content>
-				</v8:item>
-			</ToolTip>
-			<Picture>
-				<xr:Ref>StdPicture.LevelDown</xr:Ref>
-				<xr:LoadTransparent>true</xr:LoadTransparent>
-			</Picture>
-			<Action>РедакторГрупп</Action>
-			<Representation>Picture</Representation>
-		</Command>
 		<Command name="ВРедактор" id="13">
 			<Title>
 				<v8:item>
@@ -2952,21 +2827,6 @@
 			</ToolTip>
 			<Action>ОткрытьДокументацию</Action>
 			<Representation>TextPicture</Representation>
-		</Command>
-		<Command name="ГенераторКода" id="15">
-			<Title>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Программное создание реквизитов</v8:content>
-				</v8:item>
-			</Title>
-			<ToolTip>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Сгенерировать код программного создания элементов и реквизитов формы</v8:content>
-				</v8:item>
-			</ToolTip>
-			<Action>ГенераторКода</Action>
 		</Command>
 		<Command name="ПоказатьСкрытьЧатИИ" id="16">
 			<Title>
@@ -3075,21 +2935,6 @@
 				</v8:item>
 			</Title>
 			<Action>ЗаменитьИИ</Action>
-		</Command>
-		<Command name="ГенераторXML" id="23">
-			<Title>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Выгрузить в конфигурацию</v8:content>
-				</v8:item>
-			</Title>
-			<ToolTip>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Генератор формы в формате XML</v8:content>
-				</v8:item>
-			</ToolTip>
-			<Action>ГенераторXML</Action>
 		</Command>
 		<Command name="ОткрытьТелеграмКанал" id="24">
 			<Title>
@@ -3202,6 +3047,21 @@
 				</v8:item>
 			</ToolTip>
 			<Action>ПодменюЭкспорт</Action>
+		</Command>
+		<Command name="ОткрытьТелеграмЧат" id="12">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Чат</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Перейти в телеграм-канал t.me/overlay1c</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ОткрытьТелеграмЧат</Action>
 		</Command>
 	</Commands>
 </Form>

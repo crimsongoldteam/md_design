@@ -1,0 +1,45 @@
+{
+  "name": "md_design",
+  "description": "Накидка",
+  "version": "0.12.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev-playground": "vite --open playground.html",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "build-playground": "tsc && vite build --config vite.config.playground.js",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@vitest/coverage-v8": "^3.2.4",
+    "jsdom": "^26.1.0",
+    "path": "^0.12.7",
+    "pointer-events-polyfill": "^0.4.4-pre",
+    "resize-observer-polyfill": "^1.5.1",
+    "terser": "^5.37.0",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5",
+    "vite-plugin-monaco-editor": "^1.1.0",
+    "vite-plugin-singlefile": "^2.1.0",
+    "vite-plugin-zip-pack": "^1.2.4",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@ungap/global-this": "^0.4.4",
+    "@ungap/trim-end": "^0.2.0",
+    "@ungap/trim-start": "^0.2.0",
+    "@ungap/weakrefs": "^0.2.0",
+    "chevrotain": "^11.0.3",
+    "class-transformer": "^0.5.1",
+    "date-fns": "^4.1.0",
+    "monaco-editor-core": "0.43.0",
+    "performance-polyfill": "^0.0.3",
+    "reflect-metadata": "^0.2.2",
+    "rollup": "^4.41.1",
+    "split.js": "^1.6.5",
+    "uuid": "^11.1.0",
+    "yarn": "^1.22.22"
+  }
+}
