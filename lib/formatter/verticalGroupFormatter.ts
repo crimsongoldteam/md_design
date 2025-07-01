@@ -61,30 +61,31 @@ export class VerticalGroupFormatter implements IFormatter<VerticalGroupElement> 
   private getLevelDisplay(element: VerticalGroupElement): { level: number; display: boolean } {
     const result: { level: number; display: boolean } = { level: 1, display: false }
 
-    const display = element.properties.get("Отображение")
-    const behavior = element.properties.get("Поведение")
+    const display = element.getProperty("Отображение")?.toString().toLowerCase()
+    const behavior = element.getProperty("Поведение")?.toString().toLowerCase()
 
-    const levelBehavior = {
-      Свертываемая: 5,
-      Всплывающая: 6,
-    }
+    const levelBehavior: Map<string, number> = new Map([
+      ["свертываемая", 5],
+      ["всплывающая", 6],
+    ])
 
-    if (behavior && levelBehavior[behavior as keyof typeof levelBehavior]) {
-      result.level = levelBehavior[behavior as keyof typeof levelBehavior]
-      if (display && display !== "ОбычноеВыделение") {
+    if (behavior && levelBehavior.has(behavior)) {
+      result.level = levelBehavior.get(behavior) ?? 1
+      if (display && display !== "обычноевыделение") {
         result.display = true
       }
+      return result
     }
 
-    const levelDisplay = {
-      Нет: 1,
-      СлабоеВыделение: 2,
-      ОбычноеВыделение: 3,
-      СильноеВыделение: 4,
-    }
+    const levelDisplay: Map<string, number> = new Map([
+      ["нет", 1],
+      ["слабоевыделение", 2],
+      ["обычноевыделение", 3],
+      ["сильноевыделение", 4],
+    ])
 
-    if (display && levelDisplay[display as keyof typeof levelDisplay]) {
-      result.level = levelDisplay[display as keyof typeof levelDisplay]
+    if (display && levelDisplay.has(display)) {
+      result.level = levelDisplay.get(display) ?? 1
     }
 
     return result

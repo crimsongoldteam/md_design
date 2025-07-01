@@ -127,6 +127,7 @@ test("Vertical group", () => {
 
   expectFormattedText(before, after)
 })
+
 test("Vertical group and separate element", () => {
   const before = `
 #Группа
@@ -147,6 +148,18 @@ test("Ignore empty lines inside vertical group", () => {
 
   const after = `
 #Группа
+  Элемент`
+
+  expectFormattedText(before, after)
+})
+
+test("Vertical group with behavior", () => {
+  const before = `
+#####Группа
+  Элемент`
+
+  const after = `
+#####Группа
   Элемент`
 
   expectFormattedText(before, after)
