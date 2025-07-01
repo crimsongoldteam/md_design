@@ -63,7 +63,7 @@ export class CSTModel implements ICSTModel {
   private updateCursors(excludeCursor: IModelCursor | undefined): void {
     for (const cursor of this.cursors) {
       if (cursor === excludeCursor) continue
-      cursor.format()
+      cursor.format(false)
     }
   }
 

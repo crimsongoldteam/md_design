@@ -23,7 +23,7 @@ export class ModelCursor implements IModelCursor {
 
   public onRegisterCursor?: () => void
   public onUnregisterCursor?: () => void
-  public onChangeText?: (text: string) => void
+  public onChangeText?: (text: string, canUndo: boolean) => void
   public onSelectElement?: (currentElement: IElementPathData | undefined) => void
 
   // endregion events
@@ -67,7 +67,7 @@ export class ModelCursor implements IModelCursor {
 
   set path(value: CstPath) {
     this._path = value
-    this.format()
+    this.format(false)
   }
 
   get text(): string {
@@ -75,7 +75,7 @@ export class ModelCursor implements IModelCursor {
   }
 
   set text(text: string) {
-    this.setText(text, false)
+    this.setText(text, false, false)
   }
 
   public getCurrentElement(): IBaseElement {
@@ -101,12 +101,12 @@ export class ModelCursor implements IModelCursor {
     return undefined
   }
 
-  format(): void {
+  format(canUndo: boolean): void {
     const cst = this.getCst()
     if (!cst) throw new Error("CST not found")
 
     const text = this.formatter.format(cst)
-    this.setText(text, true)
+    this.setText(text, canUndo, true)
   }
 
   get decorations(): any {
@@ -128,7 +128,7 @@ export class ModelCursor implements IModelCursor {
 
   // region private methods
 
-  private setText(text: string, stopPropagation: boolean = false): void {
+  private setText(text: string, canUndo: boolean, stopPropagation: boolean = false): void {
     const isChanged = this._text !== text
     if (!isChanged) return
 
@@ -136,7 +136,7 @@ export class ModelCursor implements IModelCursor {
     this.build(text)
     this.model.afterUpdate({ excludeCursor: this, stopPropagation: stopPropagation })
 
-    this.onChangeText?.(text)
+    this.onChangeText?.(text, canUndo)
   }
 
   private build(text: string) {

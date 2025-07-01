@@ -177,18 +177,6 @@ test("Create table without data", () => {
   expectFormattedText(before, after)
 })
 
-test("Create table with empty column", () => {
-  const before = `
-|    |
-| --- |`
-
-  const after = `
-|           |
-| --------- |`
-
-  expectFormattedText(before, after)
-})
-
 test("Add table properties", () => {
   const before = `
 {РастягиватьПоВертикали=Истина}
@@ -201,6 +189,32 @@ test("Add table properties", () => {
 | Колонка 1  | Колонка 2  |
 | ---------- | ---------- |
 | Значение 1 | Значение 2 |`
+
+  expectFormattedText(before, after)
+})
+
+test("Create table with empty value", () => {
+  const before = `
+  |Колонка 1 | Колонка 2|
+  |--- | --- |
+  |Значение 1 | |`
+
+  const after = `
+  | Колонка 1  | Колонка 2  |
+  | ---------- | ---------- |
+  | Значение 1 |            |`
+
+  expectFormattedText(before, after)
+})
+
+test("Create table with type", () => {
+  const before = `
+|Колонка 1 {Тип=Число}|
+|--- |`
+
+  const after = `
+| Колонка 1 {Тип = Число} |
+| ----------------------- |`
 
   expectFormattedText(before, after)
 })

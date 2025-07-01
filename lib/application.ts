@@ -53,7 +53,7 @@ export class Application implements IApplication {
   }
 
   public formatText(): void {
-    this.currentCursor.format()
+    this.currentCursor.format(true)
   }
 
   public getText(): string {

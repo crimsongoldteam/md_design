@@ -483,7 +483,7 @@ export class Visitor extends BaseVisitor {
 
     this.setProperty(result, "Заголовок", content?.trim())
 
-    this.visit(ctx.properties as CstNode[], { element: result })
+    this.visit(data.properties as CstNode[], { element: result })
 
     params.manager.addHeaderElement(result)
 
@@ -567,6 +567,11 @@ export class Visitor extends BaseVisitor {
     for (const property of properties as { key: string; value: { value: string; options: any }[] }[]) {
       if (params.element instanceof InputElement && property.key.toLowerCase() == "тип") {
         ;(params.element as InputElement).typeDescription = this.getTypeDescription(property.value)
+        continue
+      }
+
+      if (params.element instanceof TableColumnElement && property.key.toLowerCase() == "тип") {
+        ;(params.element as TableColumnElement).typeDescription = this.getTypeDescription(property.value)
         continue
       }
 

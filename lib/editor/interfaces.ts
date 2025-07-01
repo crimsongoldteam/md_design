@@ -74,7 +74,7 @@ export interface IModelCursor {
   onRegisterCursor?: () => void
   onUnregisterCursor?: () => void
   onSelectElement?: (currentElement: IElementPathData | undefined) => void
-  onChangeText?: (text: string) => void
+  onChangeText?: (text: string, canUndo: boolean) => void
 
   //#endregion events
 
@@ -92,7 +92,7 @@ export interface IModelCursor {
 
   getCurrentTableElement(): TableElement | undefined
 
-  format(): void
+  format(canUndo: boolean): void
 
   isConnected(): boolean
 }

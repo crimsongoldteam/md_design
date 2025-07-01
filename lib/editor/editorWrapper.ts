@@ -100,10 +100,21 @@ export class EditorWrapper implements IEditorWrapper {
     this.cursor.setPosition({ line: e.selection.startLineNumber, column: e.selection.startColumn })
   }
 
-  private onChangeText(text: string): void {
+  private onChangeText(text: string, canUndo: boolean): void {
     if (text === this.editor.getValue()) return
     this.skipNextTrigger = true
-    this.editor.setValue(text)
+
+    if (canUndo) {
+      const fullRange = this.editor.getModel()?.getFullModelRange()
+
+      if (!fullRange) {
+        throw new Error("No editor model found")
+      }
+
+      this.editor.executeEdits("changeText", [{ range: fullRange, text: text }])
+    } else {
+      this.editor.setValue(text)
+    }
 
     this.refreshDecorations()
   }
