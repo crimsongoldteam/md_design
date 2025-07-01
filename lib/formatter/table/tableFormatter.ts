@@ -102,19 +102,19 @@ export class TableFormatter implements IFormatter<TableElement> {
     row: TableRowElement,
     level: number
   ) {
-    const cellsCache: Map<TableCellElement, TableFormatterRowCell> = new Map()
+    const cellsCache: Map<TableColumnElement, TableFormatterRowCell> = new Map()
     for (const headerRow of compactHeader) {
       const currentRow: ITableFormatterCell[] = []
 
       let isFirst = true
       for (const column of headerRow) {
-        const cellElement = row.getByColumn(column.getElement() as TableColumnElement)
-        if (!cellElement) continue
+        const columnElement = column.getElement() as TableColumnElement
+        let cell = cellsCache.get(columnElement)
 
-        let cell = cellsCache.get(cellElement)
         if (!cell) {
+          let cellElement = row.getByColumn(columnElement) ?? new TableCellElement()
           cell = new TableFormatterRowCell(cellElement, column, isFirst, level)
-          cellsCache.set(cellElement, cell)
+          cellsCache.set(columnElement, cell)
         }
 
         currentRow.push(cell)

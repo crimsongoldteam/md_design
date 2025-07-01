@@ -112,6 +112,7 @@ export abstract class BaseElement implements IBaseElement {
       for (let item of list) {
         item.parent = this
         item.parentList = listType
+        item.updateParents()
       }
     }
   }

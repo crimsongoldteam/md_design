@@ -64,6 +64,14 @@ export class TableElement extends BaseElementWithAttributes {
     return false
   }
 
+  public override updateParents() {
+    super.updateParents()
+    const columns = this.getAllColumns()
+    for (const column of columns) {
+      column.table = this
+    }
+  }
+
   private extractRowsFromCacheHierarchy(columns: TableColumnElement[], rows: TableRowElement[]): void {
     for (const row of rows) {
       row.extractFromCache(columns)

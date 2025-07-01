@@ -86,8 +86,7 @@ export class CSTModel implements ICSTModel {
     const insertIndex = parentPath.parentListIndex + 1
     list.splice(insertIndex, 0, data.item)
 
-    data.item.parent = parent
-    data.item.parentList = parentPath.parentList
+    this.cst.updateParents()
   }
 
   private updateElement(data: IElementPathData) {
@@ -105,8 +104,8 @@ export class CSTModel implements ICSTModel {
     if (!list) throw new Error("List not found")
 
     list[element.parentListIndex] = data.item
-    data.item.parent = parent
-    data.item.parentList = element.parentList
+
+    this.cst.updateParents()
   }
 
   private generateIds(): void {

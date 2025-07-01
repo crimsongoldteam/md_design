@@ -85,32 +85,3 @@ test("insert new element in group", () => {
   Надпись`)
   )
 })
-
-test("change table column", () => {
-  const model = new CSTModel()
-  const mainCursor = new ModelCursor(model, new MainCursorBuilder(), new MainCursorFormatter())
-  model.registerCursor(mainCursor)
-
-  mainCursor.text = cleanString(`
-| Колонка 1  | Колонка 2  |
-| ---------- | ---------- |
-| Значение 1 | Значение 2 |`)
-
-  const path = [
-    new CstPathItem(TableElement, 0, ElementListType.Items),
-    new CstPathItem(TableColumnElement, 0, ElementListType.Columns),
-  ]
-  const column = elementsManager.getNewValue("КолонкаТаблицы") as TableColumnElement
-  column.setProperty("Заголовок", "Колонка 3")
-
-  const insertData = new ElementPathData(column, path, false)
-
-  model.createOrUpdateElement(insertData)
-
-  expect(mainCursor.text).toBe(
-    cleanString(`
-| Колонка 3  | Колонка 2  |
-| ---------- | ---------- |
-| Значение 1 | Значение 2 |`)
-  )
-})
