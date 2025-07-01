@@ -1,17 +1,17 @@
 {
-    "$schema": "https://1c-syntax.github.io/bsl-language-server/configuration/schema.json",
-    "diagnostics": {
-        "parameters": {
-            "LatinAndCyrillicSymbolInWord": false,
-            "MagicNumber": {
-                "authorizedNumbers": "-1,0,1,2"
-            },
-            "LineLength": {
-                "maxLineLength": 160
-            },
-            "Typo": {
-                "userWordsToIgnore": "Форматтер"
-            }
-        }
+  "$schema": "https://1c-syntax.github.io/bsl-language-server/configuration/schema.json",
+  "diagnostics": {
+    "parameters": {
+      "LatinAndCyrillicSymbolInWord": false,
+      "MagicNumber": {
+        "authorizedNumbers": "-1,0,1,2"
+      },
+      "LineLength": {
+        "maxLineLength": 160
+      },
+      "Typo": {
+        "userWordsToIgnore": "Форматтер"
+      }
     }
+  }
 }

@@ -1,0 +1,103 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+#container-up {
+  width: 100%;
+}
+
+#container-down {
+  width: 100%;
+}
+
+.group-editor-close-button {
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  color: black;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: rgba(128, 128, 128, 0);
+
+  -webkit-transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  z-index: 1000;
+}
+
+.group-editor-close-button:hover {
+  background-color: rgb(158, 158, 158);
+  color: white;
+}
+
+.edit-page-header-decoration {
+  color: #0e6f1e !important;
+}
+.edit-group-header-decoration {
+  color: #0e6f1e !important;
+  text-decoration: underline;
+}
+.edit-properties-decoration {
+  color: #a5a5a5 !important;
+}
+
+.edit-input-value-decoration {
+  border-left: 1px solid #bebebe;
+  border-top: 1px solid #bebebe;
+  margin-left: -1px;
+  margin-top: -1px;
+  border-bottom: none;
+  border-right: none;
+  border-radius: 2px;
+  bottom: 0px;
+  padding-left: 1px;
+  padding-top: 1px;
+  padding-right: 1px;
+  padding-bottom: 0px;
+}
+
+.edit-button-decoration {
+  border: 1px solid #bebebe;
+  border-radius: 2px;
+  margin: -1px;
+  bottom: 0px;
+  padding-top: 1px;
+  padding-bottom: 0px;
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 70%, rgba(220, 220, 220, 1));
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 70%, rgba(220, 220, 220, 1));
+  box-shadow: 0 1px 0 #00000013;
+}
+
+.gutter {
+  background-color: #eee;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  position: relative;
+}
+
+.gutter.gutter-vertical {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=");
+  cursor: row-resize;
+}
+
+.up-container-full-size {
+  height: 100% !important;
+}

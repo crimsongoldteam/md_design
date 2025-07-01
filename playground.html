@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru_RU">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Накидка</title>
+    <link rel="stylesheet" href="index.css" />
+    <style>
+      body {
+        display: flex;
+        flex-direction: row;
+      }
+
+      #playground-container {
+        flex: 1;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        background: #f0f0f0;
+      }
+      #output {
+        flex: 1;
+        resize: none;
+        border: none;
+        padding: 10px;
+        box-sizing: border-box;
+        font-family: monospace;
+
+        .tree-selected {
+          font-weight: bold;
+          color: #9c2513;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="playground-container">
+      <div id="container-up"></div>
+      <div id="container-down"></div>
+    </div>
+    <div id="output"></div>
+
+    <script type="module" src="/lib/playground/playground.ts"></script>
+  </body>
+</html>
