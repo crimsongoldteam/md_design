@@ -10,7 +10,7 @@
         "maxLineLength": 160
       },
       "Typo": {
-        "userWordsToIgnore": "Форматтер"
+        "userWordsToIgnore": "Форматтер,Асинх"
       }
     }
   }
