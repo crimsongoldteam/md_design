@@ -62,6 +62,7 @@
 					<v8:content>Страницы шаги</v8:content>
 				</v8:item>
 			</Title>
+			<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
@@ -93,6 +94,7 @@
 									<v8:content>Каталог</v8:content>
 								</v8:item>
 							</Title>
+							<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
 							<AutoMaxWidth>false</AutoMaxWidth>
 							<ChoiceButton>true</ChoiceButton>
 							<OpenButton>false</OpenButton>
@@ -115,10 +117,27 @@
 							<v8:content>Объект формы</v8:content>
 						</v8:item>
 					</Title>
+					<Group>AlwaysHorizontal</Group>
 					<ExtendedTooltip name="СтраницаОбъектФормыРасширеннаяПодсказка" id="157"/>
 					<ChildItems>
+						<InputField name="ТипОбъекта" id="162">
+							<DataPath>ТипОсновногоОбъекта</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Тип</v8:content>
+								</v8:item>
+							</Title>
+							<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
+							<ListChoiceMode>true</ListChoiceMode>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<AutoMarkIncomplete>true</AutoMarkIncomplete>
+							<ContextMenu name="ТипОбъектаКонтекстноеМеню" id="163"/>
+							<ExtendedTooltip name="ТипОбъектаРасширеннаяПодсказка" id="164"/>
+						</InputField>
 						<InputField name="ИмяОбъекта" id="30">
-							<DataPath>ПредставлениеОбъекта</DataPath>
+							<DataPath>ИмяОсновногоОбъекта</DataPath>
+							<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
 							<AutoMaxWidth>false</AutoMaxWidth>
 							<ChoiceButton>true</ChoiceButton>
 							<ClearButton>false</ClearButton>
@@ -300,23 +319,6 @@
 										</InputField>
 									</ChildItems>
 								</ColumnGroup>
-								<PictureField name="ДеревоИзмененийЭтоРеквизитФормы" id="110">
-									<DataPath>ДеревоИзменений.ЭтоРеквизитФормы</DataPath>
-									<Visible>false</Visible>
-									<EditMode>EnterOnInput</EditMode>
-									<ShowInHeader>false</ShowInHeader>
-									<ContextMenu name="ДеревоИзмененийЭтоРеквизитФормыКонтекстноеМеню" id="111"/>
-									<ExtendedTooltip name="ДеревоИзмененийЭтоРеквизитФормыРасширеннаяПодсказка" id="112"/>
-								</PictureField>
-								<InputField name="ДеревоИзмененийОписаниеТипов" id="113">
-									<DataPath>ДеревоИзменений.ОписаниеТипов</DataPath>
-									<Visible>false</Visible>
-									<ReadOnly>true</ReadOnly>
-									<EditMode>EnterOnInput</EditMode>
-									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-									<ContextMenu name="ДеревоИзмененийОписаниеТиповКонтекстноеМеню" id="114"/>
-									<ExtendedTooltip name="ДеревоИзмененийОписаниеТиповРасширеннаяПодсказка" id="115"/>
-								</InputField>
 							</ChildItems>
 						</Table>
 					</ChildItems>
@@ -393,7 +395,7 @@
 				<Field>КаталогXML</Field>
 			</Save>
 		</Attribute>
-		<Attribute name="ИмяОбъекта" id="4">
+		<Attribute name="ИмяОсновногоОбъекта" id="4">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
@@ -408,14 +410,14 @@
 				</v8:StringQualifiers>
 			</Type>
 			<Save>
-				<Field>ИмяОбъекта</Field>
+				<Field>ИмяОсновногоОбъекта</Field>
 			</Save>
 		</Attribute>
-		<Attribute name="ТипОбъекта" id="8">
+		<Attribute name="ТипОсновногоОбъекта" id="8">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Тип объекта</v8:content>
+					<v8:content>Тип основного объекта</v8:content>
 				</v8:item>
 			</Title>
 			<Type>
@@ -426,7 +428,7 @@
 				</v8:StringQualifiers>
 			</Type>
 			<Save>
-				<Field>ТипОбъекта</Field>
+				<Field>ТипОсновногоОбъекта</Field>
 			</Save>
 		</Attribute>
 		<Attribute name="ПредставлениеОбъекта" id="9">
@@ -490,26 +492,6 @@
 						</v8:StringQualifiers>
 					</Type>
 				</Column>
-				<Column name="ЭтоРеквизитФормы" id="2">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Это реквизит формы</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:boolean</v8:Type>
-					</Type>
-				</Column>
-				<Column name="ОписаниеТипов" id="3">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Тип</v8:content>
-						</v8:item>
-					</Title>
-					<Type/>
-				</Column>
 				<Column name="ЭтоНовый" id="4">
 					<Title>
 						<v8:item>
@@ -532,52 +514,6 @@
 						<v8:Type>v8ui:Picture</v8:Type>
 					</Type>
 				</Column>
-				<Column name="ЭтоТаблица" id="6">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Это таблица</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:boolean</v8:Type>
-					</Type>
-				</Column>
-				<Column name="ЭтоДерево" id="7">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Это дерево</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:boolean</v8:Type>
-					</Type>
-				</Column>
-				<Column name="ТипЭлементаВнутренний" id="8">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Тип</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>0</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
-				</Column>
-				<Column name="НаборСвойств" id="9">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Набор свойств</v8:content>
-						</v8:item>
-					</Title>
-					<Type/>
-				</Column>
 				<Column name="Тип" id="10">
 					<Title>
 						<v8:item>
@@ -593,44 +529,14 @@
 						</v8:StringQualifiers>
 					</Type>
 				</Column>
-				<Column name="ТипЭлемента" id="12">
+				<Column name="Данные" id="15">
 					<Title>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>Тип элемента</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>0</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
-				</Column>
-				<Column name="Подразделы" id="14">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Подразделы</v8:content>
+							<v8:content>Данные</v8:content>
 						</v8:item>
 					</Title>
 					<Type/>
-				</Column>
-				<Column name="ВидЭлемента" id="13">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Вид элемента</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>0</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
 				</Column>
 			</Columns>
 		</Attribute>
