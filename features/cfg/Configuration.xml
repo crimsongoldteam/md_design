@@ -250,6 +250,7 @@
 			<Role>ПолныеПрава</Role>
 			<Catalog>Контрагенты</Catalog>
 			<Catalog>Договоры</Catalog>
+			<Document>Реализация</Document>
 		</ChildObjects>
 	</Configuration>
 </MetaDataObject>
