@@ -1,8 +1,8 @@
 import { IEditorWrapper, IElementPathData, IModelCursor } from "./editor/interfaces"
-import { IBaseElement } from "./elements/interfaces"
+import { IAttributes, IBaseElement } from "./elements/interfaces"
 
 export interface IApplication {
-  onChangeContent: (cst: IBaseElement) => void
+  onChangeContent: (cst: IBaseElement, attributes: IAttributes) => void
   onSelectElement: (currentElement: IElementPathData | undefined) => void
 
   getText(): string
@@ -38,8 +38,13 @@ export interface IEnterpriseConnectorSelectElementEvent {
   element?: string
 }
 
+export interface IEnterpriseConnectorChangeContentData {
+  cst: IBaseElement | undefined
+  attributes: IAttributes
+}
+
 //EVENT_CHANGE_CONTENT
 export interface IEnterpriseConnectorChangeContentEvent {
   text: string
-  cst?: string
+  data: string
 }

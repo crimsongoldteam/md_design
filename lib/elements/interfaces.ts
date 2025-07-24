@@ -1,6 +1,7 @@
 import { IdGeneratorQueueInboxItem, IdGeneratorRequest } from "@/parser/visitorTools/idGenerator"
 import { CstPath } from "./cstPathHelper"
 import { ElementListType } from "./types"
+import { TypeDescription } from "./typeDescription"
 
 export interface IBaseElement {
   updateParents(): unknown
@@ -19,5 +20,14 @@ export interface IBaseElement {
   getIdTemplate(request: IdGeneratorRequest): string
   getIdGeneratorQueue(): IdGeneratorQueueInboxItem[]
 
+  getAttributes(): IAttributes
+
   get isContainer(): boolean
 }
+
+export interface IAttribute {
+  typeDescription: TypeDescription
+  items?: IAttributes[]
+}
+
+export interface IAttributes extends Map<string, IAttribute> {}

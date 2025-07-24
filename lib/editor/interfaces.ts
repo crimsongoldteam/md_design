@@ -1,6 +1,6 @@
 import { CstPath } from "@/elements/cstPathHelper"
 import { SemanticTokensManager } from "@/parser/visitorTools/sematicTokensManager"
-import { IBaseElement } from "@/elements/interfaces"
+import { IAttributes, IBaseElement } from "@/elements/interfaces"
 import * as monaco from "monaco-editor-core"
 import { TableElement } from "@/elements"
 
@@ -16,7 +16,7 @@ export interface IAfterUpdateParams {
 }
 
 export interface ICSTModel {
-  onChangeContent?: (cst: IBaseElement | undefined) => void
+  onChangeContent?: (cst: IBaseElement | undefined, attributes: IAttributes) => void
 
   get cst(): IBaseElement
   set cst(value: IBaseElement)

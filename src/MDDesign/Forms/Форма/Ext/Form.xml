@@ -415,6 +415,108 @@
 										</Table>
 									</ChildItems>
 								</UsualGroup>
+								<UsualGroup name="ГруппаДеревоРеквизитов" id="518">
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Реквизиты</v8:content>
+										</v8:item>
+									</Title>
+									<TitleTextColor>#190E70</TitleTextColor>
+									<TitleFont ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+									<Group>Vertical</Group>
+									<Behavior>Collapsible</Behavior>
+									<Collapsed>true</Collapsed>
+									<ControlRepresentation>Picture</ControlRepresentation>
+									<Representation>None</Representation>
+									<ExtendedTooltip name="ГруппаДеревоРеквизитовРасширеннаяПодсказка" id="519"/>
+									<ChildItems>
+										<Table name="ДеревоРеквизитов" id="520">
+											<Representation>Tree</Representation>
+											<ChangeRowSet>false</ChangeRowSet>
+											<ChangeRowOrder>false</ChangeRowOrder>
+											<AutoInsertNewRow>true</AutoInsertNewRow>
+											<EnableStartDrag>true</EnableStartDrag>
+											<EnableDrag>true</EnableDrag>
+											<DataPath>ДеревоРеквизитов</DataPath>
+											<Font ref="style:NormalTextFont" faceName="Caalibri" kind="StyleItem" scale="100"/>
+											<TitleFont ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+											<SearchStringLocation>CommandBar</SearchStringLocation>
+											<ContextMenu name="ДеревоРеквизитовКонтекстноеМеню" id="521"/>
+											<AutoCommandBar name="ДеревоРеквизитовКоманднаяПанель" id="522">
+												<ChildItems>
+													<Button name="ДеревоРеквизитовЗаполнитьТипыРеквизитов" id="542" DisplayImportance="VeryHigh">
+														<Type>CommandBarButton</Type>
+														<CommandName>Form.Command.ЗаполнитьТипыРеквизитов</CommandName>
+														<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+														<Picture>
+															<xr:Abs>Picture.png</xr:Abs>
+															<xr:LoadTransparent>true</xr:LoadTransparent>
+															<xr:TransparentPixel x="15" y="15"/>
+														</Picture>
+														<RepresentationInContextMenu>OnlyInContextMenu</RepresentationInContextMenu>
+														<ExtendedTooltip name="ДеревоРеквизитовЗаполнитьТипыРеквизитовРасширеннаяПодсказка" id="543"/>
+													</Button>
+												</ChildItems>
+											</AutoCommandBar>
+											<ExtendedTooltip name="ДеревоРеквизитовРасширеннаяПодсказка" id="523"/>
+											<SearchStringAddition name="ДеревоРеквизитовСтрокаПоиска" id="524">
+												<AdditionSource>
+													<Item>ДеревоРеквизитов</Item>
+													<Type>SearchStringRepresentation</Type>
+												</AdditionSource>
+												<ContextMenu name="ДеревоРеквизитовСтрокаПоискаКонтекстноеМеню" id="525"/>
+												<ExtendedTooltip name="ДеревоРеквизитовСтрокаПоискаРасширеннаяПодсказка" id="526"/>
+											</SearchStringAddition>
+											<ViewStatusAddition name="ДеревоРеквизитовСостояниеПросмотра" id="527">
+												<AdditionSource>
+													<Item>ДеревоРеквизитов</Item>
+													<Type>ViewStatusRepresentation</Type>
+												</AdditionSource>
+												<ContextMenu name="ДеревоРеквизитовСостояниеПросмотраКонтекстноеМеню" id="528"/>
+												<ExtendedTooltip name="ДеревоРеквизитовСостояниеПросмотраРасширеннаяПодсказка" id="529"/>
+											</ViewStatusAddition>
+											<SearchControlAddition name="ДеревоРеквизитовУправлениеПоиском" id="530">
+												<AdditionSource>
+													<Item>ДеревоРеквизитов</Item>
+													<Type>SearchControl</Type>
+												</AdditionSource>
+												<ContextMenu name="ДеревоРеквизитовУправлениеПоискомКонтекстноеМеню" id="531"/>
+												<ExtendedTooltip name="ДеревоРеквизитовУправлениеПоискомРасширеннаяПодсказка" id="532"/>
+											</SearchControlAddition>
+											<ChildItems>
+												<InputField name="ДеревоРеквизитовИмя" id="533">
+													<DataPath>ДеревоРеквизитов.Имя</DataPath>
+													<ReadOnly>true</ReadOnly>
+													<TitleFont ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+													<EditMode>EnterOnInput</EditMode>
+													<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+													<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+													<ContextMenu name="ДеревоРеквизитовИмяКонтекстноеМеню" id="534"/>
+													<ExtendedTooltip name="ДеревоРеквизитовИмяРасширеннаяПодсказка" id="535"/>
+												</InputField>
+												<InputField name="ДеревоРеквизитовОписаниеТипов" id="539">
+													<DataPath>ДеревоРеквизитов.ОписаниеТипов</DataPath>
+													<TitleFont ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+													<EditMode>Directly</EditMode>
+													<MultipleValuesFont ref="style:NormalTextFont" faceName="Calibri" height="9" kind="StyleItem" scale="100"/>
+													<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+													<MultipleValuePictureSize>Small</MultipleValuePictureSize>
+													<MultipleValuePictureShape>Circle</MultipleValuePictureShape>
+													<MultipleValuesHyperlink>true</MultipleValuesHyperlink>
+													<QuickChoice>false</QuickChoice>
+													<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+													<ChoiceHistoryOnInput>DontUse</ChoiceHistoryOnInput>
+													<ContextMenu name="ДеревоРеквизитовОписаниеТиповКонтекстноеМеню" id="540"/>
+													<ExtendedTooltip name="ДеревоРеквизитовОписаниеТиповРасширеннаяПодсказка" id="541"/>
+													<Events>
+														<Event name="OnChange">ДеревоРеквизитовОписаниеТиповПриИзменении</Event>
+													</Events>
+												</InputField>
+											</ChildItems>
+										</Table>
+									</ChildItems>
+								</UsualGroup>
 							</ChildItems>
 						</Page>
 						<Page name="СтраницаЧатИИ" id="206">
@@ -2355,6 +2457,45 @@
 				<Field>ПоказыватьПодвал</Field>
 			</Save>
 		</Attribute>
+		<Attribute name="ДеревоРеквизитов" id="21">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Дерево реквизитов</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>v8:ValueTree</v8:Type>
+			</Type>
+			<Columns>
+				<Column name="Имя" id="1">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Имя</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ОписаниеТипов" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Тип</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>v8:ValueListType</v8:Type>
+					</Type>
+				</Column>
+			</Columns>
+		</Attribute>
 		<ConditionalAppearance>
 			<dcsset:item>
 				<dcsset:selection>
@@ -3047,6 +3188,21 @@
 				</v8:item>
 			</ToolTip>
 			<Action>ОткрытьТелеграмЧат</Action>
+		</Command>
+		<Command name="ЗаполнитьТипыРеквизитов" id="15">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить типы</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заполнить типы реквизитов</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Representation>TextPicture</Representation>
 		</Command>
 	</Commands>
 </Form>

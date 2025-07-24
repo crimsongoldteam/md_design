@@ -1,13 +1,30 @@
 import {
   IApplication,
   IEnterpriseConnector,
+  IEnterpriseConnectorChangeContentData,
   IEnterpriseConnectorChangeContentEvent,
   IEnterpriseConnectorSelectElementEvent,
 } from "./interfaces"
 import { Exporter } from "./exporter/exporter"
 import { Importer } from "./importer/importer"
 import { IElementPathData } from "./editor/interfaces"
-import { IBaseElement } from "./elements/interfaces"
+import { IAttributes, IBaseElement } from "./elements/interfaces"
+import { Expose, Type } from "class-transformer"
+import { Attribute } from "./elements/attributes"
+
+export class EnterpriseConnectorChangeContentData implements IEnterpriseConnectorChangeContentData {
+  @Expose({ name: "СемантическоеДерево" })
+  cst: IBaseElement | undefined
+
+  @Expose({ name: "Атрибуты" })
+  @Type(() => Attribute)
+  attributes: IAttributes
+
+  constructor(cst: IBaseElement | undefined, attributes: IAttributes) {
+    this.cst = cst
+    this.attributes = attributes
+  }
+}
 
 export class EnterpriseConnector implements IEnterpriseConnector {
   private readonly application: IApplication
@@ -46,7 +63,6 @@ export class EnterpriseConnector implements IEnterpriseConnector {
 
   public createOrUpdateElement(plainText: string): void {
     const data: IElementPathData = Importer.import(plainText)
-    console.log(data)
     this.application.createOrUpdateElement(data)
   }
 
@@ -57,10 +73,11 @@ export class EnterpriseConnector implements IEnterpriseConnector {
     this.sendEvent("EVENT_SELECT_ELEMENT", result)
   }
 
-  private onChangeContent(cst: IBaseElement | undefined): void {
+  private onChangeContent(cst: IBaseElement | undefined, attributes: IAttributes): void {
+    const data = new EnterpriseConnectorChangeContentData(cst, attributes)
     const result: IEnterpriseConnectorChangeContentEvent = {
       text: this.application.getText(),
-      cst: Exporter.export(cst),
+      data: Exporter.export(data) || "",
     }
 
     this.sendEvent("EVENT_CHANGE_CONTENT", result)
