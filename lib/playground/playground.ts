@@ -27,7 +27,7 @@ application.onSelectElement = (_currentElement: IElementPathData | undefined) =>
   // console.log(currentElement)
 }
 ;(window as any).setValues = (plainText: string): void => {
-  const data = Importer.import(plainText)
+  const data = Importer.importElements(plainText)
   application.createOrUpdateElement(data)
 }
 ;(window as any).application = application

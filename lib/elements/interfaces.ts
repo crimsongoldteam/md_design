@@ -1,7 +1,6 @@
 import { IdGeneratorQueueInboxItem, IdGeneratorRequest } from "@/parser/visitorTools/idGenerator"
 import { CstPath } from "./cstPathHelper"
-import { ElementListType } from "./types"
-import { TypeDescription } from "./typeDescription"
+import { DateFractions, ElementListType } from "./types"
 
 export interface IBaseElement {
   updateParents(): unknown
@@ -26,8 +25,19 @@ export interface IBaseElement {
 }
 
 export interface IAttribute {
-  typeDescription: TypeDescription
+  typeDescription: ITypeDescription
   items?: IAttributes[]
 }
 
 export interface IAttributes extends Map<string, IAttribute> {}
+
+export interface ITypeDescription {
+  types: string[]
+  digits: number
+  fractionDigits: number
+  length: number
+  dateFractions: DateFractions
+  auto: boolean
+
+  isEmpty(): boolean
+}

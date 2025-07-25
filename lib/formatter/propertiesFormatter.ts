@@ -1,5 +1,6 @@
 import { BaseElement } from "../elements/baseElement"
-import { TypeDescription, DateFractions } from "../elements/typeDescription"
+import { TypeDescription } from "../elements/typeDescription"
+import { DateFractions } from "@/elements/types"
 import { IFormatter } from "./formFormatter"
 
 export class PropertiesFormatter implements IFormatter<BaseElement> {
@@ -13,6 +14,40 @@ export class PropertiesFormatter implements IFormatter<BaseElement> {
     return result ? [" " + result] : []
   }
 
+  public formatTypeDescription(typeDescription: TypeDescription): string {
+    const result = new Array()
+    if (typeDescription.auto) {
+      return ""
+    }
+
+    const formatNumber = this.getFormatNumber(typeDescription, "Число", true)
+    if (formatNumber) {
+      result.push(formatNumber)
+    }
+
+    const formatString = this.getFormatString(typeDescription, "Строка", true)
+    if (formatString) {
+      result.push(formatString)
+    }
+
+    const formatDate = this.getFormatData(typeDescription, "Дата", true)
+    if (formatDate) {
+      result.push(formatDate)
+    }
+
+    for (const type of typeDescription.types) {
+      if (type === "Число" || type === "Дата" || type === "Строка") {
+        continue
+      }
+      result.push(type)
+    }
+
+    if (result.length === 0) {
+      return ""
+    }
+
+    return [...result].sort((a: string, b: string) => a.localeCompare(b)).join(", ")
+  }
   private formatProperties(element: BaseElement, params?: { excludeProperties: string[] }): string | undefined {
     const lowerExcludeProperties: string[] = params?.excludeProperties.map((prop) => prop.toLowerCase()) ?? []
 
@@ -49,41 +84,6 @@ export class PropertiesFormatter implements IFormatter<BaseElement> {
     }
     const sortedArray = [...resultArray].sort((a: string, b: string) => a.localeCompare(b))
     return "{" + sortedArray.join("; ") + "}"
-  }
-
-  private formatTypeDescription(typeDescription: TypeDescription): string {
-    const result = new Array()
-    if (typeDescription.auto) {
-      return ""
-    }
-
-    const formatNumber = this.getFormatNumber(typeDescription, "Число", true)
-    if (formatNumber) {
-      result.push(formatNumber)
-    }
-
-    const formatString = this.getFormatString(typeDescription, "Строка", true)
-    if (formatString) {
-      result.push(formatString)
-    }
-
-    const formatDate = this.getFormatData(typeDescription, "Дата", true)
-    if (formatDate) {
-      result.push(formatDate)
-    }
-
-    for (const type of typeDescription.types) {
-      if (type === "Число" || type === "Дата" || type === "Строка") {
-        continue
-      }
-      result.push(type)
-    }
-
-    if (result.length === 0) {
-      return ""
-    }
-
-    return [...result].sort((a: string, b: string) => a.localeCompare(b)).join(", ")
   }
 
   private getFormatNumber(typeDescription: TypeDescription, type: string, forFormatter: boolean): string | undefined {

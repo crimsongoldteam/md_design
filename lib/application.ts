@@ -6,10 +6,12 @@ import { GroupCursorBuilder, GroupCursorFormatter } from "./editor/groupCursorHe
 import { MainCursorBuilder, MainCursorFormatter } from "./editor/mainCursor"
 import { ModelCursor } from "./editor/modelCursorHelpers"
 import { IApplication, IView } from "./interfaces"
-import { IBaseElement, IAttributes } from "./elements/interfaces"
+import { IBaseElement, IAttributes, ITypeDescription } from "./elements/interfaces"
 import { ICSTModel, IElementPathData, IModelCursor } from "./editor/interfaces"
 import { View } from "./view"
 import { TableElement } from "./elements"
+import { PropertiesFormatter } from "./formatter/propertiesFormatter"
+import { CSTGenerator } from "./editor/cstGenerator"
 
 export class Application implements IApplication {
   private readonly model: ICSTModel
@@ -33,6 +35,7 @@ export class Application implements IApplication {
     this.view.onCloseGroup = this.onCloseGroup.bind(this)
     this.view.onSelectGroup = this.onSelectGroup.bind(this)
   }
+
   // region events
 
   public onChangeContent: (cst: IBaseElement | undefined, attributes: IAttributes) => void = () => {
@@ -92,6 +95,14 @@ export class Application implements IApplication {
     this.model.createOrUpdateElement(data)
   }
 
+  public formatTypeDescription(typeDescription: ITypeDescription): string {
+    const formatter = new PropertiesFormatter()
+    return formatter.formatTypeDescription(typeDescription)
+  }
+
+  public parseTypeDescription(text: string): ITypeDescription {
+    return CSTGenerator.buildTypeDescription(text)
+  }
   private onSelectElementMainCursor(currentElement: IElementPathData | undefined): void {
     this.onSelectElement(currentElement)
   }

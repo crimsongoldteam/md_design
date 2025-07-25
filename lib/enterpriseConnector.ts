@@ -62,8 +62,18 @@ export class EnterpriseConnector implements IEnterpriseConnector {
   }
 
   public createOrUpdateElement(plainText: string): void {
-    const data: IElementPathData = Importer.import(plainText)
+    const data: IElementPathData = Importer.importElements(plainText)
     this.application.createOrUpdateElement(data)
+  }
+
+  public formatTypeDescription(plainText: string): string {
+    const typeDescription = Importer.importTypeDescription(plainText)
+    return this.application.formatTypeDescription(typeDescription)
+  }
+
+  public parseTypeDescription(text: string): string | undefined {
+    const description = this.application.parseTypeDescription(text)
+    return Exporter.export(description)
   }
 
   private onSelectElement(currentElement: IElementPathData | undefined): void {

@@ -332,12 +332,14 @@
 																<PictureField name="ДревоФайлаКартинка" id="407">
 																	<DataPath>ДеревоФайлов.Картинка</DataPath>
 																	<EditMode>EnterOnInput</EditMode>
+																	<Width>2</Width>
 																	<ContextMenu name="ДревоФайлаКартинкаКонтекстноеМеню" id="408"/>
 																	<ExtendedTooltip name="ДревоФайлаКартинкаРасширеннаяПодсказка" id="409"/>
 																</PictureField>
 																<InputField name="ДревоФайлаИмя" id="403">
 																	<DataPath>ДеревоФайлов.Имя</DataPath>
 																	<EditMode>EnterOnInput</EditMode>
+																	<AutoMaxWidth>false</AutoMaxWidth>
 																	<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 																	<ContextMenu name="ДревоФайлаИмяКонтекстноеМеню" id="404"/>
 																	<ExtendedTooltip name="ДревоФайлаИмяРасширеннаяПодсказка" id="405"/>
@@ -426,7 +428,6 @@
 									<TitleFont ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 									<Group>Vertical</Group>
 									<Behavior>Collapsible</Behavior>
-									<Collapsed>true</Collapsed>
 									<ControlRepresentation>Picture</ControlRepresentation>
 									<Representation>None</Representation>
 									<ExtendedTooltip name="ГруппаДеревоРеквизитовРасширеннаяПодсказка" id="519"/>
@@ -447,7 +448,7 @@
 												<ChildItems>
 													<Button name="ДеревоРеквизитовЗаполнитьТипыРеквизитов" id="542" DisplayImportance="VeryHigh">
 														<Type>CommandBarButton</Type>
-														<CommandName>Form.Command.ЗаполнитьТипыРеквизитов</CommandName>
+														<CommandName>Form.Command.ЗаполнитьТипыРеквизитовИИ</CommandName>
 														<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 														<Picture>
 															<xr:Abs>Picture.png</xr:Abs>
@@ -495,24 +496,55 @@
 													<ContextMenu name="ДеревоРеквизитовИмяКонтекстноеМеню" id="534"/>
 													<ExtendedTooltip name="ДеревоРеквизитовИмяРасширеннаяПодсказка" id="535"/>
 												</InputField>
-												<InputField name="ДеревоРеквизитовОписаниеТипов" id="539">
-													<DataPath>ДеревоРеквизитов.ОписаниеТипов</DataPath>
+												<ColumnGroup name="ДеревоРеквизитовГруппаТип" id="550">
+													<Title>
+														<v8:item>
+															<v8:lang>ru</v8:lang>
+															<v8:content>Тип</v8:content>
+														</v8:item>
+													</Title>
 													<TitleFont ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
-													<EditMode>Directly</EditMode>
-													<MultipleValuesFont ref="style:NormalTextFont" faceName="Calibri" height="9" kind="StyleItem" scale="100"/>
-													<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-													<MultipleValuePictureSize>Small</MultipleValuePictureSize>
-													<MultipleValuePictureShape>Circle</MultipleValuePictureShape>
-													<MultipleValuesHyperlink>true</MultipleValuesHyperlink>
-													<QuickChoice>false</QuickChoice>
-													<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
-													<ChoiceHistoryOnInput>DontUse</ChoiceHistoryOnInput>
-													<ContextMenu name="ДеревоРеквизитовОписаниеТиповКонтекстноеМеню" id="540"/>
-													<ExtendedTooltip name="ДеревоРеквизитовОписаниеТиповРасширеннаяПодсказка" id="541"/>
-													<Events>
-														<Event name="OnChange">ДеревоРеквизитовОписаниеТиповПриИзменении</Event>
-													</Events>
-												</InputField>
+													<ShowInHeader>true</ShowInHeader>
+													<ExtendedTooltip name="ДеревоРеквизитовГруппаТипРасширеннаяПодсказка" id="551"/>
+													<ChildItems>
+														<InputField name="ДеревоРеквизитовОдиночныйТип" id="547">
+															<DataPath>ДеревоРеквизитов.ОдиночныйТип</DataPath>
+															<EditMode>EnterOnInput</EditMode>
+															<ShowInHeader>false</ShowInHeader>
+															<DropListButton>true</DropListButton>
+															<OpenButton>true</OpenButton>
+															<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+															<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+															<ChoiceHistoryOnInput>DontUse</ChoiceHistoryOnInput>
+															<ContextMenu name="ДеревоРеквизитовОдиночныйТипКонтекстноеМеню" id="548"/>
+															<ExtendedTooltip name="ДеревоРеквизитовОдиночныйТипРасширеннаяПодсказка" id="549"/>
+															<Events>
+																<Event name="OnChange">ДеревоРеквизитовОдиночныйТипПриИзменении</Event>
+															</Events>
+														</InputField>
+														<InputField name="ДеревоРеквизитовОписаниеТипов" id="539">
+															<DataPath>ДеревоРеквизитов.СписокТипов</DataPath>
+															<Visible>false</Visible>
+															<TitleFont ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+															<EditMode>Directly</EditMode>
+															<ShowInHeader>false</ShowInHeader>
+															<MultipleValuesFont ref="style:NormalTextFont" faceName="Calibri" height="9" kind="StyleItem" scale="100"/>
+															<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+															<MultipleValuePictureSize>Small</MultipleValuePictureSize>
+															<MultipleValuePictureShape>Circle</MultipleValuePictureShape>
+															<MultipleValuesHyperlink>true</MultipleValuesHyperlink>
+															<QuickChoice>false</QuickChoice>
+															<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+															<ChoiceHistoryOnInput>DontUse</ChoiceHistoryOnInput>
+															<ContextMenu name="ДеревоРеквизитовОписаниеТиповКонтекстноеМеню" id="540"/>
+															<ExtendedTooltip name="ДеревоРеквизитовОписаниеТиповРасширеннаяПодсказка" id="541"/>
+															<Events>
+																<Event name="OnChange">ДеревоРеквизитовОписаниеТиповПриИзменении</Event>
+																<Event name="MultipleValueOpening">ДеревоРеквизитовОписаниеТиповОткрытиеМножественногоЗначения</Event>
+															</Events>
+														</InputField>
+													</ChildItems>
+												</ColumnGroup>
 											</ChildItems>
 										</Table>
 									</ChildItems>
@@ -2483,7 +2515,7 @@
 						</v8:StringQualifiers>
 					</Type>
 				</Column>
-				<Column name="ОписаниеТипов" id="2">
+				<Column name="СписокТипов" id="2">
 					<Title>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
@@ -2492,6 +2524,41 @@
 					</Title>
 					<Type>
 						<v8:Type>v8:ValueListType</v8:Type>
+					</Type>
+				</Column>
+				<Column name="ОписаниеТипов" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Описание типов</v8:content>
+						</v8:item>
+					</Title>
+					<Type/>
+				</Column>
+				<Column name="ОдиночныйТип" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Тип</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
+				<Column name="ЭтоСоставнойТип" id="5">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Это составной тип</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
 					</Type>
 				</Column>
 			</Columns>
@@ -3189,7 +3256,7 @@
 			</ToolTip>
 			<Action>ОткрытьТелеграмЧат</Action>
 		</Command>
-		<Command name="ЗаполнитьТипыРеквизитов" id="15">
+		<Command name="ЗаполнитьТипыРеквизитовИИ" id="15">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
@@ -3199,9 +3266,10 @@
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Заполнить типы реквизитов</v8:content>
+					<v8:content>Заполнить типы реквизитов с помощью ИИ</v8:content>
 				</v8:item>
 			</ToolTip>
+			<Action>ЗаполнитьТипыРеквизитовИИ</Action>
 			<Representation>TextPicture</Representation>
 		</Command>
 	</Commands>

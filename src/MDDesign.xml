@@ -37,12 +37,11 @@
 			<Form>ФормаНастройка</Form>
 			<Form>ФормаПросмотр</Form>
 			<Form>ФормаРедактированияТаблицы</Form>
-			<Form>УдалитьФормаВыбораТипа</Form>
 			<Form>БиблиотекаJS</Form>
 			<Form>ФормаВыбораЦвета</Form>
-			<Form>ФормаВыбораТипа</Form>
 			<Form>ЗаполнениеСФормы</Form>
 			<Form>ПостроительТекстаМодуля</Form>
+			<Form>ФормаВыбораТипа</Form>
 			<Template>HTML</Template>
 			<Template>LICENSE</Template>
 			<Template>Промпт</Template>

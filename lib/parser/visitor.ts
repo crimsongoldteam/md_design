@@ -1,4 +1,4 @@
-import { CstChildrenDictionary, CstElement, CstNode, IToken } from "chevrotain"
+import { CstChildrenDictionary, CstElement, CstNode } from "chevrotain"
 import { Parser } from "./parser"
 import { CommandBarManager } from "./visitorTools/commandBarManager"
 import { TableManager, TableRowType } from "./visitorTools/tableManager"
@@ -8,6 +8,7 @@ import { HorizontalGroupDictionary, PagesDictionary } from "./nodes"
 import { BaseElement } from "../elements/baseElement"
 import { ElementListType, PropertyAlignment, PropertyValue } from "@/elements/types"
 import { StringUtils } from "@/utils/stringUtils"
+import { VisitorUtils } from "./visitorUtils"
 import {
   FormElement,
   InputElement,
@@ -30,6 +31,8 @@ import {
   TableEmptyElement,
   TypeDescription,
 } from "../elements/index"
+import { ITypeDescription } from "@/elements/interfaces"
+import { TypeProcessor } from "./typeProcessor"
 
 const BaseVisitor = new Parser().getBaseCstVisitorConstructor()
 
@@ -304,7 +307,7 @@ export class Visitor extends BaseVisitor {
 
     this.setAligment(ctx, result)
 
-    let content = this.joinTokens(ctx.CheckboxHeader)
+    let content = VisitorUtils.joinTokens(ctx.CheckboxHeader)
     this.setProperty(result, "Заголовок", content)
 
     this.visit(ctx.properties as CstNode[], { element: result })
@@ -474,7 +477,7 @@ export class Visitor extends BaseVisitor {
     result.table = params.manager.getTableElement()
 
     let content = this.joinTokens(data.TableCell)
-    const isColumnGroup = /^-+.*-+$/.test(content ?? "")
+    const isColumnGroup = /^-+[^-]*-+$/.test(content ?? "")
 
     if (isColumnGroup) {
       result = new TableColumnGroupElement()
@@ -566,12 +569,14 @@ export class Visitor extends BaseVisitor {
 
     for (const property of properties as { key: string; value: { value: string; options: any }[] }[]) {
       if (params.element instanceof InputElement && property.key.toLowerCase() == "тип") {
-        ;(params.element as InputElement).typeDescription = this.getTypeDescription(property.value)
+        ;(params.element as InputElement).typeDescription = this.getTypeDescription(property.value) as TypeDescription
         continue
       }
 
       if (params.element instanceof TableColumnElement && property.key.toLowerCase() == "тип") {
-        ;(params.element as TableColumnElement).typeDescription = this.getTypeDescription(property.value)
+        ;(params.element as TableColumnElement).typeDescription = this.getTypeDescription(
+          property.value
+        ) as TypeDescription
         continue
       }
 
@@ -588,11 +593,15 @@ export class Visitor extends BaseVisitor {
   property(ctx: CstChildrenDictionary): { key: string; value: string } {
     return {
       key: this.joinTokens(ctx.PropertiesNameText) ?? "",
-      value: this.visitAll(ctx.propertyValues) ?? "",
+      value: this.visit(ctx.propertyValues as CstNode[]) ?? "",
     }
   }
 
   propertyValues(ctx: CstChildrenDictionary): any {
+    return this.visitAll(ctx.propertyValue)
+  }
+
+  propertyValue(ctx: CstChildrenDictionary): any {
     const value = this.joinTokens(ctx.PropertiesValueText)
     const options = this.visitAll(ctx.propertyValueOption)
 
@@ -632,53 +641,8 @@ export class Visitor extends BaseVisitor {
     properties.set(cleanedKey, value)
   }
 
-  private getTypeDescription(types: any): TypeDescription {
-    const result = new TypeDescription()
-    result.auto = false
-
-    const typeProcessors: { [key: string]: (typeInfo: any) => void } = {
-      число: (typeInfo) => this.processNumberType(result, typeInfo),
-      строка: (typeInfo) => this.processStringType(result, typeInfo),
-      дата: (typeInfo) => this.processDateType(result, typeInfo),
-    }
-
-    for (let typeInfo of types) {
-      let type = typeInfo.value
-      let typeLowerCase = type.toLowerCase()
-
-      result.types.push(type)
-
-      const processor = typeProcessors[typeLowerCase]
-      if (processor) {
-        processor(typeInfo)
-      }
-    }
-
-    return result
-  }
-
-  private processNumberType(result: TypeDescription, typeInfo: any): void {
-    let options = typeInfo.options
-    if (options && options.length > 0) {
-      result.digits = parseInt(options[0])
-    }
-    if (options && options.length > 1) {
-      result.fractionDigits = parseInt(options[1])
-    }
-  }
-
-  private processStringType(result: TypeDescription, typeInfo: any): void {
-    let options = typeInfo.options
-    if (options && options.length > 0) {
-      result.length = parseInt(options[0])
-    }
-  }
-
-  private processDateType(result: TypeDescription, typeInfo: any): void {
-    let options = typeInfo.options
-    if (options && options.length > 0) {
-      result.dateFractions = options[0]
-    }
+  private getTypeDescription(types: any): ITypeDescription {
+    return TypeProcessor.visit(types)
   }
 
   // #endregion
@@ -709,20 +673,11 @@ export class Visitor extends BaseVisitor {
   }
 
   private visitAll(ctx: CstElement[], param?: any): any {
-    if (!ctx) {
-      return []
-    }
-    return (ctx as CstNode[]).map((item) => this.visit(item, param))
+    return VisitorUtils.visitAll(this, ctx, param)
   }
 
   private joinTokens(tokens: CstElement[]): string | undefined {
-    if (tokens === undefined) {
-      return undefined
-    }
-    return (tokens as IToken[])
-      .map((token) => token.image)
-      .join("")
-      .trim()
+    return VisitorUtils.joinTokens(tokens)
   }
 
   // #endregion

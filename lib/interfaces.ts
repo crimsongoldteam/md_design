@@ -1,5 +1,5 @@
 import { IEditorWrapper, IElementPathData, IModelCursor } from "./editor/interfaces"
-import { IAttributes, IBaseElement } from "./elements/interfaces"
+import { IAttributes, IBaseElement, ITypeDescription } from "./elements/interfaces"
 
 export interface IApplication {
   onChangeContent: (cst: IBaseElement, attributes: IAttributes) => void
@@ -13,6 +13,8 @@ export interface IApplication {
   getNewValue(type: string): IBaseElement
   createOrUpdateElement(data: IElementPathData): void
   getCst(): IBaseElement
+  formatTypeDescription(typeDescription: ITypeDescription): string
+  parseTypeDescription(text: string): ITypeDescription
 }
 
 export interface IView {
@@ -31,6 +33,8 @@ export interface IEnterpriseConnector {
   getNewValue(type: string): string | undefined
   createOrUpdateElement(plainText: string): void
   getTable(): string
+  formatTypeDescription(typeDescription: string): string
+  parseTypeDescription(text: string): string | undefined
 }
 
 // EVENT_SELECT_ELEMENT
