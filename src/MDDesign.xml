@@ -52,6 +52,7 @@
 			<Template>ПромптТип</Template>
 			<Template>БиблиотекаКартинок</Template>
 			<Template>ПромптНазванияЭлементов</Template>
+			<Template>bsl_console</Template>
 		</ChildObjects>
 	</ExternalDataProcessor>
 </MetaDataObject>
