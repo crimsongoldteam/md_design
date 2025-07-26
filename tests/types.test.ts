@@ -31,3 +31,14 @@ test("Format complextypes", () => {
 
   expect(result).toBe(cleanString(after))
 })
+
+test("Format types with params", () => {
+  const before = "Число (10)"
+  const after = "Число(10)"
+
+  const typeDescription = CSTGenerator.buildTypeDescription(before)
+  const formatter = new PropertiesFormatter()
+  const result = formatter.formatTypeDescription(typeDescription)
+
+  expect(result).toBe(cleanString(after))
+})

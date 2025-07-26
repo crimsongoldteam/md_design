@@ -18,6 +18,10 @@ export class TypeDescriptionVisitor extends BaseVisitor {
     return { value: value, options: options }
   }
 
+  propertyValueOption(ctx: CstChildrenDictionary): any {
+    return this.joinTokens(ctx.PropertiesValueOptionText)
+  }
+
   private visitAll(ctx: CstElement[], param?: any): any {
     return VisitorUtils.visitAll(this, ctx, param)
   }
