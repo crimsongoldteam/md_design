@@ -758,7 +758,6 @@
 					<v8:content>Группа рамка редактор</v8:content>
 				</v8:item>
 			</Title>
-			<Height>2</Height>
 			<HorizontalStretch>true</HorizontalStretch>
 			<VerticalStretch>true</VerticalStretch>
 			<Group>Vertical</Group>
@@ -1623,7 +1622,6 @@
 									<ChildItems>
 										<Button name="ОткрытьТелеграмКанал" id="350">
 											<Type>Hyperlink</Type>
-											<Height>1</Height>
 											<GroupHorizontalAlign>Center</GroupHorizontalAlign>
 											<GroupVerticalAlign>Center</GroupVerticalAlign>
 											<CommandName>Form.Command.ОткрытьТелеграмКанал</CommandName>

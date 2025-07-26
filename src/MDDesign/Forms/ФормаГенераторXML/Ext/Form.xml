@@ -78,6 +78,7 @@
 							<v8:content>Каталог XML</v8:content>
 						</v8:item>
 					</Title>
+					<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
 					<ToolTip>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
@@ -117,6 +118,7 @@
 							<v8:content>Объект формы</v8:content>
 						</v8:item>
 					</Title>
+					<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
 					<Group>AlwaysHorizontal</Group>
 					<ExtendedTooltip name="СтраницаОбъектФормыРасширеннаяПодсказка" id="157"/>
 					<ChildItems>
@@ -132,6 +134,7 @@
 							<ListChoiceMode>true</ListChoiceMode>
 							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 							<AutoMarkIncomplete>true</AutoMarkIncomplete>
+							<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 							<ContextMenu name="ТипОбъектаКонтекстноеМеню" id="163"/>
 							<ExtendedTooltip name="ТипОбъектаРасширеннаяПодсказка" id="164"/>
 						</InputField>
@@ -160,6 +163,7 @@
 							<v8:content>Скрипты</v8:content>
 						</v8:item>
 					</Title>
+					<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
 					<ToolTip>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
@@ -239,6 +243,7 @@
 							<v8:content>Изменения</v8:content>
 						</v8:item>
 					</Title>
+					<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
 					<ToolTip>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
