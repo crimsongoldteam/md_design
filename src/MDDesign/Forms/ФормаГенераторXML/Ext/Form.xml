@@ -22,6 +22,7 @@
 			<Button name="ВыполнитьСкрипт" id="130">
 				<Type>CommandBarButton</Type>
 				<CommandName>Form.Command.ВыполнитьСкрипт</CommandName>
+				<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 				<Title>
 					<v8:item>
 						<v8:lang>ru</v8:lang>
@@ -179,6 +180,7 @@
 							<EnableStartDrag>true</EnableStartDrag>
 							<EnableDrag>true</EnableDrag>
 							<DataPath>ТаблицаСкриптов</DataPath>
+							<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 							<RowFilter xsi:nil="true"/>
 							<ContextMenu name="ТаблицаСкриптовКонтекстноеМеню" id="135"/>
 							<AutoCommandBar name="ТаблицаСкриптовКоманднаяПанель" id="136"/>
@@ -217,6 +219,8 @@
 									<ShowInHeader>false</ShowInHeader>
 									<ShowInFooter>false</ShowInFooter>
 									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+									<AutoMarkIncomplete>true</AutoMarkIncomplete>
+									<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 									<ContextMenu name="ТаблицаСкриптовИмяСкриптаКонтекстноеМеню" id="148"/>
 									<ExtendedTooltip name="ТаблицаСкриптовИмяСкриптаРасширеннаяПодсказка" id="149"/>
 								</InputField>
