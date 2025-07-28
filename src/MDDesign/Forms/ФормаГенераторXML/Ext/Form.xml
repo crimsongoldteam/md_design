@@ -236,6 +236,13 @@
 									<ContextMenu name="ТаблицаСкриптовИмяСкриптаКонтекстноеМеню" id="148"/>
 									<ExtendedTooltip name="ТаблицаСкриптовИмяСкриптаРасширеннаяПодсказка" id="149"/>
 								</InputField>
+								<InputField name="ТаблицаСкриптовТекст" id="173">
+									<DataPath>ТаблицаСкриптов.Текст</DataPath>
+									<EditMode>EnterOnInput</EditMode>
+									<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+									<ContextMenu name="ТаблицаСкриптовТекстКонтекстноеМеню" id="174"/>
+									<ExtendedTooltip name="ТаблицаСкриптовТекстРасширеннаяПодсказка" id="175"/>
+								</InputField>
 							</ChildItems>
 						</Table>
 						<HTMLDocumentField name="ПолеHTML" id="168">
