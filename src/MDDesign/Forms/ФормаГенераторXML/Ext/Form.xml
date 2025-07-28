@@ -183,7 +183,19 @@
 							<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
 							<RowFilter xsi:nil="true"/>
 							<ContextMenu name="ТаблицаСкриптовКонтекстноеМеню" id="135"/>
-							<AutoCommandBar name="ТаблицаСкриптовКоманднаяПанель" id="136"/>
+							<AutoCommandBar name="ТаблицаСкриптовКоманднаяПанель" id="136">
+								<ChildItems>
+									<Button name="ТаблицаСкриптовЗагрузитьСкрипты" id="171">
+										<Type>CommandBarButton</Type>
+										<CommandName>Form.Command.ЗагрузитьСкрипты</CommandName>
+										<Picture>
+											<xr:Ref>StdPicture.OpenFile</xr:Ref>
+											<xr:LoadTransparent>true</xr:LoadTransparent>
+										</Picture>
+										<ExtendedTooltip name="ТаблицаСкриптовЗагрузитьСкриптыРасширеннаяПодсказка" id="172"/>
+									</Button>
+								</ChildItems>
+							</AutoCommandBar>
 							<ExtendedTooltip name="ТаблицаСкриптовРасширеннаяПодсказка" id="137"/>
 							<SearchStringAddition name="ТаблицаСкриптовСтрокаПоиска" id="138">
 								<AdditionSource>
@@ -932,6 +944,24 @@
 				<v8:Type>xs:boolean</v8:Type>
 			</Type>
 		</Attribute>
+		<Attribute name="КаталогСкриптов" id="35">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Каталог скриптов</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<Save>
+				<Field>КаталогСкриптов</Field>
+			</Save>
+		</Attribute>
 		<ConditionalAppearance>
 			<dcsset:item>
 				<dcsset:selection>
@@ -1038,6 +1068,21 @@
 				</v8:item>
 			</ToolTip>
 			<Action>ВыполнитьСкрипт</Action>
+		</Command>
+		<Command name="ЗагрузитьСкрипты" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Загрузить скрипты</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Загрузить скрипты</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ЗагрузитьСкрипты</Action>
 		</Command>
 	</Commands>
 	<Parameters>
