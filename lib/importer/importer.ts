@@ -1,13 +1,14 @@
 import { ClassTransformOptions, plainToInstance } from "class-transformer"
-import { TableColumnElement } from "@/elements/index"
+import { TableColumnElement, TypeDescription } from "@/elements/index"
 import { ElementPathData } from "../elementPathData"
+import { ITypeDescription } from "@/elements/interfaces"
 
 export interface TableClassTransformOptions extends ClassTransformOptions {
   columns: TableColumnElement[]
 }
 
 export class Importer {
-  public static readonly import = (text: string): ElementPathData => {
+  public static readonly importElements = (text: string): ElementPathData => {
     const plainObject = JSON.parse(text)
     const options: ClassTransformOptions = {
       strategy: "excludeAll",
@@ -20,5 +21,16 @@ export class Importer {
     data.item.updateParents()
 
     return result
+  }
+
+  public static readonly importTypeDescription = (text: string): ITypeDescription => {
+    const plainObject = JSON.parse(text)
+    const options: ClassTransformOptions = {
+      strategy: "excludeAll",
+    }
+
+    const data = plainToInstance(TypeDescription, plainObject, options) as unknown as ITypeDescription
+
+    return data
   }
 }

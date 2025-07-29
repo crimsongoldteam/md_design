@@ -9,6 +9,8 @@ import { BaseElementWithAttributes } from "./baseElementWithAttributes .ts"
 import { TableEmptyElement } from "./tableEmptyElement.ts"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator.ts"
 import { elementsManager } from "@/elementsManager"
+import { IAttributes } from "./interfaces.ts"
+import { Attribute, Attributes } from "./attributes"
 
 export type TableHeaderElement = TableColumnGroupElement | TableColumnElement
 export type TableHeaderElementExt = TableColumnGroupElement | TableColumnElement | TableEmptyElement
@@ -77,6 +79,12 @@ export class TableElement extends BaseElementWithAttributes {
       row.extractFromCache(columns)
       this.extractRowsFromCacheHierarchy(columns, row.rows)
     }
+  }
+
+  public getAttributes(): IAttributes {
+    const attributes: IAttributes = new Attributes()
+    attributes.set(this.attributeId, new Attribute(this.typeDescription))
+    return attributes
   }
 }
 

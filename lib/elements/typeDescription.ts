@@ -1,12 +1,8 @@
 import { Expose } from "class-transformer"
+import { ITypeDescription } from "./interfaces"
+import { DateFractions } from "./types"
 
-export enum DateFractions {
-  Time = "Время",
-  Date = "Дата",
-  DateTime = "ДатаВремя",
-}
-
-export class TypeDescription {
+export class TypeDescription implements ITypeDescription {
   @Expose({ name: "Типы" })
   public types: string[] = []
 

@@ -15,6 +15,10 @@ export class Parser extends CstParser {
     return this.editorContainer()
   }
 
+  public parseTypeDescription(): CstNode {
+    return this.propertyValues()
+  }
+
   public parseFields(tokens: IToken[]): CstNode[] {
     if (!tokens.length) {
       return [] as CstNode[]
@@ -527,10 +531,14 @@ export class Parser extends CstParser {
       this.CONSUME(t.Equals)
     })
 
-    this.binaryExpression(this.propertyValues, t.Comma)
+    this.SUBRULE(this.propertyValues)
   })
 
   private readonly propertyValues = this.RULE("propertyValues", () => {
+    this.binaryExpression(this.propertyValue, t.Comma)
+  })
+
+  private readonly propertyValue = this.RULE("propertyValue", () => {
     this.MANY1(() => {
       this.CONSUME(t.PropertiesValueText)
     })
