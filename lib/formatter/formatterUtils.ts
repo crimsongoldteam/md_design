@@ -1,6 +1,7 @@
 import { BaseElement } from "../elements/baseElement"
 import * as t from "../parser/lexer"
-import { DateFractions, TypeDescription } from "@/elements/typeDescription"
+import { TypeDescription } from "@/elements/typeDescription"
+import { DateFractions } from "@/elements/types"
 import { format as fnsFormat } from "date-fns"
 
 export class FormatterUtils {

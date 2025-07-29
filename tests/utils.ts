@@ -31,7 +31,7 @@ export const expectFormattedText = (before: string, after: string) => {
 
   const dataPath = new ElementPathData(model.cst, [], false)
   const json = Exporter.export(dataPath) as string
-  const dataPathImported = Importer.import(json)
+  const dataPathImported = Importer.importElements(json)
 
   // mainCursor.reset()
   model.createOrUpdateElement(dataPathImported)

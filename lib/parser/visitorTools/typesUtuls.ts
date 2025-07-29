@@ -1,5 +1,6 @@
 import { isValid, parse } from "date-fns"
-import { DateFractions, TypeDescription } from "@/elements/typeDescription"
+import { TypeDescription } from "@/elements/typeDescription"
+import { DateFractions } from "@/elements/types"
 
 export class TypesUtils {
   public static getTypeByContent(content: string | undefined): TypeDescription {

@@ -6,7 +6,8 @@ import { TypesUtils } from "./typesUtuls"
 import { TableElement, TableHeaderElementExt } from "@/elements/tableElement"
 import { TableCellElement } from "@/elements/tableCellElement"
 import { TableColumnElement } from "@/elements/tableColumnElement"
-import { TypeDescription, DateFractions } from "@/elements/typeDescription"
+import { TypeDescription } from "@/elements/typeDescription"
+import { DateFractions } from "@/elements/types"
 
 export enum TableRowType {
   Header,

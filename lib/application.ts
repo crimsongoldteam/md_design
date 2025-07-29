@@ -6,10 +6,12 @@ import { GroupCursorBuilder, GroupCursorFormatter } from "./editor/groupCursorHe
 import { MainCursorBuilder, MainCursorFormatter } from "./editor/mainCursor"
 import { ModelCursor } from "./editor/modelCursorHelpers"
 import { IApplication, IView } from "./interfaces"
-import { IBaseElement } from "./elements/interfaces"
+import { IBaseElement, IAttributes, ITypeDescription } from "./elements/interfaces"
 import { ICSTModel, IElementPathData, IModelCursor } from "./editor/interfaces"
 import { View } from "./view"
 import { TableElement } from "./elements"
+import { PropertiesFormatter } from "./formatter/propertiesFormatter"
+import { CSTGenerator } from "./editor/cstGenerator"
 
 export class Application implements IApplication {
   private readonly model: ICSTModel
@@ -33,9 +35,10 @@ export class Application implements IApplication {
     this.view.onCloseGroup = this.onCloseGroup.bind(this)
     this.view.onSelectGroup = this.onSelectGroup.bind(this)
   }
+
   // region events
 
-  public onChangeContent: (cst: IBaseElement | undefined) => void = () => {
+  public onChangeContent: (cst: IBaseElement | undefined, attributes: IAttributes) => void = () => {
     throw new Error("onChangeContent is not implemented")
   }
 
@@ -88,10 +91,18 @@ export class Application implements IApplication {
     return elementsManager.getNewValue(type)
   }
 
-  public createOrUpdateElement(data: ElementPathData): void {
+  public createOrUpdateElement(data: IElementPathData): void {
     this.model.createOrUpdateElement(data)
   }
 
+  public formatTypeDescription(typeDescription: ITypeDescription): string {
+    const formatter = new PropertiesFormatter()
+    return formatter.formatTypeDescription(typeDescription)
+  }
+
+  public parseTypeDescription(text: string): ITypeDescription {
+    return CSTGenerator.buildTypeDescription(text)
+  }
   private onSelectElementMainCursor(currentElement: IElementPathData | undefined): void {
     this.onSelectElement(currentElement)
   }
@@ -113,7 +124,7 @@ export class Application implements IApplication {
     this.groupCursor.path = group.path
   }
 
-  private onChangeModelContent(cst: IBaseElement | undefined): void {
-    this.onChangeContent(cst)
+  private onChangeModelContent(cst: IBaseElement | undefined, attributes: IAttributes): void {
+    this.onChangeContent(cst, attributes)
   }
 }

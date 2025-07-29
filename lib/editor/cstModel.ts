@@ -1,15 +1,15 @@
 import { FormElement } from "@/elements"
-import { IModelCursor, ICSTModel, IElementPathData, IAfterUpdateParams } from "./interfaces"
+import { IModelCursor, ICSTModel, IAfterUpdateParams, IElementPathData } from "./interfaces"
 import { CstPath, CstPathHelper } from "@/elements/cstPathHelper"
 import { IdGenerator } from "@/parser/visitorTools/idGenerator"
-import { IBaseElement } from "@/elements/interfaces"
+import { IAttributes, IBaseElement } from "@/elements/interfaces"
 
 export class CSTModel implements ICSTModel {
   private _cst: FormElement = new FormElement()
 
   private readonly cursors: Set<IModelCursor> = new Set()
 
-  public onChangeContent?: (cst: IBaseElement | undefined) => void
+  public onChangeContent?: (cst: IBaseElement | undefined, attributes: IAttributes) => void
 
   get cst(): FormElement {
     return this._cst
@@ -17,6 +17,10 @@ export class CSTModel implements ICSTModel {
 
   set cst(value: FormElement) {
     this._cst = value
+  }
+
+  get attributes(): IAttributes {
+    return this.cst.getAttributes()
   }
 
   getElement(path: CstPath): IBaseElement | undefined {
@@ -47,7 +51,7 @@ export class CSTModel implements ICSTModel {
       this.updateCursors(params.excludeCursor)
     }
 
-    this.onChangeContent?.(this.cst)
+    this.onChangeContent?.(this.cst, this.attributes)
   }
 
   public registerCursor(cursor: IModelCursor): void {
@@ -78,6 +82,8 @@ export class CSTModel implements ICSTModel {
   private createElement(data: IElementPathData) {
     if (data.item instanceof FormElement) throw new Error("FormElement cannot be created")
 
+    if (!data.path) throw new Error("Path is required")
+
     const parentPath = this.cst.getContainerForNewElement(data.path)
     const parent = parentPath.parent
     const list = parent.getList(parentPath.parentList)
@@ -90,12 +96,15 @@ export class CSTModel implements ICSTModel {
   }
 
   private updateElement(data: IElementPathData) {
-    if (data.item instanceof FormElement) {
-      this.cst = data.item
+    let item: IBaseElement | undefined = data.item
+    let path: CstPath | undefined = data.path
+
+    if (item instanceof FormElement) {
+      this.cst = item
       return
     }
 
-    const element = this.cst.getElementPosition(data.item, data.path)
+    const element = this.cst.getElementPosition(item, path)
     if (!element) return
 
     const parent = element.parent

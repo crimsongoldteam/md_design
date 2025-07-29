@@ -3,185 +3,92 @@
 	<Title>
 		<v8:item>
 			<v8:lang>ru</v8:lang>
-			<v8:content>Выбрать тип</v8:content>
+			<v8:content>Уточнение типа</v8:content>
 		</v8:item>
 	</Title>
-	<WindowOpeningMode>LockOwnerWindow</WindowOpeningMode>
-	<AutoTitle>false</AutoTitle>
 	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1">
-		<ChildItems>
-			<Button name="ФормаВыбрать" id="43">
-				<Type>CommandBarButton</Type>
-				<DefaultButton>true</DefaultButton>
-				<CommandName>1:8969c93a-23e5-4bef-941d-aaef315858d2</CommandName>
-				<ExtendedTooltip name="ФормаВыбратьРасширеннаяПодсказка" id="44"/>
-			</Button>
-			<Button name="ФормаСоставнойТип" id="50">
-				<Type>CommandBarButton</Type>
-				<CommandName>Form.Command.СоставнойТип</CommandName>
-				<ExtendedTooltip name="ФормаСоставнойТипРасширеннаяПодсказка" id="51"/>
-			</Button>
-		</ChildItems>
+		<Autofill>false</Autofill>
 	</AutoCommandBar>
 	<ChildItems>
-		<UsualGroup name="ГруппаПредложениеИИ" id="38">
+		<Pages name="Страницы" id="1">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Предложение ИИ</v8:content>
+					<v8:content>Страницы</v8:content>
 				</v8:item>
 			</Title>
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Предложение от ИИ</v8:content>
+					<v8:content>Страницы</v8:content>
 				</v8:item>
 			</ToolTip>
-			<Group>AlwaysHorizontal</Group>
-			<Representation>None</Representation>
-			<ShowTitle>false</ShowTitle>
-			<ExtendedTooltip name="ГруппаПредложениеИИРасширеннаяПодсказка" id="39"/>
+			<PagesRepresentation>None</PagesRepresentation>
+			<ExtendedTooltip name="СтраницыРасширеннаяПодсказка" id="2"/>
 			<ChildItems>
-				<PictureDecoration name="Декорация1" id="45">
-					<Picture>
-						<xr:Abs>Picture.png</xr:Abs>
-						<xr:LoadTransparent>false</xr:LoadTransparent>
-					</Picture>
-					<ContextMenu name="Декорация1КонтекстноеМеню" id="46"/>
-					<ExtendedTooltip name="Декорация1РасширеннаяПодсказка" id="47"/>
-				</PictureDecoration>
-				<LabelField name="ПредложениеИИ" id="40">
-					<DataPath>ПредложениеИИ</DataPath>
-					<TitleLocation>None</TitleLocation>
-					<Hiperlink>true</Hiperlink>
-					<ContextMenu name="ПредложениеИИКонтекстноеМеню" id="41"/>
-					<ExtendedTooltip name="ПредложениеИИРасширеннаяПодсказка" id="42"/>
-				</LabelField>
+				<Page name="СтраницаЧисло" id="3">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Число</v8:content>
+						</v8:item>
+					</Title>
+					<Group>AlwaysHorizontal</Group>
+					<ExtendedTooltip name="СтраницаЧислоРасширеннаяПодсказка" id="4"/>
+					<ChildItems>
+						<InputField name="ДлинаЧисла" id="5">
+							<DataPath>ДлинаЧисла</DataPath>
+							<SpinButton>true</SpinButton>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<ContextMenu name="ДлинаЧислаКонтекстноеМеню" id="6"/>
+							<ExtendedTooltip name="ДлинаЧислаРасширеннаяПодсказка" id="7"/>
+						</InputField>
+						<InputField name="ТочностьЧисла" id="8">
+							<DataPath>ТочностьЧисла</DataPath>
+							<SpinButton>true</SpinButton>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<ContextMenu name="ТочностьЧислаКонтекстноеМеню" id="9"/>
+							<ExtendedTooltip name="ТочностьЧислаРасширеннаяПодсказка" id="10"/>
+						</InputField>
+					</ChildItems>
+				</Page>
 			</ChildItems>
-		</UsualGroup>
-		<Table name="ДеревоТипов" id="1">
-			<Representation>Tree</Representation>
-			<ChangeRowSet>false</ChangeRowSet>
-			<ChangeRowOrder>false</ChangeRowOrder>
-			<ChoiceMode>true</ChoiceMode>
-			<AutoInsertNewRow>true</AutoInsertNewRow>
-			<EnableStartDrag>true</EnableStartDrag>
-			<EnableDrag>true</EnableDrag>
-			<DataPath>ДеревоТипов</DataPath>
-			<CommandSet>
-				<ExcludedCommand>Choose</ExcludedCommand>
-			</CommandSet>
-			<SearchStringLocation>CommandBar</SearchStringLocation>
-			<ContextMenu name="ДеревоТиповКонтекстноеМеню" id="2"/>
-			<AutoCommandBar name="ДеревоТиповКоманднаяПанель" id="3"/>
-			<ExtendedTooltip name="ДеревоТиповРасширеннаяПодсказка" id="4"/>
-			<SearchStringAddition name="ДеревоТиповСтрокаПоиска" id="5">
-				<AdditionSource>
-					<Item>ДеревоТипов</Item>
-					<Type>SearchStringRepresentation</Type>
-				</AdditionSource>
-				<ContextMenu name="ДеревоТиповСтрокаПоискаКонтекстноеМеню" id="6"/>
-				<ExtendedTooltip name="ДеревоТиповСтрокаПоискаРасширеннаяПодсказка" id="7"/>
-			</SearchStringAddition>
-			<ViewStatusAddition name="ДеревоТиповСостояниеПросмотра" id="8">
-				<AdditionSource>
-					<Item>ДеревоТипов</Item>
-					<Type>ViewStatusRepresentation</Type>
-				</AdditionSource>
-				<ContextMenu name="ДеревоТиповСостояниеПросмотраКонтекстноеМеню" id="9"/>
-				<ExtendedTooltip name="ДеревоТиповСостояниеПросмотраРасширеннаяПодсказка" id="10"/>
-			</ViewStatusAddition>
-			<SearchControlAddition name="ДеревоТиповУправлениеПоиском" id="11">
-				<AdditionSource>
-					<Item>ДеревоТипов</Item>
-					<Type>SearchControl</Type>
-				</AdditionSource>
-				<ContextMenu name="ДеревоТиповУправлениеПоискомКонтекстноеМеню" id="12"/>
-				<ExtendedTooltip name="ДеревоТиповУправлениеПоискомРасширеннаяПодсказка" id="13"/>
-			</SearchControlAddition>
+		</Pages>
+		<CommandBar name="КоманднаяПанель" id="11">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Командная панель</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Командная панель</v8:content>
+				</v8:item>
+			</ToolTip>
+			<HorizontalLocation>Right</HorizontalLocation>
+			<ExtendedTooltip name="КоманднаяПанельРасширеннаяПодсказка" id="12"/>
 			<ChildItems>
-				<InputField name="ДеревоТиповИмя" id="14">
-					<DataPath>ДеревоТипов.Имя</DataPath>
-					<EditMode>EnterOnInput</EditMode>
-					<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-					<ContextMenu name="ДеревоТиповИмяКонтекстноеМеню" id="15"/>
-					<ExtendedTooltip name="ДеревоТиповИмяРасширеннаяПодсказка" id="16"/>
-				</InputField>
-				<InputField name="ДеревоТиповПредставление" id="17">
-					<DataPath>ДеревоТипов.Представление</DataPath>
-					<EditMode>EnterOnInput</EditMode>
-					<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-					<ContextMenu name="ДеревоТиповПредставлениеКонтекстноеМеню" id="18"/>
-					<ExtendedTooltip name="ДеревоТиповПредставлениеРасширеннаяПодсказка" id="19"/>
-				</InputField>
+				<Button name="Ок" id="13">
+					<Type>CommandBarButton</Type>
+					<DefaultButton>true</DefaultButton>
+					<CommandName>Form.Command.Ок</CommandName>
+					<ExtendedTooltip name="ОкРасширеннаяПодсказка" id="14"/>
+				</Button>
+				<Button name="Закрыть" id="15">
+					<Type>CommandBarButton</Type>
+					<CommandName>Form.StandardCommand.Close</CommandName>
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Отмена</v8:content>
+						</v8:item>
+					</Title>
+					<ExtendedTooltip name="ЗакрытьРасширеннаяПодсказка" id="16"/>
+				</Button>
 			</ChildItems>
-		</Table>
-		<Table name="ТаблицаРезультат" id="20">
-			<Representation>List</Representation>
-			<ChangeRowOrder>false</ChangeRowOrder>
-			<Height>4</Height>
-			<Header>false</Header>
-			<AutoInsertNewRow>true</AutoInsertNewRow>
-			<EnableStartDrag>true</EnableStartDrag>
-			<EnableDrag>true</EnableDrag>
-			<DataPath>ТаблицаРезультат</DataPath>
-			<CommandSet>
-				<ExcludedCommand>Add</ExcludedCommand>
-				<ExcludedCommand>Copy</ExcludedCommand>
-			</CommandSet>
-			<RowFilter xsi:nil="true"/>
-			<ContextMenu name="ТаблицаРезультатКонтекстноеМеню" id="21"/>
-			<AutoCommandBar name="ТаблицаРезультатКоманднаяПанель" id="22">
-				<ChildItems>
-					<Button name="ТаблицаРезультатДобавитьНовый" id="36">
-						<Type>CommandBarButton</Type>
-						<CommandName>Form.Command.ДобавитьНовый</CommandName>
-						<ExtendedTooltip name="ТаблицаРезультатДобавитьНовыйРасширеннаяПодсказка" id="37"/>
-					</Button>
-					<Button name="ТаблицаРезультатУдалить" id="48">
-						<Type>CommandBarButton</Type>
-						<Representation>Picture</Representation>
-						<CommandName>Form.Item.ТаблицаРезультат.StandardCommand.Delete</CommandName>
-						<LocationInCommandBar>InCommandBar</LocationInCommandBar>
-						<ExtendedTooltip name="ТаблицаРезультатУдалитьРасширеннаяПодсказка" id="49"/>
-					</Button>
-				</ChildItems>
-			</AutoCommandBar>
-			<ExtendedTooltip name="ТаблицаРезультатРасширеннаяПодсказка" id="23"/>
-			<SearchStringAddition name="ТаблицаРезультатСтрокаПоиска" id="24">
-				<AdditionSource>
-					<Item>ТаблицаРезультат</Item>
-					<Type>SearchStringRepresentation</Type>
-				</AdditionSource>
-				<ContextMenu name="ТаблицаРезультатСтрокаПоискаКонтекстноеМеню" id="25"/>
-				<ExtendedTooltip name="ТаблицаРезультатСтрокаПоискаРасширеннаяПодсказка" id="26"/>
-			</SearchStringAddition>
-			<ViewStatusAddition name="ТаблицаРезультатСостояниеПросмотра" id="27">
-				<AdditionSource>
-					<Item>ТаблицаРезультат</Item>
-					<Type>ViewStatusRepresentation</Type>
-				</AdditionSource>
-				<ContextMenu name="ТаблицаРезультатСостояниеПросмотраКонтекстноеМеню" id="28"/>
-				<ExtendedTooltip name="ТаблицаРезультатСостояниеПросмотраРасширеннаяПодсказка" id="29"/>
-			</ViewStatusAddition>
-			<SearchControlAddition name="ТаблицаРезультатУправлениеПоиском" id="30">
-				<AdditionSource>
-					<Item>ТаблицаРезультат</Item>
-					<Type>SearchControl</Type>
-				</AdditionSource>
-				<ContextMenu name="ТаблицаРезультатУправлениеПоискомКонтекстноеМеню" id="31"/>
-				<ExtendedTooltip name="ТаблицаРезультатУправлениеПоискомРасширеннаяПодсказка" id="32"/>
-			</SearchControlAddition>
-			<ChildItems>
-				<InputField name="ТаблицаРезультатПредставление" id="33">
-					<DataPath>ТаблицаРезультат.Представление</DataPath>
-					<EditMode>EnterOnInput</EditMode>
-					<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-					<ContextMenu name="ТаблицаРезультатПредставлениеКонтекстноеМеню" id="34"/>
-					<ExtendedTooltip name="ТаблицаРезультатПредставлениеРасширеннаяПодсказка" id="35"/>
-				</InputField>
-			</ChildItems>
-		</Table>
+		</CommandBar>
 	</ChildItems>
 	<Attributes>
 		<Attribute name="Объект" id="1">
@@ -190,115 +97,51 @@
 			</Type>
 			<MainAttribute>true</MainAttribute>
 		</Attribute>
-		<Attribute name="ДеревоТипов" id="2">
+		<Attribute name="ДлинаЧисла" id="2">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Дерево типов</v8:content>
+					<v8:content>Длина</v8:content>
 				</v8:item>
 			</Title>
 			<Type>
-				<v8:Type>v8:ValueTree</v8:Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>0</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
 			</Type>
-			<Columns>
-				<Column name="Имя" id="1">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Имя</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>0</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
-				</Column>
-				<Column name="Представление" id="2">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Представление</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>0</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
-				</Column>
-			</Columns>
 		</Attribute>
-		<Attribute name="ТаблицаРезультат" id="3">
+		<Attribute name="ТочностьЧисла" id="3">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Таблица результат</v8:content>
+					<v8:content>Точность</v8:content>
 				</v8:item>
 			</Title>
 			<Type>
-				<v8:Type>v8:ValueTable</v8:Type>
-			</Type>
-			<Columns>
-				<Column name="Представление" id="1">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Представление</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>0</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
-				</Column>
-			</Columns>
-		</Attribute>
-		<Attribute name="ПредложениеИИ" id="4">
-			<Title>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Предложение ИИ</v8:content>
-				</v8:item>
-			</Title>
-			<Type>
-				<v8:Type>v8ui:FormattedString</v8:Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>10</v8:Digits>
+					<v8:FractionDigits>0</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
 			</Type>
 		</Attribute>
 	</Attributes>
 	<Commands>
-		<Command name="ДобавитьНовый" id="1">
+		<Command name="Ок" id="1">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Новый</v8:content>
+					<v8:content>ОК</v8:content>
 				</v8:item>
 			</Title>
 			<ToolTip>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Добавить новый</v8:content>
-				</v8:item>
-			</ToolTip>
-		</Command>
-		<Command name="СоставнойТип" id="2">
-			<Title>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Составной</v8:content>
-				</v8:item>
-			</Title>
-			<ToolTip>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Составной тип</v8:content>
+					<v8:content>Ок</v8:content>
 				</v8:item>
 			</ToolTip>
 		</Command>

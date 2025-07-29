@@ -8,6 +8,8 @@ import { TableElement } from "./tableElement"
 import { IdFormatter, IdFormatterRule } from "@/parser/visitorTools/idFormatter"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
 import { elementsManager } from "@/elementsManager"
+import { IAttributes } from "./interfaces"
+import { Attribute } from "./attributes"
 
 export class TableColumnElement extends BaseElement {
   public type = "КолонкаТаблицы"
@@ -232,6 +234,18 @@ export class TableColumnElement extends BaseElement {
     }
 
     return prefix + this.attributeId
+  }
+
+  public getAttributes(): IAttributes {
+    const attributes: IAttributes = super.getAttributes()
+    if (this.attributeId) {
+      attributes.set(this.attributeId, new Attribute(this.typeDescription))
+    }
+    if (this.checkboxAttributeId) {
+      attributes.set(this.checkboxAttributeId, new Attribute(this.typeDescriptionCheckbox))
+    }
+
+    return attributes
   }
 }
 
