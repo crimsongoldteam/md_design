@@ -7,6 +7,9 @@ import { IAttributes, IBaseElement } from "@/elements/interfaces.js"
 import { IElementPathData } from "@/editor/interfaces.js"
 import { Exporter } from "@/exporter/exporter.js"
 import { EnterpriseConnectorChangeContentData } from "@/enterpriseConnector.js"
+import { create, insertMultiple, search } from "@orama/orama"
+import { pluginEmbeddings } from "@orama/plugin-embeddings"
+import "@tensorflow/tfjs-backend-cpu"
 
 const treeViewContainer = document.getElementById("output") as HTMLElement
 
@@ -31,3 +34,39 @@ application.onSelectElement = (_currentElement: IElementPathData | undefined) =>
   application.createOrUpdateElement(data)
 }
 ;(window as any).application = application
+
+const plugin = await pluginEmbeddings({
+  embeddings: {
+    // Schema property used to store generated embeddings
+    defaultProperty: "embeddings",
+    onInsert: {
+      // Generate embeddings at insert-time
+      generate: true,
+      // properties to use for generating embeddings at insert time.
+      // Will be concatenated to generate a unique embedding.
+      properties: ["description"],
+      verbose: true,
+    },
+  },
+})
+
+const db = create({
+  schema: {
+    title: "string",
+    embeddings: "vector[512]",
+  },
+  plugins: [plugin],
+})
+
+insertMultiple(db, [
+  { title: "УИ_РедакторКодаКлиентСервер" },
+  { title: "АвтоматическиеСкидки" },
+  { title: "АдресатыПисем" },
+  { title: "АктыОтбораПробЗЕРНО" },
+])
+
+const searchResults = search(db, {
+  term: "Контрагент",
+  mode: "vector",
+  similarity: 0.75,
+})

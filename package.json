@@ -9,7 +9,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "build-playground": "tsc && vite build --config vite.config.playground.js",
-    "test": "vitest"
+    "test": "vitest",
+    "fix-imports": "node scripts/fix-imports.js"
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
@@ -27,6 +28,12 @@
     "vitest": "^3.2.4"
   },
   "dependencies": {
+    "@orama/orama": "^3.1.11",
+    "@orama/plugin-embeddings": "^3.1.11",
+    "@tensorflow/tfjs-backend-cpu": "^3.6.0",
+    "@tensorflow/tfjs-backend-webgl": "^3.6.0",
+    "@tensorflow/tfjs-converter": "^3.6.0",
+    "@tensorflow/tfjs-core": "^3.6.0",
     "@ungap/global-this": "^0.4.4",
     "@ungap/trim-end": "^0.2.0",
     "@ungap/trim-start": "^0.2.0",
@@ -34,6 +41,7 @@
     "chevrotain": "^11.0.3",
     "class-transformer": "^0.5.1",
     "date-fns": "^4.1.0",
+    "monaco-editor": "^0.47.0",
     "monaco-editor-core": "0.43.0",
     "performance-polyfill": "^0.0.3",
     "reflect-metadata": "^0.2.2",
