@@ -13,7 +13,7 @@ export class AttributesTypeDescriptionDetector {
 
   private readonly reduceCoefficient = 0.1
   private readonly maxResults = 10
-  private readonly exactScore = 10
+  private readonly maxScore = 10
 
   constructor() {
     this.db = create({
@@ -48,6 +48,7 @@ export class AttributesTypeDescriptionDetector {
     params: IAttributesTypeDescriptionDetectorSearchParams
   ): Promise<IAttributesTypeDescriptionDetectorSearchResult[]> {
     let allResults: any[] = []
+    const existingTypes = new Set<string>()
 
     let reduceCoefficient = 1.0
     for (const term of params.terms) {
@@ -64,21 +65,19 @@ export class AttributesTypeDescriptionDetector {
       }
 
       if (!exactFound) {
-        allResults.push({
-          type: new TypeDescription(params.preferedType + "." + term.plural),
-          isNew: true,
-          score: this.exactScore,
-        })
+        this.addUniqueResult(allResults, existingTypes, params.preferedType + "." + term.plural, true, this.maxScore)
       }
 
       for (const item of result.hits) {
         item.score *= reduceCoefficient
 
-        allResults.push({
-          type: new TypeDescription(item.document.section + "." + item.document.type),
-          isNew: false,
-          score: item.score,
-        })
+        this.addUniqueResult(
+          allResults,
+          existingTypes,
+          item.document.section + "." + item.document.type,
+          false,
+          item.score
+        )
       }
       reduceCoefficient -= this.reduceCoefficient
     }
@@ -94,6 +93,26 @@ export class AttributesTypeDescriptionDetector {
       })
     }
     return result
+  }
+
+  private addUniqueResult(
+    allResults: any[],
+    existingTypes: Set<string>,
+    typeName: string,
+    isNew: boolean,
+    score: number
+  ): void {
+    if (existingTypes.has(typeName)) {
+      return
+    }
+
+    existingTypes.add(typeName)
+
+    allResults.push({
+      type: new TypeDescription(typeName),
+      isNew,
+      score,
+    })
   }
 
   splitPascalCaseString(sourceString: string): string {

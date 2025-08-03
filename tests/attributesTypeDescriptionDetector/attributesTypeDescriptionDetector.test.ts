@@ -76,3 +76,58 @@ test("new object", async () => {
 
   expect(result).toEqual([{ type: new TypeDescription("Справочник.Договоры"), isNew: true }])
 })
+
+test("few terms in right order", async () => {
+  const detector = new AttributesTypeDescriptionDetector()
+
+  await detector.addMultiple([
+    {
+      type: "Организации",
+      section: "Справочник",
+      description: "Организации",
+    },
+    {
+      type: "Контрагенты",
+      section: "Справочник",
+      description: "Контрагенты",
+    },
+  ])
+
+  const result = await detector.search({
+    terms: [
+      { singular: "Контрагент", plural: "Контрагенты" },
+      { singular: "Организация", plural: "Организации" },
+    ],
+    preferedType: "Справочник",
+  })
+
+  expect(result).toEqual([
+    { type: new TypeDescription("Справочник.Контрагенты"), isNew: false },
+    { type: new TypeDescription("Справочник.Организации"), isNew: false },
+  ])
+})
+
+test("one term is new", async () => {
+  const detector = new AttributesTypeDescriptionDetector()
+
+  await detector.addMultiple([
+    {
+      type: "Контрагенты",
+      section: "Справочник",
+      description: "Контрагенты",
+    },
+  ])
+
+  const result = await detector.search({
+    terms: [
+      { singular: "Контрагент", plural: "Контрагенты" },
+      { singular: "Организация", plural: "Организации" },
+    ],
+    preferedType: "Справочник",
+  })
+
+  expect(result).toEqual([
+    { type: new TypeDescription("Справочник.Контрагенты"), isNew: false },
+    { type: new TypeDescription("Справочник.Организации"), isNew: true },
+  ])
+})
