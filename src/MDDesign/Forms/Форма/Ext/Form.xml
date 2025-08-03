@@ -418,7 +418,6 @@
 									</ChildItems>
 								</UsualGroup>
 								<UsualGroup name="ГруппаДеревоРеквизитов" id="518">
-									<Visible>false</Visible>
 									<Title>
 										<v8:item>
 											<v8:lang>ru</v8:lang>
@@ -447,7 +446,7 @@
 											<ContextMenu name="ДеревоРеквизитовКонтекстноеМеню" id="521"/>
 											<AutoCommandBar name="ДеревоРеквизитовКоманднаяПанель" id="522">
 												<ChildItems>
-													<Button name="ДеревоРеквизитовЗаполнитьТипыРеквизитов" id="542" DisplayImportance="VeryHigh">
+													<Button name="ЗаполнитьТипыРеквизитовИИ" id="542" DisplayImportance="VeryHigh">
 														<Type>CommandBarButton</Type>
 														<CommandName>Form.Command.ЗаполнитьТипыРеквизитовИИ</CommandName>
 														<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
@@ -457,7 +456,7 @@
 															<xr:TransparentPixel x="15" y="15"/>
 														</Picture>
 														<RepresentationInContextMenu>OnlyInContextMenu</RepresentationInContextMenu>
-														<ExtendedTooltip name="ДеревоРеквизитовЗаполнитьТипыРеквизитовРасширеннаяПодсказка" id="543"/>
+														<ExtendedTooltip name="ЗаполнитьТипыРеквизитовИИРасширеннаяПодсказка" id="543"/>
 													</Button>
 												</ChildItems>
 											</AutoCommandBar>
