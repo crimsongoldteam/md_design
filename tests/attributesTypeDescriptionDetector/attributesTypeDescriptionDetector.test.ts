@@ -18,52 +18,61 @@ test("single reference", async () => {
     },
   ])
 
-  const result = await detector.search({ terms: ["Контрагент"], preferedType: "Справочник" })
+  const result = await detector.search({
+    terms: [{ singular: "Контрагент", plural: "Контрагенты" }],
+    preferedType: "Справочник",
+  })
 
   expect(result).toEqual([{ type: new TypeDescription("Справочник.Контрагенты"), isNew: false }])
 })
 
-// test("multiple reference in right order", async () => {
-//   const detector = new AttributesTypeDescriptionDetector()
+test("multiple reference in right order", async () => {
+  const detector = new AttributesTypeDescriptionDetector()
 
-//   await detector.addMultiple([
-//     {
-//       type: "Виды контрагентов",
-//       section: "Справочник",
-//       description: "Виды контрагентов",
-//     },
-//     {
-//       type: "Контрагенты",
-//       section: "Справочник",
-//       description: "Контрагенты",
-//     },
-//   ])
+  await detector.addMultiple([
+    {
+      type: "Виды контрагентов",
+      section: "Справочник",
+      description: "Виды контрагентов",
+    },
+    {
+      type: "Контрагенты",
+      section: "Справочник",
+      description: "Контрагенты",
+    },
+  ])
 
-//   const result = await detector.search({ terms: ["Контрагент"], preferedType: "Справочник" })
+  const result = await detector.search({
+    terms: [{ singular: "Контрагент", plural: "Контрагенты" }],
+    preferedType: "Справочник",
+  })
 
-//   expect(result).toEqual([
-//     { type: new TypeDescription("Справочник.Контрагенты"), isNew: false },
-//     { type: new TypeDescription("Справочник.Виды контрагентов"), isNew: false },
-//   ])
-// })
+  expect(result).toEqual([
+    { type: new TypeDescription("Справочник.Контрагенты"), isNew: false },
+    { type: new TypeDescription("Справочник.Виды контрагентов"), isNew: false },
+  ])
+})
 
-// test("new object", async () => {
-//   const detector = new AttributesTypeDescriptionDetector()
+test("new object", async () => {
+  const detector = new AttributesTypeDescriptionDetector()
 
-//   await detector.addMultiple([
-//     {
-//       type: "Виды контрагентов",
-//       section: "Справочник",
-//       description: "Виды контрагентов",
-//     },
-//     {
-//       type: "Контрагенты",
-//       section: "Справочник",
-//       description: "Контрагенты",
-//     },
-//   ])
+  await detector.addMultiple([
+    {
+      type: "Виды контрагентов",
+      section: "Справочник",
+      description: "Виды контрагентов",
+    },
+    {
+      type: "Контрагенты",
+      section: "Справочник",
+      description: "Контрагенты",
+    },
+  ])
 
-//   const result = await detector.search({ terms: ["Договор"], preferedType: "Справочник" })
+  const result = await detector.search({
+    terms: [{ singular: "Договор", plural: "Договоры" }],
+    preferedType: "Справочник",
+  })
 
-//   expect(result).toEqual([{ type: new TypeDescription("Справочник.Договоры"), isNew: true }])
-// })
+  expect(result).toEqual([{ type: new TypeDescription("Справочник.Договоры"), isNew: true }])
+})

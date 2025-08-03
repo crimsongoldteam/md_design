@@ -12,6 +12,6 @@ export interface IAttributesTypeDescriptionDetectorSchema {
 }
 
 export interface IAttributesTypeDescriptionDetectorSearchParams {
-  terms: string[]
+  terms: { singular: string; plural: string }[]
   preferedType: string
 }

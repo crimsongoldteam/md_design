@@ -13,6 +13,7 @@ export class AttributesTypeDescriptionDetector {
 
   private readonly reduceCoefficient = 0.1
   private readonly maxResults = 10
+  private readonly exactScore = 10
 
   constructor() {
     this.db = create({
@@ -35,7 +36,7 @@ export class AttributesTypeDescriptionDetector {
 
   async addMultiple(data: IAttributesTypeDescriptionDetectorSchema[]) {
     let items = data.map((item) => ({
-      name: item.type,
+      name: this.splitPascalCaseString(item.type),
       description: item.description,
       type: item.type,
       section: item.section,
@@ -51,15 +52,34 @@ export class AttributesTypeDescriptionDetector {
     let reduceCoefficient = 1.0
     for (const term of params.terms) {
       const result = await search(this.db, {
-        term,
+        term: term.singular,
         properties: ["name", "description"],
       })
 
+      let exactFound = false
       for (const item of result.hits) {
-        item.score *= reduceCoefficient
-        allResults.push(item)
+        if (item.document.type === term.singular || item.document.type === term.plural) {
+          exactFound = true
+        }
       }
 
+      if (!exactFound) {
+        allResults.push({
+          type: new TypeDescription(params.preferedType + "." + term.plural),
+          isNew: true,
+          score: this.exactScore,
+        })
+      }
+
+      for (const item of result.hits) {
+        item.score *= reduceCoefficient
+
+        allResults.push({
+          type: new TypeDescription(item.document.section + "." + item.document.type),
+          isNew: false,
+          score: item.score,
+        })
+      }
       reduceCoefficient -= this.reduceCoefficient
     }
 
@@ -69,10 +89,43 @@ export class AttributesTypeDescriptionDetector {
     let result: IAttributesTypeDescriptionDetectorSearchResult[] = []
     for (const item of allResults) {
       result.push({
-        type: new TypeDescription(item.document.section + "." + item.document.type),
-        isNew: false,
+        type: item.type,
+        isNew: item.isNew,
       })
     }
     return result
+  }
+
+  splitPascalCaseString(sourceString: string): string {
+    const separatorPosition = sourceString.indexOf("_")
+    if (separatorPosition !== -1) {
+      sourceString = sourceString.substring(separatorPosition + 1)
+    }
+
+    let result = ""
+    const stringLength = sourceString.length
+
+    let previousCharUpper = false
+
+    for (let charIndex = 0; charIndex < stringLength; charIndex++) {
+      const currentChar = sourceString.charAt(charIndex)
+
+      let nextCharUpper = true
+      if (charIndex < stringLength - 1) {
+        const nextChar = sourceString.charAt(charIndex + 1)
+        nextCharUpper = nextChar.toUpperCase() === nextChar
+      }
+
+      const currentCharUpper = currentChar.toUpperCase() === currentChar
+
+      if (currentCharUpper && (!previousCharUpper || !nextCharUpper) && charIndex > 0) {
+        result += " "
+      }
+
+      result += currentChar
+      previousCharUpper = currentCharUpper
+    }
+
+    return result.toLowerCase()
   }
 }
