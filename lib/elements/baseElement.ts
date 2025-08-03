@@ -1,10 +1,11 @@
 import { Expose, Transform } from "class-transformer"
 import "reflect-metadata"
 import { IdGeneratorQueueInboxItem, IdGeneratorRequest } from "../parser/visitorTools/idGenerator"
-import { CstElementPosition, CstPath, CstPathHelper } from "./cstPathHelper"
+import { CstElementPosition, CstPathHelper } from "./cstPathHelper"
+import type { CstPath } from "./cstPathHelper"
 import { PropertiesTransformer } from "@/importer/propertiesTransformer"
 import { PropertyValue, ElementListType, PropertyAlignment } from "./types"
-import { IAttributes, IBaseElement } from "./interfaces"
+import type { IAttributes, IBaseElement } from "./interfaces"
 import { Attributes } from "./attributes"
 
 export abstract class BaseElement implements IBaseElement {

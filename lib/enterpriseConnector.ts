@@ -8,7 +8,7 @@ import {
 import { Exporter } from "./exporter/exporter"
 import { Importer } from "./importer/importer"
 import { IElementPathData } from "./editor/interfaces"
-import { IAttributes, IBaseElement } from "./elements/interfaces"
+import type { IAttributes, IBaseElement } from "./elements/interfaces"
 import { Expose, Type } from "class-transformer"
 import { Attribute } from "./elements/attributes"
 

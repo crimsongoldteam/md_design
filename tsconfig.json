@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2018",
-    "module": "CommonJS",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "lib": ["ES2018", "DOM", "DOM.Iterable", "esnext.bigint"],
     "sourceMap": true,
     "skipLibCheck": true,

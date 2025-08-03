@@ -1,8 +1,8 @@
 import "./polyfill.js"
 import { create, insertMultiple, search } from "@orama/orama"
-import { pluginEmbeddings } from "@orama/plugin-embeddings"
-import * as tf from "@tensorflow/tfjs-core"
-import "@tensorflow/tfjs-backend-cpu"
+// import { pluginEmbeddings } from "@orama/plugin-embeddings"
+// import * as tf from "@tensorflow/tfjs-core"
+// import "@tensorflow/tfjs-backend-cpu"
 
 import { Application } from "./application.js"
 import { EnterpriseConnector } from "./enterpriseConnector.js"
@@ -27,18 +27,18 @@ const connector = new EnterpriseConnector(application)
 // Инициализируем TensorFlow.js и создаем базу данных
 async function initializeTensorFlowAndDB() {
   // Инициализируем TensorFlow.js backend перед использованием
-  await tf.ready()
+  // await tf.ready()
 
-  const plugin = await pluginEmbeddings({
-    embeddings: {
-      defaultProperty: "embeddings",
-      onInsert: {
-        generate: true,
-        properties: ["title"],
-        verbose: false,
-      },
-    },
-  })
+  // const plugin = await pluginEmbeddings({
+  //   embeddings: {
+  //     defaultProperty: "embeddings",
+  //     onInsert: {
+  //       generate: true,
+  //       properties: ["title"],
+  //       verbose: false,
+  //     },
+  //   },
+  // })
 
   const db = create({
     schema: {
@@ -50,7 +50,7 @@ async function initializeTensorFlowAndDB() {
         language: "russian",
       },
     },
-    plugins: [plugin],
+    // plugins: [plugin],
   })
 
   // count(db).then((result) => {
