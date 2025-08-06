@@ -1,12 +1,9 @@
-import { AnyOrama, create, insertMultiple, search } from "@orama/orama"
+import { AnyOrama, create, insertMultiple, Results, search } from "@orama/orama"
 import { stemmer } from "@orama/stemmers/russian"
 import { pluginPT15 } from "@orama/plugin-pt15"
-import {
-  IAttributesTypeDescriptionDetectorSearchParams,
-  IAttributesTypeDescriptionDetectorSearchResult,
-  IAttributesTypeDescriptionDetectorSchema,
-} from "./interfaces"
+import { ITypeDescriptionDetectorRequest, ITypeDescriptionDetectorResultItem, IMetadata } from "./interfaces"
 import { TypeDescription } from "@/elements/typeDescription"
+import { TypeDescriptionDetectorResultItem } from "./TypeDescriptionDetectorResult.ts"
 
 export class AttributesTypeDescriptionDetector {
   private readonly db: AnyOrama
@@ -34,7 +31,7 @@ export class AttributesTypeDescriptionDetector {
     })
   }
 
-  async addMultiple(data: IAttributesTypeDescriptionDetectorSchema[]) {
+  async addMetadata(data: IMetadata[]) {
     let items = data.map((item) => ({
       name: this.splitPascalCaseString(item.type),
       description: item.description,
@@ -44,18 +41,16 @@ export class AttributesTypeDescriptionDetector {
     await insertMultiple(this.db, items, undefined, "russian")
   }
 
-  async search(
-    params: IAttributesTypeDescriptionDetectorSearchParams
-  ): Promise<IAttributesTypeDescriptionDetectorSearchResult[]> {
+  search(params: ITypeDescriptionDetectorRequest): ITypeDescriptionDetectorResultItem[] {
     let allResults: any[] = []
     const existingTypes = new Set<string>()
 
     let reduceCoefficient = 1.0
     for (const term of params.terms) {
-      const result = await search(this.db, {
+      const result: Results<any> = search(this.db, {
         term: term.singular,
         properties: ["name", "description"],
-      })
+      }) as Results<any>
 
       let exactFound = false
       for (const item of result.hits) {
@@ -85,12 +80,9 @@ export class AttributesTypeDescriptionDetector {
     allResults = allResults.sort((a, b) => b.score - a.score)
     allResults = allResults.slice(0, this.maxResults)
 
-    let result: IAttributesTypeDescriptionDetectorSearchResult[] = []
+    let result: TypeDescriptionDetectorResultItem[] = []
     for (const item of allResults) {
-      result.push({
-        type: item.type,
-        isNew: item.isNew,
-      })
+      result.push(new TypeDescriptionDetectorResultItem(params.id, item.type, item.isNew))
     }
     return result
   }

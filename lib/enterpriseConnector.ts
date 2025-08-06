@@ -11,6 +11,7 @@ import { IElementPathData } from "./editor/interfaces"
 import type { IAttributes, IBaseElement } from "./elements/interfaces"
 import { Expose, Type } from "class-transformer"
 import { Attribute } from "./elements/attributes"
+import { IMetadata, ITypeDescriptionDetectorRequest } from "./ai/interfaces"
 
 export class EnterpriseConnectorChangeContentData implements IEnterpriseConnectorChangeContentData {
   @Expose({ name: "СемантическоеДерево" })
@@ -74,6 +75,17 @@ export class EnterpriseConnector implements IEnterpriseConnector {
   public parseTypeDescription(text: string): string | undefined {
     const description = this.application.parseTypeDescription(text)
     return Exporter.export(description)
+  }
+
+  public addMetadata(plainText: string): void {
+    const metadata: IMetadata[] = Importer.importMetadata(plainText)
+    this.application.addMetadata(metadata)
+  }
+
+  public searchTypeInMetadata(plainText: string): string {
+    const requests: ITypeDescriptionDetectorRequest[] = Importer.importTypeDescriptionDetectorRequests(plainText)
+    const results = this.application.searchTypeInMetadata(requests)
+    return Exporter.export(results) || ""
   }
 
   private onSelectElement(currentElement: IElementPathData | undefined): void {

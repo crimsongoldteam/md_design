@@ -1,11 +1,12 @@
 import { AttributesTypeDescriptionDetector } from "@/ai/attributesTypeDescriptionDetector"
 import { TypeDescription } from "@/elements/typeDescription"
+import { DateFractions } from "@/elements/types"
 import { expect, test } from "vitest"
 
 test("single reference", async () => {
   const detector = new AttributesTypeDescriptionDetector()
 
-  await detector.addMultiple([
+  await detector.addMetadata([
     {
       type: "Контрагенты",
       section: "Справочник",
@@ -18,9 +19,15 @@ test("single reference", async () => {
     },
   ])
 
-  const result = await detector.search({
+  const result = detector.search({
+    id: "1",
     terms: [{ singular: "Контрагент", plural: "Контрагенты" }],
     preferedType: "Справочник",
+    baseType: "Нет",
+    digits: 0,
+    fractionDigits: 0,
+    length: 0,
+    dateFractions: DateFractions.Date,
   })
 
   expect(result).toEqual([{ type: new TypeDescription("Справочник.Контрагенты"), isNew: false }])
@@ -29,7 +36,7 @@ test("single reference", async () => {
 test("multiple reference in right order", async () => {
   const detector = new AttributesTypeDescriptionDetector()
 
-  await detector.addMultiple([
+  await detector.addMetadata([
     {
       type: "Виды контрагентов",
       section: "Справочник",
@@ -42,9 +49,15 @@ test("multiple reference in right order", async () => {
     },
   ])
 
-  const result = await detector.search({
+  const result = detector.search({
+    id: "1",
     terms: [{ singular: "Контрагент", plural: "Контрагенты" }],
     preferedType: "Справочник",
+    baseType: "Нет",
+    digits: 0,
+    fractionDigits: 0,
+    length: 0,
+    dateFractions: DateFractions.Date,
   })
 
   expect(result).toEqual([
@@ -56,7 +69,7 @@ test("multiple reference in right order", async () => {
 test("new object", async () => {
   const detector = new AttributesTypeDescriptionDetector()
 
-  await detector.addMultiple([
+  await detector.addMetadata([
     {
       type: "Виды контрагентов",
       section: "Справочник",
@@ -69,9 +82,15 @@ test("new object", async () => {
     },
   ])
 
-  const result = await detector.search({
+  const result = detector.search({
+    id: "1",
     terms: [{ singular: "Договор", plural: "Договоры" }],
     preferedType: "Справочник",
+    baseType: "Нет",
+    digits: 0,
+    fractionDigits: 0,
+    length: 0,
+    dateFractions: DateFractions.Date,
   })
 
   expect(result).toEqual([{ type: new TypeDescription("Справочник.Договоры"), isNew: true }])
@@ -80,7 +99,7 @@ test("new object", async () => {
 test("few terms in right order", async () => {
   const detector = new AttributesTypeDescriptionDetector()
 
-  await detector.addMultiple([
+  await detector.addMetadata([
     {
       type: "Организации",
       section: "Справочник",
@@ -93,12 +112,18 @@ test("few terms in right order", async () => {
     },
   ])
 
-  const result = await detector.search({
+  const result = detector.search({
+    id: "1",
     terms: [
       { singular: "Контрагент", plural: "Контрагенты" },
       { singular: "Организация", plural: "Организации" },
     ],
     preferedType: "Справочник",
+    baseType: "Нет",
+    digits: 0,
+    fractionDigits: 0,
+    length: 0,
+    dateFractions: DateFractions.Date,
   })
 
   expect(result).toEqual([
@@ -110,7 +135,7 @@ test("few terms in right order", async () => {
 test("one term is new", async () => {
   const detector = new AttributesTypeDescriptionDetector()
 
-  await detector.addMultiple([
+  await detector.addMetadata([
     {
       type: "Контрагенты",
       section: "Справочник",
@@ -118,12 +143,18 @@ test("one term is new", async () => {
     },
   ])
 
-  const result = await detector.search({
+  const result = detector.search({
+    id: "1",
     terms: [
       { singular: "Контрагент", plural: "Контрагенты" },
       { singular: "Организация", plural: "Организации" },
     ],
     preferedType: "Справочник",
+    baseType: "Нет",
+    digits: 0,
+    fractionDigits: 0,
+    length: 0,
+    dateFractions: DateFractions.Date,
   })
 
   expect(result).toEqual([

@@ -12,12 +12,14 @@ import { View } from "./view"
 import { TableElement } from "./elements"
 import { PropertiesFormatter } from "./formatter/propertiesFormatter"
 import { CSTGenerator } from "./editor/cstGenerator"
+import { AttributesTypeDescriptionDetector } from "./ai/attributesTypeDescriptionDetector"
+import { IMetadata, ITypeDescriptionDetectorRequest, TypeDescriptionDetectorResult } from "./ai/interfaces"
 
 export class Application implements IApplication {
   private readonly model: ICSTModel
   private readonly mainCursor: IModelCursor
   private readonly groupCursor: IModelCursor
-
+  private readonly attributesTypeDescriptionDetector: AttributesTypeDescriptionDetector
   private readonly view: IView
 
   constructor(mainEditorContainer: HTMLElement, groupEditorContainer: HTMLElement) {
@@ -34,6 +36,8 @@ export class Application implements IApplication {
     this.view = new View(mainEditorContainer, groupEditorContainer, this.mainCursor, this.groupCursor)
     this.view.onCloseGroup = this.onCloseGroup.bind(this)
     this.view.onSelectGroup = this.onSelectGroup.bind(this)
+
+    this.attributesTypeDescriptionDetector = new AttributesTypeDescriptionDetector()
   }
 
   // region events
@@ -46,6 +50,19 @@ export class Application implements IApplication {
     throw new Error("onSelectElement is not implemented")
   }
   // endregion events
+
+  public addMetadata(metadata: IMetadata[]): void {
+    this.attributesTypeDescriptionDetector.addMetadata(metadata)
+  }
+
+  public searchTypeInMetadata(requests: ITypeDescriptionDetectorRequest[]): TypeDescriptionDetectorResult {
+    let results: TypeDescriptionDetectorResult = []
+    for (const request of requests) {
+      const result = this.attributesTypeDescriptionDetector.search(request)
+      results.push(...result)
+    }
+    return results
+  }
 
   getCst(): IBaseElement {
     return this.model.cst
