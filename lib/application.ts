@@ -60,7 +60,9 @@ export class Application implements IApplication {
     let results: TypeDescriptionDetectorResult = []
     for (const request of requests) {
       const types = this.attributesTypeDescriptionDetector.search(request)
-      const result = new TypeDescriptionDetectorResultItem(request.id, types)
+
+      const typesFormat = types.map((type) => this.formatTypeDescription(type))
+      const result = new TypeDescriptionDetectorResultItem(request.id, types, typesFormat)
       results.push(result)
     }
     return results

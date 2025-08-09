@@ -26,7 +26,7 @@ export interface IBaseElement {
 
 export interface IAttribute {
   typeDescription: ITypeDescription
-  items?: IAttributes[]
+  items?: Map<string, IAttribute>
 }
 
 export interface IAttributes extends Map<string, IAttribute> {}

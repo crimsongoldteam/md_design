@@ -52,6 +52,7 @@ export class TypeDescriptionDetectorRequestTerm implements ITypeDescriptionDetec
 
   createPrimitiveTypeDescription(): TypeDescription {
     let result = new TypeDescription(this.type, false)
+    result.auto = false
     if (this.digits) {
       result.digits = this.digits
     }

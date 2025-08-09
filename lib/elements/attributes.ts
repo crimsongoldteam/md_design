@@ -1,5 +1,5 @@
-import { Expose } from "class-transformer"
-import { IAttribute, IAttributes } from "./interfaces"
+import { Expose, Type } from "class-transformer"
+import { IAttribute } from "./interfaces"
 import { TypeDescription } from "./typeDescription"
 
 export class Attribute implements IAttribute {
@@ -7,7 +7,8 @@ export class Attribute implements IAttribute {
   typeDescription: TypeDescription
 
   @Expose({ name: "Значения" })
-  items?: IAttributes[]
+  @Type(() => Attribute)
+  items?: Map<string, IAttribute>
 
   constructor(typeDescription: TypeDescription) {
     this.typeDescription = typeDescription

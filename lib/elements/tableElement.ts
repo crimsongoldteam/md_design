@@ -83,7 +83,16 @@ export class TableElement extends BaseElementWithAttributes {
 
   public getAttributes(): IAttributes {
     const attributes: IAttributes = new Attributes()
-    attributes.set(this.attributeId, new Attribute(this.typeDescription))
+    const attribute = new Attribute(this.typeDescription)
+    const columns = this.getAllColumns()
+    attribute.items = new Map()
+    for (const column of columns) {
+      const columnAttributes = column.getAttributes()
+      for (const [key, value] of columnAttributes) {
+        attribute.items.set(key, value)
+      }
+    }
+    attributes.set(this.attributeId, attribute)
     return attributes
   }
 }

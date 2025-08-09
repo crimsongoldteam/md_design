@@ -5,6 +5,7 @@ import { DateFractions } from "@/elements/types"
 export interface ITypeDescriptionDetectorResultItem {
   id: string
   types: ITypeDescription[]
+  typesFormat: string[]
 }
 
 export interface IMetadata {

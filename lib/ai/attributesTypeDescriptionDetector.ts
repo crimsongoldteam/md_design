@@ -65,6 +65,7 @@ export class AttributesTypeDescriptionDetector {
 
       if (!exactFound) {
         const typeDescription = new TypeDescription(term.type + "." + term.plural, true)
+        typeDescription.auto = false
         allResults.add(typeDescription, this.maxScore)
       }
 
@@ -72,6 +73,7 @@ export class AttributesTypeDescriptionDetector {
         item.score *= reduceCoefficient
 
         const typeDescription = new TypeDescription(item.document.section + "." + item.document.type)
+        typeDescription.auto = false
         allResults.add(typeDescription, item.score)
       }
       reduceCoefficient -= this.reduceCoefficient

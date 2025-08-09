@@ -10,8 +10,12 @@ export class TypeDescriptionDetectorResultItem implements ITypeDescriptionDetect
   @Type(() => TypeDescription)
   public types: TypeDescription[]
 
-  constructor(id: string, types: TypeDescription[]) {
+  @Expose({ name: "ПредставлениеОписаниеТипов" })
+  public typesFormat: string[]
+
+  constructor(id: string, types: TypeDescription[], typesFormat: string[]) {
     this.id = id
     this.types = types
+    this.typesFormat = typesFormat
   }
 }
