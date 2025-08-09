@@ -53,3 +53,7 @@
 			<Template>БиблиотекаКартинок</Template>
 			<Template>ПромптНазванияЭлементов</Template>
 			<Template>bsl_console</Template>
+			<Template>ОбработчикиСобытийЭлементовФормы</Template>
+		</ChildObjects>
+	</ExternalDataProcessor>
+</MetaDataObject>
