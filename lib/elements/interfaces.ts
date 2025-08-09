@@ -39,5 +39,8 @@ export interface ITypeDescription {
   dateFractions: DateFractions
   auto: boolean
 
+  isNew: boolean
+
   isEmpty(): boolean
+  isEqual(other: ITypeDescription): boolean
 }

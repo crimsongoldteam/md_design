@@ -8,14 +8,10 @@ export class TypeDescriptionDetectorResultItem implements ITypeDescriptionDetect
 
   @Expose({ name: "ОписаниеТипов" })
   @Type(() => TypeDescription)
-  public type: TypeDescription
+  public types: TypeDescription[]
 
-  @Expose({ name: "Новый" })
-  public isNew: boolean
-
-  constructor(id: string, type: TypeDescription, isNew: boolean) {
+  constructor(id: string, types: TypeDescription[]) {
     this.id = id
-    this.type = type
-    this.isNew = isNew
+    this.types = types
   }
 }

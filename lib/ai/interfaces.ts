@@ -1,10 +1,10 @@
 import { ITypeDescription } from "@/elements/interfaces"
+import { TypeDescription } from "@/elements/typeDescription"
 import { DateFractions } from "@/elements/types"
 
 export interface ITypeDescriptionDetectorResultItem {
   id: string
-  type: ITypeDescription
-  isNew: boolean
+  types: ITypeDescription[]
 }
 
 export interface IMetadata {
@@ -15,14 +15,27 @@ export interface IMetadata {
 
 export type TypeDescriptionDetectorResult = ITypeDescriptionDetectorResultItem[]
 
+export interface ITypeDescriptionDetectorRequestTerm {
+  type: string
+
+  singular?: string
+  plural?: string
+
+  digits?: number
+  fractionDigits?: number
+  length?: number
+  dateFractions?: DateFractions
+
+  isPrimitive(): boolean
+  createPrimitiveTypeDescription(): ITypeDescription
+}
+
 export interface ITypeDescriptionDetectorRequest {
   id: string
-  terms: { singular: string; plural: string }[]
-  preferedType: string
+  terms: ITypeDescriptionDetectorRequestTerm[]
+}
 
-  baseType: string
-  digits: number
-  fractionDigits: number
-  length: number
-  dateFractions: DateFractions
+export interface ISearchTypeDescription {
+  type: TypeDescription
+  score: number
 }

@@ -1,9 +1,9 @@
 import { AnyOrama, create, insertMultiple, Results, search } from "@orama/orama"
 import { stemmer } from "@orama/stemmers/russian"
 import { pluginPT15 } from "@orama/plugin-pt15"
-import { ITypeDescriptionDetectorRequest, ITypeDescriptionDetectorResultItem, IMetadata } from "./interfaces"
+import { ITypeDescriptionDetectorRequest, IMetadata } from "./interfaces"
 import { TypeDescription } from "@/elements/typeDescription"
-import { TypeDescriptionDetectorResultItem } from "./TypeDescriptionDetectorResult.ts"
+import { SearchTypeDescriptions } from "./searchTypeDescriptions"
 
 export class AttributesTypeDescriptionDetector {
   private readonly db: AnyOrama
@@ -41,12 +41,16 @@ export class AttributesTypeDescriptionDetector {
     await insertMultiple(this.db, items, undefined, "russian")
   }
 
-  search(params: ITypeDescriptionDetectorRequest): ITypeDescriptionDetectorResultItem[] {
-    let allResults: any[] = []
-    const existingTypes = new Set<string>()
+  search(params: ITypeDescriptionDetectorRequest): TypeDescription[] {
+    let allResults = new SearchTypeDescriptions()
 
     let reduceCoefficient = 1.0
     for (const term of params.terms) {
+      if (term.isPrimitive()) {
+        allResults.add(term.createPrimitiveTypeDescription(), this.maxScore)
+        continue
+      }
+
       const result: Results<any> = search(this.db, {
         term: term.singular,
         properties: ["name", "description"],
@@ -60,51 +64,20 @@ export class AttributesTypeDescriptionDetector {
       }
 
       if (!exactFound) {
-        this.addUniqueResult(allResults, existingTypes, params.preferedType + "." + term.plural, true, this.maxScore)
+        const typeDescription = new TypeDescription(term.type + "." + term.plural, true)
+        allResults.add(typeDescription, this.maxScore)
       }
 
       for (const item of result.hits) {
         item.score *= reduceCoefficient
 
-        this.addUniqueResult(
-          allResults,
-          existingTypes,
-          item.document.section + "." + item.document.type,
-          false,
-          item.score
-        )
+        const typeDescription = new TypeDescription(item.document.section + "." + item.document.type)
+        allResults.add(typeDescription, item.score)
       }
       reduceCoefficient -= this.reduceCoefficient
     }
 
-    allResults = allResults.sort((a, b) => b.score - a.score)
-    allResults = allResults.slice(0, this.maxResults)
-
-    let result: TypeDescriptionDetectorResultItem[] = []
-    for (const item of allResults) {
-      result.push(new TypeDescriptionDetectorResultItem(params.id, item.type, item.isNew))
-    }
-    return result
-  }
-
-  private addUniqueResult(
-    allResults: any[],
-    existingTypes: Set<string>,
-    typeName: string,
-    isNew: boolean,
-    score: number
-  ): void {
-    if (existingTypes.has(typeName)) {
-      return
-    }
-
-    existingTypes.add(typeName)
-
-    allResults.push({
-      type: new TypeDescription(typeName),
-      isNew,
-      score,
-    })
+    return allResults.getTypesDescriptions(this.maxResults)
   }
 
   splitPascalCaseString(sourceString: string): string {

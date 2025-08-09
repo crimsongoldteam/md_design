@@ -14,6 +14,7 @@ import { PropertiesFormatter } from "./formatter/propertiesFormatter"
 import { CSTGenerator } from "./editor/cstGenerator"
 import { AttributesTypeDescriptionDetector } from "./ai/attributesTypeDescriptionDetector"
 import { IMetadata, ITypeDescriptionDetectorRequest, TypeDescriptionDetectorResult } from "./ai/interfaces"
+import { TypeDescriptionDetectorResultItem } from "./ai/TypeDescriptionDetectorResult"
 
 export class Application implements IApplication {
   private readonly model: ICSTModel
@@ -58,8 +59,9 @@ export class Application implements IApplication {
   public searchTypeInMetadata(requests: ITypeDescriptionDetectorRequest[]): TypeDescriptionDetectorResult {
     let results: TypeDescriptionDetectorResult = []
     for (const request of requests) {
-      const result = this.attributesTypeDescriptionDetector.search(request)
-      results.push(...result)
+      const types = this.attributesTypeDescriptionDetector.search(request)
+      const result = new TypeDescriptionDetectorResultItem(request.id, types)
+      results.push(result)
     }
     return results
   }

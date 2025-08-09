@@ -1,6 +1,6 @@
 import { AttributesTypeDescriptionDetector } from "@/ai/attributesTypeDescriptionDetector"
+import { TypeDescriptionDetectorRequestTerm } from "@/ai/typeDescriptionDetectorRequest"
 import { TypeDescription } from "@/elements/typeDescription"
-import { DateFractions } from "@/elements/types"
 import { expect, test } from "vitest"
 
 test("single reference", async () => {
@@ -21,16 +21,12 @@ test("single reference", async () => {
 
   const result = detector.search({
     id: "1",
-    terms: [{ singular: "Контрагент", plural: "Контрагенты" }],
-    preferedType: "Справочник",
-    baseType: "Нет",
-    digits: 0,
-    fractionDigits: 0,
-    length: 0,
-    dateFractions: DateFractions.Date,
+    terms: [
+      new TypeDescriptionDetectorRequestTerm({ type: "Справочник", singular: "Контрагент", plural: "Контрагенты" }),
+    ],
   })
 
-  expect(result).toEqual([{ type: new TypeDescription("Справочник.Контрагенты"), isNew: false }])
+  expect(result).toEqual([new TypeDescription("Справочник.Контрагенты")])
 })
 
 test("multiple reference in right order", async () => {
@@ -51,18 +47,14 @@ test("multiple reference in right order", async () => {
 
   const result = detector.search({
     id: "1",
-    terms: [{ singular: "Контрагент", plural: "Контрагенты" }],
-    preferedType: "Справочник",
-    baseType: "Нет",
-    digits: 0,
-    fractionDigits: 0,
-    length: 0,
-    dateFractions: DateFractions.Date,
+    terms: [
+      new TypeDescriptionDetectorRequestTerm({ type: "Справочник", singular: "Контрагент", plural: "Контрагенты" }),
+    ],
   })
 
   expect(result).toEqual([
-    { type: new TypeDescription("Справочник.Контрагенты"), isNew: false },
-    { type: new TypeDescription("Справочник.Виды контрагентов"), isNew: false },
+    new TypeDescription("Справочник.Контрагенты"),
+    new TypeDescription("Справочник.Виды контрагентов"),
   ])
 })
 
@@ -84,16 +76,10 @@ test("new object", async () => {
 
   const result = detector.search({
     id: "1",
-    terms: [{ singular: "Договор", plural: "Договоры" }],
-    preferedType: "Справочник",
-    baseType: "Нет",
-    digits: 0,
-    fractionDigits: 0,
-    length: 0,
-    dateFractions: DateFractions.Date,
+    terms: [new TypeDescriptionDetectorRequestTerm({ type: "Справочник", singular: "Договор", plural: "Договоры" })],
   })
 
-  expect(result).toEqual([{ type: new TypeDescription("Справочник.Договоры"), isNew: true }])
+  expect(result).toEqual([new TypeDescription("Справочник.Договоры", true)])
 })
 
 test("few terms in right order", async () => {
@@ -115,21 +101,16 @@ test("few terms in right order", async () => {
   const result = detector.search({
     id: "1",
     terms: [
-      { singular: "Контрагент", plural: "Контрагенты" },
-      { singular: "Организация", plural: "Организации" },
+      new TypeDescriptionDetectorRequestTerm({ type: "Справочник", singular: "Контрагент", plural: "Контрагенты" }),
+      new TypeDescriptionDetectorRequestTerm({
+        type: "Справочник",
+        singular: "Организация",
+        plural: "Организации",
+      }),
     ],
-    preferedType: "Справочник",
-    baseType: "Нет",
-    digits: 0,
-    fractionDigits: 0,
-    length: 0,
-    dateFractions: DateFractions.Date,
   })
 
-  expect(result).toEqual([
-    { type: new TypeDescription("Справочник.Контрагенты"), isNew: false },
-    { type: new TypeDescription("Справочник.Организации"), isNew: false },
-  ])
+  expect(result).toEqual([new TypeDescription("Справочник.Контрагенты"), new TypeDescription("Справочник.Организации")])
 })
 
 test("one term is new", async () => {
@@ -146,19 +127,42 @@ test("one term is new", async () => {
   const result = detector.search({
     id: "1",
     terms: [
-      { singular: "Контрагент", plural: "Контрагенты" },
-      { singular: "Организация", plural: "Организации" },
+      new TypeDescriptionDetectorRequestTerm({ type: "Справочник", singular: "Контрагент", plural: "Контрагенты" }),
+      new TypeDescriptionDetectorRequestTerm({
+        type: "Справочник",
+        singular: "Организация",
+        plural: "Организации",
+      }),
     ],
-    preferedType: "Справочник",
-    baseType: "Нет",
-    digits: 0,
-    fractionDigits: 0,
-    length: 0,
-    dateFractions: DateFractions.Date,
   })
 
   expect(result).toEqual([
-    { type: new TypeDescription("Справочник.Контрагенты"), isNew: false },
-    { type: new TypeDescription("Справочник.Организации"), isNew: true },
+    new TypeDescription("Справочник.Контрагенты"),
+    new TypeDescription("Справочник.Организации", true),
   ])
+})
+
+test("primitive types", async () => {
+  const detector = new AttributesTypeDescriptionDetector()
+
+  await detector.addMetadata([
+    {
+      type: "Годы",
+      section: "Справочник",
+      description: "Годы",
+    },
+  ])
+
+  const result = detector.search({
+    id: "1",
+    terms: [
+      new TypeDescriptionDetectorRequestTerm({ type: "Справочник", singular: "Год", plural: "Годы" }),
+      new TypeDescriptionDetectorRequestTerm({ type: "Строка", length: 4 }),
+    ],
+  })
+
+  const typeString = new TypeDescription("Строка")
+  typeString.length = 4
+
+  expect(result).toEqual([new TypeDescription("Справочник.Годы"), typeString])
 })
