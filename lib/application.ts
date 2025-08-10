@@ -6,18 +6,21 @@ import { GroupCursorBuilder, GroupCursorFormatter } from "./editor/groupCursorHe
 import { MainCursorBuilder, MainCursorFormatter } from "./editor/mainCursor"
 import { ModelCursor } from "./editor/modelCursorHelpers"
 import { IApplication, IView } from "./interfaces"
-import { IBaseElement, IAttributes, ITypeDescription } from "./elements/interfaces"
+import { IBaseElement, ITypeDescription, IAttribute } from "./elements/interfaces"
 import { ICSTModel, IElementPathData, IModelCursor } from "./editor/interfaces"
 import { View } from "./view"
 import { TableElement } from "./elements"
 import { PropertiesFormatter } from "./formatter/propertiesFormatter"
 import { CSTGenerator } from "./editor/cstGenerator"
+import { AttributesTypeDescriptionDetector } from "./ai/attributesTypeDescriptionDetector"
+import { IMetadata, ITypeDescriptionDetectorRequest, TypeDescriptionDetectorResult } from "./ai/interfaces"
+import { TypeDescriptionDetectorResultItem } from "./ai/TypeDescriptionDetectorResult"
 
 export class Application implements IApplication {
   private readonly model: ICSTModel
   private readonly mainCursor: IModelCursor
   private readonly groupCursor: IModelCursor
-
+  private readonly attributesTypeDescriptionDetector: AttributesTypeDescriptionDetector
   private readonly view: IView
 
   constructor(mainEditorContainer: HTMLElement, groupEditorContainer: HTMLElement) {
@@ -34,11 +37,13 @@ export class Application implements IApplication {
     this.view = new View(mainEditorContainer, groupEditorContainer, this.mainCursor, this.groupCursor)
     this.view.onCloseGroup = this.onCloseGroup.bind(this)
     this.view.onSelectGroup = this.onSelectGroup.bind(this)
+
+    this.attributesTypeDescriptionDetector = new AttributesTypeDescriptionDetector()
   }
 
   // region events
 
-  public onChangeContent: (cst: IBaseElement | undefined, attributes: IAttributes) => void = () => {
+  public onChangeContent: (cst: IBaseElement | undefined, attributes: IAttribute[]) => void = () => {
     throw new Error("onChangeContent is not implemented")
   }
 
@@ -46,6 +51,22 @@ export class Application implements IApplication {
     throw new Error("onSelectElement is not implemented")
   }
   // endregion events
+
+  public addMetadata(metadata: IMetadata[]): void {
+    this.attributesTypeDescriptionDetector.addMetadata(metadata)
+  }
+
+  public searchTypeInMetadata(requests: ITypeDescriptionDetectorRequest[]): TypeDescriptionDetectorResult {
+    let results: TypeDescriptionDetectorResult = []
+    for (const request of requests) {
+      const types = this.attributesTypeDescriptionDetector.search(request)
+
+      const typesFormat = types.map((type) => this.formatTypeDescription(type))
+      const result = new TypeDescriptionDetectorResultItem(request.id, types, typesFormat)
+      results.push(result)
+    }
+    return results
+  }
 
   getCst(): IBaseElement {
     return this.model.cst
@@ -124,7 +145,7 @@ export class Application implements IApplication {
     this.groupCursor.path = group.path
   }
 
-  private onChangeModelContent(cst: IBaseElement | undefined, attributes: IAttributes): void {
+  private onChangeModelContent(cst: IBaseElement | undefined, attributes: IAttribute[]): void {
     this.onChangeContent(cst, attributes)
   }
 }

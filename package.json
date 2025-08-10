@@ -9,7 +9,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "build-playground": "tsc && vite build --config vite.config.playground.js",
-    "test": "vitest"
+    "test": "vitest",
+    "fix-imports": "node scripts/fix-imports.js"
   },
   "devDependencies": {
     "@types/node": "^22.15.21",
@@ -27,10 +28,16 @@
     "vitest": "^3.2.4"
   },
   "dependencies": {
+    "@orama/orama": "^3.1.11",
+    "@orama/plugin-embeddings": "^3.1.11",
+    "@orama/plugin-pt15": "^3.1.11",
+    "@orama/plugin-qps": "^3.1.11",
+    "@orama/stemmers": "^3.1.11",
     "@ungap/global-this": "^0.4.4",
     "@ungap/trim-end": "^0.2.0",
     "@ungap/trim-start": "^0.2.0",
     "@ungap/weakrefs": "^0.2.0",
+    "big-integer": "^1.6.52",
     "chevrotain": "^11.0.3",
     "class-transformer": "^0.5.1",
     "date-fns": "^4.1.0",
@@ -38,8 +45,10 @@
     "performance-polyfill": "^0.0.3",
     "reflect-metadata": "^0.2.2",
     "rollup": "^4.41.1",
+    "seedrandom": "^3.0.5",
     "split.js": "^1.6.5",
     "uuid": "^11.1.0",
+    "whatwg-fetch": "^3.6.20",
     "yarn": "^1.22.22"
   }
 }

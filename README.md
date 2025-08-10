@@ -124,6 +124,10 @@
 
 👍 Парсинг осуществляется с помощью библиотеки [Сhevrotain](https://github.com/chevrotain/chevrotain).
 
+👍 Для разбора модулей используются наработки [Оформлятор модулей 1С](https://github.com/vladimir-kharin/1c_formatter).
+
+👍 Редактор скриптов основан на [Консоли кода для 1С 8.3](https://github.com/salexdv/bsl_console).
+
 👍 Иконки взяты из коллекций [HackerNoon's Pixel Icon Library](https://pixeliconlibrary.com), [Lucid Icons](https://leo-red.itch.io/lucid-icon-pack) и [Remix Icon](remixicon.com).
 
 ## ⚖️Лицензии
