@@ -19,17 +19,18 @@ export interface IBaseElement {
   getIdTemplate(request: IdGeneratorRequest): string
   getIdGeneratorQueue(): IdGeneratorQueueInboxItem[]
 
-  getAttributes(): IAttributes
+  getAttributes(): IAttribute[]
 
   get isContainer(): boolean
 }
 
 export interface IAttribute {
-  typeDescription: ITypeDescription
-  items?: Map<string, IAttribute>
+  name: string
+  isTable: boolean
+  isNew: boolean
+  singleTypeDescription: string
+  items?: IAttribute[]
 }
-
-export interface IAttributes extends Map<string, IAttribute> {}
 
 export interface ITypeDescription {
   types: string[]
@@ -43,4 +44,5 @@ export interface ITypeDescription {
 
   isEmpty(): boolean
   isEqual(other: ITypeDescription): boolean
+  isTable(): boolean
 }

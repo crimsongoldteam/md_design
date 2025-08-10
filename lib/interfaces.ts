@@ -1,9 +1,9 @@
 import { IMetadata, ITypeDescriptionDetectorRequest, TypeDescriptionDetectorResult } from "./ai/interfaces"
 import { IEditorWrapper, IElementPathData, IModelCursor } from "./editor/interfaces"
-import { IAttributes, IBaseElement, ITypeDescription } from "./elements/interfaces"
+import { IAttribute, IBaseElement, ITypeDescription } from "./elements/interfaces"
 
 export interface IApplication {
-  onChangeContent: (cst: IBaseElement, attributes: IAttributes) => void
+  onChangeContent: (cst: IBaseElement, attributes: IAttribute[]) => void
   onSelectElement: (currentElement: IElementPathData | undefined) => void
 
   getText(): string
@@ -51,7 +51,7 @@ export interface IEnterpriseConnectorSelectElementEvent {
 
 export interface IEnterpriseConnectorChangeContentData {
   cst: IBaseElement | undefined
-  attributes: IAttributes
+  attributes: IAttribute[]
 }
 
 //EVENT_CHANGE_CONTENT

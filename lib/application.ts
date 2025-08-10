@@ -6,7 +6,7 @@ import { GroupCursorBuilder, GroupCursorFormatter } from "./editor/groupCursorHe
 import { MainCursorBuilder, MainCursorFormatter } from "./editor/mainCursor"
 import { ModelCursor } from "./editor/modelCursorHelpers"
 import { IApplication, IView } from "./interfaces"
-import { IBaseElement, IAttributes, ITypeDescription } from "./elements/interfaces"
+import { IBaseElement, ITypeDescription, IAttribute } from "./elements/interfaces"
 import { ICSTModel, IElementPathData, IModelCursor } from "./editor/interfaces"
 import { View } from "./view"
 import { TableElement } from "./elements"
@@ -43,7 +43,7 @@ export class Application implements IApplication {
 
   // region events
 
-  public onChangeContent: (cst: IBaseElement | undefined, attributes: IAttributes) => void = () => {
+  public onChangeContent: (cst: IBaseElement | undefined, attributes: IAttribute[]) => void = () => {
     throw new Error("onChangeContent is not implemented")
   }
 
@@ -145,7 +145,7 @@ export class Application implements IApplication {
     this.groupCursor.path = group.path
   }
 
-  private onChangeModelContent(cst: IBaseElement | undefined, attributes: IAttributes): void {
+  private onChangeModelContent(cst: IBaseElement | undefined, attributes: IAttribute[]): void {
     this.onChangeContent(cst, attributes)
   }
 }

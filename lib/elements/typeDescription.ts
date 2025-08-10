@@ -24,12 +24,13 @@ export class TypeDescription implements ITypeDescription {
   @Expose({ name: "Авто" })
   public auto: boolean = true
 
-  constructor(type?: string, isNew?: boolean) {
+  constructor(type?: string, isNew: boolean = false, auto: boolean = true) {
     if (!type) {
       return
     }
     this.types.push(type)
-    this.isNew = isNew ?? false
+    this.isNew = isNew
+    this.auto = auto
   }
 
   public isEqual(other: TypeDescription): boolean {
@@ -55,5 +56,9 @@ export class TypeDescription implements ITypeDescription {
 
   public isEmpty() {
     return this.types.length === 0
+  }
+
+  public isTable(): boolean {
+    return this.types.length === 1 && (this.types[0] === "ТаблицаЗначений" || this.types[0] === "ДеревоЗначений")
   }
 }

@@ -9,8 +9,8 @@ import { BaseElementWithAttributes } from "./baseElementWithAttributes .ts"
 import { TableEmptyElement } from "./tableEmptyElement.ts"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator.ts"
 import { elementsManager } from "@/elementsManager"
-import { IAttributes } from "./interfaces.ts"
-import { Attribute, Attributes } from "./attributes"
+import { IAttribute } from "./interfaces.ts"
+import { Attribute } from "./attributes"
 
 export type TableHeaderElement = TableColumnGroupElement | TableColumnElement
 export type TableHeaderElementExt = TableColumnGroupElement | TableColumnElement | TableEmptyElement
@@ -81,18 +81,17 @@ export class TableElement extends BaseElementWithAttributes {
     }
   }
 
-  public getAttributes(): IAttributes {
-    const attributes: IAttributes = new Attributes()
-    const attribute = new Attribute(this.typeDescription)
+  public getAttributes(): IAttribute[] {
+    const attributes: IAttribute[] = []
+    const attribute = new Attribute(this.attributeId, this.typeDescription)
     const columns = this.getAllColumns()
-    attribute.items = new Map()
+    attribute.items = []
+
     for (const column of columns) {
       const columnAttributes = column.getAttributes()
-      for (const [key, value] of columnAttributes) {
-        attribute.items.set(key, value)
-      }
+      attribute.items.push(...columnAttributes)
     }
-    attributes.set(this.attributeId, attribute)
+    attributes.push(attribute)
     return attributes
   }
 }

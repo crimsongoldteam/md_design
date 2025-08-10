@@ -8,7 +8,7 @@ import {
 import { Exporter } from "./exporter/exporter"
 import { Importer } from "./importer/importer"
 import { IElementPathData } from "./editor/interfaces"
-import type { IAttributes, IBaseElement } from "./elements/interfaces"
+import type { IAttribute, IBaseElement } from "./elements/interfaces"
 import { Expose, Type } from "class-transformer"
 import { Attribute } from "./elements/attributes"
 import { IMetadata, ITypeDescriptionDetectorRequest } from "./ai/interfaces"
@@ -19,9 +19,9 @@ export class EnterpriseConnectorChangeContentData implements IEnterpriseConnecto
 
   @Expose({ name: "Атрибуты" })
   @Type(() => Attribute)
-  attributes: IAttributes
+  attributes: IAttribute[]
 
-  constructor(cst: IBaseElement | undefined, attributes: IAttributes) {
+  constructor(cst: IBaseElement | undefined, attributes: IAttribute[]) {
     this.cst = cst
     this.attributes = attributes
   }
@@ -95,7 +95,7 @@ export class EnterpriseConnector implements IEnterpriseConnector {
     this.sendEvent("EVENT_SELECT_ELEMENT", result)
   }
 
-  private onChangeContent(cst: IBaseElement | undefined, attributes: IAttributes): void {
+  private onChangeContent(cst: IBaseElement | undefined, attributes: IAttribute[]): void {
     const data = new EnterpriseConnectorChangeContentData(cst, attributes)
     const result: IEnterpriseConnectorChangeContentEvent = {
       text: this.application.getText(),

@@ -2,7 +2,7 @@ import { Expose, Type } from "class-transformer"
 import { TypeDescription, BaseElementWithAttributes } from "./index"
 import { PlainToClassDiscriminator } from "../importer/plainToClassDiscriminator"
 import { elementsManager } from "@/elementsManager"
-import { IAttributes } from "./interfaces"
+import { IAttribute } from "./interfaces"
 import { Attribute } from "./attributes"
 
 export class InputElement extends BaseElementWithAttributes {
@@ -17,9 +17,9 @@ export class InputElement extends BaseElementWithAttributes {
   @Type(() => TypeDescription)
   public typeDescription: TypeDescription = new TypeDescription()
 
-  public getAttributes(): IAttributes {
-    const attributes: IAttributes = super.getAttributes()
-    attributes.set(this.attributeId, new Attribute(this.typeDescription))
+  public getAttributes(): IAttribute[] {
+    const attributes: IAttribute[] = super.getAttributes()
+    attributes.push(new Attribute(this.attributeId, this.typeDescription))
     return attributes
   }
 

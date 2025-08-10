@@ -26,7 +26,7 @@ test("single reference", async () => {
     ],
   })
 
-  expect(result).toEqual([new TypeDescription("Справочник.Контрагенты")])
+  expect(result).toEqual([new TypeDescription("Справочник.Контрагенты", false, false)])
 })
 
 test("multiple reference in right order", async () => {
@@ -34,7 +34,7 @@ test("multiple reference in right order", async () => {
 
   await detector.addMetadata([
     {
-      type: "Виды контрагентов",
+      type: "ВидыКонтрагентов",
       section: "Справочник",
       description: "Виды контрагентов",
     },
@@ -53,8 +53,8 @@ test("multiple reference in right order", async () => {
   })
 
   expect(result).toEqual([
-    new TypeDescription("Справочник.Контрагенты"),
-    new TypeDescription("Справочник.Виды контрагентов"),
+    new TypeDescription("Справочник.Контрагенты", false, false),
+    new TypeDescription("Справочник.ВидыКонтрагентов", false, false),
   ])
 })
 
@@ -79,7 +79,7 @@ test("new object", async () => {
     terms: [new TypeDescriptionDetectorRequestTerm({ type: "Справочник", singular: "Договор", plural: "Договоры" })],
   })
 
-  expect(result).toEqual([new TypeDescription("Справочник.Договоры", true)])
+  expect(result).toEqual([new TypeDescription("Справочник.Договоры", true, false)])
 })
 
 test("few terms in right order", async () => {
@@ -110,7 +110,10 @@ test("few terms in right order", async () => {
     ],
   })
 
-  expect(result).toEqual([new TypeDescription("Справочник.Контрагенты"), new TypeDescription("Справочник.Организации")])
+  expect(result).toEqual([
+    new TypeDescription("Справочник.Контрагенты", false, false),
+    new TypeDescription("Справочник.Организации", false, false),
+  ])
 })
 
 test("one term is new", async () => {
@@ -137,8 +140,8 @@ test("one term is new", async () => {
   })
 
   expect(result).toEqual([
-    new TypeDescription("Справочник.Контрагенты"),
-    new TypeDescription("Справочник.Организации", true),
+    new TypeDescription("Справочник.Контрагенты", false, false),
+    new TypeDescription("Справочник.Организации", true, false),
   ])
 })
 
@@ -161,8 +164,8 @@ test("primitive types", async () => {
     ],
   })
 
-  const typeString = new TypeDescription("Строка")
+  const typeString = new TypeDescription("Строка", false, false)
   typeString.length = 4
 
-  expect(result).toEqual([new TypeDescription("Справочник.Годы"), typeString])
+  expect(result).toEqual([new TypeDescription("Справочник.Годы", false, false), typeString])
 })

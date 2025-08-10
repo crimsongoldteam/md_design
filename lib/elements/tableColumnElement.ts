@@ -8,7 +8,7 @@ import { TableElement } from "./tableElement"
 import { IdFormatter, IdFormatterRule } from "@/parser/visitorTools/idFormatter"
 import { PlainToClassDiscriminator } from "@/importer/plainToClassDiscriminator"
 import { elementsManager } from "@/elementsManager"
-import { IAttributes } from "./interfaces"
+import { IAttribute } from "./interfaces"
 import { Attribute } from "./attributes"
 
 export class TableColumnElement extends BaseElement {
@@ -236,13 +236,13 @@ export class TableColumnElement extends BaseElement {
     return prefix + this.attributeId
   }
 
-  public getAttributes(): IAttributes {
-    const attributes: IAttributes = super.getAttributes()
+  public getAttributes(): IAttribute[] {
+    const attributes: IAttribute[] = super.getAttributes()
     if (this.attributeId) {
-      attributes.set(this.attributeId, new Attribute(this.typeDescription))
+      attributes.push(new Attribute(this.attributeId, this.typeDescription))
     }
     if (this.checkboxAttributeId) {
-      attributes.set(this.checkboxAttributeId, new Attribute(this.typeDescriptionCheckbox))
+      attributes.push(new Attribute(this.checkboxAttributeId, this.typeDescriptionCheckbox))
     }
 
     return attributes
