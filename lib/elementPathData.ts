@@ -1,8 +1,9 @@
 import { Expose, Type, Transform } from "class-transformer"
-import { CstPathItem, CstPath } from "./elements/cstPathHelper"
+import { CstPathItem } from "./elements/cstPathHelper"
+import type { CstPath } from "./elements/cstPathHelper"
 import { PlainToClassDiscriminator } from "./importer/plainToClassDiscriminator"
 import { PlainToClassTransformer } from "./importer/plaintToClassTransformer"
-import { IBaseElement } from "./elements/interfaces"
+import type { IBaseElement } from "./elements/interfaces"
 import { BaseElement } from "./elements/baseElement"
 import { IElementPathData } from "./editor/interfaces"
 

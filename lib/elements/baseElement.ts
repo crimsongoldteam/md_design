@@ -1,11 +1,11 @@
 import { Expose, Transform } from "class-transformer"
 import "reflect-metadata"
 import { IdGeneratorQueueInboxItem, IdGeneratorRequest } from "../parser/visitorTools/idGenerator"
-import { CstElementPosition, CstPath, CstPathHelper } from "./cstPathHelper"
+import { CstElementPosition, CstPathHelper } from "./cstPathHelper"
+import type { CstPath } from "./cstPathHelper"
 import { PropertiesTransformer } from "@/importer/propertiesTransformer"
 import { PropertyValue, ElementListType, PropertyAlignment } from "./types"
-import { IAttributes, IBaseElement } from "./interfaces"
-import { Attributes } from "./attributes"
+import type { IAttribute, IBaseElement } from "./interfaces"
 
 export abstract class BaseElement implements IBaseElement {
   protected static aligmentProperty: string = "ГоризонтальноеПоложениеВГруппе"
@@ -80,17 +80,15 @@ export abstract class BaseElement implements IBaseElement {
     }
   }
 
-  public getAttributes(): IAttributes {
-    const result: IAttributes = new Attributes()
+  public getAttributes(): IAttribute[] {
+    const result: IAttribute[] = []
     for (let listType of this.getChildrenFields()) {
       const list = this.getList(listType)
       if (!list) continue
 
       for (let item of list) {
-        let attributes: IAttributes = item.getAttributes()
-        for (let attribute of attributes.keys()) {
-          result.set(attribute, attributes.get(attribute)!)
-        }
+        let attributes: IAttribute[] = item.getAttributes()
+        result.push(...attributes)
       }
     }
 
