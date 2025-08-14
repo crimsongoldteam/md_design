@@ -21,11 +21,27 @@ export class TypeDescription implements ITypeDescription {
   @Expose({ name: "Авто" })
   public auto: boolean = true
 
-  constructor(type?: string) {
-    if (!type) {
-      return
+  constructor(
+    type?: string,
+    options?: {
+      auto?: boolean
+      digits?: number
+      fractionDigits?: number
+      length?: number
+      dateFractions?: DateFractions
     }
-    this.types.push(type)
+  ) {
+    if (type) {
+      this.types.push(type)
+    }
+
+    if (options) {
+      this.auto = options.auto ?? true
+      this.digits = options.digits ?? 0
+      this.fractionDigits = options.fractionDigits ?? 0
+      this.length = options.length ?? 0
+      this.dateFractions = options.dateFractions ?? DateFractions.Date
+    }
   }
 
   public isEmpty() {

@@ -226,6 +226,9 @@ export class Parser extends CstParser {
         this.SUBRULE(this.checkboxRightField)
       },
       () => {
+        this.SUBRULE(this.radioButtonField)
+      },
+      () => {
         this.SUBRULE(this.commandBar)
       },
       () => {
@@ -434,6 +437,49 @@ export class Parser extends CstParser {
     })
 
     this.aligment("right")
+  })
+
+  // #endregion
+
+  // #region radioButtonField
+
+  private readonly radioButtonField = this.RULE("radioButtonField", () => {
+    this.CONSUME(t.RadioButtonFieldType)
+
+    this.aligment("left")
+
+    this.OPTION1(() => {
+      this.MANY1(() => {
+        this.CONSUME(t.RadioButtonHeader)
+      })
+      this.CONSUME(t.Colon)
+    })
+
+    this.AT_LEAST_ONE(() => {
+      this.SUBRULE(this.radioButtonItem)
+    })
+
+    this.OPTION(() => {
+      this.SUBRULE(this.properties)
+    })
+
+    this.aligment("right")
+  })
+
+  private readonly radioButtonItem = this.RULE("radioButtonItem", () => {
+    this.choice(
+      1,
+      () => {
+        this.CONSUME(t.RadioButtonChecked)
+      },
+      () => {
+        this.CONSUME(t.RadioButtonUnchecked)
+      }
+    )
+
+    this.MANY(() => {
+      this.CONSUME(t.RadioButtonValueDescription)
+    })
   })
 
   // #endregion

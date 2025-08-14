@@ -5,6 +5,7 @@ import { HorizontalGroupFormatter } from "./horizontalGroupFormatter"
 import { VerticalGroupFormatter } from "./verticalGroupFormatter"
 import { PropertiesFormatter } from "./propertiesFormatter"
 import { CheckboxFormatter } from "./checkboxFormatter"
+import { RadioButtonFormatter } from "./radioButtonFormatter"
 import { PageFormatter } from "./pageFormatter"
 import { PagesFormatter } from "./pagesFormatter"
 import { CommandBarFormatter } from "./commandBarFormatter"
@@ -23,6 +24,7 @@ import {
   HorizontalGroupElement,
   VerticalGroupElement,
   CheckboxElement,
+  RadioButtonElement,
   PagesElement,
   PageElement,
   CommandBarElement,
@@ -46,6 +48,7 @@ export class FormFormatterFactory {
     this.registerFormatter(HorizontalGroupElement, HorizontalGroupFormatter)
     this.registerFormatter(VerticalGroupElement, VerticalGroupFormatter)
     this.registerFormatter(CheckboxElement, CheckboxFormatter)
+    this.registerFormatter(RadioButtonElement, RadioButtonFormatter)
     this.registerFormatter(PagesElement, PagesFormatter)
     this.registerFormatter(PageElement, PageFormatter)
     this.registerFormatter(CommandBarElement, CommandBarFormatter)

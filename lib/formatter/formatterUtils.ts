@@ -98,6 +98,17 @@ export class FormatterUtils {
     return captionPosition === "Право" ? `${checkbox} ${text}` : `${text} ${checkbox}`
   }
 
+  public static getRadioButtonItemString(text: string, radioButtonValue: boolean = false): string {
+    const value = radioButtonValue ? "X" : " "
+    const radioButton = `(${value})`
+
+    if (!text) {
+      return radioButton
+    }
+
+    return `${radioButton}${text}`
+  }
+
   public static distributeNumberWithAlignment(numberToDistribute: number, valuesArray: number[]): number[] {
     const resultArray: number[] = []
 

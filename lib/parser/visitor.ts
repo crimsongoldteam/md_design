@@ -16,6 +16,7 @@ import {
   HorizontalGroupElement,
   VerticalGroupElement,
   CheckboxElement,
+  RadioButtonElement,
   PagesElement,
   PageElement,
   CommandBarElement,
@@ -325,6 +326,56 @@ export class Visitor extends BaseVisitor {
 
     return result
   }
+  // #endregion
+
+  // #region radioButtonField
+
+  radioButtonField(ctx: CstChildrenDictionary): RadioButtonElement {
+    const result = new RadioButtonElement()
+
+    result.value = 0
+
+    this.setAligment(ctx, result)
+
+    let content = VisitorUtils.joinTokens(ctx.RadioButtonHeader)
+    if (content) {
+      this.setProperty(result, "Заголовок", content)
+    }
+
+    let items = this.visitAll(ctx.radioButtonItem)
+
+    let propertyValues = []
+
+    for (let index = 0; index < items.length; index++) {
+      const item = items[index]
+      if (item.checked) {
+        result.value = index
+      }
+      propertyValues.push(item.description)
+    }
+
+    this.setProperty(result, "СписокВыбора", propertyValues)
+
+    this.visit(ctx.properties as CstNode[], { element: result })
+
+    let radioButtonTokens = [
+      ...(ctx.RadioButtonChecked ?? []),
+      ...(ctx.RadioButtonUnchecked ?? []),
+      ...(ctx.RadioButtonHeader ?? []),
+    ]
+    this.semanticTokensManager.add(SemanticTokensTypes.RadioButton, radioButtonTokens, result)
+
+    this.semanticTokensManager.add(SemanticTokensTypes.Properties, ctx.properties as CstNode[], result)
+
+    return result
+  }
+
+  radioButtonItem(ctx: CstChildrenDictionary): { checked: boolean; description: string } {
+    const checked = ctx.RadioButtonChecked ? true : false
+    const description = this.joinTokens(ctx.RadioButtonValueDescription) ?? ""
+    return { checked, description }
+  }
+
   // #endregion
 
   // #region commandBar

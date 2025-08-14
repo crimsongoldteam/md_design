@@ -38,6 +38,16 @@ export const CheckboxHeader = createToken({
   pattern: Lexer.NA,
 })
 
+export const RadioButtonHeader = createToken({
+  name: "RadioButtonHeader",
+  pattern: Lexer.NA,
+})
+
+export const RadioButtonValueDescription = createToken({
+  name: "RadioButtonValueDescription",
+  pattern: Lexer.NA,
+})
+
 export const Button = createToken({ name: "Button", pattern: Lexer.NA })
 
 export const TableCell = createToken({ name: "TableCell", pattern: Lexer.NA })
@@ -76,9 +86,11 @@ export const combineTokens = [
   InputValue,
   InputModifiers,
   CheckboxHeader,
+  RadioButtonHeader,
   Button,
   TableCell,
   TableCellContinue,
+  RadioButtonValueDescription,
 ]
 
 // #endregion
@@ -140,6 +152,20 @@ export const SwitchUnchecked = createToken({
   categories: excludeTokens(CheckboxHeader),
 })
 
+export const RadioButtonChecked = createToken({
+  name: "RadioButtonChecked",
+  pattern: /\([ \t]*\S[ \t]*\)[ \t]*/,
+  label: "(X)",
+  categories: excludeTokens(RadioButtonValueDescription),
+})
+
+export const RadioButtonUnchecked = createToken({
+  name: "RadioButtonUnchecked",
+  pattern: /\([ \t]*\)[ \t]*/,
+  label: "( )",
+  categories: excludeTokens(RadioButtonValueDescription),
+})
+
 export const Underscore = keyword("Underscore", "_", InputValue)
 
 export const Picture = createToken({
@@ -163,8 +189,26 @@ export const ButtonGroup = createToken({
   categories: excludeTokens(Button),
 })
 
-export const LArrow = keyword("LArrow", "<-", LabelContent, InputValue, InputModifiers, CheckboxHeader)
-export const RArrow = keyword("RArrow", "->", LabelContent, InputValue, InputModifiers, CheckboxHeader)
+export const LArrow = keyword(
+  "LArrow",
+  "<-",
+  LabelContent,
+  InputValue,
+  InputModifiers,
+  CheckboxHeader,
+  RadioButtonHeader,
+  RadioButtonValueDescription
+)
+export const RArrow = keyword(
+  "RArrow",
+  "->",
+  LabelContent,
+  InputValue,
+  InputModifiers,
+  CheckboxHeader,
+  RadioButtonHeader,
+  RadioButtonValueDescription
+)
 export const LCurly = keyword(
   "LCurly",
   "{",
@@ -177,7 +221,9 @@ export const LCurly = keyword(
   Button,
   Picture,
   TableCell,
-  TableCellContinue
+  TableCellContinue,
+  RadioButtonHeader,
+  RadioButtonValueDescription
 )
 
 export const RCurly = keyword("RCurly", "}", PropertiesValueText, PropertiesNameText)
@@ -185,8 +231,8 @@ export const RCurly = keyword("RCurly", "}", PropertiesValueText, PropertiesName
 export const LSquare = keyword("LSquare", "[", CheckboxHeader)
 export const RSquare = keyword("RSquare", "]", CheckboxHeader)
 
-export const LRound = keyword("LRound", "(", PropertiesValueText)
-export const RRound = keyword("RRound", ")", PropertiesValueOptionText)
+export const LRound = keyword("LRound", "(", RadioButtonValueDescription)
+export const RRound = keyword("RRound", ")", RadioButtonValueDescription)
 
 export const Comma = keyword("Comma", ",", PropertiesValueText, PropertiesValueOptionText)
 
@@ -194,7 +240,7 @@ export const LAngle = keyword("LAngle", "<")
 export const RAngle = keyword("RAngle", ">", Button, Picture)
 
 export const Semicolon = keyword("Semicolon", ";", PropertiesValueText, PropertiesValueOptionText)
-export const Colon = keyword("Colon", ":", InputHeader, TableCell)
+export const Colon = keyword("Colon", ":", InputHeader, TableCell, RadioButtonHeader)
 export const VBar = keyword("VBar", "|", Button, Picture, TableCell, TableCellContinue)
 export const Equals = keyword("Equals", "=", PropertiesNameText)
 
@@ -289,6 +335,13 @@ export const CommandBarType = createToken({
   line_breaks: true,
 })
 
+export const RadioButtonFieldType = createToken({
+  name: "RadioButtonFieldType",
+  pattern: matchType,
+  group: Lexer.SKIPPED,
+  line_breaks: true,
+})
+
 export const inlineTypesTokens = [
   PropertyLineType,
   LabelFieldType,
@@ -297,6 +350,7 @@ export const inlineTypesTokens = [
   InputFieldType,
   TableType,
   CommandBarType,
+  RadioButtonFieldType,
 ]
 
 // #endregion
@@ -311,6 +365,8 @@ export const allTokens = [
   SwitchUnchecked,
   CheckboxChecked,
   CheckboxUnchecked,
+  RadioButtonChecked,
+  RadioButtonUnchecked,
   ButtonGroup,
   Picture,
   LArrow,

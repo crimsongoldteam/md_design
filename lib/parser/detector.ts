@@ -3,6 +3,7 @@ import * as t from "./lexer.ts"
 
 export class Detector {
   private readonly checkboxTokens = [t.CheckboxChecked, t.CheckboxUnchecked, t.SwitchChecked, t.SwitchUnchecked]
+  private readonly radioButtonTokens = [t.RadioButtonChecked, t.RadioButtonUnchecked]
 
   public getTypeToken(tokens: Array<IToken>): IToken {
     const tokenType = this.detect(tokens)
@@ -24,9 +25,9 @@ export class Detector {
       return t.CommandBarType
     }
 
-    const { hasVBar, hasColon, hasRightCheckbox } = this.analyzeTokens(tokens)
+    const { hasVBar, hasColon, hasRightCheckbox, hasRadioButton } = this.analyzeTokens(tokens)
 
-    return this.determineFieldType(hasVBar, hasColon, hasRightCheckbox, hasLeftArrow, firstToken)
+    return this.determineFieldType(hasVBar, hasColon, hasRightCheckbox, hasRadioButton, hasLeftArrow, firstToken)
   }
 
   private processFirstToken(tokens: Array<IToken>): { firstToken: IToken; hasLeftArrow: boolean } {
@@ -49,10 +50,16 @@ export class Detector {
     return token.tokenType === t.LAngle
   }
 
-  private analyzeTokens(tokens: Array<IToken>): { hasVBar: boolean; hasColon: boolean; hasRightCheckbox: boolean } {
+  private analyzeTokens(tokens: Array<IToken>): {
+    hasVBar: boolean
+    hasColon: boolean
+    hasRightCheckbox: boolean
+    hasRadioButton: boolean
+  } {
     let hasVBar = false
     let hasColon = false
     let hasRightCheckbox = false
+    let hasRadioButton = false
 
     for (let index = 0; index < tokens.length; index++) {
       const token = tokens[index]
@@ -65,21 +72,28 @@ export class Detector {
         hasColon = true
       } else if (this.checkboxTokens.includes(token.tokenType) && isInlineElementEnd) {
         hasRightCheckbox = true
+      } else if (this.radioButtonTokens.includes(token.tokenType)) {
+        hasRadioButton = true
       }
     }
 
-    return { hasVBar, hasColon, hasRightCheckbox }
+    return { hasVBar, hasColon, hasRightCheckbox, hasRadioButton }
   }
 
   private determineFieldType(
     hasVBar: boolean,
     hasColon: boolean,
     hasRightCheckbox: boolean,
+    hasRadioButton: boolean,
     hasLeftArrow: boolean,
     firstToken: IToken
   ): TokenType {
     if (hasVBar && !hasLeftArrow) {
       return t.TableType
+    }
+
+    if (hasRadioButton) {
+      return t.RadioButtonFieldType
     }
 
     if (hasColon) {
