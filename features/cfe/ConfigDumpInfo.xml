@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ConfigDumpInfo xmlns="http://v8.1c.ru/8.3/xcf/dumpinfo" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" format="Hierarchical" version="2.20">
+	<ConfigVersions>
+		<Metadata name="Catalog.Договоры" id="dd33efff-8268-4118-bd67-63b7077ea060" configVersion="7763a56bd3163fd176956f5321fdaa3b0a0207d8"/>
+		<Metadata name="Configuration.Расширение" id="97d87a50-a027-4784-b308-9a7776f0bc86" configVersion="d3be798365f62b2f8af31298894de7db9f1da662"/>
+		<Metadata name="Language.Русский" id="b007d8d1-e9b1-48fc-b174-a1c1f987c582" configVersion="64e81abe8084284d7cf71e5c16e980e1354a794b"/>
+		<Metadata name="Role.Расш_ОсновнаяРоль" id="e890d821-3b94-4cd1-8730-cffb8d856a9b" configVersion="1728930ee6b2702bd6b8e6c1805ac69329e9e354"/>
+	</ConfigVersions>
+</ConfigDumpInfo>
