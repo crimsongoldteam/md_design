@@ -11,12 +11,32 @@ test("Create radio button", () => {
   expectFormattedText(before, after)
 })
 
-// test("Create radio button with header", () => {
-//   const before = `
-// Заголовок:(v)Вариант 1()Вариант 2
-// `
-//   const after = `
-// Заголовок: ( )Вариант 1( )Вариант 2`
+test("Create radio button with header", () => {
+  const before = `
+Заголовок:(v)Вариант 1()Вариант 2
+`
+  const after = `
+Заголовок: (X)Вариант 1 ( )Вариант 2`
 
-//   expectFormattedText(before, after)
-// })
+  expectFormattedText(before, after)
+})
+
+test("Create radio button with right alignment", () => {
+  const before = `
+->(v)Вариант 1()Вариант 2
+`
+  const after = `
+-> (X)Вариант 1 ( )Вариант 2`
+
+  expectFormattedText(before, after)
+})
+
+test("Create radio button with center alignment", () => {
+  const before = `
+->(v)Вариант 1()Вариант 2<-
+`
+  const after = `
+-> (X)Вариант 1 ( )Вариант 2 <-`
+
+  expectFormattedText(before, after)
+})

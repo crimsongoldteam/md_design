@@ -371,7 +371,7 @@ export class Visitor extends BaseVisitor {
   }
 
   radioButtonItem(ctx: CstChildrenDictionary): { checked: boolean; description: string } {
-    const checked = ctx.RadioButtonChecked ? true : false
+    const checked = !!ctx.RadioButtonChecked
     const description = this.joinTokens(ctx.RadioButtonValueDescription) ?? ""
     return { checked, description }
   }

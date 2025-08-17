@@ -1,4 +1,4 @@
-﻿import { createToken, Lexer, TokenType } from "chevrotain"
+﻿import { createToken, IMultiModeLexerDefinition, Lexer, TokenType } from "chevrotain"
 
 // #region combineTokens
 
@@ -156,14 +156,14 @@ export const RadioButtonChecked = createToken({
   name: "RadioButtonChecked",
   pattern: /\([ \t]*\S[ \t]*\)[ \t]*/,
   label: "(X)",
-  categories: excludeTokens(RadioButtonValueDescription),
+  categories: excludeTokens(RadioButtonHeader, RadioButtonValueDescription),
 })
 
 export const RadioButtonUnchecked = createToken({
   name: "RadioButtonUnchecked",
   pattern: /\([ \t]*\)[ \t]*/,
   label: "( )",
-  categories: excludeTokens(RadioButtonValueDescription),
+  categories: excludeTokens(RadioButtonHeader, RadioButtonValueDescription),
 })
 
 export const Underscore = keyword("Underscore", "_", InputValue)
@@ -199,6 +199,7 @@ export const LArrow = keyword(
   RadioButtonHeader,
   RadioButtonValueDescription
 )
+
 export const RArrow = keyword(
   "RArrow",
   "->",
@@ -209,30 +210,41 @@ export const RArrow = keyword(
   RadioButtonHeader,
   RadioButtonValueDescription
 )
-export const LCurly = keyword(
-  "LCurly",
-  "{",
-  GroupHeaderText,
-  PageHeaderText,
-  LabelContent,
-  InputValue,
-  InputModifiers,
-  CheckboxHeader,
-  Button,
-  Picture,
-  TableCell,
-  TableCellContinue,
-  RadioButtonHeader,
-  RadioButtonValueDescription
-)
 
-export const RCurly = keyword("RCurly", "}", PropertiesValueText, PropertiesNameText)
+export const LCurly = createToken({
+  name: "LCurly",
+  pattern: /\{[ \t]*/,
+  label: "{",
+  push_mode: "properties_mode",
+  categories: excludeTokens(
+    GroupHeaderText,
+    PageHeaderText,
+    LabelContent,
+    InputValue,
+    InputModifiers,
+    CheckboxHeader,
+    Button,
+    Picture,
+    TableCell,
+    TableCellContinue,
+    RadioButtonHeader,
+    RadioButtonValueDescription
+  ),
+})
+
+export const RCurly = createToken({
+  name: "RCurly",
+  pattern: /}[ \t]*/,
+  label: "}",
+  pop_mode: true,
+  categories: excludeTokens(PropertiesValueText, PropertiesNameText),
+})
 
 export const LSquare = keyword("LSquare", "[", CheckboxHeader)
 export const RSquare = keyword("RSquare", "]", CheckboxHeader)
 
-export const LRound = keyword("LRound", "(", RadioButtonValueDescription)
-export const RRound = keyword("RRound", ")", RadioButtonValueDescription)
+export const LRound = keyword("LRound", "(", RadioButtonValueDescription, PropertiesValueText)
+export const RRound = keyword("RRound", ")", RadioButtonValueDescription, PropertiesValueOptionText)
 
 export const Comma = keyword("Comma", ",", PropertiesValueText, PropertiesValueOptionText)
 
@@ -393,5 +405,49 @@ export const allTokens = [
   ...combineTokens,
   ...inlineTypesTokens,
 ]
+
+export const propertiesTokens = [
+  NewLine,
+  Dashes,
+  Underscore,
+  SwitchChecked,
+  SwitchUnchecked,
+  CheckboxChecked,
+  CheckboxUnchecked,
+  ButtonGroup,
+  Picture,
+  LArrow,
+  RArrow,
+  Dots,
+  Dash,
+  Text,
+  VBar,
+  LCurly,
+  RCurly,
+  LRound,
+  RRound,
+  Comma,
+  LAngle,
+  RAngle,
+  Semicolon,
+  Colon,
+  Equals,
+  Hash,
+  Ampersand,
+  Plus,
+  Slash,
+  Whitespace,
+  PropertiesNameText,
+  PropertiesValueText,
+  PropertiesValueOptionText,
+]
+
+export const multiModeLexerDefinition: IMultiModeLexerDefinition = {
+  modes: {
+    properties_mode: propertiesTokens,
+    default_mode: allTokens,
+  },
+  defaultMode: "default_mode",
+}
 
 // #endregion

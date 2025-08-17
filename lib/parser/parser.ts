@@ -459,7 +459,7 @@ export class Parser extends CstParser {
       this.SUBRULE(this.radioButtonItem)
     })
 
-    this.OPTION(() => {
+    this.OPTION2(() => {
       this.SUBRULE(this.properties)
     })
 

@@ -60,21 +60,41 @@ export class Detector {
     let hasColon = false
     let hasRightCheckbox = false
     let hasRadioButton = false
+    let insideProperties = false
+    let lastToken
 
-    for (let index = 0; index < tokens.length; index++) {
-      const token = tokens[index]
-      const nextToken = tokens[index + 1]
-      const isInlineElementEnd = index === tokens.length - 1 || nextToken?.tokenType === t.LCurly
+    for (const element of tokens) {
+      const token = element
+
+      if (token.tokenType === t.LCurly) {
+        insideProperties = true
+        continue
+      }
+      if (token.tokenType === t.RCurly) {
+        insideProperties = false
+        continue
+      }
+      if (insideProperties) continue
+
+      lastToken = token
 
       if (token.tokenType === t.VBar) {
         hasVBar = true
-      } else if (token.tokenType === t.Colon) {
+        continue
+      }
+
+      if (token.tokenType === t.Colon) {
         hasColon = true
-      } else if (this.checkboxTokens.includes(token.tokenType) && isInlineElementEnd) {
-        hasRightCheckbox = true
-      } else if (this.radioButtonTokens.includes(token.tokenType)) {
+        continue
+      }
+
+      if (this.radioButtonTokens.includes(token.tokenType)) {
         hasRadioButton = true
       }
+    }
+
+    if (lastToken && this.checkboxTokens.includes(lastToken.tokenType)) {
+      hasRightCheckbox = true
     }
 
     return { hasVBar, hasColon, hasRightCheckbox, hasRadioButton }
