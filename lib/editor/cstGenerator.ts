@@ -1,4 +1,4 @@
-import { allTokens } from "@/parser/lexer"
+import { multiModeLexerDefinition } from "@/parser/lexer"
 import { Visitor } from "@/parser/visitor"
 import { GroupVisitor } from "@/parser/groupVisitor"
 import { Parser } from "@/parser/parser"
@@ -10,7 +10,7 @@ import { TypeDescription } from "@/elements"
 import { TypeDescriptionVisitor } from "@/parser/typeDescriptionVisitor"
 
 export class CSTGenerator {
-  private static readonly lexer = new Lexer(allTokens)
+  private static readonly lexer = new Lexer(multiModeLexerDefinition)
   private static readonly parser = new Parser()
 
   public static buildTypeDescription(text: string): ITypeDescription {

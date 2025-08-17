@@ -64,7 +64,7 @@ export class AttributesTypeDescriptionDetector {
       }
 
       if (!exactFound) {
-        const typeDescription = new TypeDescription(term.type + "." + term.plural, true)
+        const typeDescription = new TypeDescription(term.type + "." + term.plural, { isNew: true })
         typeDescription.auto = false
         allResults.add(typeDescription, this.maxScore)
       }

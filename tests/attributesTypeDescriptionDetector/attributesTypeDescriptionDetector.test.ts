@@ -26,7 +26,7 @@ test("single reference", async () => {
     ],
   })
 
-  expect(result).toEqual([new TypeDescription("Справочник.Контрагенты", false, false)])
+  expect(result).toEqual([new TypeDescription("Справочник.Контрагенты", { isNew: false, auto: false })])
 })
 
 test("multiple reference in right order", async () => {
@@ -53,8 +53,8 @@ test("multiple reference in right order", async () => {
   })
 
   expect(result).toEqual([
-    new TypeDescription("Справочник.Контрагенты", false, false),
-    new TypeDescription("Справочник.ВидыКонтрагентов", false, false),
+    new TypeDescription("Справочник.Контрагенты", { isNew: false, auto: false }),
+    new TypeDescription("Справочник.ВидыКонтрагентов", { isNew: false, auto: false }),
   ])
 })
 
@@ -79,7 +79,7 @@ test("new object", async () => {
     terms: [new TypeDescriptionDetectorRequestTerm({ type: "Справочник", singular: "Договор", plural: "Договоры" })],
   })
 
-  expect(result).toEqual([new TypeDescription("Справочник.Договоры", true, false)])
+  expect(result).toEqual([new TypeDescription("Справочник.Договоры", { isNew: true, auto: false })])
 })
 
 test("few terms in right order", async () => {
@@ -111,8 +111,8 @@ test("few terms in right order", async () => {
   })
 
   expect(result).toEqual([
-    new TypeDescription("Справочник.Контрагенты", false, false),
-    new TypeDescription("Справочник.Организации", false, false),
+    new TypeDescription("Справочник.Контрагенты", { isNew: false, auto: false }),
+    new TypeDescription("Справочник.Организации", { isNew: false, auto: false }),
   ])
 })
 
@@ -140,8 +140,8 @@ test("one term is new", async () => {
   })
 
   expect(result).toEqual([
-    new TypeDescription("Справочник.Контрагенты", false, false),
-    new TypeDescription("Справочник.Организации", true, false),
+    new TypeDescription("Справочник.Контрагенты", { isNew: false, auto: false }),
+    new TypeDescription("Справочник.Организации", { isNew: true, auto: false }),
   ])
 })
 
@@ -164,8 +164,8 @@ test("primitive types", async () => {
     ],
   })
 
-  const typeString = new TypeDescription("Строка", false, false)
+  const typeString = new TypeDescription("Строка", { isNew: false, auto: false })
   typeString.length = 4
 
-  expect(result).toEqual([new TypeDescription("Справочник.Годы", false, false), typeString])
+  expect(result).toEqual([new TypeDescription("Справочник.Годы", { isNew: false, auto: false }), typeString])
 })
