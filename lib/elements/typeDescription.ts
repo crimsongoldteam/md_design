@@ -27,6 +27,7 @@ export class TypeDescription implements ITypeDescription {
   constructor(
     type?: string,
     options?: {
+      isNew?: boolean
       auto?: boolean
       digits?: number
       fractionDigits?: number
@@ -39,6 +40,7 @@ export class TypeDescription implements ITypeDescription {
     }
 
     if (options) {
+      this.isNew = options.isNew ?? false
       this.auto = options.auto ?? true
       this.digits = options.digits ?? 0
       this.fractionDigits = options.fractionDigits ?? 0
