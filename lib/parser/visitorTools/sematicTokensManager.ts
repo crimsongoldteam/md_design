@@ -20,6 +20,7 @@ export enum SemanticTokensTypes {
   TableCell,
   TableSeparator,
   TableColumn,
+  RadioButton,
 }
 
 class SemanticToken {

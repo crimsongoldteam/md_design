@@ -2,6 +2,7 @@ import { BaseElement } from "../elements/baseElement"
 import { TypeDescription } from "../elements/typeDescription"
 import { DateFractions } from "@/elements/types"
 import { IFormatter } from "./formFormatter"
+import { ITypeDescription } from "@/elements/interfaces"
 
 export class PropertiesFormatter implements IFormatter<BaseElement> {
   public formatSingleLine(element: BaseElement, params?: { excludeProperties: string[] }): string[] {
@@ -14,7 +15,7 @@ export class PropertiesFormatter implements IFormatter<BaseElement> {
     return result ? [" " + result] : []
   }
 
-  public formatTypeDescription(typeDescription: TypeDescription): string {
+  public formatTypeDescription(typeDescription: ITypeDescription): string {
     const result = new Array()
     if (typeDescription.auto) {
       return ""
