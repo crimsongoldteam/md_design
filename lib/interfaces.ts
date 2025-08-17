@@ -1,8 +1,9 @@
+import { IMetadata, ITypeDescriptionDetectorRequest, TypeDescriptionDetectorResult } from "./ai/interfaces"
 import { IEditorWrapper, IElementPathData, IModelCursor } from "./editor/interfaces"
-import { IAttributes, IBaseElement, ITypeDescription } from "./elements/interfaces"
+import { IAttribute, IBaseElement, ITypeDescription } from "./elements/interfaces"
 
 export interface IApplication {
-  onChangeContent: (cst: IBaseElement, attributes: IAttributes) => void
+  onChangeContent: (cst: IBaseElement, attributes: IAttribute[]) => void
   onSelectElement: (currentElement: IElementPathData | undefined) => void
 
   getText(): string
@@ -15,6 +16,9 @@ export interface IApplication {
   getCst(): IBaseElement
   formatTypeDescription(typeDescription: ITypeDescription): string
   parseTypeDescription(text: string): ITypeDescription
+
+  addMetadata(metadata: IMetadata[]): void
+  searchTypeInMetadata(requests: ITypeDescriptionDetectorRequest[]): TypeDescriptionDetectorResult
 }
 
 export interface IView {
@@ -35,6 +39,9 @@ export interface IEnterpriseConnector {
   getTable(): string
   formatTypeDescription(typeDescription: string): string
   parseTypeDescription(text: string): string | undefined
+
+  addMetadata(plainText: string): void
+  searchTypeInMetadata(plainText: string): string
 }
 
 // EVENT_SELECT_ELEMENT
@@ -44,7 +51,7 @@ export interface IEnterpriseConnectorSelectElementEvent {
 
 export interface IEnterpriseConnectorChangeContentData {
   cst: IBaseElement | undefined
-  attributes: IAttributes
+  attributes: IAttribute[]
 }
 
 //EVENT_CHANGE_CONTENT

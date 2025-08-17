@@ -109,6 +109,7 @@
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Untru"><img src="https://avatars.githubusercontent.com/u/60393326?v=4?s=100" width="100px;" alt="Pavel"/><br /><sub><b>Pavel</b></sub></a><br /><a href="#code-Untru" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://telegra.ph/sergsyp-10-03"><img src="https://avatars.githubusercontent.com/u/86959196?v=4?s=100" width="100px;" alt="Sergey Sypachev"/><br /><sub><b>Sergey Sypachev</b></sub></a><br /><a href="#promotion-sergsyp" title="Promotion">📣</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Aspi1C"><img src="https://avatars.githubusercontent.com/u/220066038?v=4?s=100" width="100px;" alt="Aspi1C"/><br /><sub><b>Aspi1C</b></sub></a><br /><a href="#bug-Aspi1C" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://infostart.ru"><img src="https://avatars.githubusercontent.com/u/2920817?v=4?s=100" width="100px;" alt="Artur Ayukhanov"/><br /><sub><b>Artur Ayukhanov</b></sub></a><br /><a href="#ideas-artbear" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
   </tbody>
 </table>
@@ -123,6 +124,10 @@
 👍 При разработке использовался список картинок из статьи [Диалог выбора картинки из библиотеки картинок](https://infostart.ru/1c/tools/1522958).
 
 👍 Парсинг осуществляется с помощью библиотеки [Сhevrotain](https://github.com/chevrotain/chevrotain).
+
+👍 Для разбора модулей используются наработки [Оформлятор модулей 1С](https://github.com/vladimir-kharin/1c_formatter).
+
+👍 Редактор скриптов основан на [Консоли кода для 1С 8.3](https://github.com/salexdv/bsl_console).
 
 👍 Иконки взяты из коллекций [HackerNoon's Pixel Icon Library](https://pixeliconlibrary.com), [Lucid Icons](https://leo-red.itch.io/lucid-icon-pack) и [Remix Icon](remixicon.com).
 

@@ -2,14 +2,14 @@ import { FormElement } from "@/elements"
 import { IModelCursor, ICSTModel, IAfterUpdateParams, IElementPathData } from "./interfaces"
 import { CstPath, CstPathHelper } from "@/elements/cstPathHelper"
 import { IdGenerator } from "@/parser/visitorTools/idGenerator"
-import { IAttributes, IBaseElement } from "@/elements/interfaces"
+import { IAttribute, IBaseElement } from "@/elements/interfaces"
 
 export class CSTModel implements ICSTModel {
   private _cst: FormElement = new FormElement()
 
   private readonly cursors: Set<IModelCursor> = new Set()
 
-  public onChangeContent?: (cst: IBaseElement | undefined, attributes: IAttributes) => void
+  public onChangeContent?: (cst: IBaseElement | undefined, attributes: IAttribute[]) => void
 
   get cst(): FormElement {
     return this._cst
@@ -19,7 +19,7 @@ export class CSTModel implements ICSTModel {
     this._cst = value
   }
 
-  get attributes(): IAttributes {
+  get attributes(): IAttribute[] {
     return this.cst.getAttributes()
   }
 
