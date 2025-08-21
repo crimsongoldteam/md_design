@@ -67,6 +67,7 @@
 			<Language>Русский</Language>
 			<Role>Расш_ОсновнаяРоль</Role>
 			<Catalog>Договоры</Catalog>
+			<Catalog>Расш_Справочник1</Catalog>
 		</ChildObjects>
 	</Configuration>
 </MetaDataObject>
