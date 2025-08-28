@@ -29,6 +29,44 @@
 			<Comment/>
 			<ExtendedConfigurationObject>5f6df52c-4a9f-49f6-b7e2-de24e3c7bd59</ExtendedConfigurationObject>
 		</Properties>
-		<ChildObjects/>
+		<ChildObjects>
+			<TabularSection uuid="56071ce7-2022-49ef-876f-50d9038a3ca8">
+				<InternalInfo>
+					<xr:GeneratedType name="CatalogTabularSection.Договоры.Платежи" category="TabularSection">
+						<xr:TypeId>b4a5fb43-933c-40d4-b04f-0bbd0a334e5e</xr:TypeId>
+						<xr:ValueId>814e2a7f-9264-4e49-931f-b6618b1bf1de</xr:ValueId>
+					</xr:GeneratedType>
+					<xr:GeneratedType name="CatalogTabularSectionRow.Договоры.Платежи" category="TabularSectionRow">
+						<xr:TypeId>9512f328-fe5b-40ac-af67-72d69fc620d7</xr:TypeId>
+						<xr:ValueId>ad2140cf-aca9-4ef7-b3b1-43047389f18f</xr:ValueId>
+					</xr:GeneratedType>
+				</InternalInfo>
+				<Properties>
+					<ObjectBelonging>Adopted</ObjectBelonging>
+					<Name>Платежи</Name>
+					<Comment/>
+					<ExtendedConfigurationObject>89558ee6-2107-4775-8766-01bbc68ce4ac</ExtendedConfigurationObject>
+				</Properties>
+				<ChildObjects>
+					<Attribute uuid="84de5db5-2434-4935-a053-bc3577362cb8">
+						<InternalInfo/>
+						<Properties>
+							<ObjectBelonging>Adopted</ObjectBelonging>
+							<Name>Сумма</Name>
+							<Comment/>
+							<ExtendedConfigurationObject>2b2b95c9-5747-4b42-b815-3808fbb030dc</ExtendedConfigurationObject>
+							<Type>
+								<v8:Type>xs:decimal</v8:Type>
+								<v8:NumberQualifiers>
+									<v8:Digits>10</v8:Digits>
+									<v8:FractionDigits>2</v8:FractionDigits>
+									<v8:AllowedSign>Any</v8:AllowedSign>
+								</v8:NumberQualifiers>
+							</Type>
+						</Properties>
+					</Attribute>
+				</ChildObjects>
+			</TabularSection>
+		</ChildObjects>
 	</Catalog>
 </MetaDataObject>

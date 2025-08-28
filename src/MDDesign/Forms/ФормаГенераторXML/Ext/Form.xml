@@ -374,8 +374,10 @@
 										<InputField name="ДеревоИзмененийИмя" id="107">
 											<DataPath>ДеревоИзменений.Имя</DataPath>
 											<ReadOnly>true</ReadOnly>
+											<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
 											<EditMode>EnterOnInput</EditMode>
 											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<Font ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
 											<ContextMenu name="ДеревоИзмененийИмяКонтекстноеМеню" id="108"/>
 											<ExtendedTooltip name="ДеревоИзмененийИмяРасширеннаяПодсказка" id="109"/>
 										</InputField>
@@ -536,6 +538,17 @@
 						</v8:item>
 					</Title>
 					<Type/>
+				</Column>
+				<Column name="ЭтоЗаимствованный" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Это заимствованный</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
 				</Column>
 			</Columns>
 		</Attribute>
@@ -730,9 +743,6 @@
 			<Type>
 				<v8:Type>xs:boolean</v8:Type>
 			</Type>
-			<Save>
-				<Field>ВидимостьСтрокиСостояния</Field>
-			</Save>
 		</Attribute>
 		<Attribute name="ГлобальныйМодули" id="20">
 			<Title>
@@ -976,6 +986,9 @@
 				<v8:Type>xs:boolean</v8:Type>
 			</Type>
 			<SavedData>true</SavedData>
+			<Save>
+				<Field>ВыгружатьВРасширение</Field>
+			</Save>
 		</Attribute>
 		<ConditionalAppearance>
 			<dcsset:item>
@@ -995,6 +1008,31 @@
 					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
 						<dcscor:parameter>ЦветТекста</dcscor:parameter>
 						<dcscor:value xsi:type="v8ui:Color">web:Green</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>ДеревоИзменений</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ДеревоИзменений.ЭтоЗаимствованный</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:use>false</dcscor:use>
+						<dcscor:parameter>ЦветТекста</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">auto</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Шрифт</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Font" ref="style:TextFont" faceName="Calibri" height="11" bold="false" italic="true" underline="false" strikeout="false" kind="StyleItem" scale="100"/>
 					</dcscor:item>
 				</dcsset:appearance>
 			</dcsset:item>
