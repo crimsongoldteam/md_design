@@ -47,25 +47,7 @@
 					<Comment/>
 					<ExtendedConfigurationObject>89558ee6-2107-4775-8766-01bbc68ce4ac</ExtendedConfigurationObject>
 				</Properties>
-				<ChildObjects>
-					<Attribute uuid="84de5db5-2434-4935-a053-bc3577362cb8">
-						<InternalInfo/>
-						<Properties>
-							<ObjectBelonging>Adopted</ObjectBelonging>
-							<Name>Сумма</Name>
-							<Comment/>
-							<ExtendedConfigurationObject>2b2b95c9-5747-4b42-b815-3808fbb030dc</ExtendedConfigurationObject>
-							<Type>
-								<v8:Type>xs:decimal</v8:Type>
-								<v8:NumberQualifiers>
-									<v8:Digits>10</v8:Digits>
-									<v8:FractionDigits>2</v8:FractionDigits>
-									<v8:AllowedSign>Any</v8:AllowedSign>
-								</v8:NumberQualifiers>
-							</Type>
-						</Properties>
-					</Attribute>
-				</ChildObjects>
+				<ChildObjects/>
 			</TabularSection>
 		</ChildObjects>
 	</Catalog>
