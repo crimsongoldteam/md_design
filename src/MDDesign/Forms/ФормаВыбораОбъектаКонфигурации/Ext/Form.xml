@@ -13,15 +13,32 @@
 			<Button name="ФормаВыбрать" id="17">
 				<Type>CommandBarButton</Type>
 				<DefaultButton>true</DefaultButton>
-				<CommandName>Form.Item.ДеревоКонфигурации.StandardCommand.Choose</CommandName>
+				<CommandName>0</CommandName>
 				<ExtendedTooltip name="ФормаВыбратьРасширеннаяПодсказка" id="18"/>
 			</Button>
 		</ChildItems>
 	</AutoCommandBar>
 	<Events>
 		<Event name="OnOpen">ПриОткрытии</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
 	</Events>
 	<ChildItems>
+		<CheckBoxField name="ЭтоРасширение" id="19">
+			<DataPath>ЭтоРасширение</DataPath>
+			<TitleLocation>None</TitleLocation>
+			<CheckBoxType>Tumbler</CheckBoxType>
+			<EditFormat>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>БЛ=Конфигурация; БИ=Расширение</v8:content>
+				</v8:item>
+			</EditFormat>
+			<ContextMenu name="ЭтоРасширениеКонтекстноеМеню" id="20"/>
+			<ExtendedTooltip name="ЭтоРасширениеРасширеннаяПодсказка" id="21"/>
+			<Events>
+				<Event name="OnChange">ЭтоРасширениеПриИзменении</Event>
+			</Events>
+		</CheckBoxField>
 		<Table name="ДеревоКонфигурации" id="1">
 			<Representation>Tree</Representation>
 			<ChangeRowSet>false</ChangeRowSet>
@@ -29,7 +46,6 @@
 			<ChoiceMode>true</ChoiceMode>
 			<SelectionMode>SingleRow</SelectionMode>
 			<RowSelectionMode>Row</RowSelectionMode>
-			<Header>false</Header>
 			<HorizontalLines>false</HorizontalLines>
 			<VerticalLines>false</VerticalLines>
 			<AutoInsertNewRow>true</AutoInsertNewRow>
@@ -37,7 +53,6 @@
 			<EnableStartDrag>true</EnableStartDrag>
 			<EnableDrag>true</EnableDrag>
 			<DataPath>ДеревоКонфигурации</DataPath>
-			<RowPictureDataPath>ДеревоКонфигурации.Картинка</RowPictureDataPath>
 			<SearchStringLocation>Top</SearchStringLocation>
 			<ContextMenu name="ДеревоКонфигурацииКонтекстноеМеню" id="2"/>
 			<AutoCommandBar name="ДеревоКонфигурацииКоманднаяПанель" id="3">
@@ -73,14 +88,39 @@
 				<Event name="Selection">ДеревоКонфигурацииВыбор</Event>
 			</Events>
 			<ChildItems>
-				<InputField name="ДеревоКонфигурацииИмяОбъекта" id="14">
-					<DataPath>ДеревоКонфигурации.ИмяОбъекта</DataPath>
-					<ReadOnly>true</ReadOnly>
-					<EditMode>EnterOnInput</EditMode>
-					<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
-					<ContextMenu name="ДеревоКонфигурацииИмяОбъектаКонтекстноеМеню" id="15"/>
-					<ExtendedTooltip name="ДеревоКонфигурацииИмяОбъектаРасширеннаяПодсказка" id="16"/>
-				</InputField>
+				<ColumnGroup name="ДеревоКонфигурацииГруппаВместе" id="28">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дерево конфигурации группа вместе</v8:content>
+						</v8:item>
+					</Title>
+					<ToolTip>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Дерево конфигурации группа вместе</v8:content>
+						</v8:item>
+					</ToolTip>
+					<Group>InCell</Group>
+					<ExtendedTooltip name="ДеревоКонфигурацииГруппаВместеРасширеннаяПодсказка" id="29"/>
+					<ChildItems>
+						<PictureField name="ДеревоКонфигурацииКартинка" id="25">
+							<DataPath>ДеревоКонфигурации.Картинка</DataPath>
+							<EditMode>EnterOnInput</EditMode>
+							<ShowInHeader>false</ShowInHeader>
+							<ContextMenu name="ДеревоКонфигурацииКартинкаКонтекстноеМеню" id="26"/>
+							<ExtendedTooltip name="ДеревоКонфигурацииКартинкаРасширеннаяПодсказка" id="27"/>
+						</PictureField>
+						<InputField name="ДеревоКонфигурацииИмяОбъекта" id="14">
+							<DataPath>ДеревоКонфигурации.Имя</DataPath>
+							<ReadOnly>true</ReadOnly>
+							<EditMode>EnterOnInput</EditMode>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<ContextMenu name="ДеревоКонфигурацииИмяОбъектаКонтекстноеМеню" id="15"/>
+							<ExtendedTooltip name="ДеревоКонфигурацииИмяОбъектаРасширеннаяПодсказка" id="16"/>
+						</InputField>
+					</ChildItems>
+				</ColumnGroup>
 			</ChildItems>
 		</Table>
 	</ChildItems>
@@ -102,17 +142,17 @@
 				<v8:Type>v8:ValueTree</v8:Type>
 			</Type>
 			<Columns>
-				<Column name="ИмяОбъекта" id="1">
+				<Column name="Имя" id="1">
 					<Title>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>Имя объекта</v8:content>
+							<v8:content>Имя</v8:content>
 						</v8:item>
 					</Title>
 					<Type>
 						<v8:Type>xs:string</v8:Type>
 						<v8:StringQualifiers>
-							<v8:Length>200</v8:Length>
+							<v8:Length>0</v8:Length>
 							<v8:AllowedLength>Variable</v8:AllowedLength>
 						</v8:StringQualifiers>
 					</Type>
@@ -125,12 +165,7 @@
 						</v8:item>
 					</Title>
 					<Type>
-						<v8:Type>xs:decimal</v8:Type>
-						<v8:NumberQualifiers>
-							<v8:Digits>2</v8:Digits>
-							<v8:FractionDigits>0</v8:FractionDigits>
-							<v8:AllowedSign>Nonnegative</v8:AllowedSign>
-						</v8:NumberQualifiers>
+						<v8:Type>v8ui:Picture</v8:Type>
 					</Type>
 				</Column>
 				<Column name="ЭтоВид" id="3">
@@ -144,18 +179,46 @@
 						<v8:Type>xs:boolean</v8:Type>
 					</Type>
 				</Column>
+				<Column name="Синоним" id="4">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Синоним</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:string</v8:Type>
+						<v8:StringQualifiers>
+							<v8:Length>0</v8:Length>
+							<v8:AllowedLength>Variable</v8:AllowedLength>
+						</v8:StringQualifiers>
+					</Type>
+				</Column>
 			</Columns>
+		</Attribute>
+		<Attribute name="ЭтоРасширение" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Это расширение</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
 		</Attribute>
 	</Attributes>
 	<Parameters>
-		<Parameter name="КаталогXML">
-			<Type>
-				<v8:Type>xs:string</v8:Type>
-				<v8:StringQualifiers>
-					<v8:Length>0</v8:Length>
-					<v8:AllowedLength>Variable</v8:AllowedLength>
-				</v8:StringQualifiers>
-			</Type>
+		<Parameter name="ОписаниеРазделов">
+			<Type/>
+			<KeyParameter>true</KeyParameter>
+		</Parameter>
+		<Parameter name="Конфигурация">
+			<Type/>
+			<KeyParameter>true</KeyParameter>
+		</Parameter>
+		<Parameter name="Расширение">
+			<Type/>
 			<KeyParameter>true</KeyParameter>
 		</Parameter>
 	</Parameters>

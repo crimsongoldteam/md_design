@@ -76,7 +76,7 @@
 					<Title>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>Каталог XML</v8:content>
+							<v8:content>Каталоги выгрузки XML</v8:content>
 						</v8:item>
 					</Title>
 					<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
@@ -88,26 +88,55 @@
 					</ToolTip>
 					<ExtendedTooltip name="СтраницаКаталогXMLРасширеннаяПодсказка" id="155"/>
 					<ChildItems>
+						<CheckBoxField name="ВыгружатьВРасширение" id="176">
+							<DataPath>ВыгружатьВРасширение</DataPath>
+							<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
+							<CheckBoxType>Auto</CheckBoxType>
+							<ContextMenu name="ВыгружатьВРасширениеКонтекстноеМеню" id="177"/>
+							<ExtendedTooltip name="ВыгружатьВРасширениеРасширеннаяПодсказка" id="178"/>
+							<Events>
+								<Event name="OnChange">ВыгружатьВРасширениеПриИзменении</Event>
+							</Events>
+						</CheckBoxField>
 						<InputField name="КаталогXML" id="23">
 							<DataPath>КаталогXML</DataPath>
 							<Title>
 								<v8:item>
 									<v8:lang>ru</v8:lang>
-									<v8:content>Каталог</v8:content>
+									<v8:content>Конфигурация</v8:content>
 								</v8:item>
 							</Title>
-							<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
+							<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
 							<AutoMaxWidth>false</AutoMaxWidth>
 							<ChoiceButton>true</ChoiceButton>
 							<OpenButton>false</OpenButton>
 							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 							<AutoMarkIncomplete>true</AutoMarkIncomplete>
-							<Font ref="style:NormalTextFont" faceName="Calibri" kind="StyleItem" scale="100"/>
+							<Font ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
 							<ContextMenu name="КаталогXMLКонтекстноеМеню" id="24"/>
 							<ExtendedTooltip name="КаталогXMLРасширеннаяПодсказка" id="25"/>
 							<Events>
-								<Event name="OnChange">КаталогXMLПриИзменении</Event>
 								<Event name="StartChoice">КаталогXMLНачалоВыбора</Event>
+							</Events>
+						</InputField>
+						<InputField name="КаталогРасширенияXML" id="173">
+							<DataPath>КаталогРасширенияXML</DataPath>
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Расширение</v8:content>
+								</v8:item>
+							</Title>
+							<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
+							<AutoMaxWidth>false</AutoMaxWidth>
+							<ChoiceButton>true</ChoiceButton>
+							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+							<AutoMarkIncomplete>true</AutoMarkIncomplete>
+							<Font ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
+							<ContextMenu name="КаталогРасширенияXMLКонтекстноеМеню" id="174"/>
+							<ExtendedTooltip name="КаталогРасширенияXMLРасширеннаяПодсказка" id="175"/>
+							<Events>
+								<Event name="StartChoice">КаталогРасширенияXMLНачалоВыбора</Event>
 							</Events>
 						</InputField>
 					</ChildItems>
@@ -131,7 +160,7 @@
 									<v8:content>Тип</v8:content>
 								</v8:item>
 							</Title>
-							<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
+							<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
 							<ListChoiceMode>true</ListChoiceMode>
 							<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
 							<AutoMarkIncomplete>true</AutoMarkIncomplete>
@@ -141,7 +170,7 @@
 						</InputField>
 						<InputField name="ИмяОбъекта" id="30">
 							<DataPath>ИмяОсновногоОбъекта</DataPath>
-							<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
+							<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="10" kind="StyleItem" scale="100"/>
 							<AutoMaxWidth>false</AutoMaxWidth>
 							<ChoiceButton>true</ChoiceButton>
 							<ClearButton>false</ClearButton>
@@ -345,8 +374,10 @@
 										<InputField name="ДеревоИзмененийИмя" id="107">
 											<DataPath>ДеревоИзменений.Имя</DataPath>
 											<ReadOnly>true</ReadOnly>
+											<TitleFont ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
 											<EditMode>EnterOnInput</EditMode>
 											<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+											<Font ref="style:NormalTextFont" faceName="Calibri" height="11" kind="StyleItem" scale="100"/>
 											<ContextMenu name="ДеревоИзмененийИмяКонтекстноеМеню" id="108"/>
 											<ExtendedTooltip name="ДеревоИзмененийИмяРасширеннаяПодсказка" id="109"/>
 										</InputField>
@@ -373,55 +404,11 @@
 			</Type>
 			<MainAttribute>true</MainAttribute>
 		</Attribute>
-		<Attribute name="ДеревоКонфигурации" id="2">
-			<Title>
-				<v8:item>
-					<v8:lang>ru</v8:lang>
-					<v8:content>Дерево конфигурации</v8:content>
-				</v8:item>
-			</Title>
-			<Type>
-				<v8:Type>v8:ValueTree</v8:Type>
-			</Type>
-			<Columns>
-				<Column name="ИмяОбъекта" id="1">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Имя объекта</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:string</v8:Type>
-						<v8:StringQualifiers>
-							<v8:Length>200</v8:Length>
-							<v8:AllowedLength>Variable</v8:AllowedLength>
-						</v8:StringQualifiers>
-					</Type>
-				</Column>
-				<Column name="Картинка" id="2">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Картинка</v8:content>
-						</v8:item>
-					</Title>
-					<Type>
-						<v8:Type>xs:decimal</v8:Type>
-						<v8:NumberQualifiers>
-							<v8:Digits>2</v8:Digits>
-							<v8:FractionDigits>0</v8:FractionDigits>
-							<v8:AllowedSign>Nonnegative</v8:AllowedSign>
-						</v8:NumberQualifiers>
-					</Type>
-				</Column>
-			</Columns>
-		</Attribute>
 		<Attribute name="КаталогXML" id="3">
 			<Title>
 				<v8:item>
 					<v8:lang>ru</v8:lang>
-					<v8:content>Каталог XML</v8:content>
+					<v8:content>Каталог конфигурации</v8:content>
 				</v8:item>
 			</Title>
 			<Type>
@@ -551,6 +538,17 @@
 						</v8:item>
 					</Title>
 					<Type/>
+				</Column>
+				<Column name="ЭтоЗаимствованный" id="2">
+					<Title>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>Это заимствованный</v8:content>
+						</v8:item>
+					</Title>
+					<Type>
+						<v8:Type>xs:boolean</v8:Type>
+					</Type>
 				</Column>
 			</Columns>
 		</Attribute>
@@ -745,9 +743,6 @@
 			<Type>
 				<v8:Type>xs:boolean</v8:Type>
 			</Type>
-			<Save>
-				<Field>ВидимостьСтрокиСостояния</Field>
-			</Save>
 		</Attribute>
 		<Attribute name="ГлобальныйМодули" id="20">
 			<Title>
@@ -962,6 +957,39 @@
 				<Field>КаталогСкриптов</Field>
 			</Save>
 		</Attribute>
+		<Attribute name="КаталогРасширенияXML" id="36">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Каталог расширения</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<Save>
+				<Field>КаталогРасширенияXML</Field>
+			</Save>
+		</Attribute>
+		<Attribute name="ВыгружатьВРасширение" id="37">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Выгружать в расширение</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+			<SavedData>true</SavedData>
+			<Save>
+				<Field>ВыгружатьВРасширение</Field>
+			</Save>
+		</Attribute>
 		<ConditionalAppearance>
 			<dcsset:item>
 				<dcsset:selection>
@@ -980,6 +1008,31 @@
 					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
 						<dcscor:parameter>ЦветТекста</dcscor:parameter>
 						<dcscor:value xsi:type="v8ui:Color">web:Green</dcscor:value>
+					</dcscor:item>
+				</dcsset:appearance>
+			</dcsset:item>
+			<dcsset:item>
+				<dcsset:selection>
+					<dcsset:item>
+						<dcsset:field>ДеревоИзменений</dcsset:field>
+					</dcsset:item>
+				</dcsset:selection>
+				<dcsset:filter>
+					<dcsset:item xsi:type="dcsset:FilterItemComparison">
+						<dcsset:left xsi:type="dcscor:Field">ДеревоИзменений.ЭтоЗаимствованный</dcsset:left>
+						<dcsset:comparisonType>Equal</dcsset:comparisonType>
+						<dcsset:right xsi:type="xs:boolean">true</dcsset:right>
+					</dcsset:item>
+				</dcsset:filter>
+				<dcsset:appearance>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:use>false</dcscor:use>
+						<dcscor:parameter>ЦветТекста</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Color">auto</dcscor:value>
+					</dcscor:item>
+					<dcscor:item xsi:type="dcsset:SettingsParameterValue">
+						<dcscor:parameter>Шрифт</dcscor:parameter>
+						<dcscor:value xsi:type="v8ui:Font" ref="style:TextFont" faceName="Calibri" height="11" bold="false" italic="true" underline="false" strikeout="false" kind="StyleItem" scale="100"/>
 					</dcscor:item>
 				</dcsset:appearance>
 			</dcsset:item>
