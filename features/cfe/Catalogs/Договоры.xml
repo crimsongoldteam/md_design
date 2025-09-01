@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MetaDataObject xmlns="http://v8.1c.ru/8.3/MDClasses" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:cmi="http://v8.1c.ru/8.2/managed-application/cmi" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xen="http://v8.1c.ru/8.3/xcf/enums" xmlns:xpr="http://v8.1c.ru/8.3/xcf/predef" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.20">
+	<Catalog uuid="dd33efff-8268-4118-bd67-63b7077ea060">
+		<InternalInfo>
+			<xr:GeneratedType name="CatalogObject.Договоры" category="Object">
+				<xr:TypeId>d420d70c-11d1-4808-bb17-c6a217f60baf</xr:TypeId>
+				<xr:ValueId>e2d8d528-fb34-453b-be46-6063a930ccac</xr:ValueId>
+			</xr:GeneratedType>
+			<xr:GeneratedType name="CatalogRef.Договоры" category="Ref">
+				<xr:TypeId>cfaf6967-fb49-4ce3-b41c-76e7983d332c</xr:TypeId>
+				<xr:ValueId>535af259-6fe8-48c2-ad96-1611346401b1</xr:ValueId>
+			</xr:GeneratedType>
+			<xr:GeneratedType name="CatalogSelection.Договоры" category="Selection">
+				<xr:TypeId>73130e4c-76ab-4167-b8cc-2c223a082ad3</xr:TypeId>
+				<xr:ValueId>22fc355f-675c-470d-b12c-f5ff65d4eabe</xr:ValueId>
+			</xr:GeneratedType>
+			<xr:GeneratedType name="CatalogList.Договоры" category="List">
+				<xr:TypeId>86de94c3-dfac-4e16-844c-063887b3e368</xr:TypeId>
+				<xr:ValueId>f9116d14-6bd8-43a1-b16a-b9bfaed01aaa</xr:ValueId>
+			</xr:GeneratedType>
+			<xr:GeneratedType name="CatalogManager.Договоры" category="Manager">
+				<xr:TypeId>b834f0cf-7f85-4d50-9749-cdc1e74f6970</xr:TypeId>
+				<xr:ValueId>7a940922-8945-47f6-a2ce-442ececb8996</xr:ValueId>
+			</xr:GeneratedType>
+		</InternalInfo>
+		<Properties>
+			<ObjectBelonging>Adopted</ObjectBelonging>
+			<Name>Договоры</Name>
+			<Comment/>
+			<ExtendedConfigurationObject>5f6df52c-4a9f-49f6-b7e2-de24e3c7bd59</ExtendedConfigurationObject>
+		</Properties>
+		<ChildObjects>
+			<TabularSection uuid="56071ce7-2022-49ef-876f-50d9038a3ca8">
+				<InternalInfo>
+					<xr:GeneratedType name="CatalogTabularSection.Договоры.Платежи" category="TabularSection">
+						<xr:TypeId>b4a5fb43-933c-40d4-b04f-0bbd0a334e5e</xr:TypeId>
+						<xr:ValueId>814e2a7f-9264-4e49-931f-b6618b1bf1de</xr:ValueId>
+					</xr:GeneratedType>
+					<xr:GeneratedType name="CatalogTabularSectionRow.Договоры.Платежи" category="TabularSectionRow">
+						<xr:TypeId>9512f328-fe5b-40ac-af67-72d69fc620d7</xr:TypeId>
+						<xr:ValueId>ad2140cf-aca9-4ef7-b3b1-43047389f18f</xr:ValueId>
+					</xr:GeneratedType>
+				</InternalInfo>
+				<Properties>
+					<ObjectBelonging>Adopted</ObjectBelonging>
+					<Name>Платежи</Name>
+					<Comment/>
+					<ExtendedConfigurationObject>89558ee6-2107-4775-8766-01bbc68ce4ac</ExtendedConfigurationObject>
+				</Properties>
+				<ChildObjects/>
+			</TabularSection>
+		</ChildObjects>
+	</Catalog>
+</MetaDataObject>
