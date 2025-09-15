@@ -99,7 +99,7 @@ export class EnterpriseConnector implements IEnterpriseConnector {
     const data = new EnterpriseConnectorChangeContentData(cst, attributes)
     const result: IEnterpriseConnectorChangeContentEvent = {
       text: this.application.getText(),
-      data: Exporter.export(data) || "",
+      data: Exporter.export(data) ?? "",
     }
 
     this.sendEvent("EVENT_CHANGE_CONTENT", result)
