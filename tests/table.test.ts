@@ -232,3 +232,17 @@ test("Create table without header", () => {
 
   expectFormattedText(before, after)
 })
+
+test("Create table column with checkbox only", () => {
+  const before = `
+| Колонка|
+|---|
+|[ ]|`
+
+  const after = `
+| Колонка |
+| ------- |
+| [ ]     |`
+
+  expectFormattedText(before, after)
+})
