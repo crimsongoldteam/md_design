@@ -47,7 +47,10 @@ export class TableRowElement extends BaseElement {
     this.items = new Map()
 
     for (const column of columns) {
-      const value = this.itemsImportCache.get(column.attributeId)
+      let value =
+        column.attributeId == ""
+          ? this.itemsImportCache.get(column.checkboxAttributeId)
+          : this.itemsImportCache.get(column.attributeId)
       if (!value) {
         continue
       }
@@ -63,7 +66,8 @@ export class TableRowElement extends BaseElement {
     const transformedMap = new Map<string, TableCellElement>()
 
     for (const [key, value] of params.value.entries()) {
-      transformedMap.set(key.attributeId, value)
+      const id = key.attributeId === "" ? key.checkboxAttributeId : key.attributeId
+      transformedMap.set(id, value)
     }
 
     return transformedMap
