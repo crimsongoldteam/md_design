@@ -134,6 +134,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "zhihus",
+      "name": "zhihus",
+      "avatar_url": "https://avatars.githubusercontent.com/u/110194430?v=4",
+      "profile": "https://github.com/zhihus",
+      "contributions": [
+        "bug"
+      ]
     }
   ]
 }
